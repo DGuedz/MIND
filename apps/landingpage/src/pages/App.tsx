@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Activity, Shield, Zap, Lock, Terminal, Clock, BarChart3, Wallet, Loader2, EyeOff, KeyRound } from "lucide-react";
+import { Shield, Lock, Terminal, Wallet, Loader2, EyeOff, KeyRound, Zap } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";

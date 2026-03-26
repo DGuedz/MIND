@@ -1,5 +1,4 @@
 import React from 'react';
-import { MiniLogo } from './MiniLogo';
 
 export const MeshNetwork = () => {
   // Define node positions based on the reference image (asymmetric decentralized layout)

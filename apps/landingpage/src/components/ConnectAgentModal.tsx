@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Switch } from "./ui/switch";
-import { Terminal, CheckCircle2, Loader2, ArrowRight, Activity, Wallet, Bot, Zap } from "lucide-react";
+import { Terminal, CheckCircle2, Loader2, ArrowRight, Wallet, Bot, Zap } from "lucide-react";
 
 export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [step, setStep] = useState(0);

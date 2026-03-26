@@ -1,4 +1,3 @@
-import React from 'react';
 import { MiniLogo } from './MiniLogo';
 
 export const MindzGroup = () => {
