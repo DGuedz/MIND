@@ -73,9 +73,9 @@ export function HomePage() {
         {/* Background Mesh Network */}
         <MeshNetwork />
 
-        <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          <div className="flex flex-col items-start gap-6 max-w-2xl">
+          <div className="flex flex-col items-center lg:items-start gap-6 max-w-2xl text-center lg:text-left mx-auto lg:mx-0">
             <div className="flex items-center gap-4">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-300">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -83,34 +83,34 @@ export function HomePage() {
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-medium tracking-tight leading-tight">
-              One-click for <br/>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-tight">
+              One-click for <br className="hidden md:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
                 Intent Defense
               </span>
             </h1>
             
-            <p className="text-lg text-gray-400 max-w-lg leading-relaxed">
+            <p className="text-base md:text-lg text-gray-400 max-w-lg leading-relaxed px-4 lg:px-0">
               MIND structures, validates and proves agent execution across A2A systems, where innovative blockchain technology meets autonomous expertise.
             </p>
             
-            <div className="flex items-center gap-4 mt-2">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 w-full sm:w-auto px-4 sm:px-0">
               <Button 
-                className="rounded-full px-8 py-6 bg-white text-black hover:bg-gray-200 text-sm font-medium"
+                className="w-full sm:w-auto rounded-full px-8 py-6 bg-white text-black hover:bg-gray-200 text-sm font-medium"
                 onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}
               >
                 Launch in Telegram ↗
               </Button>
               <Button 
                 variant="outline" 
-                className="rounded-full px-8 py-6 bg-transparent border-white/20 text-white hover:bg-white/10 text-sm font-medium"
+                className="w-full sm:w-auto rounded-full px-8 py-6 bg-transparent border-white/20 text-white hover:bg-white/10 text-sm font-medium"
                 onClick={() => window.open('../../docs/RELEASE_BUNDLE.md', '_blank')}
               >
                 Discover More
               </Button>
             </div>
             
-            <div className="mt-12 text-xs tracking-widest text-gray-500 uppercase flex items-center gap-4">
+            <div className="mt-8 lg:mt-12 text-xs tracking-widest text-gray-500 uppercase flex items-center justify-center lg:justify-start gap-4">
               <span>Intent</span>
               <span className="w-1 h-1 rounded-full bg-gray-500" />
               <span>Policy</span>
@@ -126,14 +126,14 @@ export function HomePage() {
         </div>
       </header>
 
-      <section className="py-32 relative z-10 border-t border-white/5 pb-48">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16 relative">
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-4">Where the Money Flows</h2>
-            <p className="text-gray-400">Real-time liquidity rail updated on Solana (March 2026).</p>
+      <section className="py-20 md:py-32 relative z-10 border-t border-white/5 pb-32 md:pb-48">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 md:mb-16 relative">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-4 px-2">Where the Money Flows</h2>
+            <p className="text-sm md:text-base text-gray-400">Real-time liquidity rail updated on Solana (March 2026).</p>
             
             {/* UX Toggle for Agent Economy */}
-              <div className="flex items-center justify-center gap-3 mt-8">
+              <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
                 <span className={`text-sm flex items-center gap-2 ${!agentEconomyFilter ? 'text-white' : 'text-gray-500'}`}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                   General (Solana)
@@ -320,44 +320,44 @@ export function HomePage() {
       </section>
 
       {/* Onboarding Section */}
-      <section className="py-24 relative z-10 border-t border-white/5 bg-black/50">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-16">
-            <div className="flex-1 space-y-6">
+      <section className="py-20 md:py-24 relative z-10 border-t border-white/5 bg-black/50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16">
+            <div className="flex-1 space-y-6 text-center md:text-left flex flex-col items-center md:items-start">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-xs text-blue-300">
                 <Bot className="w-4 h-4" />
                 Telegram Integration
               </div>
-              <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
-                Bring your Agent to the <br />
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
+                Bring your Agent to the <br className="hidden md:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
                   Liquidity Rails
                 </span>
               </h2>
-              <p className="text-gray-400 text-lg max-w-lg leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-lg leading-relaxed">
                 Connect your OpenClaw or SolClaw agent to MIND's A2A ecosystem in under 45 seconds. Grant granular permissions, access real-time metrics, and execute x402 micropayments natively.
               </p>
               
-              <ul className="space-y-4 text-sm text-gray-300 py-4">
+              <ul className="space-y-4 text-sm text-gray-300 py-4 text-left">
                 <li className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs">1</span>
+                  <span className="w-6 h-6 shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs">1</span>
                   <span>Trigger <code className="text-blue-400 bg-blue-400/10 px-1 py-0.5 rounded">/mind</code> in your Agent's chat</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs">2</span>
+                  <span className="w-6 h-6 shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs">2</span>
                   <span>Confirm identity and Solana wallet</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs">3</span>
+                  <span className="w-6 h-6 shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs">3</span>
                   <span>Approve A2A permissions and equip skills</span>
                 </li>
               </ul>
 
               <Button 
                 onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}
-                className="bg-blue-600 text-white hover:bg-blue-500 rounded-full px-8 py-6 text-sm font-medium transition-all hover:scale-105"
+                className="w-full sm:w-auto bg-blue-600 text-white hover:bg-blue-500 rounded-full px-8 py-6 text-base font-medium transition-all hover:scale-105"
               >
-                <Bot className="w-4 h-4 mr-2" />
+                <Bot className="w-5 h-5 mr-2" />
                 Connect
               </Button>
             </div>

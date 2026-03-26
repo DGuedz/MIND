@@ -65,20 +65,20 @@ export function AppPage() {
     { action: "Public DEX Trade", status: "Blocked (MEV Risk)", amount: "$5,000.00", time: "3h ago", icon: Lock, color: "text-red-400" },
   ];
   return (
-    <div className="pt-32 pb-48 min-h-screen relative overflow-hidden">
+    <div className="pt-24 md:pt-32 pb-32 md:pb-48 min-h-screen relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black -z-10" />
       
-      <div className="container mx-auto px-6">
-        <header className="mb-16">
-          <div className="flex items-center gap-3 mb-4">
+      <div className="container mx-auto px-4 sm:px-6">
+        <header className="mb-12 md:mb-16">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
             <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/30">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse mr-2" />
               ZK Dark Pool Active
             </Badge>
-            <span className="text-sm text-gray-500 font-mono">/app/treasury-vault</span>
+            <span className="text-xs sm:text-sm text-gray-500 font-mono break-all">/app/treasury-vault</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-medium tracking-tight mb-4">MIND Control Center</h1>
-          <p className="text-gray-400 max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight mb-4">MIND Control Center</h1>
+          <p className="text-sm sm:text-base text-gray-400 max-w-2xl">
             Your agent is operating in stealth mode. Capital is shielded via ZK Compressed State, executing P2P trades without MEV exposure.
           </p>
         </header>
@@ -87,26 +87,26 @@ export function AppPage() {
           
           {/* Main Chart Area */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-glass rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
-              <div className="flex justify-between items-center mb-6">
+            <div className="bg-glass rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-white/20 transition-colors">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
                 <div>
                   <h3 className="font-medium text-lg">Shielded Treasury</h3>
-                  <p className="text-sm text-gray-400">Live Balance from Solana Mainnet</p>
+                  <p className="text-xs sm:text-sm text-gray-400">Live Balance from Solana Mainnet</p>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-light text-white">
+                <div className="text-left sm:text-right w-full sm:w-auto">
+                  <div className="text-2xl font-light text-white bg-white/5 sm:bg-transparent p-3 sm:p-0 rounded-xl sm:rounded-none border border-white/5 sm:border-none">
                     {realBalance !== null ? (
                       <span className="flex items-center gap-2">
                         <Wallet className="w-5 h-5 text-blue-400" />
                         {realBalance.toFixed(4)} <span className="text-sm text-gray-500">SOL</span>
                       </span>
                     ) : (
-                      <span className="flex items-center gap-2 text-gray-500 text-lg">
+                      <span className="flex items-center gap-2 text-gray-500 text-base sm:text-lg">
                         <Loader2 className="w-4 h-4 animate-spin" /> Fetching real balance...
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-green-400 flex items-center justify-end gap-1 mt-1">
+                  <div className="text-xs text-green-400 flex items-center justify-start sm:justify-end gap-1 mt-2 sm:mt-1">
                     <Lock className="w-3 h-3" /> ZK Compressed Notes
                   </div>
                 </div>
