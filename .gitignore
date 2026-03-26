@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+dist/
+
+# Environment Variables (CRITICAL: DO NOT COMMIT REAL KEYS)
+.env
+.env.*
+!.env.example
+
+# Documentation (Internal only, not for public repo)
+docs/
+*.txt
+
+# OS Files
+.DS_Store
+*.pem
+*.key
