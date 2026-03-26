@@ -100,7 +100,7 @@ MIND is the "Intent Defense Layer". We don't take your trading profit, we secure
 ### How to Run (Local) 
 
 ```bash 
-git clone https://github.com/dg-doublegreen/MIND.git 
+git clone https://github.com/DGuedz/MIND.git 
 cd MIND 
 pnpm install 
 pnpm dev                  # Frontend (port 5174) 
@@ -125,7 +125,7 @@ bash scripts/smoke_hero_flow.sh   # Tests complete onboard
 ### Hackathon Submission
 - **X Article**: [Thread Link]
 - **Demo Video**: 45s (screen recording of the complete flow) 
-- **Repo**: [https://github.com/dg-doublegreen/MIND](https://github.com/DGuedz/MIND) 
+- **Repo**: [https://github.com/DGuedz/MIND](https://github.com/DGuedz/MIND) 
 - **Live**: `https://mind.app`  
 
 MIND is not just a dashboard. 

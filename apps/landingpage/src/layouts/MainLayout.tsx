@@ -25,7 +25,7 @@ export function MainLayout() {
           <NavLink to="/app" className={navLinkClass}>App</NavLink>
           <NavLink to="/features" className={navLinkClass}>Features</NavLink>
           <NavLink to="/infrastructure" className={navLinkClass}>Infrastructure</NavLink>
-          <a href="https://github.com/seu-usuario/mind-protocol" target="_blank" rel="noopener noreferrer" className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white text-xs flex items-center gap-2 cursor-pointer hover:bg-white/10 transition-colors">
+          <a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white text-xs flex items-center gap-2 cursor-pointer hover:bg-white/10 transition-colors">
             GitHub <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center">↗</span>
           </a>
         </div>
@@ -82,9 +82,9 @@ export function MainLayout() {
             <div>
               <h4 className="font-medium mb-4 text-white">Developers</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="https://github.com/seu-usuario/mind-protocol" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Documentation</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">API Reference</a></li>
-                <li><a href="https://github.com/seu-usuario/mind-protocol" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub Repo</a></li>
+                <li><a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub Repo</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Hackathon Guide</a></li>
               </ul>
             </div>
