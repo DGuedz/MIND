@@ -126,7 +126,7 @@ bash scripts/smoke_hero_flow.sh   # Tests complete onboard
 - **X Article**: [Thread Link]
 - **Demo Video**: 45s (screen recording of the complete flow) 
 - **Repo**: [https://github.com/DGuedz/MIND](https://github.com/DGuedz/MIND) 
-- **Live**: `https://mind.app`  
+- **Live**: [https://landingpage-dgs-projects-ac3c4a7c.vercel.app](https://landingpage-dgs-projects-ac3c4a7c.vercel.app)
 
 MIND is not just a dashboard. 
 It is the infrastructure that proves agents can act economically in a safe, transparent, and profitable way on Solana.
