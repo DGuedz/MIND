@@ -2,6 +2,22 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Environment Setup (Solana RPC)
+
+This app reads wallet balance from Solana using `VITE_HELIUS_RPC_URL`.
+
+1. Copy `.env.example` to `.env`.
+2. Set your RPC URL:
+
+```env
+VITE_HELIUS_RPC_URL=https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY
+```
+
+3. For Vercel, add the same variable in `Project Settings > Environment Variables`.
+4. Redeploy after saving environment variables.
+
+If the RPC request fails (for example, HTTP 403/rate limit), the dashboard uses a visual fallback balance so the UI remains operational.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

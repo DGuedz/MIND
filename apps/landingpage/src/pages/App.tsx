@@ -8,6 +8,7 @@ export function AppPage() {
   const [intents, setIntents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [realBalance, setRealBalance] = useState<number | null>(null);
+  const [balanceSource, setBalanceSource] = useState<"loading" | "live" | "fallback">("loading");
 
   useEffect(() => {
     // Busca o saldo real da sua wallet da Solana Mainnet (a mesma do Trojan)
@@ -20,10 +21,12 @@ export function AppPage() {
         const walletAddress = new PublicKey("FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah");
         const balance = await connection.getBalance(walletAddress);
         setRealBalance(balance / LAMPORTS_PER_SOL);
+        setBalanceSource("live");
       } catch (error) {
         console.error("Erro ao buscar saldo real na Solana (rate limit/403):", error);
         // Fallback gracefully para manter a UI funcionando na Vercel
-        setRealBalance(14.2051); 
+        setRealBalance(14.2051);
+        setBalanceSource("fallback");
       }
     };
 
@@ -155,6 +158,9 @@ export function AppPage() {
               <Loader2 className="w-6 h-6 animate-spin text-gray-500" />
             )}
           </div>
+          <p className="text-[10px] text-gray-500 mb-3 font-mono uppercase tracking-wider">
+            {balanceSource === "live" ? "Source: Solana RPC" : balanceSource === "fallback" ? "Source: Demo Fallback" : "Source: Loading"}
+          </p>
           <p className="text-xs text-gray-400 flex items-center gap-1 relative z-10 mb-6 font-mono uppercase tracking-wider text-[9px]">
             <Lock className="w-3 h-3" /> ZK Compressed
           </p>
@@ -248,6 +254,9 @@ export function AppPage() {
                   ) : (
                     <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
                   )}
+                </div>
+                <div className="text-[10px] text-gray-500 mb-2 font-mono uppercase tracking-wider">
+                  {balanceSource === "live" ? "Source: Solana RPC" : balanceSource === "fallback" ? "Source: Demo Fallback" : "Source: Loading"}
                 </div>
                 <div className="text-[10px] text-gray-400 flex items-center gap-1 font-mono uppercase tracking-wider">
                   <Lock className="w-3 h-3" /> Protected by ZK State
