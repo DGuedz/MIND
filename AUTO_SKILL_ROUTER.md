@@ -19,3 +19,7 @@ Security overlays:
 - `governance/PROJECT_RULES.md`
 - `governance/USER_RULES.md`
 - `governance/PROMPT_INJECTION_EVALS.md`
+
+Knowledge overlays:
+- `governance/SOURCE_KNOWLEDGE_BASE.md`
+- `governance/SOURCE_REGISTRY.json`

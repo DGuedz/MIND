@@ -80,6 +80,12 @@ Para tarefas substanciais:
 2. aplicar `recommended_stack` e `quality_gates`
 3. concluir apenas com evidencia objetiva (testes/logs/resultados)
 
+## Base Geral de Conhecimento (Source-Grounded)
+1. Usar `governance/SOURCE_KNOWLEDGE_BASE.md` como politica de grounding.
+2. Usar `governance/SOURCE_REGISTRY.json` como catalogo canonico de fontes.
+3. Para afirmacoes sensiveis (seguranca, risco, mercado), citar fonte Tier A/B.
+4. Para dashboards Tier C, sempre incluir data do snapshot.
+
 ## Definition of Done para Acoes Criticas
 1. policy aplicada e registrada
 2. evidencias anexadas

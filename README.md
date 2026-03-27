@@ -58,6 +58,8 @@ MIND doesn't promise "magical profits", but it **maximizes capital efficiency** 
 For the source-backed thesis and pitch narrative (line-by-line with references), see:
 
 - `governance/DARK_POOL_CREDIT_THESIS.md`
+- `governance/SOURCE_KNOWLEDGE_BASE.md`
+- `governance/SOURCE_REGISTRY.json`
 
 ---
 
