@@ -17,11 +17,14 @@ export function GamePage() {
   
   const pendingSync = useRef({ xp: 0, mevs: 0 });
 
+  // Backend URL config (defaults to local for dev, env var for prod)
+  const API_URL = import.meta.env.VITE_GAME_API_URL || "http://localhost:3010";
+
   // Init user with backend
   useEffect(() => {
     const initUser = async () => {
       try {
-        const res = await fetch("http://localhost:3010/v1/game/init", {
+        const res = await fetch(`${API_URL}/v1/game/init`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ telegram_id: userId, username: "Commander" })
@@ -52,7 +55,7 @@ export function GamePage() {
         pendingSync.current = { xp: 0, mevs: 0 };
 
         try {
-          await fetch("http://localhost:3010/v1/game/sync-xp", {
+          await fetch(`${API_URL}/v1/game/sync-xp`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
