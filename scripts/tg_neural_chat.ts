@@ -106,7 +106,7 @@ async function startBot() {
                const kb = {
                  inline_keyboard: [
                    [{ text: "✨ Nova Intent", callback_data: "start_intent" }],
-                   [{ text: "🎮 Play MEV Defender", web_app: { url: "https://mind.app/game" } }],
+                   [{ text: "🎮 Play MIND MEV Defender", web_app: { url: "https://mind.app/game" } }],
                    [{ text: "📈 Ver status", callback_data: "check_status" }],
                    userStates[chatId].isConnected 
                      ? [{ text: "✅ Wallet Conectada", callback_data: "noop" }]
@@ -145,7 +145,7 @@ async function startBot() {
               const kb = { inline_keyboard: [
                   [{ text: "⚡ Arbitragem no Jupiter", callback_data: "intent_arb" }],
                   [{ text: "💸 Pagar IA (x402)", callback_data: "intent_x402" }],
-                  [{ text: "🎮 Jogar MEV Defender (Farm XP)", web_app: { url: "https://mind.app/game" } }]
+                  [{ text: "🎮 Jogar MIND MEV Defender (Farm XP)", web_app: { url: "https://mind.app/game" } }]
               ]};
               await sendMsg(chatId, msg, kb);
             }

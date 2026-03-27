@@ -127,7 +127,7 @@ export function GamePage() {
         <div>
           <h1 className="text-green-400 font-bold text-sm tracking-widest flex items-center gap-2">
             <Crosshair className="w-4 h-4 animate-pulse" />
-            MEV DEFENDER
+            MIND MEV DEFENDER
           </h1>
           <p className="text-xs text-gray-500 mt-1">Protecting Agent SolClaw</p>
         </div>
