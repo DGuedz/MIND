@@ -56,6 +56,63 @@ export function AppPage() {
     }
   };
 
+  const handleSimulateHeroFlow = async () => {
+    try {
+      // Tenta bater no backend local (gateway) se estiver rodando para disparar o webhook do Telegram
+      await fetch("http://127.0.0.1:4000/v1/intents/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          intentId: "intent_demo_arbitrage_" + Math.floor(Math.random() * 1000),
+          channel: "telegram",
+          requesterId: "913039626", // ID do usuário
+          action: "A2A Oracle Payment",
+          amount: "-$0.50"
+        })
+      });
+      alert("Hero Flow Simulated: Intent sent to Telegram webhook.");
+    } catch (error) {
+      console.warn("Local backend not running, simulating UI fallback...", error);
+      alert("Demo Mode: Agent request generated! Check your Telegram Bot if webhook is active.");
+      
+      // Adiciona uma nova intent simulada no topo da lista para efeito visual
+      const newIntent = { 
+        action: "Simulated A2A Route", 
+        status: "Pending User Approval", 
+        amount: "~$50.00", 
+        time: "Just now", 
+        icon: KeyRound, 
+        color: "text-yellow-400" 
+      };
+      setIntents(prev => [newIntent, ...prev]);
+    }
+  };
+
+  const handleForceRebalance = async () => {
+    try {
+      // Simula uma chamada de rebalanceamento de portfólio
+      await fetch("http://127.0.0.1:4000/v1/agent/rebalance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetAsset: "USDC", strategy: "safe_harbor" })
+      });
+      alert("Rebalance initiated: Converting shielded assets to USDC.");
+    } catch (error) {
+      console.warn("Local backend not running, simulating UI fallback...", error);
+      alert("Demo Mode: Shielded assets are being rebalanced to USDC via Dark Pool.");
+      
+      const newIntent = { 
+        action: "Force Rebalance (USDC)", 
+        status: "Executing...", 
+        amount: "14.2 SOL", 
+        time: "Just now", 
+        icon: ArrowRightLeft, 
+        color: "text-blue-400" 
+      };
+      setIntents(prev => [newIntent, ...prev]);
+    }
+  };
+
   const fallbackIntents = [
     { action: "ZK Stealth Swap", status: "Executed", amount: "+$45.20", time: "2m ago", icon: EyeOff, color: "text-green-400" },
     { action: "A2A Oracle Payment", status: "Pending", amount: "-$0.50", time: "15m ago", icon: KeyRound, color: "text-yellow-400" },
@@ -297,20 +354,31 @@ export function AppPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-red-900/20 to-black rounded-2xl p-6 border border-red-500/20">
-              <h3 className="font-medium mb-2 text-red-400 flex items-center gap-2">
-                <Zap className="w-4 h-4" />
-                Emergency Controls
-              </h3>
-              <p className="text-xs text-gray-400 mb-4">
-                Instantly revoke agent permissions and halt all pending transactions.
-              </p>
-              <button 
-                onClick={handleKillSwitch}
-                className="w-full py-3 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl text-sm font-medium border border-red-500/30 transition-colors"
-              >
-                Halt Agent (Kill Switch)
-              </button>
+            <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-2xl p-6 border border-white/10">
+              <h3 className="font-medium mb-4 text-white">Manual Override & Tests</h3>
+              <div className="space-y-3">
+                <button 
+                  onClick={handleSimulateHeroFlow}
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 transition-colors text-sm font-medium border border-purple-500/30"
+                >
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4" />
+                    <span>Simulate Hero Flow (Telegram)</span>
+                  </div>
+                </button>
+                <button 
+                  onClick={handleKillSwitch}
+                  className="w-full py-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg text-sm font-medium border border-red-500/30 transition-colors"
+                >
+                  Halt All Activity (Kill Switch)
+                </button>
+                <button 
+                  onClick={handleForceRebalance}
+                  className="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium transition-colors"
+                >
+                  Force Rebalance to USDC
+                </button>
+              </div>
             </div>
           </div>
         </div>
