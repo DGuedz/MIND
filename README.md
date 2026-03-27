@@ -53,6 +53,12 @@ MIND doesn't promise "magical profits", but it **maximizes capital efficiency** 
 
 *MIND retains your maximum margin by eliminating predators.*
 
+### Institutional Thesis: Private Credit Dark Pool
+
+For the source-backed thesis and pitch narrative (line-by-line with references), see:
+
+- `governance/DARK_POOL_CREDIT_THESIS.md`
+
 ---
 
 ### How MIND Makes Money (Revenue Model)
