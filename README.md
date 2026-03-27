@@ -49,7 +49,7 @@ MIND doesn't promise "magical profits", but it **maximizes capital efficiency** 
 
 1. **On-Chain Private Computer:** Instead of exposing state, we use ZK-compressed notes (commitments/nullifiers). The network only sees hashes, hiding your exact positions.
 2. **Treasury Agent:** Your capital remains in a cryptographic vault, only released Just-In-Time (JIT) when execution is atomic and verified.
-3. **A2A Dark Pools:** Agents negotiate P2P without public orderbooks. This guarantees zero information leakage, zero front-running, and minimized slippage.
+3. **A2A Dark Pools:** Agents negotiate P2P without public orderbooks. This reduces information leakage and MEV exposure, with risk controls designed to minimize slippage.
 
 *MIND retains your maximum margin by eliminating predators.*
 
