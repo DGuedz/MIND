@@ -117,6 +117,9 @@ export function GamePage() {
   return (
     <div className="fixed inset-0 bg-black text-white font-sans overflow-y-auto overflow-x-hidden selection:bg-white/20 pb-28">
       
+      {/* Background Effect to ensure it's not pure pitch black */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/[0.03] via-black to-black -z-10 pointer-events-none" />
+
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10 px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
