@@ -13,6 +13,9 @@ function App() {
     <TooltipProvider>
       <BrowserRouter>
         <Routes>
+          {/* Game Route - No Layout (Fullscreen for Telegram) - Must be before the layout catch-all */}
+          <Route path="/game" element={<GamePage />} />
+          
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path="app" element={<AppPage />} />
@@ -20,8 +23,6 @@ function App() {
             <Route path="infrastructure" element={<InfrastructurePage />} />
             <Route path="register" element={<RegisterPage />} />
           </Route>
-          {/* Game Route - No Layout (Fullscreen for Telegram) */}
-          <Route path="/game" element={<GamePage />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
