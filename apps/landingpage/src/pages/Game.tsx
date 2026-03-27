@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Crosshair, ShieldAlert, Zap } from "lucide-react";
+import { Zap, ShieldAlert, Gift, Send, Settings, Box } from "lucide-react";
 
 interface MevTarget {
   id: number;
@@ -14,13 +14,14 @@ export function GamePage() {
   const [mevsDestroyed, setMevsDestroyed] = useState(0);
   const [targets, setTargets] = useState<MevTarget[]>([]);
   const [userId] = useState<string>("telegram_demo_user_" + Math.floor(Math.random() * 10000));
+  const [activeTab, setActiveTab] = useState<"earn" | "learn" | "fun" | "socials">("earn");
   
   const pendingSync = useRef({ xp: 0, mevs: 0 });
 
-  // Backend URL config (defaults to local for dev, env var for prod)
+  // Backend URL config
   const API_URL = import.meta.env.VITE_GAME_API_URL || "http://localhost:3010";
 
-  // Init user with backend
+  // Init user
   useEffect(() => {
     const initUser = async () => {
       try {
@@ -50,133 +51,225 @@ export function GamePage() {
           xp_gained: pendingSync.current.xp,
           mevs_destroyed: pendingSync.current.mevs
         };
-        
-        // Reset local counters immediately
         pendingSync.current = { xp: 0, mevs: 0 };
-
         try {
           await fetch(`${API_URL}/v1/game/sync-xp`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
           });
-        } catch (e) {
-          console.warn("Failed to sync XP");
-        }
+        } catch (e) {}
       }
     }, 5000);
     return () => clearInterval(interval);
   }, [userId]);
 
-  // Spawn MEVs randomly
+  // Spawn MEVs ONLY if active tab is "earn"
   useEffect(() => {
+    if (activeTab !== "earn") {
+      setTargets([]);
+      return;
+    }
+
     const spawnInterval = setInterval(() => {
-      if (Math.random() > 0.3) { // 70% chance to spawn every second
+      if (Math.random() > 0.4) {
         const newTarget: MevTarget = {
           id: Date.now(),
-          x: 10 + Math.random() * 80, // percentage 10-90
-          y: 20 + Math.random() * 60, // percentage 20-80
-          size: 40 + Math.random() * 30, // 40-70px
+          x: 15 + Math.random() * 70, // percentage
+          y: 20 + Math.random() * 50, // percentage
+          size: 60 + Math.random() * 40, // 60-100px (bigger for brutalist style)
           createdAt: Date.now()
         };
         setTargets(prev => [...prev, newTarget]);
       }
-    }, 1000);
+    }, 1200);
 
-    // Remove old MEVs (missed)
     const cleanupInterval = setInterval(() => {
       const now = Date.now();
-      setTargets(prev => prev.filter(t => now - t.createdAt < 3000)); // Disappear after 3s
+      setTargets(prev => prev.filter(t => now - t.createdAt < 2000));
     }, 500);
 
     return () => {
       clearInterval(spawnInterval);
       clearInterval(cleanupInterval);
     };
-  }, []);
+  }, [activeTab]);
 
   const handleTap = (id: number) => {
     setTargets(prev => prev.filter(t => t.id !== id));
-    
-    const xpGained = 15;
+    const xpGained = 100; // Brutalist numbers feel better when large
     setXp(prev => prev + xpGained);
     setMevsDestroyed(prev => prev + 1);
     
     pendingSync.current.xp += xpGained;
     pendingSync.current.mevs += 1;
 
-    // Haptic feedback for mobile
     if (window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(50);
     }
   };
 
+  // Section Component
+  const SectionTitle = ({ children }: { children: React.ReactNode }) => (
+    <h2 className="text-2xl font-black uppercase tracking-tight mb-4">{children}</h2>
+  );
+
   return (
-    <div className="fixed inset-0 bg-black overflow-hidden font-mono text-white select-none touch-none">
-      {/* Radar Background */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vw] max-w-[800px] max-h-[800px] rounded-full border border-green-500/30" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] max-w-[600px] max-h-[600px] rounded-full border border-green-500/20" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[400px] max-h-[400px] rounded-full border border-green-500/10" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-green-500/20" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-full bg-green-500/20" />
-      </div>
-
-      {/* Header HUD */}
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start z-10 bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
-        <div>
-          <h1 className="text-green-400 font-bold text-sm tracking-widest flex items-center gap-2">
-            <Crosshair className="w-4 h-4 animate-pulse" />
-            MIND MEV DEFENDER
-          </h1>
-          <p className="text-xs text-gray-500 mt-1">Protecting Agent SolClaw</p>
-        </div>
-        <div className="text-right">
-          <div className="bg-white/10 backdrop-blur border border-white/20 rounded-lg px-3 py-2 flex flex-col items-end">
-            <span className="text-[10px] text-gray-400 uppercase">Total XP</span>
-            <span className="text-xl font-bold text-white flex items-center gap-1">
-              <Zap className="w-4 h-4 text-yellow-400" />
-              {xp}
-            </span>
+    <div className="fixed inset-0 bg-black text-white font-sans overflow-y-auto overflow-x-hidden selection:bg-white/20 pb-28">
+      
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10 px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center">
+            <ShieldAlert className="w-4 h-4" />
           </div>
+          <span className="font-bold tracking-tight text-lg">MIND</span>
         </div>
-      </div>
+        <button className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+          <Settings className="w-5 h-5" />
+        </button>
+      </header>
 
-      {/* Game Area */}
-      <div className="absolute inset-0 z-20">
-        {targets.map(target => (
-          <button
-            key={target.id}
-            onClick={() => handleTap(target.id)}
-            className="absolute rounded-full flex items-center justify-center bg-red-500/20 border-2 border-red-500 text-red-400 animate-in zoom-in spin-in-12 duration-300 hover:bg-red-500/40 active:scale-90 transition-transform"
-            style={{
-              left: target.x + '%',
-              top: target.y + '%',
-              width: target.size,
-              height: target.size,
-              transform: 'translate(-50%, -50%)'
-            }}
-          >
-            <ShieldAlert className="w-1/2 h-1/2 pointer-events-none" />
-          </button>
-        ))}
-      </div>
+      {/* DYNAMIC CONTENT AREA */}
+      <div className="p-4 space-y-12 mt-6">
+        
+        {/* EARN/PLAY SECTION (Bento Box Style) */}
+        {activeTab === "earn" && (
+          <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex justify-between items-end mb-4">
+              <SectionTitle>DEFEND</SectionTitle>
+              <span className="text-3xl font-black tracking-tighter">${xp.toLocaleString()}</span>
+            </div>
 
-      {/* Bottom HUD */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 z-10 bg-gradient-to-t from-black to-transparent pointer-events-none">
-        <div className="flex justify-between items-end">
-          <div>
-            <p className="text-[10px] text-gray-500 uppercase mb-1">Threats Eliminated</p>
-            <p className="text-2xl font-light">{mevsDestroyed}</p>
-          </div>
-          <div className="text-right">
-            <div className="inline-flex items-center gap-2 px-2 py-1 rounded bg-green-500/10 border border-green-500/30 text-green-400 text-[10px]">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              Agent Safe
+            <div className="relative w-full aspect-[4/3] bg-zinc-900 rounded-3xl border border-white/10 overflow-hidden mb-4">
+              {/* Radar Grid Pattern */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]" />
+              
+              <div className="absolute top-4 left-4 z-10">
+                <p className="text-xs text-zinc-400 font-bold uppercase tracking-wider">Target</p>
+                <p className="text-xl font-black">MEV Bots</p>
+              </div>
+
+              {/* Game Area */}
+              {targets.map(target => (
+                <button
+                  key={target.id}
+                  onClick={() => handleTap(target.id)}
+                  className="absolute rounded-full flex items-center justify-center bg-white text-black animate-in zoom-in spin-in-12 duration-200 active:scale-90 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+                  style={{
+                    left: target.x + '%',
+                    top: target.y + '%',
+                    width: target.size,
+                    height: target.size,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                >
+                  <Zap className="w-1/2 h-1/2 pointer-events-none" />
+                </button>
+              ))}
+
+              {targets.length === 0 && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <p className="text-zinc-500 font-medium animate-pulse">Scanning mempool...</p>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-zinc-900 rounded-3xl border border-white/10 p-5">
+                <p className="text-xs text-zinc-400 font-bold uppercase tracking-wider mb-1">Destroyed</p>
+                <p className="text-2xl font-black">{mevsDestroyed}</p>
+              </div>
+              <div className="bg-zinc-900 rounded-3xl border border-white/10 p-5">
+                <p className="text-xs text-zinc-400 font-bold uppercase tracking-wider mb-1">Status</p>
+                <p className="text-2xl font-black text-green-400">SAFE</p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* LEARN SECTION */}
+        <section className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+          <SectionTitle>LEARN</SectionTitle>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-zinc-900 rounded-3xl border border-white/10 p-6 flex flex-col justify-between aspect-square md:aspect-auto">
+              <div>
+                <h3 className="text-2xl font-black mb-1">What is MIND?</h3>
+                <p className="text-zinc-400 font-medium">Intro</p>
+              </div>
+              <div className="self-end mt-8">
+                {/* Abstract Graphic Placeholder */}
+                <div className="w-24 h-24 rounded-full border-[8px] border-zinc-800 opacity-50" />
+              </div>
+            </div>
+            
+            <div className="flex flex-col gap-4">
+              <div className="bg-zinc-900 rounded-3xl border border-white/10 p-6 flex-1">
+                <h3 className="text-xl font-black mb-1">Get $MIND</h3>
+                <p className="text-sm text-zinc-400 font-medium">Swap cash or crypto</p>
+              </div>
+              <div className="bg-zinc-900 rounded-3xl border border-white/10 p-6 flex-1">
+                <h3 className="text-xl font-black mb-1">Whitepaper</h3>
+                <p className="text-sm text-zinc-400 font-medium">Probably Nothing</p>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* SOCIALS SECTION */}
+        <section className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+          <SectionTitle>SOCIALS</SectionTitle>
+          <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors">
+                <Send className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium lowercase">community</span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors">
+                <Send className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium lowercase">channel</span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors text-xl font-black">
+                X
+              </div>
+              <span className="text-xs font-medium lowercase">x</span>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors">
+                <Box className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium lowercase">github</span>
+            </div>
+          </div>
+        </section>
       </div>
+
+      {/* BOTTOM NAVIGATION (Pill) */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-full p-2 flex items-center justify-between z-50">
+        <button 
+          onClick={() => setActiveTab("earn")}
+          className={`flex-1 py-3 rounded-full flex items-center justify-center transition-all ${activeTab === "earn" ? "bg-white text-black" : "text-zinc-500 hover:text-white"}`}
+        >
+          <ShieldAlert className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={() => setActiveTab("fun")}
+          className={`flex-1 py-3 rounded-full flex items-center justify-center transition-all text-xl font-black ${activeTab === "fun" ? "text-white" : "text-zinc-500 hover:text-white"}`}
+        >
+          ${xp > 1000 ? (xp/1000).toFixed(1) + 'k' : xp}
+        </button>
+        <button 
+          onClick={() => setActiveTab("learn")}
+          className={`flex-1 py-3 rounded-full flex items-center justify-center transition-all ${activeTab === "learn" ? "bg-white text-black" : "text-zinc-500 hover:text-white"}`}
+        >
+          <Gift className="w-6 h-6" />
+        </button>
+      </div>
+
     </div>
   );
 }
