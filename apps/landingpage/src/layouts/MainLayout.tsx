@@ -1,14 +1,10 @@
-import { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { MiniLogo } from "../components/MiniLogo";
 import { Button } from "../components/ui/button";
 import { Link, NavLink } from "react-router-dom";
-import { Menu, X, Home, LayoutDashboard, Box, Terminal } from "lucide-react";
+import { Home, LayoutDashboard, Box, Terminal } from "lucide-react";
 
 export function MainLayout() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
-
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `transition-colors ${isActive ? "text-white font-medium" : "text-gray-400 hover:text-white"}`;
 
