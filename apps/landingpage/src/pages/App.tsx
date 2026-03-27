@@ -155,77 +155,86 @@ export function AppPage() {
       {/* DESKTOP DASHBOARD VIEW (Shown only on medium screens and up)              */}
       {/* ========================================================================= */}
       <div className="hidden md:block pt-32 pb-48 container mx-auto px-6">
-        <header className="mb-16">
-          <div className="flex items-center gap-3 mb-4">
-            <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse mr-2" />
-              ZK Dark Pool Active
-            </Badge>
-            <span className="text-sm text-gray-500 font-mono">/app/treasury-vault</span>
+        <header className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-4xl font-medium tracking-tight">Agent Hub</h1>
+            <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-full py-2 px-4">
+              <span className="text-sm text-gray-400">Wallet:</span>
+              <span className="text-sm font-mono text-white">FHk1...1zah</span>
+              <div className="w-px h-4 bg-white/20 mx-2" />
+              <Badge variant="outline" className="bg-green-500/10 text-green-400 border-green-500/30">
+                Connected
+              </Badge>
+            </div>
           </div>
-          <h1 className="text-5xl font-medium tracking-tight mb-4">MIND Control Center</h1>
-          <p className="text-base text-gray-400 max-w-2xl">
-            Your agent is operating in stealth mode. Capital is shielded via ZK Compressed State, executing P2P trades without MEV exposure.
+          <p className="text-gray-400 max-w-2xl">
+            Monitor your connected AI agent's performance, manage permissions, and track shielded liquidity in real-time.
           </p>
         </header>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           
-          {/* Main Chart Area */}
-          <div className="col-span-2 space-y-6">
-            <div className="bg-glass rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h3 className="font-medium text-lg">Shielded Treasury</h3>
-                  <p className="text-sm text-gray-400">Live Balance from Solana Mainnet</p>
+          {/* Main Content Area */}
+          <div className="lg:col-span-3 space-y-6">
+            {/* Top Stats Row */}
+            <div className="grid grid-cols-3 gap-6">
+              <div className="bg-glass rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-sm text-gray-400">Total Shielded Value</h3>
+                  <Wallet className="w-4 h-4 text-blue-400" />
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-light text-white">
-                    {realBalance !== null ? (
-                      <span className="flex items-center gap-2">
-                        <Wallet className="w-5 h-5 text-blue-400" />
-                        {realBalance.toFixed(4)} <span className="text-sm text-gray-500">SOL</span>
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-2 text-gray-500 text-lg">
-                        <Loader2 className="w-4 h-4 animate-spin" /> Fetching real balance...
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-xs text-green-400 flex items-center justify-end gap-1 mt-1">
-                    <Lock className="w-3 h-3" /> ZK Compressed Notes
-                  </div>
+                <div className="text-3xl font-light text-white mb-2">
+                  {realBalance !== null ? (
+                    <span>{realBalance.toFixed(2)} <span className="text-lg text-gray-500">SOL</span></span>
+                  ) : (
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
+                  )}
+                </div>
+                <div className="text-xs text-green-400 flex items-center gap-1">
+                  <Lock className="w-3 h-3" /> Protected by ZK State
                 </div>
               </div>
-              
-              {/* Mock Chart Area */}
-              <div className="h-64 w-full bg-white/[0.02] border border-white/5 rounded-xl flex items-end p-4 gap-2 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent" />
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <div 
-                    key={i} 
-                    className="flex-1 bg-blue-500/40 rounded-t-sm hover:bg-blue-400 transition-colors"
-                    style={{ height: `${Math.max(20, Math.random() * 100)}%` }}
-                  />
-                ))}
+
+              <div className="bg-glass rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-sm text-gray-400">Total Intents Executed</h3>
+                  <Zap className="w-4 h-4 text-yellow-400" />
+                </div>
+                <div className="text-3xl font-light text-white mb-2">1,248</div>
+                <div className="text-xs text-green-400 flex items-center gap-1">
+                  +12 in the last 24h
+                </div>
+              </div>
+
+              <div className="bg-glass rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-sm text-gray-400">Est. MEV Saved</h3>
+                  <Shield className="w-4 h-4 text-purple-400" />
+                </div>
+                <div className="text-3xl font-light text-white mb-2">$420.50</div>
+                <div className="text-xs text-gray-500 flex items-center gap-1">
+                  Via Dark Pool routing
+                </div>
               </div>
             </div>
 
-            {/* Recent Intents */}
+            {/* Recent Intents Table */}
             <div className="bg-glass rounded-2xl border border-white/10 overflow-hidden">
               <div className="p-6 border-b border-white/5 flex justify-between items-center">
-                <h3 className="font-medium text-lg">A2A Operations Log</h3>
-                <Badge variant="outline" className="text-gray-400 border-white/10">Last 24h</Badge>
+                <h3 className="font-medium text-lg">Agent Activity Log</h3>
+                <Button variant="outline" size="sm" className="h-8 text-xs bg-transparent border-white/10 text-white">
+                  View Explorer
+                </Button>
               </div>
               <div className="divide-y divide-white/5">
                 {loading ? (
-                  <div className="p-8 flex justify-center items-center">
-                    <Loader2 className="w-6 h-6 animate-spin text-blue-400" />
+                  <div className="p-12 flex justify-center items-center">
+                    <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
                   </div>
                 ) : (
                   intents.map((intent, i) => (
-                    <div key={i} className="p-4 flex items-center justify-between hover:bg-white/5 transition-colors cursor-default">
-                      <div className="flex items-center gap-4">
+                    <div key={i} className="p-4 px-6 flex items-center justify-between hover:bg-white/5 transition-colors cursor-default">
+                      <div className="flex items-center gap-4 w-1/3">
                         <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                           <intent.icon className="w-4 h-4 text-gray-400" />
                         </div>
@@ -234,7 +243,12 @@ export function AppPage() {
                           <p className="text-xs text-gray-500">{intent.time}</p>
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="w-1/3 text-center">
+                        <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-400">
+                          ID: {Math.random().toString(36).substring(2, 8).toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="w-1/3 text-right">
                         <p className="text-sm font-mono">{intent.amount}</p>
                         <p className={`text-xs ${intent.color}`}>{intent.status}</p>
                       </div>
@@ -246,124 +260,58 @@ export function AppPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Agent Status */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Connected Agent Card */}
             <div className="bg-glass rounded-2xl p-6 border border-white/10">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="relative">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-                    <Terminal className="w-6 h-6 text-blue-400" />
+              <div className="flex flex-col items-center text-center mb-6">
+                <div className="relative mb-4">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 border-2 border-blue-500/30 flex items-center justify-center">
+                    <Terminal className="w-10 h-10 text-blue-400" />
                   </div>
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-black rounded-full" />
+                  <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 border-2 border-black rounded-full" />
                 </div>
-                <div>
-                  <h3 className="font-medium">SolClaw_Alpha</h3>
-                  <p className="text-xs text-green-400">Online & Searching</p>
-                </div>
+                <h3 className="font-medium text-lg">SolClaw_Alpha</h3>
+                <p className="text-xs text-green-400 mt-1 bg-green-500/10 px-2 py-0.5 rounded-full">Status: Autonomous</p>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4 pt-4 border-t border-white/5">
+                <div>
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="text-gray-400">Daily Spending Limit</span>
+                    <span className="text-white">45% used</span>
+                  </div>
+                  <div className="w-full bg-black/50 rounded-full h-1.5">
+                    <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: "45%" }}></div>
+                  </div>
+                </div>
+                
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Strategy</span>
-                  <span className="text-white">Aggressive Arb</span>
+                  <span className="text-gray-400">Trading Strategy</span>
+                  <span className="text-white text-right">Aggressive Arb</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Risk Limit</span>
-                  <span className="text-white">2.5% / trade</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Network</span>
-                  <span className="text-white">Solana Mainnet</span>
+                  <span className="text-gray-400">Risk Profile</span>
+                  <span className="text-white text-right">Medium</span>
                 </div>
               </div>
-            </div>
-
-            {/* Security Policies */}
-            <div className="bg-glass rounded-2xl p-6 border border-white/10">
-              <h3 className="font-medium mb-4 flex items-center gap-2">
-                <Lock className="w-4 h-4 text-gray-400" />
-                Active Intent Policies
-              </h3>
-              <div className="space-y-3">
-                <div className="p-3 bg-white/5 border border-white/10 rounded-lg text-sm">
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-300">Max Slippage</span>
-                    <span className="text-red-400">0.5%</span>
-                  </div>
-                  <div className="w-full bg-black/50 rounded-full h-1">
-                    <div className="bg-red-500 h-1 rounded-full" style={{ width: '20%' }} />
-                  </div>
-                </div>
-                <div className="p-3 bg-white/5 border border-white/10 rounded-lg text-sm">
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-300">Dark Pool Volume Limit</span>
-                    <span className="text-blue-400">$10k</span>
-                  </div>
-                  <div className="w-full bg-black/50 rounded-full h-1">
-                    <div className="bg-blue-500 h-1 rounded-full" style={{ width: '45%' }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Agent Skills / Usability */}
-            <div className="bg-glass rounded-2xl p-6 border border-white/10">
-              <h3 className="font-medium mb-4 flex items-center gap-2">
-                <Zap className="w-4 h-4 text-gray-400" />
-                Enabled Skills
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary" className="bg-green-500/10 text-green-400 border-green-500/20">ZK Stealth Swap</Badge>
-                <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 border-blue-500/20">x402 Micro-Pay</Badge>
-                <Badge variant="secondary" className="bg-purple-500/10 text-purple-400 border-purple-500/20">Yield Shield</Badge>
-                <Badge variant="secondary" className="bg-orange-500/10 text-orange-400 border-orange-500/20">Metaplex Proofs</Badge>
-              </div>
-              <Button className="w-full mt-4 bg-white/5 hover:bg-white/10 text-xs border border-white/10">
-                Deploy New Skill
-              </Button>
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-2xl p-6 border border-white/10">
-              <h3 className="font-medium mb-4 text-white">Manual Override & Tests</h3>
-              <div className="space-y-3">
-                <button 
-                  onClick={async () => {
-                    try {
-                      // Simula uma Intent real batendo no backend e indo pro Telegram
-                      await fetch("http://127.0.0.1:3000/v1/approvals/request", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          intentId: "intent_demo_arbitrage_" + Math.floor(Math.random() * 1000),
-                          channel: "telegram",
-                          requesterId: "913039626" // ID do usuário
-                        })
-                      });
-                      alert("Intent de Teste disparada! Verifique seu Telegram.");
-                    } catch (error) {
-                      console.error("Erro ao simular hero flow", error);
-                    }
-                  }}
-                  className="w-full flex items-center justify-between p-3 rounded-xl bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 transition-colors text-sm font-medium border border-purple-500/30"
-                >
-                  <div className="flex items-center gap-2">
-                    <Zap className="w-4 h-4" />
-                    <span>Simulate Hero Flow (Telegram)</span>
-                  </div>
-                </button>
-                <button 
-                  onClick={handleKillSwitch}
-                  className="w-full py-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg text-sm font-medium border border-red-500/30 transition-colors"
-                >
-                  Halt All Activity (Kill Switch)
-                </button>
-                <button className="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium transition-colors">
-                  Force Rebalance to USDC
-                </button>
-              </div>
+            <div className="bg-gradient-to-br from-red-900/20 to-black rounded-2xl p-6 border border-red-500/20">
+              <h3 className="font-medium mb-2 text-red-400 flex items-center gap-2">
+                <Zap className="w-4 h-4" />
+                Emergency Controls
+              </h3>
+              <p className="text-xs text-gray-400 mb-4">
+                Instantly revoke agent permissions and halt all pending transactions.
+              </p>
+              <button 
+                onClick={handleKillSwitch}
+                className="w-full py-3 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl text-sm font-medium border border-red-500/30 transition-colors"
+              >
+                Halt Agent (Kill Switch)
+              </button>
             </div>
-
           </div>
         </div>
       </div>
