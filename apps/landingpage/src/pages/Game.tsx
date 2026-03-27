@@ -114,14 +114,14 @@ export function GamePage() {
       {/* HEADER BENTO BOX */}
       <div className="border border-white/20 p-4 rounded-2xl mb-4 flex justify-between items-center bg-zinc-950 shadow-lg">
         <div>
-          <p className="text-[10px] text-white/50 tracking-widest uppercase mb-1">Guard Status</p>
+          <p className="text-[10px] text-white/50 tracking-widest uppercase mb-1">COVALENT RADAR</p>
           <h1 className="text-xl font-black tracking-tighter flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             ACTIVE
           </h1>
         </div>
         <div className="text-right">
-          <p className="text-[10px] text-white/50 tracking-widest uppercase mb-1">Total XP</p>
+          <p className="text-[10px] text-white/50 tracking-widest uppercase mb-1">METAPLEX cNFT XP</p>
           <h2 className="text-3xl font-black text-emerald-400 tracking-tighter">{totalXp.toLocaleString()}</h2>
         </div>
       </div>
@@ -157,8 +157,8 @@ export function GamePage() {
         <p className="text-xs text-white/40 tracking-widest uppercase">
           SYNC STATUS
         </p>
-        <div className={`text-xs font-bold tracking-widest px-2 py-1 rounded ${xpQueue.current > 0 ? 'bg-yellow-500/20 text-yellow-500' : 'bg-emerald-500/20 text-emerald-500'}`}>
-          {xpQueue.current > 0 ? 'PENDING BATCH' : 'SECURED'}
+        <div className={`text-[10px] font-bold tracking-widest px-2 py-1 rounded ${xpQueue.current > 0 ? 'bg-yellow-500/20 text-yellow-500' : 'bg-emerald-500/20 text-emerald-500'}`}>
+          {xpQueue.current > 0 ? 'PENDING BATCH' : 'SETTLED VIA A2A PROTOCOL'}
         </div>
       </div>
 
