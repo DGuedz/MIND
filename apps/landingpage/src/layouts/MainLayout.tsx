@@ -80,8 +80,8 @@ export function MainLayout() {
         </Link>
         <div className="flex items-center gap-3">
           <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
-            <Button variant="outline" size="sm" className="h-8 text-xs rounded-full bg-white/5 border-white/10 text-white">
-              Connect
+            <Button variant="outline" size="sm" className="h-8 text-xs rounded-full bg-white/5 border-white/10 text-white px-3">
+              Create Account
             </Button>
           </Link>
           <button 

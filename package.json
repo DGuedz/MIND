@@ -11,6 +11,7 @@
     "dev:services": "pnpm -r --parallel --filter @mind/api-gateway --filter @mind/intent-service --filter @mind/market-context-service --filter @mind/approval-gateway-service --filter @mind/registry-service --filter @mind/proof-service --filter @mind/execution-service --filter @mind/signer-service --filter @mind/a2a-service run dev"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.3",
     "@types/node": "^20.11.24",
     "@types/pg": "^8.11.6",
     "tsx": "^4.19.2",
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "@solana/web3.js": "^1.98.4",
-    "bs58": "^6.0.0"
+    "bs58": "^6.0.0",
+    "dotenv": "^17.3.1"
   }
 }

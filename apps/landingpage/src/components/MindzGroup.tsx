@@ -5,8 +5,8 @@ export const MindzGroup = () => {
     <div className="relative flex items-center mb-6">
       {/* Conexão Traseira (Linhas) */}
       <div className="absolute top-1/2 left-4 w-32 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-white/20 -translate-y-1/2 z-0" />
-      <div className="absolute top-1/2 left-12 w-24 h-12 border-l border-b border-white/20 rounded-bl-xl -translate-y-1/2 translate-y-6 z-0" />
-      <div className="absolute top-1/2 left-12 w-24 h-12 border-l border-t border-white/20 rounded-tl-xl -translate-y-full -translate-y-2 z-0" />
+      <div className="absolute top-1/2 left-12 w-24 h-12 border-l border-b border-white/20 rounded-bl-xl translate-y-6 z-0" />
+      <div className="absolute top-1/2 left-12 w-24 h-12 border-l border-t border-white/20 rounded-tl-xl -translate-y-full z-0" />
       
       {/* Mindz 1 (Menor, Topo) */}
       <div className="absolute left-20 -top-8 w-6 h-6 rounded-full border border-white/10 bg-black/80 backdrop-blur-md flex items-center justify-center p-0.5 z-10 shadow-[0_0_10px_rgba(170,59,255,0.2)] animate-float">
