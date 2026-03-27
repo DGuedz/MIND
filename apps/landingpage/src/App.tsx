@@ -5,6 +5,7 @@ import { AppPage } from "./pages/App";
 import { FeaturesPage } from "./pages/Features";
 import { InfrastructurePage } from "./pages/Infrastructure";
 import { RegisterPage } from "./pages/Register";
+import { GamePage } from "./pages/Game";
 import { TooltipProvider } from "./components/ui/tooltip";
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
             <Route path="infrastructure" element={<InfrastructurePage />} />
             <Route path="register" element={<RegisterPage />} />
           </Route>
+          {/* Game Route - No Layout (Fullscreen for Telegram) */}
+          <Route path="/game" element={<GamePage />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
