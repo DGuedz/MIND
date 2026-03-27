@@ -354,12 +354,12 @@ export function AppPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-2xl p-6 border border-white/10">
+            <div className="bg-glass rounded-2xl p-6 border border-white/10">
               <h3 className="font-medium mb-4 text-white">Manual Override & Tests</h3>
               <div className="space-y-3">
                 <button 
                   onClick={handleSimulateHeroFlow}
-                  className="w-full flex items-center justify-between p-3 rounded-xl bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 transition-colors text-sm font-medium border border-purple-500/30"
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 text-gray-300 hover:bg-white/10 transition-colors text-sm font-medium border border-white/10"
                 >
                   <div className="flex items-center gap-2">
                     <Zap className="w-4 h-4" />
@@ -367,17 +367,19 @@ export function AppPage() {
                   </div>
                 </button>
                 <button 
-                  onClick={handleKillSwitch}
-                  className="w-full py-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg text-sm font-medium border border-red-500/30 transition-colors"
-                >
-                  Halt All Activity (Kill Switch)
-                </button>
-                <button 
                   onClick={handleForceRebalance}
-                  className="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium transition-colors"
+                  className="w-full py-2.5 bg-white text-black hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
                 >
                   Force Rebalance to USDC
                 </button>
+                <div className="pt-2 border-t border-white/5 mt-2">
+                  <button 
+                    onClick={handleKillSwitch}
+                    className="w-full py-2.5 bg-transparent hover:bg-red-500/10 text-red-500/80 hover:text-red-400 rounded-lg text-sm font-medium border border-red-500/20 hover:border-red-500/30 transition-colors"
+                  >
+                    Halt All Activity (Kill Switch)
+                  </button>
+                </div>
               </div>
             </div>
           </div>
