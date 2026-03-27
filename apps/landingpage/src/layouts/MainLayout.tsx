@@ -1,25 +1,26 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { MiniLogo } from "../components/MiniLogo";
 import { Button } from "../components/ui/button";
 import { Link, NavLink } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home, LayoutDashboard, Box, Terminal } from "lucide-react";
 
 export function MainLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `transition-colors ${isActive ? "text-white font-medium" : "text-gray-400 hover:text-white"}`;
 
   const mobileNavLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `block px-4 py-3 rounded-xl transition-colors ${isActive ? "bg-white/10 text-white font-medium" : "text-gray-400 hover:bg-white/5 hover:text-white"}`;
+    `flex flex-col items-center justify-center w-full py-2 gap-1 transition-colors ${isActive ? "text-blue-400" : "text-gray-500 hover:text-gray-300"}`;
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative selection:bg-white/20 pb-20 md:pb-0">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans relative selection:bg-white/20 pb-24 md:pb-0">
       <div className="noise" />
       
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-8 py-4 bg-black/40 backdrop-blur-xl border-b border-white/5">
+      {/* Navbar (Desktop) */}
+      <nav className="hidden md:flex fixed top-0 left-0 right-0 z-50 items-center justify-between px-8 py-4 bg-black/40 backdrop-blur-xl border-b border-white/5">
         <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-transparent overflow-hidden p-0.5">
             <MiniLogo />
@@ -28,7 +29,7 @@ export function MainLayout() {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-6 text-sm">
+        <div className="flex items-center gap-6 text-sm">
           <NavLink to="/" className={navLinkClass}>Home</NavLink>
           <NavLink to="/app" className={navLinkClass}>App</NavLink>
           <NavLink to="/features" className={navLinkClass}>Features</NavLink>
@@ -38,50 +39,54 @@ export function MainLayout() {
           </a>
         </div>
 
-        <div className="hidden md:block">
+        <div>
           <Link to="/register">
             <Button variant="outline" className="rounded-full bg-transparent border-white/20 hover:bg-white/10 text-white">
               Create Account
             </Button>
           </Link>
         </div>
-
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-black/95 backdrop-blur-3xl pt-24 px-4 flex flex-col md:hidden animate-in fade-in duration-200">
-          <div className="flex flex-col gap-2 text-base">
-            <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass}>Home</NavLink>
-            <NavLink to="/app" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass}>App</NavLink>
-            <NavLink to="/features" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass}>Features</NavLink>
-            <NavLink to="/infrastructure" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass}>Infrastructure</NavLink>
+      {/* Topbar (Mobile Minimal) */}
+      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-black/60 backdrop-blur-xl border-b border-white/5">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-transparent overflow-hidden p-0.5">
+            <MiniLogo />
           </div>
-          
-          <div className="mt-8 flex flex-col gap-4">
-            <a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10">
-              <span>GitHub Repository</span>
-              <span className="text-gray-400">↗</span>
-            </a>
-            
-            <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button className="w-full rounded-xl bg-white text-black hover:bg-gray-200 py-6 text-base font-medium">
-                Create Account
-              </Button>
-            </Link>
-          </div>
+          <span className="text-sm font-medium tracking-widest">MIND</span>
+        </Link>
+        <Link to="/register">
+          <Button variant="outline" size="sm" className="h-8 text-xs rounded-full bg-white/5 border-white/10 text-white">
+            Connect
+          </Button>
+        </Link>
+      </nav>
+
+      {/* Bottom Navigation Bar (Mobile) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-t border-white/10 pb-safe">
+        <div className="flex items-center justify-around px-2 pb-2 pt-2">
+          <NavLink to="/" className={mobileNavLinkClass}>
+            <Home className="w-6 h-6" />
+            <span className="text-[10px] font-medium">Home</span>
+          </NavLink>
+          <NavLink to="/app" className={mobileNavLinkClass}>
+            <LayoutDashboard className="w-6 h-6" />
+            <span className="text-[10px] font-medium">App</span>
+          </NavLink>
+          <NavLink to="/features" className={mobileNavLinkClass}>
+            <Box className="w-6 h-6" />
+            <span className="text-[10px] font-medium">Features</span>
+          </NavLink>
+          <NavLink to="/infrastructure" className={mobileNavLinkClass}>
+            <Terminal className="w-6 h-6" />
+            <span className="text-[10px] font-medium">Infra</span>
+          </NavLink>
         </div>
-      )}
+      </div>
 
       {/* Content Rendered Here */}
-      <main className="pt-16">
+      <main className="pt-16 md:pt-20">
         <Outlet />
       </main>
 
