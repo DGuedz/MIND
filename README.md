@@ -60,6 +60,7 @@ For the source-backed thesis and pitch narrative (line-by-line with references),
 - `governance/DARK_POOL_CREDIT_THESIS.md`
 - `governance/SOURCE_KNOWLEDGE_BASE.md`
 - `governance/SOURCE_REGISTRY.json`
+- `governance/HACKATHON_VIDEO_SCRIPT.md`
 
 ---
 
@@ -76,6 +77,18 @@ MIND is the "Intent Defense Layer". We don't take your trading profit, we secure
 **Future Revenue Streams:**
 - **x402 Fees:** Fractional fees when other agents query MIND API (e.g. $0.03 per liquidity read).
 - **Revenue Share:** A slice of A2A payments facilitated via Dexter/PayAI on our rails.
+
+---
+
+### Future Work / Scalability: Phase 3 (The Cross-Chain A2A Vision)
+
+Hoje, a MIND utiliza a Solana como sua camada de liquidação (Settlement Layer) devido à sua extrema baixa latência e profunda integração com as infraestruturas da Metaplex e Covalent. No entanto, a nossa arquitetura A2A (Agent-to-Agent) foi desenhada para ser inerentemente agnóstica de rede.
+
+No futuro, integraremos a TON como a nossa camada primária de distribuição B2C (Distribution Layer). 
+- O **Agente** continuará operando o capital institucional pesado na Solana via ZK Dark Pools.
+- O **Usuário Final** (O Humano Guardião) interagirá, governará o agente e receberá *airdrops* via TonConnect nativo diretamente no Telegram.
+
+Isso criará a primeira ponte de coordenação de agentes *cross-chain* do mercado, unindo a rede mais rápida do mundo (Solana) com a rede de maior adoção social (TON).
 
 ---
 
