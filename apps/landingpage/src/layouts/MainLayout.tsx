@@ -102,10 +102,18 @@ export function MainLayout() {
             <NavLink to="/features" className={mobileNavLinkClass} onClick={() => setIsMobileMenuOpen(false)}>Features</NavLink>
             <NavLink to="/infrastructure" className={mobileNavLinkClass} onClick={() => setIsMobileMenuOpen(false)}>Infrastructure</NavLink>
           </div>
-          <div className="mt-12 pt-8 border-t border-white/10">
-            <a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="inline-flex px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white text-sm items-center justify-center gap-2">
-              GitHub Repository <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">↗</span>
+          <div className="mt-12 flex flex-col gap-6 pt-8 border-t border-white/10">
+            <a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10">
+              <span>GitHub Repository</span>
+              <span className="text-gray-400">↗</span>
             </a>
+            <Link
+              to="/register"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-4 text-base font-medium text-black transition-colors hover:bg-gray-200"
+            >
+              Create Account
+            </Link>
           </div>
         </div>
       )}
