@@ -1,6 +1,5 @@
-import { postJson } from "../services/approval-gateway-service/src/notifications/http.js";
 import * as dotenv from "dotenv";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 
 dotenv.config();
 
@@ -12,6 +11,78 @@ if (!TOKEN) {
 }
 
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+const SETTLEMENT_WALLET = process.env.NOAHAI_SETTLEMENT_WALLET || "";
+const OPENCLAW_ENDPOINT = process.env.OPENCLAW_INFERENCE_ENDPOINT || `${process.env.OPENCLAW_BASE_URL || ""}`.replace(/\/$/, "") + "/inference";
+const OPENCLAW_TIMEOUT_MS = Number(process.env.OPENCLAW_TIMEOUT_MS ?? "15000");
+
+type DecisionContract = {
+  decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
+  reason_codes: string[];
+  confidence: number;
+  assumptions: string[];
+  required_followups: string[];
+  evidence: string[];
+  artifacts?: {
+    txHash?: string;
+    receiptHash?: string;
+    metaplexProofTxHash?: string;
+  };
+};
+
+const extractDecisionFromOutput = (raw: string): DecisionContract | null => {
+  const lines = raw.split(/\r?\n/);
+  const startLine = lines.findIndex((line) => line.trim().startsWith("{"));
+  if (startLine < 0) return null;
+  const candidate = lines.slice(startLine).join("\n").trim();
+  try {
+    return JSON.parse(candidate) as DecisionContract;
+  } catch {
+    return null;
+  }
+};
+
+const callNoahAI = async (intentId: string, decision: DecisionContract) => {
+  const apiKey = process.env.OPENCLAW_API_KEY;
+  if (!apiKey) {
+    return {
+      decision: "INSUFFICIENT_EVIDENCE" as const,
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      evidence: ["OPENCLAW_API_KEY ausente."]
+    };
+  }
+  if (!process.env.OPENCLAW_BASE_URL && !process.env.OPENCLAW_INFERENCE_ENDPOINT) {
+    return {
+      decision: "INSUFFICIENT_EVIDENCE" as const,
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      evidence: ["OPENCLAW_BASE_URL/OPENCLAW_INFERENCE_ENDPOINT ausente."]
+    };
+  }
+
+  const response = await fetch(OPENCLAW_ENDPOINT, {
+    method: "POST",
+    signal: AbortSignal.timeout(OPENCLAW_TIMEOUT_MS),
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      intentId,
+      prompt: "Forneca um resumo curto de risco para a liquidacao x402 executada.",
+      paymentProof: {
+        txHash: decision.artifacts?.txHash,
+        receiptHash: decision.artifacts?.receiptHash,
+        metaplexProofTxHash: decision.artifacts?.metaplexProofTxHash
+      }
+    })
+  });
+
+  const raw = await response.text();
+  return {
+    decision: response.ok ? ("ALLOW" as const) : ("INSUFFICIENT_EVIDENCE" as const),
+    reason_codes: response.ok ? [] : ["RC_TOOL_FAILURE"],
+    evidence: [`openclaw.status=${response.status}`, raw.slice(0, 500)]
+  };
+};
 
 async function getChatId() {
   console.log("⏳ Buscando seu Chat ID no Telegram...");
@@ -45,10 +116,10 @@ async function sendIntent(chatId: number) {
   
   const text = `🚨 *Aprovação Necessária*\n\n` +
                `*Agente:* NoahAI / Scan\n` +
-               `*Ação:* Comprar 10 SOL\n` +
-               `*Motivo:* Oportunidade de Arbitragem (Spread 2.4%)\n` +
-               `*Valor:* ~ $920 USD\n\n` +
-               `Deseja autorizar esta execução on-chain?`;
+               `*Ação:* Pagamento x402 A2A (0.001 SOL)\n` +
+               `*Motivo:* Inferência de Dados e Risco\n` +
+               `*Recibo:* Metaplex Core cNFT\n\n` +
+               `Deseja autorizar esta liquidação on-chain?`;
 
   const keyboard = {
     inline_keyboard: [
@@ -133,10 +204,49 @@ async function runDemo() {
   
   // 4. Se aprovado, rodar o script de liquidação/prova!
   if (approved) {
-    console.log("\n🚀 Acionando a camada de Liquidação Atômica (Solana)...");
+    console.log("\n🚀 Acionando a camada de Liquidação Atômica x402 (Solana)...");
+    if (!SETTLEMENT_WALLET) {
+      console.error("❌ NOAHAI_SETTLEMENT_WALLET não configurada no ambiente.");
+      return;
+    }
     try {
-      // Chama o nosso script de prova que usa o dinheiro real
-      execSync("npx tsx scripts/mint_proof.ts", { stdio: "inherit" });
+      const raw = execFileSync(
+        "npx",
+        [
+          "tsx",
+          "scripts/a2a_payment.ts",
+          "--mode=real",
+          "--human-approved=true",
+          "--amount=0.001",
+          "--memo=MIND_x402_PAYMENT: AI inference service",
+          `--intent-id=${intentId}`,
+          `--target=${SETTLEMENT_WALLET}`
+        ],
+        { encoding: "utf8" }
+      );
+
+      const decision = extractDecisionFromOutput(raw);
+      if (!decision) {
+        console.error("❌ Falha ao interpretar resposta do a2a_payment.ts.");
+        console.error(raw);
+        return;
+      }
+
+      console.log("\n📋 Decisão x402:");
+      console.log(JSON.stringify(decision, null, 2));
+
+      if (decision.decision !== "ALLOW") {
+        console.error("❌ Liquidação bloqueada ou inconclusiva.");
+        return;
+      }
+      if (!decision.artifacts?.txHash) {
+        console.error("❌ Liquidação sem txHash confirmado. Execução tratada como inconclusiva.");
+        return;
+      }
+
+      const aiDecision = await callNoahAI(intentId, decision);
+      console.log("\n🤖 Resultado OpenClaw/NoahAI:");
+      console.log(JSON.stringify(aiDecision, null, 2));
     } catch (e) {
       console.error("Erro ao executar liquidação:", e);
     }

@@ -42,7 +42,7 @@ server.post("/v1/onboard/tg-agent", async (request: FastifyRequest, reply: Fasti
     status: "success",
     agentId,
     message: "OpenClaw Agent detected and connected.",
-    deepLink: `https://mind.app/connect?agent=${agentId}`
+    deepLink: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/connect?agent=${agentId}`
   });
 });
 

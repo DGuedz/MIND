@@ -21,3 +21,6 @@ docs/
 *.sqlite
 *.sqlite3
 data/
+
+# Keys and Secrets
+burner_wallets.json

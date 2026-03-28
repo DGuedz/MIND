@@ -48,7 +48,7 @@ function AnimatedChat() {
         <div className="bg-white/5 rounded-lg rounded-tl-none p-3 text-gray-300 border border-white/10 w-[85%] animate-in fade-in slide-in-from-bottom-2 duration-300">
           ✅ A2A Permissions Granted.<br/>
           ⚡ Skills equipped.<br/>
-          <a href="#" className="text-blue-400 underline mt-1 inline-block">mind.app/connect?agent=live</a>
+          <a href="#" className="text-blue-400 underline mt-1 inline-block">landingpage-dgs-projects-ac3c4a7c.vercel.app/connect?agent=live</a>
         </div>
       )}
     </div>
@@ -96,14 +96,15 @@ export function HomePage() {
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 w-full sm:w-auto px-4 sm:px-0">
               <Button 
-                className="w-full sm:w-auto rounded-full px-8 py-6 bg-white text-black hover:bg-gray-200 text-sm font-medium"
+                className="w-full sm:w-auto rounded-full px-8 py-6 bg-white text-black hover:bg-gray-200 text-sm font-medium transition-all hover:scale-105"
                 onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}
               >
+                <Bot className="w-4 h-4 mr-2" />
                 Launch in Telegram ↗
               </Button>
               <Button 
                 variant="outline" 
-                className="w-full sm:w-auto rounded-full px-8 py-6 bg-transparent border-white/20 text-white hover:bg-white/10 text-sm font-medium"
+                className="w-full sm:w-auto rounded-full px-8 py-6 bg-transparent border-white/20 text-white hover:bg-white/10 text-sm font-medium transition-all hover:border-white/40"
                 onClick={() => window.open('../../docs/RELEASE_BUNDLE.md', '_blank')}
               >
                 Discover More

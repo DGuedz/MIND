@@ -20,10 +20,34 @@ const hashValue = (value: unknown): string => {
   return createHash("sha256").update(canonicalize(value)).digest("hex");
 };
 
+type CovalentFetchedResult = {
+  status: "fetched";
+  statusCode: number;
+  snapshotHash: string;
+  raw: string;
+};
+
+type CovalentSkippedResult = {
+  status: "skipped";
+  reason: "missing_endpoint";
+};
+
+type CovalentFailedResult = {
+  status: "failed";
+  reason: "http_error";
+  statusCode?: number;
+  raw: string;
+};
+
+export type CovalentContextResult =
+  | CovalentFetchedResult
+  | CovalentSkippedResult
+  | CovalentFailedResult;
+
 export const fetchCovalentContext = async (payload: Record<string, unknown>) => {
   const endpoint = process.env.COVALENT_MARKET_CONTEXT_ENDPOINT;
   if (!endpoint) {
-    return { status: "skipped" as const };
+    return { status: "skipped", reason: "missing_endpoint" } as CovalentSkippedResult;
   }
 
   const apiKey = process.env.COVALENT_API_KEY;
@@ -33,17 +57,23 @@ export const fetchCovalentContext = async (payload: Record<string, unknown>) => 
     apiKey ? { authorization: `Bearer ${apiKey}` } : undefined
   );
 
-  const snapshotHash = hashValue({
-    payload,
-    response: response.data
-  });
+  if (!response.statusCode || response.statusCode < 200 || response.statusCode >= 300) {
+    return {
+      status: "failed",
+      reason: "http_error",
+      statusCode: response.statusCode,
+      raw: response.data
+    } as CovalentFailedResult;
+  }
+
+  const snapshotHash = hashValue({ payload, response: response.data });
 
   return {
-    status: "fetched" as const,
+    status: "fetched",
     statusCode: response.statusCode,
     snapshotHash,
     raw: response.data
-  };
+  } as CovalentFetchedResult;
 };
 
 export const computeSnapshotHash = (payload: Record<string, unknown>, raw: string) => {

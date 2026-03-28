@@ -1,7 +1,7 @@
 import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import bs58 from "bs58";
 import * as dotenv from "dotenv";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 dotenv.config();
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -11,6 +11,23 @@ if (!TOKEN || !ENV_KEY) {
   process.exit(1);
 }
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+const SETTLEMENT_WALLET = process.env.NOAHAI_SETTLEMENT_WALLET || "";
+const OPENCLAW_ENDPOINT = process.env.OPENCLAW_INFERENCE_ENDPOINT || `${process.env.OPENCLAW_BASE_URL || ""}`.replace(/\/$/, "") + "/inference";
+const OPENCLAW_TIMEOUT_MS = Number(process.env.OPENCLAW_TIMEOUT_MS ?? "15000");
+
+type DecisionContract = {
+  decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
+  reason_codes: string[];
+  confidence: number;
+  assumptions: string[];
+  required_followups: string[];
+  evidence: string[];
+  artifacts?: {
+    txHash?: string;
+    receiptHash?: string;
+    metaplexProofTxHash?: string;
+  };
+};
 
 // Configuração da Solana para ler o saldo real da sua wallet importada (a mesma do Trojan)
 const rpcUrl = process.env.HELIUS_RPC_URL || "https://api.mainnet-beta.solana.com";
@@ -31,6 +48,8 @@ try {
 
 // Estado do usuário
 const userStates: Record<number, { isConnected: boolean; balance: number }> = {};
+const x402InFlightByChat = new Set<number>();
+const consumedX402ApprovalByMessage = new Set<string>();
 
 async function getRealBalance(): Promise<number> {
   if (!publicKeyStr) return 0;
@@ -59,6 +78,61 @@ async function answerCallback(queryId: string, text?: string) {
     body: JSON.stringify({ callback_query_id: queryId, text: text || "" })
   });
 }
+
+const extractDecisionFromOutput = (raw: string): DecisionContract | null => {
+  const lines = raw.split(/\r?\n/);
+  const startLine = lines.findIndex((line) => line.trim().startsWith("{"));
+  if (startLine < 0) return null;
+  const candidate = lines.slice(startLine).join("\n").trim();
+  try {
+    return JSON.parse(candidate) as DecisionContract;
+  } catch {
+    return null;
+  }
+};
+
+const callNoahAI = async (intentId: string, decision: DecisionContract) => {
+  const apiKey = process.env.OPENCLAW_API_KEY;
+  if (!apiKey) {
+    return {
+      decision: "INSUFFICIENT_EVIDENCE" as const,
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      evidence: ["OPENCLAW_API_KEY ausente."]
+    };
+  }
+  if (!process.env.OPENCLAW_BASE_URL && !process.env.OPENCLAW_INFERENCE_ENDPOINT) {
+    return {
+      decision: "INSUFFICIENT_EVIDENCE" as const,
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      evidence: ["OPENCLAW_BASE_URL/OPENCLAW_INFERENCE_ENDPOINT ausente."]
+    };
+  }
+
+  const response = await fetch(OPENCLAW_ENDPOINT, {
+    method: "POST",
+    signal: AbortSignal.timeout(OPENCLAW_TIMEOUT_MS),
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      intentId,
+      prompt: "Forneca um resumo curto de risco para a liquidacao x402 executada.",
+      paymentProof: {
+        txHash: decision.artifacts?.txHash,
+        receiptHash: decision.artifacts?.receiptHash,
+        metaplexProofTxHash: decision.artifacts?.metaplexProofTxHash
+      }
+    })
+  });
+
+  const raw = await response.text();
+  return {
+    decision: response.ok ? ("ALLOW" as const) : ("INSUFFICIENT_EVIDENCE" as const),
+    reason_codes: response.ok ? [] : ["RC_TOOL_FAILURE"],
+    evidence: [`openclaw.status=${response.status}`, raw.slice(0, 500)]
+  };
+};
 
 async function startBot() {
   console.log("🧠 Protocolo MIND-INTENT-GUARDIAN (Humanizado) ativado. Escutando...\n");
@@ -102,11 +176,10 @@ async function startBot() {
             }
             else {
                // Saudação inicial (qualquer outra mensagem ou /start)
-               const msg = `Olá, bom dia! Eu sou o MIND, em que posso te ajudar hoje?`;
+               const msg = `🚀 Olá! O sistema foi atualizado. Eu sou o MIND.`;
                const kb = {
                  inline_keyboard: [
                    [{ text: "✨ Nova Intent", callback_data: "start_intent" }],
-                   [{ text: "🎮 Play MIND MEV Defender", web_app: { url: "https://mind.app/game" } }],
                    [{ text: "📈 Ver status", callback_data: "check_status" }],
                    userStates[chatId].isConnected 
                      ? [{ text: "✅ Wallet Conectada", callback_data: "noop" }]
@@ -144,8 +217,7 @@ async function startBot() {
               const msg = `✅ Wallet conectada!\nVocê tem ${userStates[chatId].balance} SOL disponíveis agora.\n\nO que quer fazer hoje?`;
               const kb = { inline_keyboard: [
                   [{ text: "⚡ Arbitragem no Jupiter", callback_data: "intent_arb" }],
-                  [{ text: "💸 Pagar IA (x402)", callback_data: "intent_x402" }],
-                  [{ text: "🎮 Jogar MIND MEV Defender (Farm XP)", web_app: { url: "https://mind.app/game" } }]
+                  [{ text: "💸 Pagar IA (x402)", callback_data: "intent_x402" }]
               ]};
               await sendMsg(chatId, msg, kb);
             }
@@ -173,6 +245,104 @@ async function startBot() {
               ]};
               await sendMsg(chatId, msg, kb);
             }
+            else if (data === "intent_x402") {
+              const msg = `🚨 *Aprovação Necessária (x402)*\n\n• Agente: NoahAI\n• Ação: Inferência de Dados\n• Custo: 0.001 SOL\n• Recibo: Metaplex cNFT\n\nDeseja autorizar esta liquidação on-chain?`;
+              const kb = { inline_keyboard: [
+                  [{ text: "✅ Aprovar x402", callback_data: "exec_approve_x402" }],
+                  [{ text: "❌ Cancelar", callback_data: "exec_cancel" }]
+              ]};
+              await sendMsg(chatId, msg, kb);
+            }
+            else if (data === "exec_approve_x402") {
+              const approvalMessageId = update.callback_query.message?.message_id;
+              const approvalKey = `${chatId}:${approvalMessageId ?? "unknown"}`;
+              if (consumedX402ApprovalByMessage.has(approvalKey)) {
+                await sendMsg(chatId, `🛑 Esta aprovação x402 já foi consumida. Abra uma nova intent para novo pagamento.`);
+                continue;
+              }
+              if (x402InFlightByChat.has(chatId)) {
+                await sendMsg(chatId, `⏳ Já existe uma liquidação x402 em andamento para este chat. Aguarde o resultado.`);
+                continue;
+              }
+              const msg = `Aprovado! Iniciando liquidação x402 e registro no Metaplex...`;
+              await sendMsg(chatId, msg);
+              
+              if (!SETTLEMENT_WALLET) {
+                await sendMsg(chatId, `❌ NOAHAI_SETTLEMENT_WALLET não configurada. Liquidação bloqueada por policy.`);
+                continue;
+              }
+              x402InFlightByChat.add(chatId);
+              consumedX402ApprovalByMessage.add(approvalKey);
+
+              // Rodando em background para não travar o loop do bot
+              setTimeout(async () => {
+                try {
+                  const intentId = `MIND-INTENT-${Math.floor(Math.random() * 10000)}`;
+                  const raw = execFileSync(
+                    "npx",
+                    [
+                      "tsx",
+                      "scripts/a2a_payment.ts",
+                      "--mode=real",
+                      "--human-approved=true",
+                      "--amount=0.001",
+                      "--memo=MIND_x402_PAYMENT: AI inference via Telegram",
+                      `--intent-id=${intentId}`,
+                      `--target=${SETTLEMENT_WALLET}`
+                    ],
+                    { encoding: "utf8" }
+                  );
+                  const decision = extractDecisionFromOutput(raw);
+                  if (!decision) {
+                    await sendMsg(chatId, `❌ Falha ao interpretar resposta da liquidação x402.`);
+                    return;
+                  }
+
+                  if (decision.decision !== "ALLOW") {
+                    await sendMsg(
+                      chatId,
+                      `🛑 Liquidação não autorizada: ${decision.decision}\nReason codes: ${decision.reason_codes.join(", ") || "none"}`
+                    );
+                    return;
+                  }
+
+                  const txHash = decision.artifacts?.txHash;
+                  if (!txHash) {
+                    await sendMsg(chatId, `❌ Liquidação sem txHash confirmado. Operação tratada como inconclusiva.`);
+                    return;
+                  }
+
+                  const aiDecision = await callNoahAI(intentId, decision);
+                  const receiptHash = decision.artifacts?.receiptHash ?? "n/a";
+                  const aiStatus = aiDecision.decision;
+                  const msg2 =
+                    `✅ Pagamento x402 concluído.\n` +
+                    `• Tx: ${txHash}\n` +
+                    `• Receipt: ${receiptHash}\n` +
+                    `• NoahAI: ${aiStatus}`;
+
+                  const kb2 = {
+                    inline_keyboard: [
+                      [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                      [{ text: "✨ Nova intent", callback_data: "start_intent" }]
+                    ]
+                  };
+                  await sendMsg(chatId, msg2, kb2);
+                } catch (err) {
+                  console.error("Erro no fluxo x402/noahai:", err);
+                  const errorMsg = `❌ *Falha na liquidação x402/NoahAI*\n\nNão foi possível completar a operação. O sistema de IA ou a rede podem estar instáveis no momento.\n\n_Dica: Seu saldo está seguro. Tente novamente mais tarde._`;
+                  const errorKb = {
+                    inline_keyboard: [
+                      [{ text: "🔄 Tentar Novamente", callback_data: "intent_x402" }],
+                      [{ text: "✨ Menu Principal", callback_data: "start_intent" }]
+                    ]
+                  };
+                  await sendMsg(chatId, errorMsg, errorKb);
+                } finally {
+                  x402InFlightByChat.delete(chatId);
+                }
+              }, 100);
+            }
             else if (data === "exec_approve") {
               const msg = `Beleza! Executando agora...`;
               await sendMsg(chatId, msg);
@@ -186,7 +356,7 @@ async function startBot() {
                 userStates[chatId].balance += 0.47; 
                 const msg2 = `✅ Executado!\n\n+0.47 SOL de lucro\nSaldo atualizado (simulado): ${userStates[chatId].balance.toFixed(4)} SOL\n\nQuer ver o dashboard ou criar uma skill automática com isso?`;
                 const kb2 = { inline_keyboard: [
-                  [{ text: "🖥️ Abrir Dashboard", url: "https://mind.app/app?agent=SolClaw_Alpha" }],
+                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
                   [{ text: "💾 Criar skill automática", callback_data: "save_skill" }],
                   [{ text: "✨ Nova intent", callback_data: "start_intent" }]
                 ]};
@@ -204,10 +374,24 @@ async function startBot() {
               }, 2000);
             }
             else if (data === "exec_cancel") {
-              await sendMsg(chatId, `Cancelado! O capital está seguro. Em que mais posso ajudar?`);
+              const msg = `🛑 *Operação Cancelada*\n\nNenhuma transação foi executada. O seu capital está seguro.\n\nO que deseja fazer agora?`;
+              const kb = {
+                inline_keyboard: [
+                  [{ text: "✨ Nova Intent", callback_data: "start_intent" }],
+                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }]
+                ]
+              };
+              await sendMsg(chatId, msg, kb);
             }
             else if (data === "save_skill") {
-              await sendMsg(chatId, `💾 Skill 'Jupiter Arb Auto' salva! O agent agora sabe fazer isso sozinho. Você pode alterar isso no painel.`);
+              const msg = `💾 *Skill 'Jupiter Arb Auto' salva!*\n\nO agent agora tem autonomia para executar essa estratégia quando encontrar condições similares.\n\nVocê pode monitorar o desempenho no painel.`;
+              const kb = {
+                inline_keyboard: [
+                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                  [{ text: "✨ Nova Intent", callback_data: "start_intent" }]
+                ]
+              };
+              await sendMsg(chatId, msg, kb);
             }
             else if (data === "check_status") {
                await sendMsg(chatId, `Tudo tranquilo. Seu agent já fez +1.84 SOL hoje. Quer ver detalhes?`, {

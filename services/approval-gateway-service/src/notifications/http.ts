@@ -1,5 +1,5 @@
-import http from "node:http";
-import https from "node:https";
+import * as http from "node:http";
+import * as https from "node:https";
 
 export const postJson = async (url: string, body: unknown, headers?: Record<string, string>) => {
   const payload = JSON.stringify(body);
