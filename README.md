@@ -14,8 +14,8 @@ It captures intents -> validates policies -> executes atomically via x402 and de
 --- 
 
 ### Live Demo 
-- **Landing + Dashboard**: `https://mind.app`  (local preview: `pnpm dev` -> port 5174) 
-- **Telegram Onboard**: `/mind` inside your OpenClaw / SolClaw agent 
+- **Landing + Dashboard**: [https://landingpage-dgs-projects-ac3c4a7c.vercel.app](https://landingpage-dgs-projects-ac3c4a7c.vercel.app)
+- **Telegram Onboard**: [MIND Protocol Bot](https://t.me/Mind_Agent_Protocol_bot)
 - **App Control Center**: `/app` (live agent dashboard) 
 
 --- 
@@ -43,7 +43,12 @@ It captures intents -> validates policies -> executes atomically via x402 and de
 
 --- 
 
-### Security & Profit Maximization (Zero-Knowledge)
+### TRL 7 (Technology Readiness Level) - Mainnet Proven
+MIND is not a lab concept. We have executed **real A2A micropayments** on the Solana Mainnet using the following stack:
+1. **Solana x402:** Atomic `0.001 SOL` transfers for API data inference.
+2. **Covalent ZEE SDK:** Multi-agent orchestration (Risk Agent + Execution Agent).
+3. **Metaplex Core:** Verifiable `receiptHash` generation for executed intents.
+4. **Human-in-the-Loop:** Intent approval strictly gated via Telegram UX.
 
 MIND doesn't promise "magical profits", but it **maximizes capital efficiency** by shielding intents from network surveillance (MEV bots):
 
