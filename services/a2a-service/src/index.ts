@@ -1,6 +1,10 @@
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { checkDb } from "./db/client.js";
+import { IntentFirewall } from "./core/IntentFirewall.js";
+import { IntentRequest } from "./core/types.js";
+import { JupiterAdapter } from "./adapters/JupiterAdapter.js";
 import {
   createProposal,
   createSession,
@@ -15,6 +19,9 @@ import {
 } from "./db/repository.js";
 
 const server = fastify({ logger: true });
+const intentFirewall = new IntentFirewall();
+const jupiterAdapter = new JupiterAdapter();
+const solanaConnection = new Connection(process.env.HELIUS_RPC_URL ?? "https://api.mainnet-beta.solana.com", "confirmed");
 
 server.get("/health", async () => ({
   status: "ok",
@@ -65,6 +72,22 @@ const BillingEventSchema = z.object({
   metadata: z.record(z.unknown()).optional(),
   idempotencyKey: z.string().optional()
 });
+
+const IntentRequestSchema = z.object({
+  intentId: z.string().min(1),
+  protocol: z.string().min(1),
+  action: z.enum(["SWAP", "ALLOCATE_YIELD", "PROVIDE_LIQUIDITY", "WITHDRAW"]),
+  assetIn: z.string().min(1),
+  assetOut: z.string().optional(),
+  amount: z.number().positive(),
+  maxSlippageBps: z.number().nonnegative().optional(),
+  agentId: z.string().min(1)
+});
+
+const resolveAdapter = (protocol: string) => {
+  if (protocol.toUpperCase() === "JUPITER") return jupiterAdapter;
+  return null;
+};
 
 const asServiceError = (error: unknown) => {
   return error instanceof Error ? error.message : "unknown_error";
@@ -309,6 +332,64 @@ server.get<{ Params: { id: string } }>(
     return reply.code(200).send({ sessionId: session.id, status: session.status, events, proposals, billing });
   }
 );
+
+server.post("/v1/a2a/intents/simulate", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = IntentRequestSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_intent_request", details: parsed.error.flatten() });
+  }
+
+  const intent = parsed.data as IntentRequest;
+  const adapter = resolveAdapter(intent.protocol);
+  if (!adapter) {
+    return reply.code(400).send({ error: "unsupported_protocol_adapter", protocol: intent.protocol });
+  }
+
+  const walletPublicKeyText = process.env.A2A_WALLET_PUBLIC_KEY;
+  if (!walletPublicKeyText) {
+    return reply.code(422).send({ error: "missing_a2a_wallet_public_key_env", env: "A2A_WALLET_PUBLIC_KEY" });
+  }
+
+  let walletPublicKey: PublicKey;
+  try {
+    walletPublicKey = new PublicKey(walletPublicKeyText);
+  } catch {
+    return reply.code(422).send({ error: "invalid_a2a_wallet_public_key_env", env: "A2A_WALLET_PUBLIC_KEY" });
+  }
+
+  const balanceLamports = await solanaConnection.getBalance(walletPublicKey);
+  const balanceSol = balanceLamports / LAMPORTS_PER_SOL;
+  const policyGate = intentFirewall.validateIntent(intent, balanceSol);
+  if (!policyGate.allowed) {
+    return reply.code(403).send({
+      status: "blocked_by_intent_firewall",
+      reason: policyGate.reason,
+      intentId: intent.intentId
+    });
+  }
+
+  const simulation = await adapter.simulate(intent, solanaConnection, walletPublicKey.toBase58());
+  if (!simulation.success) {
+    return reply.code(422).send({
+      status: "simulation_failed",
+      intentId: intent.intentId,
+      protocol: adapter.name,
+      error: simulation.error ?? "unknown_simulation_error"
+    });
+  }
+
+  return reply.code(200).send({
+    status: "simulated",
+    intentId: intent.intentId,
+    protocol: adapter.name,
+    treasuryBalanceSol: balanceSol,
+    simulation: {
+      estimatedOutput: simulation.estimatedOutput,
+      priceImpactBps: simulation.priceImpactBps,
+      feeEstimated: simulation.feeEstimated ?? null
+    }
+  });
+});
 
 server.get("/v1/metrics/a2a", async (_request: FastifyRequest, reply: FastifyReply) => {
   const metrics = await getA2AMetrics();

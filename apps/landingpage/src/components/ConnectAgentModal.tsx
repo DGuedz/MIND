@@ -43,17 +43,28 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
       return;
     }
 
+    let isMounted = true;
+
     if (step === 1 && !agentData.agentId && !isProcessing) {
       triggerBackendOnboard();
     }
 
     if (step < 4) {
       const timer = setTimeout(() => {
-        setStep((prev) => prev + 1);
+        if (isMounted) {
+          setStep((prev) => prev + 1);
+        }
       }, step === 0 ? 1000 : step === 1 ? 2500 : step === 2 ? 3000 : 2000);
-      return () => clearTimeout(timer);
+      return () => {
+        isMounted = false;
+        clearTimeout(timer);
+      };
     }
-  }, [step, isOpen, agentData, isProcessing]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [step, isOpen]); // Removido agentData e isProcessing das dependências para evitar loop
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

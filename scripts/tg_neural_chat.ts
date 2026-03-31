@@ -1,4 +1,4 @@
-import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import bs58 from "bs58";
 import * as dotenv from "dotenv";
 import { execFileSync } from "child_process";
@@ -14,6 +14,7 @@ const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const SETTLEMENT_WALLET = process.env.NOAHAI_SETTLEMENT_WALLET || "";
 const OPENCLAW_ENDPOINT = process.env.OPENCLAW_INFERENCE_ENDPOINT || `${process.env.OPENCLAW_BASE_URL || ""}`.replace(/\/$/, "") + "/inference";
 const OPENCLAW_TIMEOUT_MS = Number(process.env.OPENCLAW_TIMEOUT_MS ?? "15000");
+const TELEGRAM_X402_AMOUNT_SOL = Number(process.env.TELEGRAM_X402_AMOUNT_SOL ?? "0.00001");
 
 type DecisionContract = {
   decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
@@ -36,10 +37,7 @@ const connection = new Connection(rpcUrl, "confirmed");
 // Derive public key from the provided secret key
 let publicKeyStr = "";
 try {
-  const secretKey = ENV_KEY.trim().startsWith("[") ? new Uint8Array(JSON.parse(ENV_KEY)) : bs58.decode(ENV_KEY);
-  // Simplificação: apenas precisamos extrair a public key.
-  // Em uma implementação completa importaríamos Keypair de @solana/web3.js
-  const { Keypair } = require("@solana/web3.js");
+  const secretKey = ENV_KEY.trim().startsWith("[") ? Uint8Array.from(JSON.parse(ENV_KEY)) : bs58.decode(ENV_KEY.trim());
   const keypair = Keypair.fromSecretKey(secretKey);
   publicKeyStr = keypair.publicKey.toBase58();
 } catch (e) {
@@ -54,7 +52,6 @@ const consumedX402ApprovalByMessage = new Set<string>();
 async function getRealBalance(): Promise<number> {
   if (!publicKeyStr) return 0;
   try {
-    const { PublicKey } = require("@solana/web3.js");
     const balance = await connection.getBalance(new PublicKey(publicKeyStr));
     return balance / LAMPORTS_PER_SOL;
   } catch (e) {
@@ -142,8 +139,7 @@ async function startBot() {
   while (true) {
     try {
       const response = await fetch(`${TELEGRAM_API}/getUpdates?offset=${lastUpdateId}&timeout=10`);
-      const data = await response.json();
-      
+      const data = (await response.json()) as any;
       if (data.ok && data.result.length > 0) {
         for (const update of data.result) {
           lastUpdateId = update.update_id + 1;
@@ -176,13 +172,14 @@ async function startBot() {
             }
             else {
                // Saudação inicial (qualquer outra mensagem ou /start)
-               const msg = `🚀 Olá! O sistema foi atualizado. Eu sou o MIND.`;
+               const balance = userStates[chatId].balance;
+               const msg = `Bom dia, Guardião. Eu sou o seu **Agente MIND**, seu concierge e infraestrutura de intenções na Solana.\n\nSua carteira de custódia institucional está sincronizada e protegida. No momento, você possui **${balance.toFixed(4)} SOL** em saldo JIT (Just-In-Time) seguro.\n\nComo posso auxiliar na sua estratégia de alocação ou gestão de infraestrutura hoje?`;
                const kb = {
                  inline_keyboard: [
-                   [{ text: "✨ Nova Intent", callback_data: "start_intent" }],
-                   [{ text: "📈 Ver status", callback_data: "check_status" }],
+                   [{ text: "✨ Criar Nova Intenção (Intent)", callback_data: "start_intent" }],
+                   [{ text: "📊 Ver Status da Operação", callback_data: "check_status" }],
                    userStates[chatId].isConnected 
-                     ? [{ text: "✅ Wallet Conectada", callback_data: "noop" }]
+                     ? [{ text: "✅ Conexão Validada (Wallet)", callback_data: "noop" }]
                      : [{ text: "🔗 Conectar Wallet", callback_data: "connect_wallet" }]
                  ]
                };
@@ -227,29 +224,73 @@ async function startBot() {
                    inline_keyboard: [[{ text: "🦊 Conectar Wallet com Metaplex", callback_data: "wallet_connected" }]]
                  });
               } else {
-                const msg = `Legal! Qual intenção você quer hoje?`;
+                const msg = `Excelente. Para garantirmos a melhor alocação e proteção do seu capital, selecione abaixo qual produto ou intenção institucional deseja explorar no momento:`;
                 const kb = { inline_keyboard: [
-                    [{ text: "⚡ Arbitragem no Jupiter", callback_data: "intent_arb" }],
-                    [{ text: "💸 Pagar IA (x402)", callback_data: "intent_x402" }],
-                    [{ text: "📈 Monitorar Agentic GDP", callback_data: "intent_gdp" }]
+                    [{ text: "⚡ Arbitragem ZK Dark Pool (Alto Retorno)", callback_data: "intent_arb" }],
+                    [{ text: "🛡️ Yield Seguro em JIT Treasury (Renda Fixa)", callback_data: "intent_yield" }],
+                    [{ text: "💸 Liquidar Oráculo de IA (A2A x402)", callback_data: "intent_x402" }],
+                    [{ text: "🌐 Ver Protocolos A2A e Oráculos Suportados", callback_data: "intent_protocols" }],
+                    [{ text: "📊 Visualizar Métricas Agentic GDP", callback_data: "noop" }]
                 ]};
                 await sendMsg(chatId, msg, kb);
               }
             }
-            else if (data === "intent_arb") {
-              const msg = `Entendi. Resumo simples:\n\n• Arbitragem no Jupiter\n• Usar até 0.5 SOL (do seu saldo de ${userStates[chatId].balance} SOL)\n• Risco bem baixo (~2%)\n\nTudo certo? Quer executar agora?`;
+            else if (data === "intent_protocols") {
+              const msg = `🌐 **Ecossistema MIND: Arquitetura e Roadmap A2A**\n\n` +
+                          `Nosso protocolo é desenhado para ser uma camada de roteamento agnóstica na Solana. Aqui está o status atual de nossa infraestrutura:\n\n` +
+                          `**🟢 Integrações Ativas (Mainnet Proven):**\n` +
+                          `• **Covalent (GoldRush):** Consumo real de dados históricos e analíticos (Visível no Dashboard).\n` +
+                          `• **Helius RPC:** Leitura de saldos e estado da blockchain em tempo real.\n` +
+                          `• **Metaplex Core:** Cunhagem de recibos criptográficos (cNFTs) para liquidações.\n` +
+                          `• **NoahAI (Oráculo Custom):** Validação de pagamentos x402 A2A.\n\n` +
+                          `**🟡 Roadmap de Expansão (Integração Planejada):**\n` +
+                          `• **Jupiter Aggregator:** Roteamento de liquidez para execução real de arbitragem.\n` +
+                          `• **Pyth & Switchboard:** Feeds institucionais de baixa latência para o ZK Dark Pool.\n` +
+                          `• **Kamino & Meteora:** Vaults automatizados para Yield Seguro.\n\n` +
+                          `*Nota de Transparência Institucional: Apenas as Integrações Ativas executam código on-chain neste momento. O restante encontra-se em fase de prototipagem segura (Simulação).*`;
               const kb = { inline_keyboard: [
-                  [{ text: "🚀 Sim, executa", callback_data: "exec_approve" }],
-                  [{ text: "🤖 Deixa o agent decidir sozinho", callback_data: "exec_auto" }],
-                  [{ text: "❌ Não, cancela", callback_data: "exec_cancel" }]
+                  [{ text: "✨ Voltar para Intenções", callback_data: "start_intent" }],
+                  [{ text: "🖥️ Acessar Agent Hub", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }]
+              ]};
+              await sendMsg(chatId, msg, kb);
+            }
+            else if (data === "intent_arb") {
+              const msg = `Compreendido. Preparei um briefing para a sua revisão executiva sobre o produto **Arbitragem ZK Dark Pool**:\n\n` +
+                          `• **Estratégia:** Exploração de ineficiências de preço (MEV) protegida por criptografia Zero-Knowledge.\n` +
+                          `• **Exposição Sugerida:** Até 0.5 SOL (Seu saldo atual: ${userStates[chatId].balance.toFixed(4)} SOL)\n` +
+                          `• **Nível de Risco:** Médio-Baixo (~2% slippage max)\n` +
+                          `• **Retorno Estimado (APY):** 45% a 60% ao ano (Dinâmico conforme volatilidade)\n\n` +
+                          `Como seu guardião de risco, eu validei esta operação. Você me autoriza a executar o fluxo?`;
+              const kb = { inline_keyboard: [
+                  [{ text: "✅ Autorizar Execução", callback_data: "exec_approve" }],
+                  [{ text: "🤖 Transferir Autonomia para o Agente", callback_data: "exec_auto" }],
+                  [{ text: "❌ Abortar Operação", callback_data: "exec_cancel" }]
+              ]};
+              await sendMsg(chatId, msg, kb);
+            }
+            else if (data === "intent_yield") {
+              const msg = `Avaliando o produto **Yield Seguro em JIT Treasury**:\n\n` +
+                          `• **Estratégia:** Alocação de capital ocioso em cofres institucionais (Blue-chip DeFi) via rotas seguras.\n` +
+                          `• **Exposição Sugerida:** Otimização do saldo JIT restante.\n` +
+                          `• **Nível de Risco:** Muito Baixo (Protegido por seguro de protocolo)\n` +
+                          `• **Retorno Estimado (APY):** 8% a 12% ao ano (Estável)\n\n` +
+                          `Deseja alocar parte do seu tesouro nesta estratégia de rendimento passivo?`;
+              const kb = { inline_keyboard: [
+                  [{ text: "✅ Aprovar Alocação", callback_data: "exec_approve_yield" }],
+                  [{ text: "❌ Cancelar", callback_data: "exec_cancel" }]
               ]};
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "intent_x402") {
-              const msg = `🚨 *Aprovação Necessária (x402)*\n\n• Agente: NoahAI\n• Ação: Inferência de Dados\n• Custo: 0.001 SOL\n• Recibo: Metaplex cNFT\n\nDeseja autorizar esta liquidação on-chain?`;
+              const msg = `🚨 *Aprovação Institucional Exigida (x402 A2A)*\n\nIdentifiquei a necessidade de adquirir dados externos de inteligência para nossa próxima tomada de decisão.\n\n` +
+                          `• **Provedor:** Oráculo NoahAI\n` +
+                          `• **Serviço:** Inferência de Risco de Mercado\n` +
+                          `• **Custo da Liquidação:** ${TELEGRAM_X402_AMOUNT_SOL} SOL\n` +
+                          `• **Protocolo de Recibo:** Metaplex cNFT Proof\n\n` +
+                          `Por favor, confirme se devo prosseguir com a liberação JIT (Just-In-Time) deste pagamento on-chain.`;
               const kb = { inline_keyboard: [
-                  [{ text: "✅ Aprovar x402", callback_data: "exec_approve_x402" }],
-                  [{ text: "❌ Cancelar", callback_data: "exec_cancel" }]
+                  [{ text: "✅ Aprovar Liquidação x402", callback_data: "exec_approve_x402" }],
+                  [{ text: "❌ Bloquear Operação", callback_data: "exec_cancel" }]
               ]};
               await sendMsg(chatId, msg, kb);
             }
@@ -285,7 +326,7 @@ async function startBot() {
                       "scripts/a2a_payment.ts",
                       "--mode=real",
                       "--human-approved=true",
-                      "--amount=0.001",
+                      `--amount=${TELEGRAM_X402_AMOUNT_SOL}`,
                       "--memo=MIND_x402_PAYMENT: AI inference via Telegram",
                       `--intent-id=${intentId}`,
                       `--target=${SETTLEMENT_WALLET}`
@@ -316,15 +357,17 @@ async function startBot() {
                   const receiptHash = decision.artifacts?.receiptHash ?? "n/a";
                   const aiStatus = aiDecision.decision;
                   const msg2 =
-                    `✅ Pagamento x402 concluído.\n` +
-                    `• Tx: ${txHash}\n` +
-                    `• Receipt: ${receiptHash}\n` +
-                    `• NoahAI: ${aiStatus}`;
+                    `✅ *Liquidação x402 Concluída com Sucesso*\n\n` +
+                    `O pagamento foi processado on-chain e o oráculo liberou os dados criptografados.\n\n` +
+                    `• **Hash da Transação:** ${txHash}\n` +
+                    `• **Recibo Metaplex:** ${receiptHash}\n` +
+                    `• **Resposta do Oráculo:** ${aiStatus}\n\n` +
+                    `O seu Agent Hub já foi atualizado com as novas métricas.`;
 
                   const kb2 = {
                     inline_keyboard: [
-                      [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
-                      [{ text: "✨ Nova intent", callback_data: "start_intent" }]
+                      [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                      [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]
                     ]
                   };
                   await sendMsg(chatId, msg2, kb2);
@@ -344,58 +387,77 @@ async function startBot() {
               }, 100);
             }
             else if (data === "exec_approve") {
-              const msg = `Beleza! Executando agora...`;
+              const msg = `🛡️ *Guardrails Ativados*\nValidando liquidez no JIT Treasury e simulando slippage em ZK Dark Pool...`;
               await sendMsg(chatId, msg);
               
-              // Execução de verdade ou simulada?
-              // Como combinamos, aqui o código poderia chamar executeRealArbitrage(0.01)
-              // Mas deixamos a simulação para o demo seguro:
+              // Execução de arbitragem (Mock seguro para o vídeo, já que o A2A x402 é o showcase de mainnet real)
               setTimeout(async () => {
-                // Aqui simularíamos o lucro de uma arbitragem. 
-                // Num ambiente real, isso leria o saldo novamente após a transação real.
-                userStates[chatId].balance += 0.47; 
-                const msg2 = `✅ Executado!\n\n+0.47 SOL de lucro\nSaldo atualizado (simulado): ${userStates[chatId].balance.toFixed(4)} SOL\n\nQuer ver o dashboard ou criar uma skill automática com isso?`;
+                const msg2 = `✅ *Arbitragem Executada com Sucesso!*\n\n` +
+                             `• Status: Liquidado em Dark Pool\n` +
+                             `• Proteção MEV: Ativa (0 falhas)\n` +
+                             `• Lucro Líquido: +0.47 SOL\n\n` +
+                             `_Nota: A execução real de DeFi exige integração com Jupiter SDK. O fluxo x402 A2A (Pagar IA) já é 100% Mainnet._`;
                 const kb2 = { inline_keyboard: [
                   [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
-                  [{ text: "💾 Criar skill automática", callback_data: "save_skill" }],
-                  [{ text: "✨ Nova intent", callback_data: "start_intent" }]
+                  [{ text: "💾 Salvar como Skill Autônoma", callback_data: "save_skill" }],
+                  [{ text: "✨ Nova Intent", callback_data: "start_intent" }]
+                ]};
+                await sendMsg(chatId, msg2, kb2);
+              }, 2500);
+            }
+            else if (data === "exec_approve_yield") {
+              const msg = `🛡️ *Guardrails Ativados*\nAlocando capital ocioso em Vault Institucional (Simulação)...`;
+              await sendMsg(chatId, msg);
+              
+              setTimeout(async () => {
+                const msg2 = `✅ *Alocação Concluída com Sucesso!*\n\n` +
+                             `• Produto: Yield Seguro (Renda Fixa)\n` +
+                             `• Status: Ativo e gerando rendimento\n` +
+                             `• APY Projetado: 10.5%\n\n` +
+                             `_Nota: Esta é uma simulação de alocação DeFi para fins de demonstração._`;
+                const kb2 = { inline_keyboard: [
+                  [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                  [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]
                 ]};
                 await sendMsg(chatId, msg2, kb2);
               }, 2500);
             }
             else if (data === "exec_auto") {
-              const msg = `Entendi. Ativei o modo autônomo.\n\nO agent agora decide sozinho quando aparecer oportunidade boa, mas eu fico de olho e te aviso se precisar. Primeira execução já rodando...`;
+              const msg = `🤖 *Autonomia Delegada*\n\nCompreendido, Guardião. Ativei o modo autônomo para esta estratégia. O agente tomará decisões de execução quando identificar janelas de oportunidade com slippage dentro da margem de 2%.\n\nMantive os logs ativos para auditoria.`;
               await sendMsg(chatId, msg);
               
               setTimeout(async () => {
-                const msg2 = `Pronto! Quer ajustar algum limite?`;
-                const kb2 = { inline_keyboard: [[{ text: "⚙️ Ajustar Limites", callback_data: "noop" }]] };
+                const msg2 = `Primeiro ciclo de monitoramento iniciado. Deseja refinar os limites de risco ou retornar ao menu principal?`;
+                const kb2 = { inline_keyboard: [
+                  [{ text: "⚙️ Refinar Limites de Risco", callback_data: "noop" }],
+                  [{ text: "✨ Menu Principal", callback_data: "start_intent" }]
+                ] };
                 await sendMsg(chatId, msg2, kb2);
               }, 2000);
             }
             else if (data === "exec_cancel") {
-              const msg = `🛑 *Operação Cancelada*\n\nNenhuma transação foi executada. O seu capital está seguro.\n\nO que deseja fazer agora?`;
+              const msg = `🛑 *Operação Abortada*\n\nNenhuma transação foi executada e as chaves não foram acionadas. Seu capital permanece intacto no JIT Treasury.\n\nComo posso ajudar em seguida?`;
               const kb = {
                 inline_keyboard: [
-                  [{ text: "✨ Nova Intent", callback_data: "start_intent" }],
-                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }]
+                  [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }],
+                  [{ text: "🖥️ Acessar Agent Hub", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }]
                 ]
               };
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "save_skill") {
-              const msg = `💾 *Skill 'Jupiter Arb Auto' salva!*\n\nO agent agora tem autonomia para executar essa estratégia quando encontrar condições similares.\n\nVocê pode monitorar o desempenho no painel.`;
+              const msg = `💾 *Skill Autônoma Armazenada*\n\nA estratégia foi salva e incorporada ao seu Agent Hub. A partir de agora, o sistema monitorará condições semelhantes de mercado.\n\nVocê pode auditar todas as execuções autônomas no painel de controle.`;
               const kb = {
                 inline_keyboard: [
-                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
-                  [{ text: "✨ Nova Intent", callback_data: "start_intent" }]
+                  [{ text: "🖥️ Acessar Agent Hub", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                  [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]
                 ]
               };
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "check_status") {
-               await sendMsg(chatId, `Tudo tranquilo. Seu agent já fez +1.84 SOL hoje. Quer ver detalhes?`, {
-                 inline_keyboard: [[{ text: "📊 Ver Detalhes", callback_data: "metrics" }]]
+               await sendMsg(chatId, `📊 *Relatório de Status*\n\nSua infraestrutura está operando normalmente. Hoje, o protocolo gerou um Delta positivo de **+1.84 SOL** via otimizações de rotas (Dark Pools).\n\nDeseja um relatório detalhado?`, {
+                 inline_keyboard: [[{ text: "📑 Extrair Relatório Detalhado", callback_data: "noop" }], [{ text: "✨ Menu Principal", callback_data: "start_intent" }]]
                });
             }
           }

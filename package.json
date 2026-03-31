@@ -8,7 +8,12 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:services": "pnpm -r --parallel --filter @mind/api-gateway --filter @mind/intent-service --filter @mind/market-context-service --filter @mind/approval-gateway-service --filter @mind/registry-service --filter @mind/proof-service --filter @mind/execution-service --filter @mind/signer-service --filter @mind/a2a-service run dev"
+    "dev:services": "pnpm -r --parallel --filter @mind/api-gateway --filter @mind/intent-service --filter @mind/market-context-service --filter @mind/approval-gateway-service --filter @mind/registry-service --filter @mind/proof-service --filter @mind/execution-service --filter @mind/signer-service --filter @mind/a2a-service run dev",
+    "setup:colab": "bash scripts/setup_colab_vscode.sh",
+    "verify:colab-runtime": "python3 scripts/colab_runtime_probe.py",
+    "check:tailwind": "pnpm --filter landingpage-temp run check:tailwind",
+    "clean:heavy": "bash scripts/clean_heavy.sh",
+    "master-skill": "node scripts/master-skill.mjs"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
@@ -21,6 +26,9 @@
   },
   "dependencies": {
     "@covalenthq/ai-agent-sdk": "^0.3.0",
+    "@jup-ag/api": "^6.0.48",
+    "@kamino-finance/klend-sdk": "^7.3.21",
+    "@meteora-ag/dlmm": "^1.9.4",
     "@solana/web3.js": "^1.98.4",
     "bs58": "^6.0.0",
     "dotenv": "^17.3.1"

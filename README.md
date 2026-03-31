@@ -123,6 +123,19 @@ Isso criará a primeira ponte de coordenação de agentes *cross-chain* do merca
 
 --- 
 
+### Developer Experience (Master Skill)
+
+MIND includes a robust CLI and natural language parser to instantly onboard new AI capabilities.
+Read the full operational guide here: **[`docs/MASTER_SKILL.md`](docs/MASTER_SKILL.md)**
+
+```bash
+# Example: Natural Language Skill Installation
+pnpm master-skill buscar repositório SpecKit
+pnpm master-skill instalar playwright --project ./
+```
+
+---
+
 ### How to Run (Local) 
 
 ```bash 
@@ -139,6 +152,22 @@ docker compose up -d      # Database + dependencies
 bash scripts/smoke_all.sh 
 bash scripts/smoke_hero_flow.sh   # Tests complete onboard 
 ```
+
+#### Colab in VS Code/Trae (Local IDE + Google Runtime)
+```bash
+pnpm setup:colab
+pnpm verify:colab-runtime
+pnpm check:tailwind
+```
+
+- Open any `.ipynb` and select kernel `Colab`.
+- For integrated local/remote workflow, use `Colab: Mount Server to Workspace...` (enabled in `.vscode/settings.json`).
+- Full operational guide: `COLAB_VSCODE_WORKFLOW.md`.
+- Important: free Colab GPU type is dynamic; T4 is preferred when available, not guaranteed.
+- Troubleshooting Tailwind false positive:
+  - Run `pnpm check:tailwind`
+  - If warning persists in IDE, run `Tailwind CSS: Restart Language Server` then `Developer: Reload Window`
+  - For cleanup: `pnpm clean:heavy` (or `pnpm clean:heavy -- --with-editor-cache`)
 
 #### Telegram Onboard (45 seconds)
 1. In your OpenClaw / SolClaw agent chat, type `/mind` 

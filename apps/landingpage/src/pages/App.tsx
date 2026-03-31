@@ -1,49 +1,183 @@
 import { useState, useEffect } from "react";
 import { Shield, Lock, Terminal, Wallet, Loader2, EyeOff, KeyRound, Zap, ArrowRightLeft, History } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
+type IntentItem = {
+  action: string;
+  status: string;
+  amount: string;
+  time: string;
+  icon: LucideIcon;
+  color: string;
+  signature?: string;
+  explorerUrl?: string;
+  isOnchain: boolean;
+};
+
+const DEFAULT_RPC_URL = "https://api.mainnet-beta.solana.com";
+const DEFAULT_AGENT_PUBLIC_KEY = "FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah";
+const FALLBACK_BALANCE_SOL = 14.2051;
+const ACTIVITY_LIMIT = 8;
+const REFRESH_INTERVAL_MS = 20_000;
+
+const configuredRpcUrl = (import.meta.env.VITE_HELIUS_RPC_URL || "").trim();
+const configuredAgentPublicKey = (import.meta.env.VITE_AGENT_PUBLIC_KEY || "").trim();
+const sseEndpointUrl = (import.meta.env.VITE_SSE_ENDPOINT || "http://localhost:3009/v1/events").trim();
+const rpcUrl = configuredRpcUrl || DEFAULT_RPC_URL;
+const agentPublicKeyText = configuredAgentPublicKey || DEFAULT_AGENT_PUBLIC_KEY;
+
+const fallbackIntents: IntentItem[] = [
+  { action: "ZK Stealth Swap", status: "Executed", amount: "+$45.20", time: "2m ago", icon: EyeOff, color: "text-gray-300", isOnchain: false },
+  { action: "A2A Oracle Payment", status: "Pending", amount: "-$0.50", time: "15m ago", icon: KeyRound, color: "text-gray-400", isOnchain: false },
+  { action: "Shielded Vault Route", status: "Executed", amount: "~$1,200.00", time: "1h ago", icon: Shield, color: "text-gray-300", isOnchain: false },
+  { action: "Public DEX Trade", status: "Blocked (MEV Risk)", amount: "$5,000.00", time: "3h ago", icon: Lock, color: "text-gray-500", isOnchain: false },
+];
+
+const shortenAddress = (address: string) => `${address.slice(0, 4)}...${address.slice(-4)}`;
+const shortenSignature = (signature: string) => `${signature.slice(0, 6)}...${signature.slice(-6)}`;
+
+const inferClusterFromRpcUrl = (url: string) => {
+  if (url.includes("devnet")) return "devnet";
+  if (url.includes("testnet")) return "testnet";
+  return "mainnet";
+};
+
+const buildExplorerTxUrl = (signature: string, url: string) => {
+  const cluster = inferClusterFromRpcUrl(url);
+  return cluster === "mainnet"
+    ? `https://solscan.io/tx/${signature}`
+    : `https://solscan.io/tx/${signature}?cluster=${cluster}`;
+};
+
+const buildExplorerAddressUrl = (address: string, url: string) => {
+  const cluster = inferClusterFromRpcUrl(url);
+  return cluster === "mainnet"
+    ? `https://solscan.io/account/${address}`
+    : `https://solscan.io/account/${address}?cluster=${cluster}`;
+};
+
+const formatRelativeTime = (blockTime: number | null | undefined) => {
+  if (!blockTime) return "Pending";
+  const delta = Math.max(0, Math.floor(Date.now() / 1000) - blockTime);
+  if (delta < 60) return `${delta}s ago`;
+  const minutes = Math.floor(delta / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+};
+
 export function AppPage() {
-  const [intents, setIntents] = useState<any[]>([]);
+  const [intents, setIntents] = useState<IntentItem[]>(fallbackIntents);
   const [loading, setLoading] = useState(true);
   const [realBalance, setRealBalance] = useState<number | null>(null);
   const [balanceSource, setBalanceSource] = useState<"loading" | "live" | "fallback">("loading");
+  const walletExplorerUrl = buildExplorerAddressUrl(agentPublicKeyText, rpcUrl);
 
   useEffect(() => {
-    // Busca o saldo real da sua wallet da Solana Mainnet (a mesma do Trojan)
-    const fetchBalance = async () => {
-      try {
-        // Tenta usar um RPC público mais robusto, com fallback embutido
-        const rpcUrl = import.meta.env.VITE_HELIUS_RPC_URL || "https://api.mainnet-beta.solana.com";
-        const connection = new Connection(rpcUrl, "confirmed");
-        
-        const walletAddress = new PublicKey("FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah");
-        const balance = await connection.getBalance(walletAddress);
-        setRealBalance(balance / LAMPORTS_PER_SOL);
+    let active = true;
+    let walletAddress: PublicKey;
+
+    try {
+      walletAddress = new PublicKey(agentPublicKeyText);
+    } catch (error) {
+      console.error("Invalid VITE_AGENT_PUBLIC_KEY; falling back to demo dashboard.", error);
+      setRealBalance(FALLBACK_BALANCE_SOL);
+      setBalanceSource("fallback");
+      setIntents(fallbackIntents);
+      setLoading(false);
+      return;
+    }
+
+    const connection = new Connection(rpcUrl, "confirmed");
+
+    const hydrateDashboard = async () => {
+      const [balanceResult, signatureResult] = await Promise.allSettled([
+        connection.getBalance(walletAddress),
+        connection.getSignaturesForAddress(walletAddress, { limit: ACTIVITY_LIMIT }),
+      ]);
+
+      if (!active) return;
+
+      if (balanceResult.status === "fulfilled") {
+        setRealBalance(balanceResult.value / LAMPORTS_PER_SOL);
         setBalanceSource("live");
-      } catch (error) {
-        console.error("Erro ao buscar saldo real na Solana (rate limit/403):", error);
-        // Fallback gracefully para manter a UI funcionando na Vercel
-        setRealBalance(14.2051);
+      } else {
+        console.error("Failed to fetch live Solana balance:", balanceResult.reason);
+        setRealBalance(FALLBACK_BALANCE_SOL);
         setBalanceSource("fallback");
       }
+
+      if (signatureResult.status === "fulfilled" && signatureResult.value.length > 0) {
+        const onchainIntents: IntentItem[] = signatureResult.value.map((entry) => {
+          const failed = Boolean(entry.err);
+          const finalized = entry.confirmationStatus === "finalized";
+          const confirmed = entry.confirmationStatus === "confirmed";
+          const status = failed ? "Failed" : finalized ? "Executed" : confirmed ? "Confirmed" : "Processed";
+          const color = failed
+            ? "text-red-400"
+            : finalized
+              ? "text-green-400"
+              : confirmed
+                ? "text-blue-400"
+                : "text-yellow-400";
+
+          return {
+            action: "x402 Transfer",
+            status,
+            amount: failed ? "N/A" : "On-chain",
+            time: formatRelativeTime(entry.blockTime),
+            icon: failed ? Lock : KeyRound,
+            color,
+            signature: entry.signature,
+            explorerUrl: buildExplorerTxUrl(entry.signature, rpcUrl),
+            isOnchain: true,
+          };
+        });
+        setIntents(onchainIntents);
+      } else {
+        if (signatureResult.status === "rejected") {
+          console.error("Failed to fetch on-chain signatures:", signatureResult.reason);
+        }
+        setIntents(fallbackIntents);
+      }
+
+      setLoading(false);
     };
 
-    fetchBalance();
+    void hydrateDashboard();
+    const intervalId = window.setInterval(() => {
+      void hydrateDashboard();
+    }, REFRESH_INTERVAL_MS);
 
-    const fetchIntents = async () => {
-      try {
-        setIntents(fallbackIntents);
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch intents, using fallback data", error);
-        setIntents(fallbackIntents);
-        setLoading(false);
+    // Setup SSE for real-time updates (Sprint 3)
+    let eventSource: EventSource | null = null;
+    try {
+      eventSource = new EventSource(sseEndpointUrl);
+      eventSource.addEventListener("payment_success", (e) => {
+        console.log("Real-time update received: payment_success", e.data);
+        // Refresh dashboard instantly
+        void hydrateDashboard();
+      });
+      eventSource.onerror = () => {
+        // Silently fail if mock server is not running
+        eventSource?.close();
+      };
+    } catch (e) {
+      console.log("SSE not available, falling back to polling.");
+    }
+
+    return () => {
+      active = false;
+      window.clearInterval(intervalId);
+      if (eventSource) {
+        eventSource.close();
       }
     };
-
-    fetchIntents();
   }, []);
 
   const handleKillSwitch = async () => {
@@ -81,13 +215,14 @@ export function AppPage() {
       alert("Demo Mode: Agent request generated! Check your Telegram Bot if webhook is active.");
       
       // Adiciona uma nova intent simulada no topo da lista para efeito visual
-      const newIntent = { 
+      const newIntent: IntentItem = {
         action: "Simulated A2A Route", 
         status: "Pending User Approval", 
         amount: "~$50.00", 
         time: "Just now", 
         icon: KeyRound, 
-        color: "text-yellow-400" 
+        color: "text-yellow-400",
+        isOnchain: false,
       };
       setIntents(prev => [newIntent, ...prev]);
     }
@@ -106,24 +241,18 @@ export function AppPage() {
       console.warn("Local backend not running, simulating UI fallback...", error);
       alert("Demo Mode: Shielded assets are being rebalanced to USDC via Dark Pool.");
       
-      const newIntent = { 
+      const newIntent: IntentItem = {
         action: "Force Rebalance (USDC)", 
         status: "Executing...", 
         amount: "14.2 SOL", 
         time: "Just now", 
         icon: ArrowRightLeft, 
-        color: "text-blue-400" 
+        color: "text-blue-400",
+        isOnchain: false,
       };
       setIntents(prev => [newIntent, ...prev]);
     }
   };
-
-  const fallbackIntents = [
-    { action: "ZK Stealth Swap", status: "Executed", amount: "+$45.20", time: "2m ago", icon: EyeOff, color: "text-gray-300" },
-    { action: "A2A Oracle Payment", status: "Pending", amount: "-$0.50", time: "15m ago", icon: KeyRound, color: "text-gray-400" },
-    { action: "Shielded Vault Route", status: "Executed", amount: "~$1,200.00", time: "1h ago", icon: Shield, color: "text-gray-300" },
-    { action: "Public DEX Trade", status: "Blocked (MEV Risk)", amount: "$5,000.00", time: "3h ago", icon: Lock, color: "text-gray-500" },
-  ];
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-black text-gray-200 font-sans">
@@ -225,7 +354,7 @@ export function AppPage() {
             <h1 className="text-4xl font-medium tracking-tight text-white">Agent Hub</h1>
             <div className="flex items-center gap-4 bg-black border border-white/10 rounded-full py-2 px-4">
               <span className="text-sm text-gray-500 uppercase tracking-wider font-mono text-[10px]">Wallet:</span>
-              <span className="text-sm font-mono text-gray-300">FHk1...1zah</span>
+              <span className="text-sm font-mono text-gray-300" title={agentPublicKeyText}>{shortenAddress(agentPublicKeyText)}</span>
               <div className="w-px h-4 bg-white/20 mx-2" />
               <Badge variant="outline" className="bg-white/5 text-gray-300 border-white/10 font-mono text-[10px] uppercase tracking-wider">
                 Connected
@@ -290,7 +419,12 @@ export function AppPage() {
             <div className="bg-black rounded-2xl border border-white/10 overflow-hidden">
               <div className="p-6 border-b border-white/5 flex justify-between items-center">
                 <h3 className="font-medium text-lg text-white">Agent Activity Log</h3>
-                <Button variant="outline" size="sm" className="h-8 text-xs bg-transparent border-white/10 text-gray-300 hover:text-white hover:bg-white/5 uppercase tracking-wider font-mono text-[10px]">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs bg-transparent border-white/10 text-gray-300 hover:text-white hover:bg-white/5 uppercase tracking-wider font-mono text-[10px]"
+                  onClick={() => window.open(walletExplorerUrl, "_blank", "noopener,noreferrer")}
+                >
                   View Explorer
                 </Button>
               </div>
@@ -312,9 +446,20 @@ export function AppPage() {
                         </div>
                       </div>
                       <div className="w-1/3 text-center">
-                        <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-gray-400 uppercase tracking-wider">
-                          ID: {Math.random().toString(36).substring(2, 8).toUpperCase()}
-                        </span>
+                        {intent.signature && intent.explorerUrl ? (
+                          <a
+                            href={intent.explorerUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-blue-300 uppercase tracking-wider hover:text-white hover:border-white/20 transition-colors"
+                          >
+                            TX: {shortenSignature(intent.signature)}
+                          </a>
+                        ) : (
+                          <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-gray-400 uppercase tracking-wider">
+                            DEMO ENTRY
+                          </span>
+                        )}
                       </div>
                       <div className="w-1/3 text-right">
                         <p className="text-sm font-mono text-white">{intent.amount}</p>

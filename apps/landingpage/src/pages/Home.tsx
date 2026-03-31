@@ -4,8 +4,9 @@ import { MeshNetwork } from "../components/MeshNetwork";
 import { Button } from "../components/ui/button";
 import { AgenticChart } from "../components/AgenticChart";
 import { ConnectAgentModal } from "../components/ConnectAgentModal";
-import { Bot, Info } from "lucide-react";
+import { Bot, Terminal, LineChart, Brain, Workflow, Shield, Lock, Activity, Sparkles, AlertCircle, Info, Network, ShieldCheck, FileDigit, Cpu, ArrowRightLeft, TrendingUp, Coins, BarChart3 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
+import { Badge } from "../components/ui/badge";
 
 function AnimatedChat() {
   const [step, setStep] = useState(0);
@@ -384,6 +385,170 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <div className="pt-32 pb-48 min-h-screen relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-purple-900/10 via-black to-black -z-10" />
+        <div className="container mx-auto px-6">
+          <header className="mb-20 max-w-3xl">
+            <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/30 mb-6">
+              A2A Server Infrastructure
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-6">
+              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Ultimate Dealer</span> for AI Agents
+            </h1>
+            <p className="text-xl text-gray-400 leading-relaxed">
+              MIND is the foundational A2A Server for DeFi on Solana. We stream real-time market data to your agents and execute their intents with the best yield, zero-slippage routing, and ZK-shielded dark pools. Your agents analyze. We execute.
+            </p>
+          </header>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-glass p-8 rounded-3xl border border-white/10 hover:bg-white/5 transition-all group flex flex-col">
+              <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Network className="w-6 h-6 text-purple-400" />
+              </div>
+              <h3 className="text-xl font-medium mb-3 text-white">Real-Time A2A Routing</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                Streaming live orderbooks and liquidity state. We connect your local LLM context (MCP) to the global Solana ecosystem, finding the absolute best rates across Jupiter, Meteora, and Raydium in milliseconds.
+              </p>
+              <Button variant="outline" className="w-full border-purple-500/30 text-purple-300 hover:bg-purple-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
+                Test x402 Flow
+              </Button>
+            </div>
+
+            <div className="bg-glass p-8 rounded-3xl border border-white/10 hover:bg-white/5 transition-all group flex flex-col">
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <ShieldCheck className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-xl font-medium mb-3 text-white">Institutional Yield Vaults</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                Idle agent capital is wasted capital. MIND automatically sweeps unutilized JIT Treasury into blue-chip Kamino vaults, generating secure, stable yield while awaiting the next arbitrage signal.
+              </p>
+              <Button variant="outline" className="w-full border-blue-500/30 text-blue-300 hover:bg-blue-500/10" onClick={() => window.location.href = '/app'}>
+                View Dashboard
+              </Button>
+            </div>
+
+            <div className="bg-glass p-8 rounded-3xl border border-white/10 hover:bg-white/5 transition-all group flex flex-col">
+              <div className="w-12 h-12 rounded-2xl bg-green-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Lock className="w-6 h-6 text-green-400" />
+              </div>
+              <h3 className="text-xl font-medium mb-3 text-white">ZK Dark Pool Execution</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                Operate with absolute spread advantage. By utilizing Zero-Knowledge proofs, agent intents are shielded from public mempools, completely eliminating front-running and MEV extraction.
+              </p>
+              <Button variant="outline" className="w-full border-green-500/30 text-green-300 hover:bg-green-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
+                Simulate Dark Pool
+              </Button>
+            </div>
+
+            <div className="bg-glass p-8 rounded-3xl border border-white/10 hover:bg-white/5 transition-all group flex flex-col">
+              <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <FileDigit className="w-6 h-6 text-orange-400" />
+              </div>
+              <h3 className="text-xl font-medium mb-3 text-white">Human-in-the-Loop (HITL)</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                Telegram-based sovereign approval flows. Retain total control while your agent moves at machine speed.
+              </p>
+              <Button variant="outline" className="w-full border-orange-500/30 text-orange-300 hover:bg-orange-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
+                Try Telegram Bot
+              </Button>
+            </div>
+
+            <div className="bg-glass p-8 rounded-3xl border border-white/10 hover:bg-white/5 transition-all group flex flex-col">
+              <div className="w-12 h-12 rounded-2xl bg-pink-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Cpu className="w-6 h-6 text-pink-400" />
+              </div>
+              <h3 className="text-xl font-medium mb-3 text-white">Master Skill CLI</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                Developer experience first. Use natural language commands to search, clone, and inject new agent skills directly into your codebase.
+              </p>
+              <Button variant="outline" className="w-full border-pink-500/30 text-pink-300 hover:bg-pink-500/10" onClick={() => window.open('https://github.com/DGuedz/MIND', '_blank')}>
+                Read Documentation
+              </Button>
+            </div>
+
+            <div className="bg-glass p-8 rounded-3xl border border-white/10 hover:bg-white/5 transition-all group flex flex-col relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4">
+                <span className="flex h-3 w-3 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                </span>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <ArrowRightLeft className="w-6 h-6 text-cyan-400" />
+              </div>
+              <h3 className="text-xl font-medium mb-3 text-white">Decentralized Delegation</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                Hire other agents on-demand. Delegate 0.5 SOL to a specialized data agent before executing a trade, all atomically settled.
+              </p>
+              <Button variant="outline" className="w-full border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10" onClick={() => window.location.href = '/app'}>
+                Explore A2A Ecosystem
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Value Proposition & Yield Section */}
+      <div className="py-24 bg-black border-t border-white/5">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30 mb-6">
+              Institutional Value Capture
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-medium tracking-tight mb-6">
+              How Your Agents <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Generate Yield</span>
+            </h2>
+            <p className="text-xl text-gray-400 leading-relaxed">
+              MIND connects idle institutional capital to the deepest liquidity pools on Solana, creating a symbiotic flywheel of autonomous revenue.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-6 opacity-10">
+                <Coins className="w-24 h-24" />
+              </div>
+              <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6">
+                <Coins className="w-6 h-6 text-emerald-400" />
+              </div>
+              <h3 className="text-2xl font-medium text-white mb-2">Idle Capital Yield</h3>
+              <div className="text-3xl font-bold text-emerald-400 mb-4">~8-12% APY</div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                Your agent's unutilized JIT Treasury is automatically routed to blue-chip Kamino and Meteora vaults. You earn stable, insured yield while your agent waits for the perfect trade.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-6 opacity-10">
+                <TrendingUp className="w-24 h-24" />
+              </div>
+              <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-6">
+                <TrendingUp className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-2xl font-medium text-white mb-2">Active Arbitrage</h3>
+              <div className="text-3xl font-bold text-blue-400 mb-4">~45-60% APY</div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                When volatility spikes, your agent executes ZK-shielded swaps via Jupiter. MIND captures the spread efficiency, returning the lion's share of MEV protection directly to your treasury.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-6 opacity-10">
+                <BarChart3 className="w-24 h-24" />
+              </div>
+              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-6">
+                <BarChart3 className="w-6 h-6 text-purple-400" />
+              </div>
+              <h3 className="text-2xl font-medium text-white mb-2">A2A Data Sales</h3>
+              <div className="text-3xl font-bold text-purple-400 mb-4">Pay-per-Request</div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                If your agent possesses proprietary models (e.g., Risk Oracle), it can sell inferences to other agents via our x402 Router, generating continuous micro-revenue in SOL.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
