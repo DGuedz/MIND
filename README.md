@@ -116,7 +116,7 @@ Isso criará a primeira ponte de coordenação de agentes *cross-chain* do merca
   - `TurnkeyKmsProvider` -> Cloud-based KMS. Never exposes private keys to the server memory, signing transactions securely via API.
   - `audit_logger` -> Persistent append-only logging of all A2A financial decisions.
 - **Infra**: Vercel (Frontend) + Helius RPC (Solana Mainnet) + Turnkey (Key Management)
-- **Integrations**: OpenClaw Telegram Bot, Jupiter (Dark Pool Sim), Meteora DLMM, Solana Pay.
+- **Integrations**: OpenClaw Telegram Bot, Jupiter (Dark Pool Sim), Meteora DLMM, Solana Pay, NoahAI.
 
 **Security Policy**: All keys are handled off-server by Turnkey KMS. Policy Gates (e.g., max slippage, daily limits) can be mathematically enforced at the cloud signing level, ensuring the *Circuit Breaker* never fails. 
 
@@ -187,7 +187,7 @@ It is the infrastructure that proves agents can act economically in a safe, tran
 
 ---
 © 2026 MIND • Built for the Agent Economy 
-SOLANA • METAPLEX • COVALENT • OPENCLAW
+SOLANA • METAPLEX • COVALENT • NOAH AI
 
 create table if not exists approvals (
   id text primary key,
