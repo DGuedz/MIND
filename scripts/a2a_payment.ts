@@ -3,16 +3,15 @@ import {
   Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
-  sendAndConfirmTransaction,
   SystemProgram,
   Transaction,
   TransactionInstruction
-} from "@solana/web3.js";
-import { createHash } from "node:crypto";
+} from "@solana/web3.js";import { createHash } from "node:crypto";
 import bs58 from "bs58";
 import * as dotenv from "dotenv";
-
-dotenv.config();
+import { TurnkeyKmsProvider } from "../services/a2a-service/src/core/kms/TurnkeyKmsProvider.js";
+import { logAuditDecision } from "./audit_logger.js";dotenv.config();
+dotenv.config({ path: "apps/landingpage/.env", override: false });
 
 type DecisionCode = "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
 type ReasonCode =
@@ -120,16 +119,57 @@ const parseAmount = (value: string | undefined, fallback: number): number => {
   return Number.isFinite(numeric) ? numeric : Number.NaN;
 };
 
+const looksLikePlaceholder = (value: string | undefined): boolean => {
+  if (!value) return true;
+  const trimmed = value.trim();
+  if (!trimmed) return true;
+  if (/^<.*>$/.test(trimmed)) return true;
+  const lower = trimmed.toLowerCase();
+  return (
+    lower.includes("sua-public-key") ||
+    lower.includes("sua-private-key") ||
+    lower.includes("endereco-da-wallet-turnkey") ||
+    lower.includes("missingwalletpublickey")
+  );
+};
+
+type TurnkeyConfig = {
+  organizationId: string;
+  apiPublicKey: string;
+  apiPrivateKey: string;
+  agentPublicKey: string;
+};
+
+const loadTurnkeyConfig = (): { config?: TurnkeyConfig; missingKeys: string[] } => {
+  const organizationId = process.env.TURNKEY_ORGANIZATION_ID;
+  const apiPublicKey = process.env.TURNKEY_API_PUBLIC_KEY;
+  const apiPrivateKey = process.env.TURNKEY_API_PRIVATE_KEY;
+  const agentPublicKey = process.env.X402_AGENT_PUBLIC_KEY ?? process.env.VITE_AGENT_PUBLIC_KEY;
+
+  const missingKeys: string[] = [];
+  if (looksLikePlaceholder(organizationId)) missingKeys.push("TURNKEY_ORGANIZATION_ID");
+  if (looksLikePlaceholder(apiPublicKey)) missingKeys.push("TURNKEY_API_PUBLIC_KEY");
+  if (looksLikePlaceholder(apiPrivateKey)) missingKeys.push("TURNKEY_API_PRIVATE_KEY");
+  if (looksLikePlaceholder(agentPublicKey)) missingKeys.push("X402_AGENT_PUBLIC_KEY|VITE_AGENT_PUBLIC_KEY");
+
+  if (missingKeys.length > 0) {
+    return { missingKeys };
+  }
+
+  return {
+    config: {
+      organizationId: organizationId!,
+      apiPublicKey: apiPublicKey!,
+      apiPrivateKey: apiPrivateKey!,
+      agentPublicKey: agentPublicKey!
+    },
+    missingKeys
+  };
+};
+
 const buildExplorerUrl = (txHash: string, network: string): string => {
   const cluster = network === "mainnet-beta" ? "" : `?cluster=${network}`;
   return `https://explorer.solana.com/tx/${txHash}${cluster}`;
-};
-
-const decodeSigner = (envKey: string): Keypair => {
-  const secretKey = envKey.trim().startsWith("[")
-    ? new Uint8Array(JSON.parse(envKey))
-    : bs58.decode(envKey);
-  return Keypair.fromSecretKey(secretKey);
 };
 
 const submitMetaplexProof = async (input: MetaplexProofInput): Promise<MetaplexProofResult> => {
@@ -227,32 +267,77 @@ export async function executeX402Settlement(input: SettlementInput): Promise<Dec
     return result;
   }
 
-  const envKey = process.env.METAPLEX_KEYPAIR;
-  if (!envKey) {
+  if (mode !== "real") {
+    result.decision = "ALLOW";
+    result.confidence = 0.9;
+    result.assumptions.push("Dry-run mode: local private key is never loaded.");
+    result.required_followups.push("Dry-run only. Use KMS --mode=real --human-approved=true to broadcast.");
+    result.evidence.push("Policy gates passed. Transaction not broadcast.");
+    const mockId = `mock_kms_tx_${Date.now()}`;
+    result.artifacts = {
+      txHash: mockId,
+      explorerUrl: `https://solscan.io/tx/${mockId}?cluster=${DEFAULT_SOLANA_NETWORK}`,
+      receiptHash: `mock_kms_receipt_${Date.now()}`
+    };
+    return result;
+  }
+
+  const turnkeyConfig = loadTurnkeyConfig();
+  if (!turnkeyConfig.config) {
     result.decision = "INSUFFICIENT_EVIDENCE";
     result.reason_codes.push("RC_MISSING_EVIDENCE");
     result.confidence = 0.99;
-    result.evidence.push("Missing METAPLEX_KEYPAIR.");
+    result.required_followups.push("Set valid TURNKEY_* credentials and X402_AGENT_PUBLIC_KEY (or VITE_AGENT_PUBLIC_KEY).");
+    result.evidence.push(`Missing/placeholder env vars: ${turnkeyConfig.missingKeys.join(", ")}`);
     return result;
   }
 
-  let payer: Keypair;
+  const kmsProvider = new TurnkeyKmsProvider(
+    turnkeyConfig.config.apiPublicKey,
+    turnkeyConfig.config.apiPrivateKey,
+    turnkeyConfig.config.organizationId,
+    turnkeyConfig.config.agentPublicKey
+  );
+
   try {
-    payer = decodeSigner(envKey);
+    await kmsProvider.initialize();
   } catch (error) {
     result.decision = "INSUFFICIENT_EVIDENCE";
     result.reason_codes.push("RC_TOOL_FAILURE");
-    result.confidence = 0.98;
-    result.evidence.push(`Unable to decode signer key: ${error instanceof Error ? error.message : String(error)}`);
+    result.confidence = 0.96;
+    result.evidence.push(`Turnkey initialization failed: ${error instanceof Error ? error.message : String(error)}`);
     return result;
   }
 
-  result.assumptions.push(`Using payer wallet ${payer.publicKey.toBase58()}.`);
+  const kmsUserId = input.intentId ?? "x402_settlement";
+  let payerAddress = "";
+  try {
+    payerAddress = await kmsProvider.getPublicKey(kmsUserId);
+  } catch (error) {
+    result.decision = "INSUFFICIENT_EVIDENCE";
+    result.reason_codes.push("RC_TOOL_FAILURE");
+    result.confidence = 0.95;
+    result.evidence.push(`Failed to fetch delegated KMS public key: ${error instanceof Error ? error.message : String(error)}`);
+    return result;
+  }
+
+  let payerPublicKey: PublicKey;
+  try {
+    payerPublicKey = new PublicKey(payerAddress);
+  } catch {
+    result.decision = "INSUFFICIENT_EVIDENCE";
+    result.reason_codes.push("RC_MISSING_EVIDENCE");
+    result.confidence = 0.99;
+    result.evidence.push("KMS public key is not a valid Solana address.");
+    return result;
+  }
+
+  result.assumptions.push(`Using delegated KMS wallet ${payerPublicKey.toBase58()}.`);
 
   const connection = new Connection(DEFAULT_RPC_URL, "confirmed");
   let balanceLamports = 0;
   try {
-    balanceLamports = await connection.getBalance(payer.publicKey);
+    balanceLamports = await connection.getBalance(payerPublicKey);
   } catch (error) {
     result.decision = "INSUFFICIENT_EVIDENCE";
     result.reason_codes.push("RC_RATE_LIMIT_OR_RPC_BLOCKED");
@@ -288,28 +373,50 @@ export async function executeX402Settlement(input: SettlementInput): Promise<Dec
 
   const tx = new Transaction().add(
     SystemProgram.transfer({
-      fromPubkey: payer.publicKey,
+      fromPubkey: payerPublicKey,
       toPubkey: receiver,
       lamports: Math.floor(input.amountSol * LAMPORTS_PER_SOL)
     }),
     new TransactionInstruction({
-      keys: [{ pubkey: payer.publicKey, isSigner: true, isWritable: true }],
+      keys: [{ pubkey: payerPublicKey, isSigner: true, isWritable: true }],
       programId: MEMO_PROGRAM_ID,
       data: Buffer.from(input.contextMemo, "utf-8")
     })
   );
 
-  if (mode !== "real") {
-    result.decision = "ALLOW";
-    result.confidence = 0.9;
-    result.required_followups.push("Dry-run only. Use --mode=real --human-approved=true to broadcast.");
-    result.evidence.push("Policy gates passed. Transaction not broadcast.");
-    return result;
-  }
-
+  let latestBlockhash: { blockhash: string; lastValidBlockHeight: number };
   let signature: string;
   try {
-    signature = await sendAndConfirmTransaction(connection, tx, [payer], { commitment: "confirmed" });
+    latestBlockhash = await connection.getLatestBlockhash("confirmed");
+    tx.recentBlockhash = latestBlockhash.blockhash;
+    tx.feePayer = payerPublicKey;
+
+    const signedTx = await kmsProvider.signTransaction(kmsUserId, tx, {
+      intentId: input.intentId,
+      contextMemo: input.contextMemo,
+      amountSol: input.amountSol,
+      targetPubkey: receiver.toBase58(),
+      mode
+    });
+    if (!(signedTx instanceof Transaction)) {
+      throw new Error("Unexpected transaction type returned by KMS signer.");
+    }
+
+    signature = await connection.sendRawTransaction(signedTx.serialize(), {
+      skipPreflight: false,
+      maxRetries: 3
+    });
+    const confirmation = await connection.confirmTransaction(
+      {
+        signature,
+        blockhash: latestBlockhash.blockhash,
+        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight
+      },
+      "confirmed"
+    );
+    if (confirmation.value.err) {
+      throw new Error(`Confirmation returned error: ${JSON.stringify(confirmation.value.err)}`);
+    }
   } catch (error) {
     result.decision = "INSUFFICIENT_EVIDENCE";
     result.reason_codes.push("RC_TOOL_FAILURE");
@@ -343,7 +450,7 @@ export async function executeX402Settlement(input: SettlementInput): Promise<Dec
     intentId: proofIntentId,
     settlementTxHash: signature,
     settlementMemo: input.contextMemo,
-    payerWallet: payer.publicKey.toBase58(),
+    payerWallet: payerPublicKey.toBase58(),
     receiverWallet: receiver.toBase58(),
     amountSol: input.amountSol,
     network: DEFAULT_SOLANA_NETWORK
@@ -375,6 +482,12 @@ export async function executeX402Settlement(input: SettlementInput): Promise<Dec
 
   result.decision = "ALLOW";
   result.confidence = 1;
+
+  // Registra auditoria persistente antes de retornar
+  if (input.intentId) {
+    await logAuditDecision(input.intentId, input.targetPubkey, result);
+  }
+
   return result;
 }
 

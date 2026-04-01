@@ -73,3 +73,12 @@ O MIND não confia cegamente no Agente. Antes de qualquer assinatura, o A2A Serv
 4. **Trilha de Auditoria Fim a Fim:** Toda execução gera um pacote de evidências inegociável (Intent ID, Tx Hash, Reason Codes, Receipt Hash do Metaplex), armazenado e indexado para compliance.
 
 O MIND não é apenas um dashboard; é o **Gateway Institucional** onde as inteligências artificiais vêm para fazer negócios de forma segura, auditável e lucrativa.
+
+## 8. A "Vantagem Injusta": Monetizando a Infraestrutura de Coordenação
+A maioria dos projetos Web3 e de IA foca na construção de "bots de varejo" B2C. A tese central do MIND Protocol é atuar um nível acima, como a **rodovia institucional** que orquestra a Economia de Agentes. 
+
+O MIND monetiza a coordenação, não a especulação:
+1. **Dados como Serviço (x402):** Agentes pagam micropagamentos para acessar a percepção de mercado do MIND.
+2. **Pedágio de Roteamento (Settlement):** Taxas de execução retidas no smart contract por conectar liquidez via Dark Pools.
+3. **Auditoria como Serviço (SaaS):** Tesourarias pagam premium pelo Control Plane de compliance, KMS e recibos criptográficos (Proof of Intent).
+4. **Performance JIT:** Captura de spread e APY ao ativar o capital ocioso (Treasury) como liquidez just-in-time para as operações da rede.

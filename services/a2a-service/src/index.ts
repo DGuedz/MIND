@@ -5,6 +5,8 @@ import { checkDb } from "./db/client.js";
 import { IntentFirewall } from "./core/IntentFirewall.js";
 import { IntentRequest } from "./core/types.js";
 import { JupiterAdapter } from "./adapters/JupiterAdapter.js";
+import { SolanaPaymentsLayer } from "./core/payments/SolanaPaymentsLayer.js";
+import { SUPPORTED_ASSETS, getAssetBySymbol } from "./core/payments/supportedAssets.js";
 import {
   createProposal,
   createSession,
@@ -21,7 +23,9 @@ import {
 const server = fastify({ logger: true });
 const intentFirewall = new IntentFirewall();
 const jupiterAdapter = new JupiterAdapter();
+const solanaNetwork = process.env.SOLANA_NETWORK === "devnet" ? "devnet" : "mainnet-beta";
 const solanaConnection = new Connection(process.env.HELIUS_RPC_URL ?? "https://api.mainnet-beta.solana.com", "confirmed");
+const solanaPaymentsLayer = new SolanaPaymentsLayer(solanaConnection, solanaNetwork);
 
 server.get("/health", async () => ({
   status: "ok",
@@ -71,6 +75,31 @@ const BillingEventSchema = z.object({
   units: z.number().int().min(1),
   metadata: z.record(z.unknown()).optional(),
   idempotencyKey: z.string().optional()
+});
+
+const PaymentAssetSchema = z.enum(["SOL", "USDC", "USDT", "PYUSD", "USDG"]);
+
+const CreateSolanaPaymentRequestSchema = z.object({
+  asset: PaymentAssetSchema,
+  recipientWallet: z.string().min(32),
+  amountMinor: z.string().regex(/^\d+$/),
+  reference: z.string().optional(),
+  label: z.string().min(1).max(80).optional(),
+  message: z.string().min(1).max(200).optional(),
+  memo: z.string().min(1).max(200).optional(),
+  intentId: z.string().min(1).max(120).optional(),
+  expiresInSeconds: z.number().int().positive().max(86400).optional(),
+  network: z.enum(["mainnet-beta", "devnet"]).optional()
+});
+
+const VerifySolanaPaymentSchema = z.object({
+  asset: PaymentAssetSchema,
+  recipientWallet: z.string().min(32),
+  amountMinor: z.string().regex(/^\d+$/),
+  reference: z.string().min(32),
+  commitment: z.enum(["processed", "confirmed", "finalized"]).optional(),
+  network: z.enum(["mainnet-beta", "devnet"]).optional(),
+  searchLimit: z.number().int().positive().max(100).optional()
 });
 
 const IntentRequestSchema = z.object({
@@ -332,6 +361,85 @@ server.get<{ Params: { id: string } }>(
     return reply.code(200).send({ sessionId: session.id, status: session.status, events, proposals, billing });
   }
 );
+
+// ============================================================================
+// SOLANA PAYMENTS LAYER ENDPOINTS
+// ============================================================================
+
+server.get("/v1/payments/solana/assets", async (_request: FastifyRequest, reply: FastifyReply) => {
+  return reply.code(200).send({ status: "ok", assets: SUPPORTED_ASSETS });
+});
+
+server.post("/v1/payments/solana/request", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = CreateSolanaPaymentRequestSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_payment_request", details: parsed.error.flatten() });
+  }
+
+  const { asset, recipientWallet, amountMinor, label, memo } = parsed.data;
+
+  // Convert minor amount to decimal based on asset
+  const supportedAsset = getAssetBySymbol(asset);
+  // Fallback to manual decimal lookup if the helper isn't exposed
+  let decimals = supportedAsset ? supportedAsset.decimals : 9;
+  if (!supportedAsset && (asset === "USDC" || asset === "USDT" || asset === "PYUSD" || asset === "USDG")) decimals = 6;
+  
+  const amountDecimal = Number(amountMinor) / Math.pow(10, decimals);
+
+  try {
+    const paymentReq = solanaPaymentsLayer.createPaymentRequest(
+      recipientWallet,
+      asset,
+      amountDecimal,
+      memo,
+      label
+    );
+
+    return reply.code(200).send({
+      status: "ok",
+      url: paymentReq.url,
+      reference: paymentReq.reference,
+      asset: paymentReq.asset.symbol,
+      amount: paymentReq.amount
+    });
+  } catch (error) {
+    return reply.code(500).send({ error: "payment_request_failed", message: asServiceError(error) });
+  }
+});
+
+server.post("/v1/payments/solana/verify", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = VerifySolanaPaymentSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_verify_request", details: parsed.error.flatten() });
+  }
+
+  const { asset, recipientWallet, amountMinor, reference } = parsed.data;
+
+  let decimals = 9;
+  if (asset === "USDC" || asset === "USDT" || asset === "PYUSD" || asset === "USDG") decimals = 6;
+  const amountDecimal = Number(amountMinor) / Math.pow(10, decimals);
+
+  try {
+    const verification = await solanaPaymentsLayer.verifyPayment(
+      reference,
+      recipientWallet,
+      asset,
+      amountDecimal
+    );
+
+    return reply.code(200).send({
+      status: verification.status,
+      reason: verification.reason,
+      txHash: verification.txHash
+    });
+  } catch (error) {
+    return reply.code(500).send({ error: "payment_verification_failed", message: asServiceError(error) });
+  }
+});
+
+// ============================================================================
+// INTENT FIREWALL ENDPOINTS
+// ============================================================================
 
 server.post("/v1/a2a/intents/simulate", async (request: FastifyRequest, reply: FastifyReply) => {
   const parsed = IntentRequestSchema.safeParse(request.body);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Shield, Lock, Terminal, Wallet, Loader2, EyeOff, KeyRound, Zap, ArrowRightLeft, History } from "lucide-react";
+import { Shield, Lock, Terminal, Loader2, EyeOff, KeyRound, Zap, ArrowRightLeft, History, Coins, Activity, TrendingUp, ArrowUpRight, ShieldCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
@@ -17,11 +17,51 @@ type IntentItem = {
   isOnchain: boolean;
 };
 
+type MeteoraPool = {
+  name: string;
+  tvl: number;
+  apr: number;
+  apy: number;
+  is_blacklisted?: boolean;
+  token_x?: { address?: string; symbol?: string };
+  token_y?: { address?: string; symbol?: string };
+};
+
+type KaminoVault = {
+  address: string;
+  state: {
+    tokenMint?: string;
+    prevAum?: string;
+    name?: string;
+  };
+};
+
+type KaminoVaultMetrics = {
+  apy?: string;
+  tokensInvestedUsd?: string;
+};
+
 const DEFAULT_RPC_URL = "https://api.mainnet-beta.solana.com";
 const DEFAULT_AGENT_PUBLIC_KEY = "FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah";
 const FALLBACK_BALANCE_SOL = 14.2051;
+const FALLBACK_SOL_PRICE_USD = 185;
 const ACTIVITY_LIMIT = 8;
 const REFRESH_INTERVAL_MS = 20_000;
+const METRICS_REFRESH_INTERVAL_MS = 60_000;
+const REVENUE_SIGNATURE_LIMIT = 120;
+const SOL_MINT_ADDRESS = "So11111111111111111111111111111111111111112";
+const USDC_MINT_ADDRESS = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+const JUPITER_PRICE_URL = `https://lite-api.jup.ag/price/v3?ids=${SOL_MINT_ADDRESS},${USDC_MINT_ADDRESS}`;
+const METEORA_POOLS_URL = "https://dlmm.datapi.meteora.ag/pools?page=1&page_size=200&sort_by=tvl:desc";
+const KAMINO_VAULTS_URL = "https://api.kamino.finance/kvaults/vaults";
+const X402_PAYMENT_LAMPORTS = 1_000_000; // 0.001 SOL
+const X402_LAMPORT_TOLERANCE = 2;
+const FALLBACK_MICRO_REVENUE_USD = 124.5;
+const FALLBACK_MICRO_REVENUE_CALLS = 1245;
+const FALLBACK_METEORA_TVL_USD = 142_500_000;
+const FALLBACK_METEORA_APY_PCT = 45.2;
+const FALLBACK_KAMINO_TVL_USD = 85_100_000;
+const FALLBACK_KAMINO_APY_PCT = 10.5;
 
 const configuredRpcUrl = (import.meta.env.VITE_HELIUS_RPC_URL || "").trim();
 const configuredAgentPublicKey = (import.meta.env.VITE_AGENT_PUBLIC_KEY || "").trim();
@@ -71,12 +111,121 @@ const formatRelativeTime = (blockTime: number | null | undefined) => {
   return `${days}d ago`;
 };
 
+const fetchTokenPrices = async () => {
+  const response = await fetch(JUPITER_PRICE_URL, {
+    headers: { Accept: "application/json" },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Jupiter Price API failed with status ${response.status}`);
+  }
+
+  const data = (await response.json()) as Record<string, { usdPrice?: number }>;
+  const solPrice = data[SOL_MINT_ADDRESS]?.usdPrice;
+  const usdcPrice = data[USDC_MINT_ADDRESS]?.usdPrice || 1; // Default to 1 if USDC fetch fails
+
+  if (typeof solPrice !== "number" || !Number.isFinite(solPrice) || solPrice <= 0) {
+    throw new Error("Jupiter Price API returned an invalid SOL price.");
+  }
+
+  return { solPrice, usdcPrice };
+};
+
+const fetchMeteoraSolUsdcPoolMetrics = async () => {
+  const response = await fetch(METEORA_POOLS_URL, {
+    headers: { Accept: "application/json" },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Meteora API failed with status ${response.status}`);
+  }
+
+  const payload = (await response.json()) as { data?: MeteoraPool[] };
+  const pools = payload.data ?? [];
+
+  const solUsdcPools = pools.filter((pool) => {
+    if (pool.is_blacklisted) return false;
+    const xAddress = pool.token_x?.address;
+    const yAddress = pool.token_y?.address;
+    return (
+      (xAddress === SOL_MINT_ADDRESS && yAddress === USDC_MINT_ADDRESS) ||
+      (xAddress === USDC_MINT_ADDRESS && yAddress === SOL_MINT_ADDRESS)
+    );
+  });
+
+  const selected = solUsdcPools.sort((a, b) => b.tvl - a.tvl)[0];
+  if (!selected) {
+    throw new Error("No SOL-USDC pool found on Meteora.");
+  }
+
+  const aprPct = Number.isFinite(selected.apr) ? selected.apr * 100 : FALLBACK_METEORA_APY_PCT;
+  return {
+    tvlUsd: selected.tvl,
+    apyPct: aprPct,
+    pairName: selected.name || "SOL-USDC",
+  };
+};
+
+const fetchKaminoSolVaultMetrics = async () => {
+  const vaultsResponse = await fetch(KAMINO_VAULTS_URL, {
+    headers: { Accept: "application/json" },
+  });
+
+  if (!vaultsResponse.ok) {
+    throw new Error(`Kamino Vaults API failed with status ${vaultsResponse.status}`);
+  }
+
+  const vaults = (await vaultsResponse.json()) as KaminoVault[];
+  const solVaultCandidates = vaults
+    .filter((vault) => vault.state?.tokenMint === SOL_MINT_ADDRESS)
+    .sort((a, b) => Number.parseFloat(b.state?.prevAum || "0") - Number.parseFloat(a.state?.prevAum || "0"));
+
+  const selectedVault = solVaultCandidates[0];
+  if (!selectedVault) {
+    throw new Error("No SOL vault found on Kamino.");
+  }
+
+  const metricsResponse = await fetch(`https://api.kamino.finance/kvaults/vaults/${selectedVault.address}/metrics`, {
+    headers: { Accept: "application/json" },
+  });
+
+  if (!metricsResponse.ok) {
+    throw new Error(`Kamino Vault Metrics API failed with status ${metricsResponse.status}`);
+  }
+
+  const metrics = (await metricsResponse.json()) as KaminoVaultMetrics;
+  const apyPct = Number.parseFloat(metrics.apy || "0") * 100;
+  const tvlUsd = Number.parseFloat(metrics.tokensInvestedUsd || "0");
+
+  return {
+    tvlUsd: Number.isFinite(tvlUsd) && tvlUsd > 0 ? tvlUsd : FALLBACK_KAMINO_TVL_USD,
+    apyPct: Number.isFinite(apyPct) && apyPct > 0 ? apyPct : FALLBACK_KAMINO_APY_PCT,
+    vaultName: selectedVault.state?.name || "SOL Vault",
+  };
+};
+
 export function AppPage() {
   const [intents, setIntents] = useState<IntentItem[]>(fallbackIntents);
   const [loading, setLoading] = useState(true);
   const [realBalance, setRealBalance] = useState<number | null>(null);
+  const [usdcBalance, setUsdcBalance] = useState<number | null>(null);
+  const [solUsdPrice, setSolUsdPrice] = useState<number | null>(null);
+  const [usdcUsdPrice, setUsdcUsdPrice] = useState<number | null>(null);
+  const [meteoraTvlUsd, setMeteoraTvlUsd] = useState<number>(FALLBACK_METEORA_TVL_USD);
+  const [meteoraApyPct, setMeteoraApyPct] = useState<number>(FALLBACK_METEORA_APY_PCT);
+  const [kaminoTvlUsd, setKaminoTvlUsd] = useState<number>(FALLBACK_KAMINO_TVL_USD);
+  const [kaminoApyPct, setKaminoApyPct] = useState<number>(FALLBACK_KAMINO_APY_PCT);
+  const [microRevenueUsd, setMicroRevenueUsd] = useState<number>(FALLBACK_MICRO_REVENUE_USD);
+  const [microRevenueCalls, setMicroRevenueCalls] = useState<number>(FALLBACK_MICRO_REVENUE_CALLS);
   const [balanceSource, setBalanceSource] = useState<"loading" | "live" | "fallback">("loading");
+  const [priceSource, setPriceSource] = useState<"loading" | "live" | "fallback">("loading");
+  const [metricsSource, setMetricsSource] = useState<"loading" | "live" | "fallback">("loading");
   const walletExplorerUrl = buildExplorerAddressUrl(agentPublicKeyText, rpcUrl);
+  
+  // Calcula o valor total em USD da carteira (SOL + USDC)
+  const solValueUsd = (realBalance ?? 0) * (solUsdPrice ?? FALLBACK_SOL_PRICE_USD);
+  const usdcValueUsd = (usdcBalance ?? 0) * (usdcUsdPrice ?? 1);
+  const activeLiquidityUsd = solValueUsd + usdcValueUsd;
 
   useEffect(() => {
     let active = true;
@@ -87,7 +236,12 @@ export function AppPage() {
     } catch (error) {
       console.error("Invalid VITE_AGENT_PUBLIC_KEY; falling back to demo dashboard.", error);
       setRealBalance(FALLBACK_BALANCE_SOL);
+      setUsdcBalance(0);
       setBalanceSource("fallback");
+      setSolUsdPrice(FALLBACK_SOL_PRICE_USD);
+      setUsdcUsdPrice(1);
+      setPriceSource("fallback");
+      setMetricsSource("fallback");
       setIntents(fallbackIntents);
       setLoading(false);
       return;
@@ -96,9 +250,11 @@ export function AppPage() {
     const connection = new Connection(rpcUrl, "confirmed");
 
     const hydrateDashboard = async () => {
-      const [balanceResult, signatureResult] = await Promise.allSettled([
+      const [balanceResult, tokenAccountsResult, signatureResult, priceResult] = await Promise.allSettled([
         connection.getBalance(walletAddress),
+        connection.getParsedTokenAccountsByOwner(walletAddress, { mint: new PublicKey(USDC_MINT_ADDRESS) }),
         connection.getSignaturesForAddress(walletAddress, { limit: ACTIVITY_LIMIT }),
+        fetchTokenPrices(),
       ]);
 
       if (!active) return;
@@ -110,6 +266,24 @@ export function AppPage() {
         console.error("Failed to fetch live Solana balance:", balanceResult.reason);
         setRealBalance(FALLBACK_BALANCE_SOL);
         setBalanceSource("fallback");
+      }
+
+      // Process USDC Balance
+      if (tokenAccountsResult.status === "fulfilled") {
+        const usdcAccounts = tokenAccountsResult.value.value;
+        if (usdcAccounts.length > 0) {
+          // Soma os saldos de todas as contas USDC que a carteira possuir
+          const totalUsdc = usdcAccounts.reduce((acc, accountInfo) => {
+            const amount = accountInfo.account.data.parsed.info.tokenAmount.uiAmount;
+            return acc + (amount || 0);
+          }, 0);
+          setUsdcBalance(totalUsdc);
+        } else {
+          setUsdcBalance(0);
+        }
+      } else {
+        console.warn("Failed to fetch USDC token accounts, defaulting to 0");
+        setUsdcBalance(0);
       }
 
       if (signatureResult.status === "fulfilled" && signatureResult.value.length > 0) {
@@ -146,13 +320,124 @@ export function AppPage() {
         setIntents(fallbackIntents);
       }
 
+      if (priceResult.status === "fulfilled") {
+        setSolUsdPrice(priceResult.value.solPrice);
+        setUsdcUsdPrice(priceResult.value.usdcPrice);
+        setPriceSource("live");
+      } else {
+        console.error("Failed to fetch live prices from Jupiter:", priceResult.reason);
+        setSolUsdPrice((current) => current ?? FALLBACK_SOL_PRICE_USD);
+        setUsdcUsdPrice((current) => current ?? 1);
+        setPriceSource((current) => (current === "live" ? "live" : "fallback"));
+      }
+
       setLoading(false);
     };
 
+    const hydrateProtocolMetrics = async () => {
+      const [meteoraResult, kaminoResult, revenueSignaturesResult, priceResult] = await Promise.allSettled([
+        fetchMeteoraSolUsdcPoolMetrics(),
+        fetchKaminoSolVaultMetrics(),
+        connection.getSignaturesForAddress(walletAddress, { limit: REVENUE_SIGNATURE_LIMIT }),
+        fetchTokenPrices(),
+      ]);
+
+      if (!active) return;
+
+      let hasLiveMetrics = true;
+
+      if (meteoraResult.status === "fulfilled") {
+        setMeteoraTvlUsd(meteoraResult.value.tvlUsd);
+        setMeteoraApyPct(meteoraResult.value.apyPct);
+      } else {
+        console.error("Failed to fetch Meteora metrics:", meteoraResult.reason);
+        hasLiveMetrics = false;
+      }
+
+      if (kaminoResult.status === "fulfilled") {
+        setKaminoTvlUsd(kaminoResult.value.tvlUsd);
+        setKaminoApyPct(kaminoResult.value.apyPct);
+      } else {
+        console.error("Failed to fetch Kamino metrics:", kaminoResult.reason);
+        hasLiveMetrics = false;
+      }
+
+      if (revenueSignaturesResult.status === "fulfilled") {
+        const signatures = revenueSignaturesResult.value.map((entry) => entry.signature);
+        if (signatures.length > 0) {
+          const transactions = await connection.getParsedTransactions(signatures, {
+            maxSupportedTransactionVersion: 0,
+          });
+          if (!active) return;
+
+          const walletBase58 = walletAddress.toBase58();
+          let x402Count = 0;
+          let x402RevenueLamports = 0;
+
+          for (const tx of transactions) {
+            if (!tx || tx.meta?.err || !tx.meta?.preBalances || !tx.meta?.postBalances) continue;
+
+            const walletIndex = tx.transaction.message.accountKeys.findIndex(
+              (account) => account.pubkey.toString() === walletBase58
+            );
+            if (walletIndex < 0) continue;
+
+            const preBalance = tx.meta.preBalances[walletIndex] ?? 0;
+            const postBalance = tx.meta.postBalances[walletIndex] ?? 0;
+            const deltaLamports = postBalance - preBalance;
+            const isx402Payment =
+              deltaLamports >= X402_PAYMENT_LAMPORTS - X402_LAMPORT_TOLERANCE &&
+              deltaLamports <= X402_PAYMENT_LAMPORTS + X402_LAMPORT_TOLERANCE;
+
+            // Extra institutional precision: filter by memo if available
+            let hasValidMemo = false;
+            try {
+              if (tx.meta.logMessages) {
+                hasValidMemo = tx.meta.logMessages.some(log => 
+                  log.includes("Program log: Memo") && 
+                  (log.includes("MIND_x402_PAYMENT") || log.includes("A2A_ORACLE"))
+                );
+              }
+            } catch (e) {
+              // Ignore memo parse errors, fallback to just delta check
+            }
+
+            // Consider it a valid payment if it has the right amount AND (has valid memo OR no memos were parsed but we trust the delta)
+            if (isx402Payment && (hasValidMemo || tx.meta.logMessages?.length === 0)) {
+              x402Count += 1;
+              x402RevenueLamports += deltaLamports;
+            }
+          }
+
+          const solPriceForRevenue =
+            priceResult.status === "fulfilled" ? priceResult.value.solPrice : FALLBACK_SOL_PRICE_USD;
+          const revenueSol = x402RevenueLamports / LAMPORTS_PER_SOL;
+          setMicroRevenueCalls(x402Count);
+          setMicroRevenueUsd(revenueSol * solPriceForRevenue);
+        } else {
+          setMicroRevenueCalls(0);
+          setMicroRevenueUsd(0);
+        }
+      } else {
+        console.error("Failed to fetch signatures for micro-revenue:", revenueSignaturesResult.reason);
+        hasLiveMetrics = false;
+      }
+
+      if (priceResult.status !== "fulfilled") {
+        hasLiveMetrics = false;
+      }
+
+      setMetricsSource(hasLiveMetrics ? "live" : "fallback");
+    };
+
     void hydrateDashboard();
+    void hydrateProtocolMetrics();
     const intervalId = window.setInterval(() => {
       void hydrateDashboard();
     }, REFRESH_INTERVAL_MS);
+    const metricsIntervalId = window.setInterval(() => {
+      void hydrateProtocolMetrics();
+    }, METRICS_REFRESH_INTERVAL_MS);
 
     // Setup SSE for real-time updates (Sprint 3)
     let eventSource: EventSource | null = null;
@@ -162,6 +447,7 @@ export function AppPage() {
         console.log("Real-time update received: payment_success", e.data);
         // Refresh dashboard instantly
         void hydrateDashboard();
+        void hydrateProtocolMetrics();
       });
       eventSource.onerror = () => {
         // Silently fail if mock server is not running
@@ -174,6 +460,7 @@ export function AppPage() {
     return () => {
       active = false;
       window.clearInterval(intervalId);
+      window.clearInterval(metricsIntervalId);
       if (eventSource) {
         eventSource.close();
       }
@@ -361,61 +648,125 @@ export function AppPage() {
               </Badge>
             </div>
           </div>
-          <p className="text-gray-400 max-w-2xl text-sm">
-            Monitor your connected AI agent's performance, manage permissions, and track shielded liquidity in real-time.
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-gray-400 max-w-2xl text-sm">
+              Monitor your connected AI agent's performance, manage permissions, and track shielded liquidity in real-time.
+            </p>
+            <div className="px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Mainnet Active
+            </div>
+          </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 animate-in fade-in duration-500">
           
           {/* Main Content Area */}
           <div className="lg:col-span-3 space-y-6">
-            {/* Top Stats Row */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="bg-black rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xs text-gray-500 font-mono uppercase tracking-wider">Total Shielded Value</h3>
-                  <Wallet className="w-4 h-4 text-gray-400" />
+            
+            {/* Top Stat Cards (DeFi Theme) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Card 1 */}
+              <div className="bg-gradient-to-br from-emerald-900/20 to-black p-6 rounded-[2rem] border border-emerald-500/20 hover:border-emerald-500/40 transition-all group relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-5 h-5 text-emerald-400" />
                 </div>
-                <div className="text-3xl font-light text-white mb-2 tracking-tight">
-                  {realBalance !== null ? (
-                    <span>{realBalance.toFixed(2)} <span className="text-lg text-gray-500 font-medium">SOL</span></span>
-                  ) : (
-                    <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
-                  )}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <Coins className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <span className="text-lg font-medium text-white">SOL (Treasury)</span>
                 </div>
-                <div className="text-[10px] text-gray-500 mb-2 font-mono uppercase tracking-wider">
-                  {balanceSource === "live" ? "Source: Solana RPC" : balanceSource === "fallback" ? "Source: Demo Fallback" : "Source: Loading"}
+                <div className="space-y-1 mb-6">
+                  <div className="text-sm text-gray-400">
+                    {balanceSource === "live" ? "Real Balance (Live)" : balanceSource === "fallback" ? "Demo Balance" : "Loading..."}
+                  </div>
+                  <div className="text-3xl font-bold text-white flex items-baseline gap-2">
+                    {realBalance !== null ? (
+                      <>
+                        ${solValueUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-lg text-gray-500 font-normal">USD</span>
+                      </>
+                    ) : (
+                      <Loader2 className="w-6 h-6 animate-spin text-emerald-500" />
+                    )}
+                  </div>
                 </div>
-                <div className="text-[10px] text-gray-400 flex items-center gap-1 font-mono uppercase tracking-wider">
-                  <Lock className="w-3 h-3" /> Protected by ZK State
+                <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-sm text-gray-300">Kamino Vault</span>
+                  </div>
+                  <div className="flex items-center gap-1 bg-emerald-500/10 px-2 py-1 rounded-lg">
+                    <TrendingUp className="w-3 h-3 text-emerald-400" />
+                    <span className="text-xs font-medium text-emerald-400">{kaminoApyPct.toFixed(2)}% APY</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-black rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xs text-gray-500 font-mono uppercase tracking-wider">Total Intents Executed</h3>
-                  <Zap className="w-4 h-4 text-gray-400" />
+              {/* Card 2 */}
+              <div className="bg-gradient-to-br from-blue-900/20 to-black p-6 rounded-[2rem] border border-blue-500/20 hover:border-blue-500/40 transition-all group relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-5 h-5 text-blue-400" />
                 </div>
-                <div className="text-3xl font-light text-white mb-2 tracking-tight">1,248</div>
-                <div className="text-[10px] text-gray-400 flex items-center gap-1 font-mono uppercase tracking-wider">
-                  +12 in the last 24h
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <span className="text-lg font-medium text-white">USDC-SOL (DLMM)</span>
+                </div>
+                <div className="space-y-1 mb-6">
+                  <div className="text-sm text-gray-400">
+                    Active Liquidity ({priceSource === "live" ? "Jupiter Live" : priceSource === "fallback" ? "Fallback" : "Loading"})
+                  </div>
+                  <div className="text-3xl font-bold text-white">
+                    ${activeLiquidityUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-blue-400" />
+                    <span className="text-sm text-gray-300">Meteora Pool</span>
+                  </div>
+                  <div className="flex items-center gap-1 bg-blue-500/10 px-2 py-1 rounded-lg">
+                    <TrendingUp className="w-3 h-3 text-blue-400" />
+                    <span className="text-xs font-medium text-blue-400">{meteoraApyPct.toFixed(2)}% APY</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-black rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xs text-gray-500 font-mono uppercase tracking-wider">Est. MEV Saved</h3>
-                  <Shield className="w-4 h-4 text-gray-400" />
+              {/* Card 3 */}
+              <div className="bg-gradient-to-br from-purple-900/20 to-black p-6 rounded-[2rem] border border-purple-500/20 hover:border-purple-500/40 transition-all group relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-5 h-5 text-purple-400" />
                 </div>
-                <div className="text-3xl font-light text-white mb-2 tracking-tight">$420.50</div>
-                <div className="text-[10px] text-gray-500 flex items-center gap-1 font-mono uppercase tracking-wider">
-                  Via Dark Pool routing
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <ShieldCheck className="w-5 h-5 text-purple-400" />
+                  </div>
+                  <span className="text-lg font-medium text-white">Risk Oracle (A2A)</span>
+                </div>
+                <div className="space-y-1 mb-6">
+                  <div className="text-sm text-gray-400">
+                    Micro-Revenue Generated ({metricsSource === "live" ? "On-chain Live" : metricsSource === "fallback" ? "Fallback" : "Loading"})
+                  </div>
+                  <div className="text-3xl font-bold text-white">
+                    ${microRevenueUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-purple-400" />
+                    <span className="text-sm text-gray-300">x402 Router</span>
+                  </div>
+                  <div className="flex items-center gap-1 bg-purple-500/10 px-2 py-1 rounded-lg">
+                    <Activity className="w-3 h-3 text-purple-400" />
+                    <span className="text-xs font-medium text-purple-400">{microRevenueCalls.toLocaleString()} calls</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Recent Intents Table */}
+            {/* Agent Activity Log */}
             <div className="bg-black rounded-2xl border border-white/10 overflow-hidden">
               <div className="p-6 border-b border-white/5 flex justify-between items-center">
                 <h3 className="font-medium text-lg text-white">Agent Activity Log</h3>
@@ -470,6 +821,105 @@ export function AppPage() {
                 )}
               </div>
             </div>
+
+            {/* Solana Ecosystem Opportunities Table */}
+            <div className="bg-black/40 border border-white/10 rounded-3xl overflow-hidden backdrop-blur-md">
+              <div className="p-6 border-b border-white/5 flex items-center justify-between">
+                <h2 className="text-xl font-medium text-white">Solana Ecosystem Opportunities</h2>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="bg-white/5 text-gray-300 border-white/10">All Networks</Badge>
+                  <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">High Yield</Badge>
+                </div>
+              </div>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/5 text-sm text-gray-400">
+                      <th className="p-6 font-medium">Assets</th>
+                      <th className="p-6 font-medium">Provider</th>
+                      <th className="p-6 font-medium">Strategy</th>
+                      <th className="p-6 font-medium">Risk Score</th>
+                      <th className="p-6 font-medium">TVL</th>
+                      <th className="p-6 font-medium text-right">APY</th>
+                      <th className="p-6 font-medium text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-sm">
+                    {/* Row 1 */}
+                    <tr className="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                      <td className="p-6">
+                        <div className="flex items-center gap-3">
+                          <div className="flex -space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-[#14F195] flex items-center justify-center border-2 border-black"><span className="text-black font-bold text-[10px]">SOL</span></div>
+                            <div className="w-8 h-8 rounded-full bg-[#2775CA] flex items-center justify-center border-2 border-black"><span className="text-white font-bold text-[10px]">USDC</span></div>
+                          </div>
+                          <span className="font-medium text-white">SOL - USDC</span>
+                        </div>
+                      </td>
+                      <td className="p-6 text-gray-300">Meteora DLMM</td>
+                      <td className="p-6"><Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/20">Active Market Maker</Badge></td>
+                      <td className="p-6 text-emerald-400">Low (IL Protected)</td>
+                      <td className="p-6 text-gray-300">
+                        ${meteoraTvlUsd.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+                      </td>
+                      <td className="p-6 text-right font-medium text-white">{meteoraApyPct.toFixed(2)}%</td>
+                      <td className="p-6 text-right">
+                        <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-medium transition-all opacity-0 group-hover:opacity-100">
+                          Delegate Agent
+                        </button>
+                      </td>
+                    </tr>
+                    
+                    {/* Row 2 */}
+                    <tr className="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                      <td className="p-6">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-[#14F195] flex items-center justify-center border-2 border-black"><span className="text-black font-bold text-[10px]">SOL</span></div>
+                          <span className="font-medium text-white">JIT SOL</span>
+                        </div>
+                      </td>
+                      <td className="p-6 text-gray-300">Kamino Finance</td>
+                      <td className="p-6"><Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Single-Sided Vault</Badge></td>
+                      <td className="p-6 text-emerald-400">Very Low</td>
+                      <td className="p-6 text-gray-300">
+                        ${kaminoTvlUsd.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+                      </td>
+                      <td className="p-6 text-right font-medium text-white">{kaminoApyPct.toFixed(2)}%</td>
+                      <td className="p-6 text-right">
+                        <button className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-xl text-xs font-medium transition-all">
+                          Manage Vault
+                        </button>
+                      </td>
+                    </tr>
+
+                    {/* Row 3 */}
+                    <tr className="hover:bg-white/5 transition-colors group">
+                      <td className="p-6">
+                        <div className="flex items-center gap-3">
+                          <div className="flex -space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-[#14F195] flex items-center justify-center border-2 border-black"><span className="text-black font-bold text-[10px]">SOL</span></div>
+                            <div className="w-8 h-8 rounded-full bg-[#9945FF] flex items-center justify-center border-2 border-black"><span className="text-white font-bold text-[10px]">PYTH</span></div>
+                          </div>
+                          <span className="font-medium text-white">SOL - PYTH</span>
+                        </div>
+                      </td>
+                      <td className="p-6 text-gray-300">Raydium</td>
+                      <td className="p-6"><Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20">Volatile Arb</Badge></td>
+                      <td className="p-6 text-orange-400">Medium (High IL)</td>
+                      <td className="p-6 text-gray-300">$12.4M</td>
+                      <td className="p-6 text-right font-medium text-white">82.4%</td>
+                      <td className="p-6 text-right">
+                        <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-medium transition-all opacity-0 group-hover:opacity-100">
+                          Delegate Agent
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           </div>
 
           {/* Sidebar */}

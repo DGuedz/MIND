@@ -10,6 +10,6 @@ OPENCLAW_INFERENCE_ENDPOINT="url_da_ia_ou_localhost"
 # COVALENT
 COVALENT_API_KEY="cqt_..."
 RPC
-https://mainnet.helius-rpc.com/?api-key=3210d64d-1d0d-4322-8992-2ef25cf3099c
+https://mainnet.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY
 Gatekeeper RPC URL (beta)
-https://beta.helius-rpc.com/?api-key=3210d64d-1d0d-4322-8992-2ef25cf3099c
+https://beta.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY

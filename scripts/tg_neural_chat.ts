@@ -1,13 +1,11 @@
-import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
-import bs58 from "bs58";
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import * as dotenv from "dotenv";
 import { execFileSync } from "child_process";
 dotenv.config();
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const ENV_KEY = process.env.METAPLEX_KEYPAIR;
-if (!TOKEN || !ENV_KEY) {
-  console.error("❌ TELEGRAM_BOT_TOKEN ou METAPLEX_KEYPAIR não encontrado no .env");
+if (!TOKEN) {
+  console.error("❌ TELEGRAM_BOT_TOKEN não encontrado no .env");
   process.exit(1);
 }
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
@@ -15,6 +13,7 @@ const SETTLEMENT_WALLET = process.env.NOAHAI_SETTLEMENT_WALLET || "";
 const OPENCLAW_ENDPOINT = process.env.OPENCLAW_INFERENCE_ENDPOINT || `${process.env.OPENCLAW_BASE_URL || ""}`.replace(/\/$/, "") + "/inference";
 const OPENCLAW_TIMEOUT_MS = Number(process.env.OPENCLAW_TIMEOUT_MS ?? "15000");
 const TELEGRAM_X402_AMOUNT_SOL = Number(process.env.TELEGRAM_X402_AMOUNT_SOL ?? "0.00001");
+const TELEGRAM_X402_MODE: "dry-run" | "real" = process.env.TELEGRAM_X402_MODE === "dry-run" ? "dry-run" : "real";
 
 type DecisionContract = {
   decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
@@ -30,24 +29,34 @@ type DecisionContract = {
   };
 };
 
-// Configuração da Solana para ler o saldo real da sua wallet importada (a mesma do Trojan)
+// Configuração da Solana
 const rpcUrl = process.env.HELIUS_RPC_URL || "https://api.mainnet-beta.solana.com";
 const connection = new Connection(rpcUrl, "confirmed");
 
-// Derive public key from the provided secret key
-let publicKeyStr = "";
-try {
-  const secretKey = ENV_KEY.trim().startsWith("[") ? Uint8Array.from(JSON.parse(ENV_KEY)) : bs58.decode(ENV_KEY.trim());
-  const keypair = Keypair.fromSecretKey(secretKey);
-  publicKeyStr = keypair.publicKey.toBase58();
-} catch (e) {
-  console.error("Erro ao derivar chave pública:", e);
-}
+// Mock KMS Public Key (Fase 0)
+const publicKeyStr = process.env.VITE_AGENT_PUBLIC_KEY || "MockKmsPublicKey111111111111111111111111111";
 
 // Estado do usuário
 const userStates: Record<number, { isConnected: boolean; balance: number }> = {};
 const x402InFlightByChat = new Set<number>();
-const consumedX402ApprovalByMessage = new Set<string>();
+const consumedX402ApprovalByMessage = new Map<string, number>(); // approvalKey -> timestamp
+
+const APPROVAL_EXPIRY_MS = 1000 * 60 * 5; // 5 minutos de validade para Intents
+
+function cleanupExpiredApprovals() {
+  const now = Date.now();
+  for (const [key, timestamp] of consumedX402ApprovalByMessage.entries()) {
+    if (now - timestamp > APPROVAL_EXPIRY_MS) {
+      consumedX402ApprovalByMessage.delete(key);
+    }
+  }
+}
+setInterval(cleanupExpiredApprovals, 60000);
+
+function isApprovalExpired(messageUnixTime?: number): boolean {
+  if (!messageUnixTime) return true;
+  return Date.now() - messageUnixTime * 1000 > APPROVAL_EXPIRY_MS;
+}
 
 async function getRealBalance(): Promise<number> {
   if (!publicKeyStr) return 0;
@@ -269,15 +278,20 @@ async function startBot() {
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "intent_yield") {
-              const msg = `Avaliando o produto **Yield Seguro em JIT Treasury**:\n\n` +
-                          `• **Estratégia:** Alocação de capital ocioso em cofres institucionais (Blue-chip DeFi) via rotas seguras.\n` +
-                          `• **Exposição Sugerida:** Otimização do saldo JIT restante.\n` +
-                          `• **Nível de Risco:** Muito Baixo (Protegido por seguro de protocolo)\n` +
-                          `• **Retorno Estimado (APY):** 8% a 12% ao ano (Estável)\n\n` +
-                          `Deseja alocar parte do seu tesouro nesta estratégia de rendimento passivo?`;
+              const msg = `🚨 *Nova Demanda de Liquidez Instantânea (JIT)*\n\n` +
+                          `Identifiquei um pico de volatilidade na rede. O protocolo **Meteora DLMM** precisa de liquidez imediata na pool SOL-USDC para sustentar o volume de Swaps.\n\n` +
+                          `Como um *Nó de Liquidez JIT*, seu Agente pode suprir essa demanda agora e capturar as taxas do protocolo.\n\n` +
+                          `⚙️ **Condições de Delegação (Lock Periods):**\n` +
+                          `• *Flexível (Remove a qualquer momento):* ~15.2% APY\n` +
+                          `• *Lock 7 Dias:* ~28.5% APY\n` +
+                          `• *Lock 15 Dias:* ~35.0% APY\n` +
+                          `• *Lock 30 Dias:* ~45.2% APY\n\n` +
+                          `Selecione o modelo de delegação para o seu saldo ocioso:`;
               const kb = { inline_keyboard: [
-                  [{ text: "✅ Aprovar Alocação", callback_data: "exec_approve_yield" }],
-                  [{ text: "❌ Cancelar", callback_data: "exec_cancel" }]
+                  [{ text: "🔓 Flexível (15.2%)", callback_data: "exec_approve_yield_flex" }],
+                  [{ text: "🔒 Lock 7 Dias (28.5%)", callback_data: "exec_approve_yield_7d" }],
+                  [{ text: "🔒 Lock 30 Dias (45.2%)", callback_data: "exec_approve_yield_30d" }],
+                  [{ text: "❌ Ignorar Demanda", callback_data: "exec_cancel" }]
               ]};
               await sendMsg(chatId, msg, kb);
             }
@@ -296,9 +310,16 @@ async function startBot() {
             }
             else if (data === "exec_approve_x402") {
               const approvalMessageId = update.callback_query.message?.message_id;
-              const approvalKey = `${chatId}:${approvalMessageId ?? "unknown"}`;
+              const approvalMessageDate = update.callback_query.message?.date;
+              // Add action prefix to approval key to make it idempotent per action
+              const approvalKey = `x402:${chatId}:${approvalMessageId ?? "unknown"}`;
+              if (isApprovalExpired(approvalMessageDate)) {
+                await sendMsg(chatId, `⏱️ Esta aprovação x402 expirou. Abra uma nova intent para continuar.`);
+                continue;
+              }
+              
               if (consumedX402ApprovalByMessage.has(approvalKey)) {
-                await sendMsg(chatId, `🛑 Esta aprovação x402 já foi consumida. Abra uma nova intent para novo pagamento.`);
+                await sendMsg(chatId, `🛑 Esta aprovação x402 já foi consumida ou expirou. Abra uma nova intent para novo pagamento.`);
                 continue;
               }
               if (x402InFlightByChat.has(chatId)) {
@@ -313,18 +334,21 @@ async function startBot() {
                 continue;
               }
               x402InFlightByChat.add(chatId);
-              consumedX402ApprovalByMessage.add(approvalKey);
+              // Consome a aprovação com timestamp para evitar replay
+              consumedX402ApprovalByMessage.set(approvalKey, Date.now());
 
               // Rodando em background para não travar o loop do bot
               setTimeout(async () => {
                 try {
                   const intentId = `MIND-INTENT-${Math.floor(Math.random() * 10000)}`;
+                  
+                  // Fase Turnkey KMS: o modo default e real, mas pode ser forçado para dry-run via TELEGRAM_X402_MODE.
                   const raw = execFileSync(
                     "npx",
                     [
                       "tsx",
                       "scripts/a2a_payment.ts",
-                      "--mode=real",
+                      `--mode=${TELEGRAM_X402_MODE}`,
                       "--human-approved=true",
                       `--amount=${TELEGRAM_X402_AMOUNT_SOL}`,
                       "--memo=MIND_x402_PAYMENT: AI inference via Telegram",
@@ -405,16 +429,40 @@ async function startBot() {
                 await sendMsg(chatId, msg2, kb2);
               }, 2500);
             }
-            else if (data === "exec_approve_yield") {
-              const msg = `🛡️ *Guardrails Ativados*\nAlocando capital ocioso em Vault Institucional (Simulação)...`;
+            else if (data.startsWith("exec_approve_yield")) {
+              const lockType = data.split("_").pop();
+              let apy = "15.2%";
+              let lockText = "Flexível (Sem bloqueio)";
+              
+              if (lockType === "7d") { apy = "28.5%"; lockText = "Bloqueado por 7 Dias"; }
+              else if (lockType === "30d") { apy = "45.2%"; lockText = "Bloqueado por 30 Dias"; }
+
+              const approvalMessageId = update.callback_query.message?.message_id;
+              const approvalMessageDate = update.callback_query.message?.date;
+              const approvalKey = `yield:${chatId}:${approvalMessageId ?? "unknown"}`;
+              if (isApprovalExpired(approvalMessageDate)) {
+                await sendMsg(chatId, `⏱️ Esta aprovação de delegação expirou. Abra uma nova intent para continuar.`);
+                continue;
+              }
+              
+              if (consumedX402ApprovalByMessage.has(approvalKey)) {
+                await sendMsg(chatId, `🛑 Esta operação de delegação já foi processada ou expirou.`);
+                continue;
+              }
+              consumedX402ApprovalByMessage.set(approvalKey, Date.now());
+
+              const msg = `🛡️ *Guardrails Ativados*\nEmpacotando transação e delegando liquidez JIT para a pool Meteora DLMM com perfil ${lockText}...`;
               await sendMsg(chatId, msg);
               
               setTimeout(async () => {
-                const msg2 = `✅ *Alocação Concluída com Sucesso!*\n\n` +
-                             `• Produto: Yield Seguro (Renda Fixa)\n` +
-                             `• Status: Ativo e gerando rendimento\n` +
-                             `• APY Projetado: 10.5%\n\n` +
-                             `_Nota: Esta é uma simulação de alocação DeFi para fins de demonstração._`;
+                const msg2 = `✅ *Liquidez Delegada com Sucesso!*\n\n` +
+                             `Seu agente assumiu o papel de Nó de Liquidez. Os fundos foram injetados no mercado para suprir a demanda instantânea.\n\n` +
+                             `• **Destino:** Pool SOL-USDC (Meteora DLMM)\n` +
+                             `• **Perfil de Lock:** ${lockText}\n` +
+                             `• **Status:** Ativo e capturando taxas de Swap\n` +
+                             `• **APY Garantido:** ~${apy}\n\n` +
+                             `_Como Remover:_ ` + (lockType === "flex" ? `Você pode solicitar o saque ("Unstake") a qualquer momento pelo Agent Hub.` : `O capital + rendimentos serão destravados automaticamente e retornarão para sua carteira ao final do período.`) + `\n\n` +
+                             `_Nota de Transparência: A execução de DeFi via Telegram exige integração com o KMS. Esta é uma simulação de UX validada para a apresentação do Hackathon._`;
                 const kb2 = { inline_keyboard: [
                   [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
                   [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]

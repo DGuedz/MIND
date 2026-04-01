@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-03-27",
+  "last_updated": "2026-04-01",
   "sources": [
     {
       "id": "solana_clusters",
@@ -19,6 +19,42 @@
       "url": "https://solana.com/docs/payments/production-readiness",
       "use_for": ["production architecture", "reliability guidance"],
       "avoid_for": ["credit market assertions"]
+    },
+    {
+      "id": "solana_how_payments_work",
+      "domain": "payments",
+      "tier": "A",
+      "type": "official_docs",
+      "url": "https://solana.com/docs/payments/how-payments-work",
+      "use_for": ["payment primitives", "payer-payee-model"],
+      "avoid_for": ["product-specific implementation choices"]
+    },
+    {
+      "id": "solana_verify_address",
+      "domain": "payments",
+      "tier": "A",
+      "type": "official_docs",
+      "url": "https://solana.com/docs/payments/send-payments/verify-address",
+      "use_for": ["recipient validation flow", "wallet-vs-token-account decisions"],
+      "avoid_for": ["market claims"]
+    },
+    {
+      "id": "solana_pay_standard",
+      "domain": "payments",
+      "tier": "A",
+      "type": "official_docs",
+      "url": "https://solana.com/docs/payments/accept-payments/solana-pay",
+      "use_for": ["solana-url scheme", "reference-based reconciliation"],
+      "avoid_for": ["risk guarantees"]
+    },
+    {
+      "id": "solana_agent_skills",
+      "domain": "tooling",
+      "tier": "A",
+      "type": "official_docs",
+      "url": "https://solana.com/skills",
+      "use_for": ["agent skill catalog", "official vs community split"],
+      "avoid_for": ["security endorsement of community skills"]
     },
     {
       "id": "aave_liquidations",

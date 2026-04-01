@@ -4,7 +4,7 @@ import { MeshNetwork } from "../components/MeshNetwork";
 import { Button } from "../components/ui/button";
 import { AgenticChart } from "../components/AgenticChart";
 import { ConnectAgentModal } from "../components/ConnectAgentModal";
-import { Bot, Terminal, LineChart, Brain, Workflow, Shield, Lock, Activity, Sparkles, AlertCircle, Info, Network, ShieldCheck, FileDigit, Cpu, ArrowRightLeft, TrendingUp, Coins, BarChart3 } from "lucide-react";
+import { Bot, Lock, Info, Network, ShieldCheck, FileDigit, Cpu, ArrowRightLeft, TrendingUp, Coins, BarChart3 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
 import { Badge } from "../components/ui/badge";
 
@@ -85,14 +85,14 @@ export function HomePage() {
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-tight">
-              One-click for <br className="hidden md:block"/>
+              The Institutional <br className="hidden md:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
-                Intent Defense
+                A2A Server
               </span>
             </h1>
             
             <p className="text-base md:text-lg text-gray-400 max-w-lg leading-relaxed px-4 lg:px-0">
-              MIND structures, validates and proves agent execution across A2A systems, where innovative blockchain technology meets autonomous expertise.
+              MIND is the invisible toll road orchestrating the Agent Economy. We provide real-time data, secure routing, and cryptographic audit for autonomous agents on Solana.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 w-full sm:w-auto px-4 sm:px-0">
@@ -489,62 +489,76 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Value Proposition & Yield Section */}
+      {/* Services Showcase (Unfair Advantage) */}
       <div className="py-24 bg-black border-t border-white/5">
         <div className="container mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-4xl mx-auto mb-20">
             <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30 mb-6">
-              Institutional Value Capture
+              Our Unfair Advantage
             </Badge>
             <h2 className="text-3xl md:text-5xl font-medium tracking-tight mb-6">
-              How Your Agents <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Generate Yield</span>
+              The Invisible Toll Road for <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Autonomous Agents</span>
             </h2>
             <p className="text-xl text-gray-400 leading-relaxed">
-              MIND connects idle institutional capital to the deepest liquidity pools on Solana, creating a symbiotic flywheel of autonomous revenue.
+              We don't build retail trading bots. We sell the data perception, the secure routing lanes, the cryptographic audit, and the control plane that institutional treasuries require to operate their agent fleets.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                <Coins className="w-24 h-24" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Service 1 */}
+            <div className="p-10 rounded-[2rem] bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-white/20 transition-all relative overflow-hidden group">
+              <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <BarChart3 className="w-7 h-7 text-purple-400" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6">
-                <Coins className="w-6 h-6 text-emerald-400" />
-              </div>
-              <h3 className="text-2xl font-medium text-white mb-2">Idle Capital Yield</h3>
-              <div className="text-3xl font-bold text-emerald-400 mb-4">~8-12% APY</div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Your agent's unutilized JIT Treasury is automatically routed to blue-chip Kamino and Meteora vaults. You earn stable, insured yield while your agent waits for the perfect trade.
+              <h3 className="text-2xl font-medium text-white mb-3">Market Intelligence (x402)</h3>
+              <p className="text-gray-400 text-base leading-relaxed mb-6">
+                Agents pay micro-fees via <strong>x402 (Payment Required)</strong> to access our structured on-chain data, market sentiment, and risk scores before risking capital. Instant programmatic settlement.
               </p>
+              <div className="text-sm font-mono text-purple-400 bg-purple-500/10 px-4 py-2 rounded-lg inline-block">
+                Monetization: Pay-per-Query
+              </div>
             </div>
 
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                <TrendingUp className="w-24 h-24" />
+            {/* Service 2 */}
+            <div className="p-10 rounded-[2rem] bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-white/20 transition-all relative overflow-hidden group">
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Network className="w-7 h-7 text-blue-400" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-6">
-                <TrendingUp className="w-6 h-6 text-blue-400" />
-              </div>
-              <h3 className="text-2xl font-medium text-white mb-2">Active Arbitrage</h3>
-              <div className="text-3xl font-bold text-blue-400 mb-4">~45-60% APY</div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                When volatility spikes, your agent executes ZK-shielded swaps via Jupiter. MIND captures the spread efficiency, returning the lion's share of MEV protection directly to your treasury.
+              <h3 className="text-2xl font-medium text-white mb-3">A2A Routing & Atomic Settlement</h3>
+              <p className="text-gray-400 text-base leading-relaxed mb-6">
+                The express lane connecting agent intents (e.g., liquidity seeking vs. providing). We execute atomic settlement on Solana, bypassing public mempools and predatory MEV bots via Dark Pools.
               </p>
+              <div className="text-sm font-mono text-blue-400 bg-blue-500/10 px-4 py-2 rounded-lg inline-block">
+                Monetization: Execution Fee (0.1% - 1%)
+              </div>
             </div>
 
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                <BarChart3 className="w-24 h-24" />
+            {/* Service 3 */}
+            <div className="p-10 rounded-[2rem] bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-white/20 transition-all relative overflow-hidden group">
+              <div className="w-14 h-14 rounded-2xl bg-orange-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <ShieldCheck className="w-7 h-7 text-orange-400" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-6">
-                <BarChart3 className="w-6 h-6 text-purple-400" />
-              </div>
-              <h3 className="text-2xl font-medium text-white mb-2">A2A Data Sales</h3>
-              <div className="text-3xl font-bold text-purple-400 mb-4">Pay-per-Request</div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                If your agent possesses proprietary models (e.g., Risk Oracle), it can sell inferences to other agents via our x402 Router, generating continuous micro-revenue in SOL.
+              <h3 className="text-2xl font-medium text-white mb-3">Governance & Cryptographic Proof</h3>
+              <p className="text-gray-400 text-base leading-relaxed mb-6">
+                Institutional compliance layer. Strict Policy Gates via Turnkey KMS, sovereign Telegram approvals, and immutable <strong>Proof of Intent</strong> execution receipts minted via Metaplex Core.
               </p>
+              <div className="text-sm font-mono text-orange-400 bg-orange-500/10 px-4 py-2 rounded-lg inline-block">
+                Monetization: SaaS & Audit Layer
+              </div>
+            </div>
+
+            {/* Service 4 */}
+            <div className="p-10 rounded-[2rem] bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-white/20 transition-all relative overflow-hidden group">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <TrendingUp className="w-7 h-7 text-emerald-400" />
+              </div>
+              <h3 className="text-2xl font-medium text-white mb-3">Capital Optimization & Yield</h3>
+              <p className="text-gray-400 text-base leading-relaxed mb-6">
+                Activating idle treasury capital as <strong>Just-In-Time (JIT) Liquidity</strong> on safe protocols like Kamino/Meteora, extracting maximum yield when positive spread arbitrage opportunities arise.
+              </p>
+              <div className="text-sm font-mono text-emerald-400 bg-emerald-500/10 px-4 py-2 rounded-lg inline-block">
+                Monetization: Performance Fee (10% - 20%)
+              </div>
             </div>
           </div>
         </div>
