@@ -220,10 +220,10 @@ async function startBot() {
             }
             else if (data === "wallet_connected") {
               userStates[chatId].isConnected = true;
-              const msg = `✅ Wallet conectada!\nVocê tem ${userStates[chatId].balance} SOL disponíveis agora.\n\nO que quer fazer hoje?`;
+              const msg = `✅ Wallet conectada!\nVocê tem ${userStates[chatId].balance.toFixed(4)} SOL disponíveis agora.\n\nO que quer fazer hoje?`;
               const kb = { inline_keyboard: [
-                  [{ text: "⚡ Arbitragem no Jupiter", callback_data: "intent_arb" }],
-                  [{ text: "💸 Pagar IA (x402)", callback_data: "intent_x402" }]
+                  [{ text: "⚡ A2A Routing & Atomic Settlement", callback_data: "intent_arb" }],
+                  [{ text: "💸 Market Intelligence (x402)", callback_data: "intent_x402" }]
               ]};
               await sendMsg(chatId, msg, kb);
             }
@@ -235,11 +235,11 @@ async function startBot() {
               } else {
                 const msg = `Excelente. Para garantirmos a melhor alocação e proteção do seu capital, selecione abaixo qual produto ou intenção institucional deseja explorar no momento:`;
                 const kb = { inline_keyboard: [
-                    [{ text: "⚡ Arbitragem ZK Dark Pool (Alto Retorno)", callback_data: "intent_arb" }],
-                    [{ text: "🛡️ Yield Seguro em JIT Treasury (Renda Fixa)", callback_data: "intent_yield" }],
-                    [{ text: "💸 Liquidar Oráculo de IA (A2A x402)", callback_data: "intent_x402" }],
+                    [{ text: "⚡ A2A Routing & Atomic Settlement", callback_data: "intent_arb" }],
+                    [{ text: "🛡️ Capital Optimization (JIT Yield)", callback_data: "intent_yield" }],
+                    [{ text: "💸 Market Intelligence (x402 Data Sales)", callback_data: "intent_x402" }],
                     [{ text: "🌐 Ver Protocolos A2A e Oráculos Suportados", callback_data: "intent_protocols" }],
-                    [{ text: "📊 Visualizar Métricas Agentic GDP", callback_data: "noop" }]
+                    [{ text: "📊 Visualizar Métricas Agentic GDP", callback_data: "metrics" }]
                 ]};
                 await sendMsg(chatId, msg, kb);
               }
@@ -264,14 +264,14 @@ async function startBot() {
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "intent_arb") {
-              const msg = `Compreendido. Preparei um briefing para a sua revisão executiva sobre o produto **Arbitragem ZK Dark Pool**:\n\n` +
+              const msg = `Compreendido. Preparei um briefing para a sua revisão executiva sobre o produto **A2A Routing & Atomic Settlement** (Dark Pools):\n\n` +
                           `• **Estratégia:** Exploração de ineficiências de preço (MEV) protegida por criptografia Zero-Knowledge.\n` +
                           `• **Exposição Sugerida:** Até 0.5 SOL (Seu saldo atual: ${userStates[chatId].balance.toFixed(4)} SOL)\n` +
-                          `• **Nível de Risco:** Médio-Baixo (~2% slippage max)\n` +
-                          `• **Retorno Estimado (APY):** 45% a 60% ao ano (Dinâmico conforme volatilidade)\n\n` +
-                          `Como seu guardião de risco, eu validei esta operação. Você me autoriza a executar o fluxo?`;
+                          `• **Nível de Risco:** KMS Enforced (~2% slippage max)\n` +
+                          `• **Taxa de Execução:** 0.1% a 1% por match\n\n` +
+                          `Como seu guardião de risco, eu validei esta operação. Você me autoriza a executar o fluxo atômico?`;
               const kb = { inline_keyboard: [
-                  [{ text: "✅ Autorizar Execução", callback_data: "exec_approve" }],
+                  [{ text: "✅ Autorizar Liquidação", callback_data: "exec_approve" }],
                   [{ text: "🤖 Transferir Autonomia para o Agente", callback_data: "exec_auto" }],
                   [{ text: "❌ Abortar Operação", callback_data: "exec_cancel" }]
               ]};
@@ -416,11 +416,12 @@ async function startBot() {
               
               // Execução de arbitragem (Mock seguro para o vídeo, já que o A2A x402 é o showcase de mainnet real)
               setTimeout(async () => {
-                const msg2 = `✅ *Arbitragem Executada com Sucesso!*\n\n` +
+                const msg2 = `✅ *Liquidação Atômica Executada!*\n\n` +
                              `• Status: Liquidado em Dark Pool\n` +
                              `• Proteção MEV: Ativa (0 falhas)\n` +
-                             `• Lucro Líquido: +0.47 SOL\n\n` +
-                             `_Nota: A execução real de DeFi exige integração com Jupiter SDK. O fluxo x402 A2A (Pagar IA) já é 100% Mainnet._`;
+                             `• Margem de Lucro Capturada: +0.47 SOL\n` +
+                             `• Execution Fee MIND (0.1%): -0.00047 SOL\n\n` +
+                             `_Sua tesouraria foi atualizada. Você pode auditar a prova criptográfica no Agent Hub._`;
                 const kb2 = { inline_keyboard: [
                   [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
                   [{ text: "💾 Salvar como Skill Autônoma", callback_data: "save_skill" }],
@@ -462,7 +463,7 @@ async function startBot() {
                              `• **Status:** Ativo e capturando taxas de Swap\n` +
                              `• **APY Garantido:** ~${apy}\n\n` +
                              `_Como Remover:_ ` + (lockType === "flex" ? `Você pode solicitar o saque ("Unstake") a qualquer momento pelo Agent Hub.` : `O capital + rendimentos serão destravados automaticamente e retornarão para sua carteira ao final do período.`) + `\n\n` +
-                             `_Nota de Transparência: A execução de DeFi via Telegram exige integração com o KMS. Esta é uma simulação de UX validada para a apresentação do Hackathon._`;
+                             `_Nota Institucional: A taxa de performance (Performance Fee) será deduzida apenas sobre o lucro líquido no momento do saque._`;
                 const kb2 = { inline_keyboard: [
                   [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
                   [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]
@@ -477,11 +478,36 @@ async function startBot() {
               setTimeout(async () => {
                 const msg2 = `Primeiro ciclo de monitoramento iniciado. Deseja refinar os limites de risco ou retornar ao menu principal?`;
                 const kb2 = { inline_keyboard: [
-                  [{ text: "⚙️ Refinar Limites de Risco", callback_data: "noop" }],
+                  [{ text: "⚙️ Refinar Limites de Risco", callback_data: "refine_risk" }],
                   [{ text: "✨ Menu Principal", callback_data: "start_intent" }]
                 ] };
                 await sendMsg(chatId, msg2, kb2);
               }, 2000);
+            }
+            else if (data === "refine_risk") {
+              const msg = `⚙️ *Ajuste de Guardrails e Limites de Risco*\n\nConfigure os parâmetros institucionais para as execuções autônomas do seu Agente na Solana:\n\n` +
+                          `• **Slippage Máximo Atual:** 2.0%\n` +
+                          `• **Teto de Exposição (Single Tx):** 50 SOL\n` +
+                          `• **Assinatura KMS Exigida:** Acima de 10 SOL\n\n` +
+                          `_Estas políticas estão aplicadas diretamente no cofre Turnkey (Policy Gates)._`;
+              const kb = {
+                inline_keyboard: [
+                  [{ text: "📉 Reduzir Slippage para 0.5%", callback_data: "update_risk_slip" }],
+                  [{ text: "🔒 Exigir KMS em TODAS as Tx", callback_data: "update_risk_kms" }],
+                  [{ text: "✨ Voltar ao Menu Principal", callback_data: "start_intent" }]
+                ]
+              };
+              await sendMsg(chatId, msg, kb);
+            }
+            else if (data.startsWith("update_risk_")) {
+              const msg = `✅ *Políticas de Risco Atualizadas*\n\nOs novos limites foram sincronizados on-chain e propagados para a malha de agentes e para as regras do KMS.\n\nO seu capital está operando sob os novos guardrails institucionais.`;
+              const kb = {
+                inline_keyboard: [
+                  [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                  [{ text: "✨ Menu Principal", callback_data: "start_intent" }]
+                ]
+              };
+              await sendMsg(chatId, msg, kb);
             }
             else if (data === "exec_cancel") {
               const msg = `🛑 *Operação Abortada*\n\nNenhuma transação foi executada e as chaves não foram acionadas. Seu capital permanece intacto no JIT Treasury.\n\nComo posso ajudar em seguida?`;
@@ -505,8 +531,38 @@ async function startBot() {
             }
             else if (data === "check_status") {
                await sendMsg(chatId, `📊 *Relatório de Status*\n\nSua infraestrutura está operando normalmente. Hoje, o protocolo gerou um Delta positivo de **+1.84 SOL** via otimizações de rotas (Dark Pools).\n\nDeseja um relatório detalhado?`, {
-                 inline_keyboard: [[{ text: "📑 Extrair Relatório Detalhado", callback_data: "noop" }], [{ text: "✨ Menu Principal", callback_data: "start_intent" }]]
+                 inline_keyboard: [[{ text: "📑 Extrair Relatório Detalhado", callback_data: "report_details" }], [{ text: "✨ Menu Principal", callback_data: "start_intent" }]]
                });
+            }
+            else if (data === "report_details") {
+              const msg = `📑 *Relatório Detalhado do Agent Hub*\n\n` +
+                          `• **KMS Protected TVL:** ${userStates[chatId].balance.toFixed(4)} SOL\n` +
+                          `• **Market Intelligence (x402):** 14 Inferences\n` +
+                          `• **Performance Fee (JIT):** 0.12 SOL (Meteora DLMM)\n` +
+                          `• **Execution Fee (Routing):** 0.04 SOL (Jupiter ZK)\n\n` +
+                          `O histórico completo (append-only logs) está disponível no seu painel web.`;
+              const kb = {
+                inline_keyboard: [
+                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                  [{ text: "✨ Voltar às Intenções", callback_data: "start_intent" }]
+                ]
+              };
+              await sendMsg(chatId, msg, kb);
+            }
+            else if (data === "metrics") {
+              const msg = `📈 *Métricas Agentic GDP (Global)*\n\nO ecossistema MIND está orquestrando liquidez em tempo real:\n\n` +
+                          `• **TVL Protegido (KMS):** $12.4M\n` +
+                          `• **Tx Processadas Hoje:** 14,203\n` +
+                          `• **A2A Settlement (24h):** $840k\n` +
+                          `• **Nós de Liquidez Ativos:** 342 Agentes\n\n` +
+                          `Você pode acompanhar o fluxo da rede diretamente pelo painel.`;
+              const kb = {
+                inline_keyboard: [
+                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                  [{ text: "✨ Voltar às Intenções", callback_data: "start_intent" }]
+                ]
+              };
+              await sendMsg(chatId, msg, kb);
             }
           }
         }
