@@ -73,7 +73,7 @@ const fallbackIntents: IntentItem[] = [
   { action: "ZK Stealth Swap", status: "Executed", amount: "+$45.20", time: "2m ago", icon: EyeOff, color: "text-gray-300", isOnchain: false },
   { action: "A2A Oracle Payment", status: "Pending", amount: "-$0.50", time: "15m ago", icon: KeyRound, color: "text-gray-400", isOnchain: false },
   { action: "Shielded Vault Route", status: "Executed", amount: "~$1,200.00", time: "1h ago", icon: Shield, color: "text-gray-300", isOnchain: false },
-  { action: "Public DEX Trade", status: "Blocked (MEV Risk)", amount: "$5,000.00", time: "3h ago", icon: Lock, color: "text-gray-500", isOnchain: false },
+  { action: "Policy Gate Blocked", status: "Blocked (KMS Limit)", amount: "$5,000.00", time: "3h ago", icon: Lock, color: "text-gray-500", isOnchain: false },
 ];
 
 const shortenAddress = (address: string) => `${address.slice(0, 4)}...${address.slice(-4)}`;
@@ -564,7 +564,7 @@ export function AppPage() {
           <div className="absolute top-0 right-0 p-4 opacity-10">
             <Shield className="w-24 h-24 text-white" />
           </div>
-          <p className="text-gray-500 text-sm mb-2 relative z-10 font-mono uppercase tracking-wider text-[10px]">Shielded Balance</p>
+          <p className="text-gray-500 text-sm mb-2 relative z-10 font-mono uppercase tracking-wider text-[10px]">KMS Protected TVL</p>
           <div className="text-4xl font-light text-white mb-1 flex items-baseline gap-2 relative z-10 tracking-tight">
             {realBalance !== null ? (
               <>
@@ -747,7 +747,7 @@ export function AppPage() {
                 </div>
                 <div className="space-y-1 mb-6">
                   <div className="text-sm text-gray-400">
-                    Micro-Revenue Generated ({metricsSource === "live" ? "On-chain Live" : metricsSource === "fallback" ? "Fallback" : "Loading"})
+                    A2A Data Sales ({metricsSource === "live" ? "On-chain Live" : metricsSource === "fallback" ? "Fallback" : "Loading"})
                   </div>
                   <div className="text-3xl font-bold text-white">
                     ${microRevenueUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -769,7 +769,7 @@ export function AppPage() {
             {/* Agent Activity Log */}
             <div className="bg-black rounded-2xl border border-white/10 overflow-hidden">
               <div className="p-6 border-b border-white/5 flex justify-between items-center">
-                <h3 className="font-medium text-lg text-white">Agent Activity Log</h3>
+                <h3 className="font-medium text-lg text-white">Agentic Settlement Log</h3>
                 <Button
                   variant="outline"
                   size="sm"
@@ -825,7 +825,7 @@ export function AppPage() {
             {/* Solana Ecosystem Opportunities Table */}
             <div className="bg-black/40 border border-white/10 rounded-3xl overflow-hidden backdrop-blur-md">
               <div className="p-6 border-b border-white/5 flex items-center justify-between">
-                <h2 className="text-xl font-medium text-white">Solana Ecosystem Opportunities</h2>
+                <h2 className="text-xl font-medium text-white">JIT Liquidity & A2A Routing Pools</h2>
                 <div className="flex items-center gap-2">
                   <Badge variant="outline" className="bg-white/5 text-gray-300 border-white/10">All Networks</Badge>
                   <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">High Yield</Badge>
@@ -905,7 +905,7 @@ export function AppPage() {
                         </div>
                       </td>
                       <td className="p-6 text-gray-300">Raydium</td>
-                      <td className="p-6"><Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20">Volatile Arb</Badge></td>
+                      <td className="p-6"><Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20">Dark Pool Arb</Badge></td>
                       <td className="p-6 text-orange-400">Medium (High IL)</td>
                       <td className="p-6 text-gray-300">$12.4M</td>
                       <td className="p-6 text-right font-medium text-white">82.4%</td>
@@ -950,11 +950,11 @@ export function AppPage() {
                 
                 <div className="flex justify-between text-xs border-b border-white/5 pb-2">
                   <span className="text-gray-500 font-mono uppercase tracking-wider text-[10px]">Strategy</span>
-                  <span className="text-gray-300">Aggressive Arb</span>
+                  <span className="text-gray-300">A2A Routing & JIT</span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="text-gray-500 font-mono uppercase tracking-wider text-[10px]">Risk Profile</span>
-                  <span className="text-gray-300">Medium</span>
+                    <span className="text-gray-300">KMS Enforced (Strict)</span>
                 </div>
               </div>
             </div>
