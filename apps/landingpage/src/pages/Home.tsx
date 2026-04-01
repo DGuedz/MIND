@@ -4,7 +4,7 @@ import { MeshNetwork } from "../components/MeshNetwork";
 import { Button } from "../components/ui/button";
 import { AgenticChart } from "../components/AgenticChart";
 import { ConnectAgentModal } from "../components/ConnectAgentModal";
-import { Bot, Lock, Info, Network, ShieldCheck, FileDigit, Cpu, ArrowRightLeft, TrendingUp, Coins, BarChart3 } from "lucide-react";
+import { Bot, Lock, Info, Network, ShieldCheck, FileDigit, Cpu, ArrowRightLeft, TrendingUp, BarChart3 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
 import { Badge } from "../components/ui/badge";
 
