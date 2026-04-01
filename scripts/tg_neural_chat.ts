@@ -97,6 +97,54 @@ const extractDecisionFromOutput = (raw: string): DecisionContract | null => {
   }
 };
 
+const generateAsciiReceipt = (
+  title: string,
+  items: { name: string; qty: number; value: string }[],
+  total: string,
+  txHash: string,
+  receiptHash: string = "N/A",
+  signatureType: string = "TURNKEY KMS"
+) => {
+  const date = new Date().toISOString().replace("T", " ").substring(0, 19);
+  const shortTx = txHash.length > 20 ? txHash.substring(0, 10) + "..." + txHash.substring(txHash.length - 10) : txHash;
+  const shortReceipt = receiptHash.length > 20 ? receiptHash.substring(0, 10) + "..." + receiptHash.substring(receiptHash.length - 10) : receiptHash;
+
+  let receipt = `\`\`\`text\n`;
+  receipt += `================================\n`;
+  receipt += `         MIND PROTOCOL\n`;
+  receipt += `       A2A SERVER (NFC-e)\n`;
+  receipt += `================================\n`;
+  receipt += `CNPJ/ID: ON-CHAIN AGENT NODE\n`;
+  receipt += `NETWORK: SOLANA MAINNET-BETA\n`;
+  receipt += `DATE: ${date} UTC\n`;
+  receipt += `--------------------------------\n`;
+  receipt += `          SALE DETAILS\n`;
+  receipt += `ITEM                 QTY   TOTAL\n`;
+  
+  items.forEach(item => {
+    const namePad = item.name.padEnd(20, " ");
+    const qtyPad = item.qty.toString().padEnd(3, " ");
+    const valPad = item.value.padStart(7, " ");
+    receipt += `${namePad} ${qtyPad} ${valPad}\n`;
+  });
+  
+  receipt += `--------------------------------\n`;
+  receipt += `TOTAL (SOL)              ${total.padStart(7, " ")}\n`;
+  receipt += `--------------------------------\n`;
+  receipt += `SIGNATURE: ${signatureType}\n`;
+  receipt += `TX HASH: ${shortTx}\n`;
+  if (receiptHash !== "N/A") {
+    receipt += `METAPLEX PROOF: ${shortReceipt}\n`;
+  }
+  receipt += `--------------------------------\n`;
+  receipt += `     CRYPTOGRAPHIC RECEIPT\n`;
+  receipt += `     VERIFIABLE ON-CHAIN\n`;
+  receipt += `================================\n`;
+  receipt += `\`\`\``;
+  
+  return receipt;
+};
+
 const callNoahAI = async (intentId: string, decision: DecisionContract) => {
   const apiKey = process.env.OPENCLAW_API_KEY;
   if (!apiKey) {
@@ -380,12 +428,22 @@ async function startBot() {
                   const aiDecision = await callNoahAI(intentId, decision);
                   const receiptHash = decision.artifacts?.receiptHash ?? "n/a";
                   const aiStatus = aiDecision.decision;
+                  
+                  const asciiReceipt = generateAsciiReceipt(
+                    "x402 Data Purchase",
+                    [
+                      { name: "Oracle Inference", qty: 1, value: TELEGRAM_X402_AMOUNT_SOL.toString() },
+                      { name: "Network Gas", qty: 1, value: "0.00001" }
+                    ],
+                    (TELEGRAM_X402_AMOUNT_SOL + 0.00001).toFixed(5),
+                    txHash,
+                    receiptHash
+                  );
+
                   const msg2 =
                     `✅ *Liquidação x402 Concluída com Sucesso*\n\n` +
                     `O pagamento foi processado on-chain e o oráculo liberou os dados criptografados.\n\n` +
-                    `• **Hash da Transação:** ${txHash}\n` +
-                    `• **Recibo Metaplex:** ${receiptHash}\n` +
-                    `• **Resposta do Oráculo:** ${aiStatus}\n\n` +
+                    `${asciiReceipt}\n\n` +
                     `O seu Agent Hub já foi atualizado com as novas métricas.`;
 
                   const kb2 = {
@@ -416,11 +474,20 @@ async function startBot() {
               
               // Execução de arbitragem (Mock seguro para o vídeo, já que o A2A x402 é o showcase de mainnet real)
               setTimeout(async () => {
+                const asciiReceipt = generateAsciiReceipt(
+                  "A2A Routing",
+                  [
+                    { name: "Gross Profit", qty: 1, value: "0.47000" },
+                    { name: "Execution Fee", qty: 1, value: "0.00047" }
+                  ],
+                  "0.46953",
+                  "mock_darkpool_tx_89f" + Math.floor(Math.random() * 10000)
+                );
+
                 const msg2 = `✅ *Liquidação Atômica Executada!*\n\n` +
                              `• Status: Liquidado em Dark Pool\n` +
-                             `• Proteção MEV: Ativa (0 falhas)\n` +
-                             `• Margem de Lucro Capturada: +0.47 SOL\n` +
-                             `• Execution Fee MIND (0.1%): -0.00047 SOL\n\n` +
+                             `• Proteção MEV: Ativa (0 falhas)\n\n` +
+                             `${asciiReceipt}\n\n` +
                              `_Sua tesouraria foi atualizada. Você pode auditar a prova criptográfica no Agent Hub._`;
                 const kb2 = { inline_keyboard: [
                   [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
@@ -456,12 +523,19 @@ async function startBot() {
               await sendMsg(chatId, msg);
               
               setTimeout(async () => {
+                const asciiReceipt = generateAsciiReceipt(
+                  "Capital Allocation",
+                  [
+                    { name: "JIT Injection", qty: 1, value: "10.0000" },
+                    { name: "Meteora Gas", qty: 1, value: "0.00002" }
+                  ],
+                  "10.00002",
+                  "mock_meteora_tx_2a" + Math.floor(Math.random() * 10000)
+                );
+
                 const msg2 = `✅ *Liquidez Delegada com Sucesso!*\n\n` +
                              `Seu agente assumiu o papel de Nó de Liquidez. Os fundos foram injetados no mercado para suprir a demanda instantânea.\n\n` +
-                             `• **Destino:** Pool SOL-USDC (Meteora DLMM)\n` +
-                             `• **Perfil de Lock:** ${lockText}\n` +
-                             `• **Status:** Ativo e capturando taxas de Swap\n` +
-                             `• **APY Garantido:** ~${apy}\n\n` +
+                             `${asciiReceipt}\n\n` +
                              `_Como Remover:_ ` + (lockType === "flex" ? `Você pode solicitar o saque ("Unstake") a qualquer momento pelo Agent Hub.` : `O capital + rendimentos serão destravados automaticamente e retornarão para sua carteira ao final do período.`) + `\n\n` +
                              `_Nota Institucional: A taxa de performance (Performance Fee) será deduzida apenas sobre o lucro líquido no momento do saque._`;
                 const kb2 = { inline_keyboard: [
