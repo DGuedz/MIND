@@ -22,61 +22,69 @@ Isso significa que nossa nota em "Inovação", "Aplicação em Solana" e "Roadma
 
 ---
 
-### ROTEIRO DO PITCH DECK (Máx. 10 Slides)
-Copie este conteúdo para um Google Slides com fundo Preto, fontes Brancas (Minimalista B&W, como a Landing Page).
+## ROTEIRO DO PITCH DECK (Lean Canvas - Máx. 10 Slides)
+Copie este conteúdo para um Google Slides com fundo Preto, fontes Brancas (Minimalista B&W).
+Regra: 10 slides. 4 frases por slide. Máximo de 69 caracteres por frase.
 
-**Slide 1: Capa**
-*   **Título:** MIND Protocol
-*   **Subtítulo:** The Invisible Toll for the Agent Economy.
-*   **Visual:** Logo concêntrica do MIND. Seu nome (Diego) e contato.
+**Slide 1: MIND Protocol**
+MIND Protocol: The Invisible Toll.
+Infraestrutura financeira para agentes autônomos.
+Liquidação atômica e segurança institucional Zero-Trust.
+Construído por Diego (DGuedz) - Web3 & Security Engineer.
 
-**Slide 2: O Problema (25 pts - Relevância)**
-*   **Título:** Agentes pensam, mas não podem assinar.
-*   **Texto:** A inteligência artificial hoje (modelos e orquestradores) não possui trilhos financeiros seguros (institucionais) para executar valor on-chain. Colocar chaves privadas brutas (raw private keys) na mão de agentes autônomos viola qualquer política de compliance e segurança B2B.
+**Slide 2: O Problema**
+Agentes de IA pensam, mas não podem assinar transações.
+Faltam trilhos institucionais seguros para a Web3.
+Chaves privadas expostas em bots geram risco de hack.
+Instituições financeiras não confiam capital à IA.
 
-**Slide 3: A Solução (40 pts - Inovação)**
-*   **Título:** A2A Coordination + Zero-Trust Signing.
-*   **Texto:** O MIND é a camada de liquidação (Settlement Layer). Um Gateway que recebe a intenção do agente, submete à aprovação humana via Telegram (Human-in-the-Loop), valida políticas (Firewall) e assina a transação via Turnkey KMS, retornando um recibo criptográfico. Nenhuma chave privada é exposta.
+**Slide 3: A Solução**
+Camada de liquidação A2A com segurança Zero-Trust KMS.
+Intents passam por aprovação Telegram Human-in-the-Loop.
+Assinatura via Turnkey KMS sem expor chaves privadas.
+Execução atômica e geração de recibo criptográfico.
 
-**Slide 4: Fit com a Solana (20 pts - Fit)**
-*   **Título:** Por que a Solana é o único caminho?
-*   **Texto:** A economia de agentes exige **micropagamentos x402**, **liquidação atômica** e **baixa latência**. O MIND utiliza o Helius RPC para transmitir transações determinísticas em milissegundos. Sem a velocidade e as taxas irrisórias da Solana, as transações autônomas A2A (Agent-to-Agent) de alto volume seriam economicamente inviáveis.
+**Slide 4: Fit com Solana**
+A economia de agentes exige escala e velocidade massiva.
+Micropagamentos (x402) precisam ser rápidos e baratos.
+Helius RPC garante liquidação determinística em milissegundos.
+Apenas a Solana viabiliza esse volume B2B institucional.
 
-**Slide 5: Mercado (Oportunidade)**
-*   **Título:** Protegendo TVL, Gerando aGDP.
-*   **Texto:** O alvo são tesourarias institucionais, DAOs e fundos (DeFi TVL) que querem ativar capital ocioso através de agentes autônomos (Yield, Arbitragem JIT), mas exigem controle absoluto (Policy Gates). O mercado de *Agentic GDP* (aGDP) explodirá, e toda transação precisará de um "pedágio" seguro.
+**Slide 5: Mercado e Oportunidade**
+O Agentic GDP (aGDP) é a próxima fronteira trilionária.
+Foco em tesourarias, DAOs e fundos institucionais DeFi.
+Capital ocioso vira JIT Liquidity com risco controlado.
+Todo agente precisará pagar um pedágio seguro de execução.
 
 **Slide 6: Modelo de Negócio**
-*   **Título:** B2B SaaS & Execution Toll.
-*   **Texto:** O MIND não opera agentes de varejo, atua como infraestrutura invisível (API/SDK). 
-    1. **Licenciamento SaaS:** Para fundos conectarem seus agentes aos cofres KMS.
-    2. **Execution Fee (Pedágio):** Taxa microscópica cobrada no settlement de transações on-chain de alta frequência (A2A Routing).
+Infraestrutura B2B operando nos bastidores da economia.
+Licenciamento SaaS para acesso a cofres KMS privados.
+Execution Fee micro cobrada por liquidação A2A on-chain.
+Alto volume de agentes gera receita recorrente massiva.
 
-**Slide 7: O Diferencial (O Fosso Competitivo)**
-*   **Título:** Não construímos agentes, construímos as rodovias.
-*   **Texto:** Enquanto o mercado tenta criar "o melhor bot de trade", o MIND é agnóstico. Funciona com OpenClaw, Eliza, SolClaw ou agentes proprietários. Nosso diferencial é a arquitetura *Zero-Trust*, abstraindo a complexidade de criptografia e KMS do desenvolvedor de IA.
+**Slide 7: O Diferencial Competitivo**
+Não criamos o melhor bot, construímos as rodovias seguras.
+Totalmente agnóstico a modelos (Eliza, OpenClaw, Llama).
+Abstraímos a complexidade criptográfica do desenvolvedor.
+O único com Turnkey KMS e Policy Gates já integrados.
 
-**Slide 8: Roadmap Inicial & Tração (10 pts - Aplicação)**
-*   **Título:** O que já construímos (MVP Live).
-*   **Texto:** Ao invés de apenas uma ideia, trouxemos código.
-    *   *Fase 1 (Agora):* Integração Telegram HITL + Turnkey KMS + Solana Mainnet operando E2E.
-    *   *Fase 2 (Colosseum):* Lançamento de SDKs públicos para frameworks de agentes.
-    *   *Fase 3 (Mainnet V1):* Onboarding do primeiro fundo parceiro para gestão de JIT Liquidity.
+**Slide 8: Tração e Roadmap Inicial**
+Submetemos código rodando em Mainnet, não apenas ideias.
+MVP ativo com Telegram HITL e Turnkey KMS operando E2E.
+Fase 2: Lançamento de SDKs públicos para frameworks A2A.
+Fase 3: Onboarding de fundos parceiros (JIT Liquidity).
 
 **Slide 9: Time**
-*   **Título:** Construído para a Economia Autônoma.
-*   **Texto:** 
-    *   **Diego:** Arquitetura de Sistemas, Web3 Engineering & Segurança Institucional. Responsável por projetar a integração E2E desde o Intent Gateway até a liquidação atômica on-chain.
+Diego: Arquiteto de Sistemas Web3 e Segurança Institucional.
+Especialista na integração E2E de Intent Gateways.
+Foco em infraestrutura de alta performance on-chain.
+Visão Economy-First para liquidação atômica determinística.
 
-**Slide 10: Encerramento (Call to Action)**
-*   **Título:** Toda intenção autônoma deixa um "Mindprint".
-*   **Texto:** (Links)
-    *   Demo On-Chain (TxHash): `[Inserir Hash KMS da Demo]`
-    *   Repositório Github: `[Link do Github]`
-    *   Contato Telegram: `@SeuUser`
-
----
-
+**Slide 10: Toda intenção deixa um Mindprint**
+Demo Mainnet: PeYPPJF5CyXb71afSG5BtdXFPCnNb6edboDfSXM...
+Github: https://github.com/DGuedz
+Telegram: @DGuedz | X: @dg_doublegreen
+LinkedIn: in/double-green-0b6957b7
 ## Próximos Passos (Checklist)
 1. **Vídeo de 45s (Trends):** Gravar e postar no X hoje.
 2. **Slides (Ideathon):** Copiar o texto acima para o Google Slides.
