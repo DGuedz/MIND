@@ -51,8 +51,12 @@ server.addHook("preHandler", async (request, reply) => {
 });
 
 const PlanExecutionInputSchema = z.object({
-  intentId: z.string(),
-  mode: z.enum(["simulated", "real"])
+  taskId: z.string(),
+  action: z.enum(["TRANSFER", "SWAP"]),
+  amount: z.number(),
+  asset: z.string(),
+  destination: z.string().optional(),
+  walletId: z.string()
 });
 
 const CreateA2AContextInputSchema = z.object({
@@ -152,7 +156,7 @@ server.post("/v1/executions", async (request: FastifyRequest, reply: FastifyRepl
   const executionServiceUrl = process.env.EXECUTION_SERVICE_URL ?? "http://localhost:3006";
   try {
     const response = await postJson<Record<string, unknown>>(
-      `${executionServiceUrl}/v1/executions/plan`,
+      `${executionServiceUrl}/v1/execution/execute`,
       parsed.data
     );
     return reply.code(response.statusCode ?? 201).send(response.data);
@@ -314,6 +318,9 @@ const HeroFlowSchema = z.object({
   execution: z.object({
     mode: z.enum(["simulated", "real"]),
     amount: z.string(),
+    asset: z.string().default("USDC"),
+    destination: z.string().optional(),
+    walletId: z.string().default(process.env.TURNKEY_SIGN_WITH || "mock-wallet-id"),
     maxSlippageBps: z.number().int().min(0).max(10_000),
     priceBounds: z.object({ min: z.number().optional(), max: z.number().optional() }).optional(),
     expiresAt: z.string()
@@ -514,23 +521,15 @@ server.post("/v1/hero-flow/run", async (request: FastifyRequest, reply: FastifyR
       });
     }
 
-    const executionPlan = await postJson<{ executionId: string }>(
-      `${executionServiceUrl}/v1/executions/plan`,
+    const executionRun = await postJson<{ proofOfIntent?: string; status?: string }>(
+      `${executionServiceUrl}/v1/execution/execute`,
       {
-        intentId: intentResponse.data.intentId,
-        mode: parsed.data.execution.mode
-      }
-    );
-
-    const executionRun = await postJson<{ receiptHash?: string; event?: { eventHash: string } }>(
-      `${executionServiceUrl}/v1/executions/run`,
-      {
-        executionId: executionPlan.data.executionId,
-        intentId: intentResponse.data.intentId,
-        amount: parsed.data.execution.amount,
-        maxSlippageBps: parsed.data.execution.maxSlippageBps,
-        priceBounds: parsed.data.execution.priceBounds,
-        expiresAt: parsed.data.execution.expiresAt
+        taskId: intentResponse.data.intentId, // using intentId as taskId for the hero flow
+        action: "TRANSFER", // Mocking TRANSFER for demo flow
+        amount: parseFloat(parsed.data.execution.amount) || 1,
+        asset: parsed.data.execution.asset,
+        destination: parsed.data.execution.destination,
+        walletId: parsed.data.execution.walletId
       }
     );
 
@@ -539,11 +538,8 @@ server.post("/v1/hero-flow/run", async (request: FastifyRequest, reply: FastifyR
         ? { type: "market_context", hash: marketContext.data.result.snapshotHash }
         : null,
       policyCheck.data?.policyHash ? { type: "policy_hash", hash: policyCheck.data.policyHash } : null,
-      executionRun.data?.event?.eventHash
-        ? { type: "execution_event", hash: executionRun.data.event.eventHash }
-        : null,
-      executionRun.data?.receiptHash
-        ? { type: "execution_receipt", hash: executionRun.data.receiptHash }
+      executionRun.data?.proofOfIntent
+        ? { type: "execution_receipt", hash: executionRun.data.proofOfIntent }
         : null
     ].filter(Boolean) as { type: string; hash: string }[];
 
@@ -552,7 +548,7 @@ server.post("/v1/hero-flow/run", async (request: FastifyRequest, reply: FastifyR
         {
           intentId: intentResponse.data.intentId,
           approvalId: undefined,
-          executionId: executionPlan.data.executionId,
+          executionId: intentResponse.data.intentId, // mock executionId
           anchors
         }
       );
@@ -561,7 +557,7 @@ server.post("/v1/hero-flow/run", async (request: FastifyRequest, reply: FastifyR
       status: "completed",
       intentId: intentResponse.data.intentId,
       approvalId: null,
-      executionId: executionPlan.data.executionId,
+      executionId: intentResponse.data.intentId, // mock executionId
       proofId: proof.data.proofId,
       proofHash: proof.data.proofHash,
       policyHash: policyCheck.data?.policyHash ?? null,
