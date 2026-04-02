@@ -107,7 +107,7 @@ export function HomePage() {
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 w-full sm:w-auto px-4 sm:px-0">
               <Button 
                 className="w-full sm:w-auto rounded-full px-8 py-6 bg-white text-black hover:bg-gray-200 text-sm font-medium transition-all hover:scale-105"
-                onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}
+                onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}
               >
                 <Bot className="w-4 h-4 mr-2" />
                 Launch in Telegram ↗
@@ -365,7 +365,7 @@ export function HomePage() {
               </ul>
 
               <Button 
-                onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}
+                onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}
                 className="w-full sm:w-auto bg-blue-600 text-white hover:bg-blue-500 rounded-full px-8 py-6 text-base font-medium transition-all hover:scale-105"
               >
                 <Bot className="w-5 h-5 mr-2" />
@@ -419,7 +419,7 @@ export function HomePage() {
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
                 Routing intent through a controlled execution path. The current demo focuses on policy enforcement, approval flow, and execution evidence.
               </p>
-              <Button variant="outline" className="w-full border-purple-500/30 text-purple-300 hover:bg-purple-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
+              <Button variant="outline" className="w-full border-purple-500/30 text-purple-300 hover:bg-purple-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}>
                 Test x402 Flow
               </Button>
             </div>
@@ -445,7 +445,7 @@ export function HomePage() {
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
                 Privacy and advanced routing are roadmap topics. This build demonstrates verifiable intent gating, human approval, and controlled execution.
               </p>
-              <Button variant="outline" className="w-full border-green-500/30 text-green-300 hover:bg-green-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
+              <Button variant="outline" className="w-full border-green-500/30 text-green-300 hover:bg-green-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}>
                 Simulate Dark Pool
               </Button>
             </div>
@@ -458,7 +458,7 @@ export function HomePage() {
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
                 Telegram-based sovereign approval flows. Retain total control while your agent moves at machine speed.
               </p>
-              <Button variant="outline" className="w-full border-orange-500/30 text-orange-300 hover:bg-orange-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
+              <Button variant="outline" className="w-full border-orange-500/30 text-orange-300 hover:bg-orange-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}>
                 Try Telegram Bot
               </Button>
             </div>

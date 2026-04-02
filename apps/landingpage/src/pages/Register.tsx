@@ -131,7 +131,7 @@ export function RegisterPage() {
               </div>
 
               <Button 
-                onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}
+                onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}
                 className="w-full bg-white text-black hover:bg-gray-200 rounded-xl py-6 mt-6 font-medium"
               >
                 Open Telegram Bot

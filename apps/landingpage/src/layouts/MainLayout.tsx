@@ -155,7 +155,7 @@ export function MainLayout() {
                 <li><Link to="/app" className="hover:text-white transition-colors">App Dashboard</Link></li>
                 <li><Link to="/features" className="hover:text-white transition-colors">Features</Link></li>
                 <li><Link to="/infrastructure" className="hover:text-white transition-colors">Infrastructure</Link></li>
-                <li><a href="https://t.me/Mind_Agent_Protocol_bot" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Connect Agent <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" /></a></li>
+                <li><a href="https://t.me/Mind_Agent_Protocol_bot?start=connect" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">Connect Agent <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" /></a></li>
               </ul>
             </div>
 
