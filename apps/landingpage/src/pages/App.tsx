@@ -204,6 +204,32 @@ const fetchKaminoSolVaultMetrics = async () => {
   };
 };
 
+type A2AContext = {
+  id: string;
+  intent: string;
+  status: "open" | "accepted" | "cancelled" | "expired";
+  createdAt: string;
+};
+
+type A2ATask = {
+  id: string;
+  contextId: string;
+  status: "scanning" | "routing" | "risk_check" | "approval_required" | "approved" | "executing" | "settling" | "completed" | "failed";
+  executor: string;
+  payload: any;
+};
+
+const mockContexts: A2AContext[] = [
+  { id: "ctx_1", intent: "Swap 250k USDC to SOL", status: "open", createdAt: "2 mins ago" },
+  { id: "ctx_2", intent: "JIT Liquidity Activation", status: "accepted", createdAt: "15 mins ago" },
+  { id: "ctx_3", intent: "Rebalance Treasury", status: "cancelled", createdAt: "1 hour ago" }
+];
+
+const mockTasks: A2ATask[] = [
+  { id: "tsk_1", contextId: "ctx_1", status: "approval_required", executor: "Risk Agent", payload: { amount: 250000, asset: "USDC" } },
+  { id: "tsk_2", contextId: "ctx_2", status: "completed", executor: "Execution Agent", payload: { txHash: "5xt...9aZ" } },
+];
+
 export function AppPage() {
   const [intents, setIntents] = useState<IntentItem[]>(fallbackIntents);
   const [loading, setLoading] = useState(true);
@@ -485,15 +511,14 @@ export function AppPage() {
   const handleSimulateHeroFlow = async () => {
     try {
       // Tenta bater no backend local (gateway) se estiver rodando para disparar o webhook do Telegram
-      await fetch("http://127.0.0.1:4000/v1/intents/request", {
+      await fetch("http://127.0.0.1:3000/v1/intents/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           intentId: "intent_demo_arbitrage_" + Math.floor(Math.random() * 1000),
           channel: "telegram",
           requesterId: "913039626", // ID do usuário
-          action: "A2A Oracle Payment",
-          amount: "-$0.50"
+          action: "Swap 50 SOL to USDC"
         })
       });
       alert("Hero Flow Simulated: Intent sent to Telegram webhook.");
@@ -763,6 +788,80 @@ export function AppPage() {
                     <span className="text-xs font-medium text-purple-400">{microRevenueCalls.toLocaleString()} calls</span>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Approval Queue (Human-in-the-Loop) */}
+            <div className="bg-black border border-yellow-900/50 rounded-2xl p-6">
+              <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-yellow-500" />
+                Approval Queue (HITL)
+              </h2>
+              <div className="space-y-3">
+                {mockTasks.filter(t => t.status === 'approval_required').map(task => (
+                  <div key={task.id} className="bg-white/5 border border-white/10 p-4 rounded-xl flex justify-between items-center hover:border-yellow-500/30 transition-colors">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline" className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-xs font-mono uppercase">
+                          {task.status}
+                        </Badge>
+                        <span className="text-[10px] text-gray-500 font-mono">{task.id} (Ctx: {task.contextId})</span>
+                      </div>
+                      <p className="text-sm text-gray-300">
+                        <strong className="text-white">Intent:</strong> Swap {task.payload.amount.toLocaleString()} {task.payload.asset}
+                      </p>
+                      <p className="text-[10px] text-gray-500 mt-1 font-mono">Blocked by: IntentFirewall ({">"} 10 SOL Limit)</p>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button variant="outline" className="border-red-900/50 text-red-400 hover:bg-red-900/20 hover:text-red-300 text-xs h-8">
+                        Reject
+                      </Button>
+                      <Button className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs h-8">
+                        Approve via KMS
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Active Contexts */}
+            <div className="bg-black border border-white/10 rounded-2xl overflow-hidden">
+              <div className="p-6 border-b border-white/5">
+                <h2 className="text-lg font-medium text-white flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-blue-400" />
+                  Active A2A Contexts
+                </h2>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="text-[10px] text-gray-500 uppercase font-mono bg-white/5 border-b border-white/10">
+                    <tr>
+                      <th className="px-6 py-4 font-medium">Context ID</th>
+                      <th className="px-6 py-4 font-medium">Intent</th>
+                      <th className="px-6 py-4 font-medium">Status</th>
+                      <th className="px-6 py-4 font-medium">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {mockContexts.map(ctx => (
+                      <tr key={ctx.id} className="hover:bg-white/5 transition-colors group">
+                        <td className="px-6 py-4 font-mono text-gray-400 text-xs">{ctx.id}</td>
+                        <td className="px-6 py-4 text-gray-200">{ctx.intent}</td>
+                        <td className="px-6 py-4">
+                          <Badge variant="outline" className={`text-[10px] uppercase font-mono border-white/10 ${
+                            ctx.status === 'open' ? 'bg-blue-500/10 text-blue-400' :
+                            ctx.status === 'accepted' ? 'bg-emerald-500/10 text-emerald-400' :
+                            'bg-gray-500/10 text-gray-400'
+                          }`}>
+                            {ctx.status}
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4 text-gray-500 font-mono text-[10px]">{ctx.createdAt}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
 

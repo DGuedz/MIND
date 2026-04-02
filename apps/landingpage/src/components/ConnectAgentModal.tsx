@@ -5,6 +5,8 @@ import { Badge } from "./ui/badge";
 import { Switch } from "./ui/switch";
 import { Terminal, CheckCircle2, Loader2, ArrowRight, Wallet, Bot, Zap } from "lucide-react";
 
+const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:4000").trim().replace(/\/$/, "");
+
 export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess?: () => void }) {
   const [step, setStep] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -15,7 +17,7 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
     try {
       setIsProcessing(true);
       // Calls the real API Gateway which routes to approval-gateway-service
-      const response = await fetch("http://127.0.0.1:4000/v1/onboard/tg-agent", {
+      const response = await fetch(`${gatewayBaseUrl}/v1/onboard/tg-agent`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -24,6 +26,10 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
         })
       });
       
+      if (!response.ok) {
+        throw new Error(`onboard_http_${response.status}`);
+      }
+
       const data = await response.json();
       if (data.status === "success") {
         setAgentData(data);

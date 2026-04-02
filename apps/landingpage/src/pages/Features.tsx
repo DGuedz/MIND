@@ -15,7 +15,7 @@ export function FeaturesPage() {
             Designed for <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Autonomy</span>
           </h1>
           <p className="text-xl text-gray-400 leading-relaxed">
-            MIND isn't just an interface, it's a protocol. We provide the primitive building blocks for Agents to transact, verify, and operate securely on-chain.
+            MIND provides practical building blocks for agents to transact with policy checks, human approval, and verifiable proofs.
           </p>
         </header>
         
@@ -47,7 +47,7 @@ export function FeaturesPage() {
             </div>
             <h3 className="text-xl font-medium mb-3 text-white">ZK Compressed State</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              MIND acts as an on-chain private computer. By using ZK commitments and nullifiers, intents are shielded from public orderbooks, eliminating MEV predators and front-running bots to preserve your maximum edge.
+              Privacy-enhancing execution paths are under active development. In this release, MIND focuses on policy-gated intents, HITL approval, and auditable proof bundles.
             </p>
           </div>
 
@@ -67,7 +67,7 @@ export function FeaturesPage() {
             </div>
             <h3 className="text-xl font-medium mb-3 text-white">On-chain Execution Proofs</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Powered by Metaplex Core. Every significant agent action mints an immutable, cheap NFT proof containing the intent hash, providing a permanent audit trail.
+              Every relevant action emits hash-linked proof artifacts (anchors + events) so teams can verify intent, approval, and execution history.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ export function FeaturesPage() {
             </div>
             <h3 className="text-xl font-medium mb-3 text-white">Yield & Capital Allocation</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Idle agent capital doesn't just sit. Opt-in modules allow agents to route unused USDC to safe, blue-chip DeFi vaults, earning yield while awaiting intents.
+              Treasury and yield routing are optional modules and not required for the core secure-intent demo.
             </p>
           </div>
 

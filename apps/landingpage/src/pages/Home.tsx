@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { MeshNetwork } from "../components/MeshNetwork";
 import { Button } from "../components/ui/button";
@@ -49,7 +50,14 @@ function AnimatedChat() {
         <div className="bg-white/5 rounded-lg rounded-tl-none p-3 text-gray-300 border border-white/10 w-[85%] animate-in fade-in slide-in-from-bottom-2 duration-300">
           ✅ A2A Permissions Granted.<br/>
           ⚡ Skills equipped.<br/>
-          <a href="#" className="text-blue-400 underline mt-1 inline-block">landingpage-dgs-projects-ac3c4a7c.vercel.app/connect?agent=live</a>
+          <a
+            href="https://landingpage-dgs-projects-ac3c4a7c.vercel.app/connect?agent=live"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 underline mt-1 inline-block"
+          >
+            landingpage-dgs-projects-ac3c4a7c.vercel.app/connect?agent=live
+          </a>
         </div>
       )}
     </div>
@@ -59,6 +67,7 @@ function AnimatedChat() {
 export function HomePage() {
   const [agentEconomyFilter, setAgentEconomyFilter] = useState(false);
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -397,7 +406,7 @@ export function HomePage() {
               The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Ultimate Dealer</span> for AI Agents
             </h1>
             <p className="text-xl text-gray-400 leading-relaxed">
-              MIND is the foundational A2A Server for DeFi on Solana. We stream real-time market data to your agents and execute their intents with the best yield, zero-slippage routing, and ZK-shielded dark pools. Your agents analyze. We execute.
+              MIND is an A2A server for Solana agents. We turn signals into intents, apply policy checks, request human approval, execute, and return verifiable proof.
             </p>
           </header>
 
@@ -408,7 +417,7 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-medium mb-3 text-white">Real-Time A2A Routing</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Streaming live orderbooks and liquidity state. We connect your local LLM context (MCP) to the global Solana ecosystem, finding the absolute best rates across Jupiter, Meteora, and Raydium in milliseconds.
+                Routing intent through a controlled execution path. The current demo focuses on policy enforcement, approval flow, and execution evidence.
               </p>
               <Button variant="outline" className="w-full border-purple-500/30 text-purple-300 hover:bg-purple-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
                 Test x402 Flow
@@ -421,9 +430,9 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-medium mb-3 text-white">Institutional Yield Vaults</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Idle agent capital is wasted capital. MIND automatically sweeps unutilized JIT Treasury into blue-chip Kamino vaults, generating secure, stable yield while awaiting the next arbitrage signal.
+                Optional treasury modules can be connected in future phases. The hackathon flow keeps scope tight around intent safety and proof.
               </p>
-              <Button variant="outline" className="w-full border-blue-500/30 text-blue-300 hover:bg-blue-500/10" onClick={() => window.location.href = '/app'}>
+              <Button variant="outline" className="w-full border-blue-500/30 text-blue-300 hover:bg-blue-500/10" onClick={() => navigate("/app")}>
                 View Dashboard
               </Button>
             </div>
@@ -434,7 +443,7 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-medium mb-3 text-white">ZK Dark Pool Execution</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Operate with absolute spread advantage. By utilizing Zero-Knowledge proofs, agent intents are shielded from public mempools, completely eliminating front-running and MEV extraction.
+                Privacy and advanced routing are roadmap topics. This build demonstrates verifiable intent gating, human approval, and controlled execution.
               </p>
               <Button variant="outline" className="w-full border-green-500/30 text-green-300 hover:bg-green-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot', '_blank')}>
                 Simulate Dark Pool
@@ -481,7 +490,7 @@ export function HomePage() {
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
                 Hire other agents on-demand. Delegate 0.5 SOL to a specialized data agent before executing a trade, all atomically settled.
               </p>
-              <Button variant="outline" className="w-full border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10" onClick={() => window.location.href = '/app'}>
+              <Button variant="outline" className="w-full border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10" onClick={() => navigate("/app")}>
                 Explore A2A Ecosystem
               </Button>
             </div>
@@ -489,18 +498,18 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Services Showcase (Unfair Advantage) */}
+      {/* Services Showcase */}
       <div className="py-24 bg-black border-t border-white/5">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto mb-20">
             <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30 mb-6">
-              Our Unfair Advantage
+              Why This Matters
             </Badge>
             <h2 className="text-3xl md:text-5xl font-medium tracking-tight mb-6">
-              The Invisible Toll Road for <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Autonomous Agents</span>
+              Control Layer for <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Autonomous Agents</span>
             </h2>
             <p className="text-xl text-gray-400 leading-relaxed">
-              We don't build retail trading bots. We sell the data perception, the secure routing lanes, the cryptographic audit, and the control plane that institutional treasuries require to operate their agent fleets.
+              MIND focuses on one production path: policy-first intent routing, human approval, deterministic execution, and cryptographic proof.
             </p>
           </div>
 
@@ -515,7 +524,7 @@ export function HomePage() {
                 Agents pay micro-fees via <strong>x402 (Payment Required)</strong> to access our structured on-chain data, market sentiment, and risk scores before risking capital. Instant programmatic settlement.
               </p>
               <div className="text-sm font-mono text-purple-400 bg-purple-500/10 px-4 py-2 rounded-lg inline-block">
-                Monetization: Pay-per-Query
+                Demo Evidence: x402 Data Lane
               </div>
             </div>
 
@@ -526,10 +535,10 @@ export function HomePage() {
               </div>
               <h3 className="text-2xl font-medium text-white mb-3">A2A Routing & Atomic Settlement</h3>
               <p className="text-gray-400 text-base leading-relaxed mb-6">
-                The express lane connecting agent intents (e.g., liquidity seeking vs. providing). We execute atomic settlement on Solana, bypassing public mempools and predatory MEV bots via Dark Pools.
+                The execution lane connecting agent intents with policy and approval checks before settlement on Solana.
               </p>
               <div className="text-sm font-mono text-blue-400 bg-blue-500/10 px-4 py-2 rounded-lg inline-block">
-                Monetization: Execution Fee (0.1% - 1%)
+                Demo Evidence: A2A Intent Routing
               </div>
             </div>
 
@@ -540,10 +549,10 @@ export function HomePage() {
               </div>
               <h3 className="text-2xl font-medium text-white mb-3">Governance & Cryptographic Proof</h3>
               <p className="text-gray-400 text-base leading-relaxed mb-6">
-                Institutional compliance layer. Strict Policy Gates via Turnkey KMS, sovereign Telegram approvals, and immutable <strong>Proof of Intent</strong> execution receipts minted via Metaplex Core.
+                Policy and audit layer with Telegram approvals and hash-linked proof artifacts for intent and execution tracking.
               </p>
               <div className="text-sm font-mono text-orange-400 bg-orange-500/10 px-4 py-2 rounded-lg inline-block">
-                Monetization: SaaS & Audit Layer
+                Demo Evidence: Proof Bundle
               </div>
             </div>
 
@@ -554,10 +563,10 @@ export function HomePage() {
               </div>
               <h3 className="text-2xl font-medium text-white mb-3">Capital Optimization & Yield</h3>
               <p className="text-gray-400 text-base leading-relaxed mb-6">
-                Activating idle treasury capital as <strong>Just-In-Time (JIT) Liquidity</strong> on safe protocols like Kamino/Meteora, extracting maximum yield when positive spread arbitrage opportunities arise.
+                Treasury optimization is treated as optional extension work. The current release keeps the demo objective: secure intent flow with auditable proof.
               </p>
               <div className="text-sm font-mono text-emerald-400 bg-emerald-500/10 px-4 py-2 rounded-lg inline-block">
-                Monetization: Performance Fee (10% - 20%)
+                Scope: Future Work
               </div>
             </div>
           </div>

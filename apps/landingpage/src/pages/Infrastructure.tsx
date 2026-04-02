@@ -15,17 +15,17 @@ export function InfrastructurePage() {
           <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-6">
             Infrastructure for <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">
-              Institutional Agents
+              Secure Agent Operations
             </span>
           </h1>
           <p className="text-xl text-gray-400 leading-relaxed">
-            MIND optimizes for cost, risk, time, and integrity. We ensure institutional security, deterministic settlement, and operational resilience.
+            MIND focuses on deterministic workflow: intent capture, policy checks, human approval, execution, and proof.
           </p>
         </header>
 
         {/* Arch Diagram Abstraction */}
         <div className="mb-24 relative max-w-5xl mx-auto bg-white/[0.02] border border-white/5 rounded-3xl p-8 lg:p-12 overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
+          <div className="absolute inset-0 noise opacity-[0.25]" />
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
             {/* Frontend / Input */}
@@ -70,7 +70,7 @@ export function InfrastructurePage() {
                   </div>
                   <span className="font-medium">Solana Mainnet</span>
                 </div>
-                <p className="text-xs text-gray-400">Atomic execution, liquidity routing, and Metaplex Core proof minting.</p>
+                <p className="text-xs text-gray-400">Atomic execution path and proof bundle generation.</p>
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ export function InfrastructurePage() {
             <Key className="w-6 h-6 text-yellow-400 mb-4" />
             <h3 className="text-lg font-medium mb-2">Key Management (KMS)</h3>
             <p className="text-sm text-gray-400">
-              Private keys are never exposed to the frontend or persisted in DBs. We use ephemeral, memory-only decryption via AWS/GCP KMS during the exact moment of on-chain signature.
+              Signing is isolated in dedicated services and policy checks run before execution requests are finalized.
             </p>
           </div>
 
@@ -98,7 +98,7 @@ export function InfrastructurePage() {
             <Database className="w-6 h-6 text-pink-400 mb-4" />
             <h3 className="text-lg font-medium mb-2">Data Economy</h3>
             <p className="text-sm text-gray-400">
-              We log only what matters: hashes, identifiers, and sequences. Full payloads are never stored if a hash resolves the state, ensuring fast, cost-effective auditability via Covalent.
+              We persist hash-linked artifacts for auditability: intent records, approval events, execution events, and proof anchors.
             </p>
           </div>
 
@@ -106,7 +106,7 @@ export function InfrastructurePage() {
             <Shield className="w-6 h-6 text-red-400 mb-4" />
             <h3 className="text-lg font-medium mb-2">Active Defense (Honeypots)</h3>
             <p className="text-sm text-gray-400">
-              MIND deploys decoy entities on-chain. Any malicious interaction with a decoy instantly triggers alerts, invalidates sessions, and escalates the defense level automatically.
+              Defense modules are progressively added. This release prioritizes policy enforcement and human approval as first-line controls.
             </p>
           </div>
         </div>
