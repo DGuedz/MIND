@@ -183,7 +183,9 @@ async function registerIntent(chatId: number, input: Omit<MindIntentRequestInput
 async function getRealBalance(): Promise<number> {
   if (!publicKeyStr) return 0;
   try {
+    console.log(`[getRealBalance] Fetching balance for ${publicKeyStr}...`);
     const balance = await connection.getBalance(new PublicKey(publicKeyStr));
+    console.log(`[getRealBalance] Done: ${balance}`);
     return balance / LAMPORTS_PER_SOL;
   } catch (e) {
     console.error("Erro ao buscar saldo real:", e);
