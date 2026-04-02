@@ -9,6 +9,12 @@
   ],
   "scripts": {
     "dev:services": "pnpm -r --parallel --filter @mind/api-gateway --filter @mind/intent-service --filter @mind/market-context-service --filter @mind/approval-gateway-service --filter @mind/registry-service --filter @mind/proof-service --filter @mind/execution-service --filter @mind/signer-service --filter @mind/a2a-service run dev",
+    "restart": "bash scripts/restart_mind.sh",
+    "stop": "bash scripts/performance_mode.sh",
+    "agent:router": "python3 scripts/agent_resource_router.py",
+    "dev:services:env": "set -a && . ./.env && set +a && pnpm dev:services",
+    "demo:secure-intent": "pnpm exec tsx scripts/demo_secure_intent_rail.ts",
+    "demo:setup-telegram-webhook": "pnpm exec tsx scripts/setup_telegram_webhook.ts",
     "setup:colab": "bash scripts/setup_colab_vscode.sh",
     "verify:colab-runtime": "python3 scripts/colab_runtime_probe.py",
     "check:tailwind": "pnpm --filter landingpage-temp run check:tailwind",

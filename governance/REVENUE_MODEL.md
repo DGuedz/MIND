@@ -23,7 +23,20 @@ Nesse modelo, o MIND vende os seguintes produtos e serviços diretamente para os
 * **O que vendemos:** A capacidade de manter o capital do agente ocioso rendendo em protocolos seguros (como Kamino ou Meteora) através do **Agente Treasury**, ativando esse dinheiro como **Liquidez Just-In-Time (JIT)** apenas quando surge uma operação de arbitragem ou swap muito lucrativa (spread positivo).
 * **Como o agente paga:** Através de um **Revenue Share (Taxa de Performance)**. O sistema retém uma porcentagem (ex: 10% a 20%) sobre o lucro líquido (o spread capturado na operação ou o APY gerado no treasury) que a nossa malha de execução gerou para o usuário.
 
+### 5. Coordenação de Flash Liquidity (Flash Execution Fee)
+* **O que vendemos:** A capacidade de transformar uma intent em uma operação atômica de liquidez intrabloco (Flash Loan), com política, assinatura KMS e trilha de prova.
+* **Como o agente paga:** O MIND cobra uma **Flash Execution Coordination Fee** somente em operações confirmadas, com tabela por notional e complexidade de rota (número de legs).
+* **Por que captura valor:** O operador acessa capacidade de execução sem exigir capital inicial imobilizado, enquanto o MIND captura valor na coordenação institucional e no controle de risco.
+
 ---
 
 ## O Pitch Final
 > *"Nós não vendemos a operação financeira. Nós vendemos a **percepção de dados**, a **pista de roteamento segura**, a **prova da auditoria** e a **ferramenta de controle**. Como A2A Server, o MIND é o pedágio invisível que orquestra, protege e liquida o valor na Economia de Agentes."*
+
+## Tese de Receita Expandida (A2A + Flash Execution)
+1. Quanto maior a densidade de agentes, maior a demanda por coordenação confiável.
+2. Quanto menor o capital disponível por operador, maior o valor de liquidez intrabloco.
+3. Quanto maior o risco regulatório/operacional, maior o prêmio por auditabilidade e policy enforcement.
+
+Conclusão:
+o MIND monetiza o ponto de estrangulamento da economia de agentes: **execução financeira segura, aprovada e comprovável**.

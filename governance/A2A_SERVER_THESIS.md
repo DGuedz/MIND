@@ -82,3 +82,15 @@ O MIND monetiza a coordenação, não a especulação:
 2. **Pedágio de Roteamento (Settlement):** Taxas de execução retidas no smart contract por conectar liquidez via Dark Pools.
 3. **Auditoria como Serviço (SaaS):** Tesourarias pagam premium pelo Control Plane de compliance, KMS e recibos criptográficos (Proof of Intent).
 4. **Performance JIT:** Captura de spread e APY ao ativar o capital ocioso (Treasury) como liquidez just-in-time para as operações da rede.
+
+## 9. Extensão Oficial: Flash Liquidity Coordination
+O MIND oficializa a extensão de liquidez intrabloco como produto de coordenação institucional.
+
+Premissa central:
+- A2A resolve descoberta/delegação;
+- MIND resolve policy + assinatura + prova para execução de alta criticidade.
+
+Artefatos canônicos desta extensão:
+1. `docs/PRD_A2A_SERVER.md` (contract spec técnico)
+2. `governance/REVENUE_MODEL.md` (captura de valor)
+3. `governance/FLASH_LIQUIDITY_COORDINATION_THESIS.md` (tese derivada)

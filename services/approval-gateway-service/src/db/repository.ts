@@ -24,6 +24,8 @@ const hashValue = (value: unknown): string => {
 
 export const createApproval = async (input: {
   intentId: string;
+  contextId?: string;
+  taskId?: string;
   channel: string;
   requesterId: string;
 }) => {
@@ -33,6 +35,8 @@ export const createApproval = async (input: {
   const record = {
     id: approvalId,
     intentId: input.intentId,
+    contextId: input.contextId,
+    taskId: input.taskId,
     channel: input.channel,
     requesterId: input.requesterId,
     decision: null,

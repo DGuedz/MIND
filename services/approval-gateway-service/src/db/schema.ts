@@ -3,6 +3,8 @@ import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 export const approvals = pgTable("approvals", {
   id: text("id").primaryKey(),
   intentId: text("intent_id").notNull(),
+  contextId: text("context_id"),
+  taskId: text("task_id"),
   channel: text("channel").notNull(),
   requesterId: text("requester_id").notNull(),
   decision: text("decision"),

@@ -37,6 +37,7 @@ export const answerTelegramCallback = async (input: {
     return { status: "skipped" as const };
   }
 
+  // Localtunnel exige o header "Bypass-Tunnel-Reminder" para não bloquear a resposta do webhook com uma tela de aviso html
   const response = await postJson(`https://api.telegram.org/bot${token}/answerCallbackQuery`, {
     callback_query_id: input.callbackQueryId,
     text: input.message ?? "Decisão registrada"

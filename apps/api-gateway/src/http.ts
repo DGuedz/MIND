@@ -28,7 +28,7 @@ const parseJson = <T>(raw: string, method: "GET" | "POST", url: string): T => {
   }
 };
 
-export const postJson = async <T>(url: string, body: unknown) => {
+export const postJson = async <T>(url: string, body: unknown, headers?: Record<string, string>) => {
   const payload = JSON.stringify(body);
   const target = new URL(url);
   const client = target.protocol === "https:" ? https : http;
@@ -42,7 +42,9 @@ export const postJson = async <T>(url: string, body: unknown) => {
         path: `${target.pathname}${target.search}`,
         headers: {
           "content-type": "application/json",
-          "content-length": Buffer.byteLength(payload).toString()
+          "content-length": Buffer.byteLength(payload).toString(),
+          "Bypass-Tunnel-Reminder": "true",
+          ...headers
         }
       },
       (res) => {
@@ -73,7 +75,7 @@ export const postJson = async <T>(url: string, body: unknown) => {
   });
 };
 
-export const getJson = async <T>(url: string) => {
+export const getJson = async <T>(url: string, headers?: Record<string, string>) => {
   const target = new URL(url);
   const client = target.protocol === "https:" ? https : http;
 
@@ -85,7 +87,8 @@ export const getJson = async <T>(url: string) => {
         port: target.port ? Number(target.port) : target.protocol === "https:" ? 443 : 80,
         path: `${target.pathname}${target.search}`,
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          ...headers
         }
       },
       (res) => {

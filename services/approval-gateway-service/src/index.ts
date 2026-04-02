@@ -10,6 +10,8 @@ import {
 import { sendOpenClawApproval } from "./notifications/openclaw.js";
 import { answerTelegramCallback, sendTelegramApproval } from "./notifications/telegram.js";
 
+import { postJson } from "./notifications/http.js";
+
 const server = fastify({ logger: true });
 
 server.get("/health", async () => ({
@@ -145,8 +147,29 @@ server.post("/v1/approvals/telegram/webhook", async (request: FastifyRequest, re
   }
 
   const event = await recordDecision(approval.id, decision);
+  
+  // Call A2A Service if contextId and taskId exist
+  if (approval.contextId && approval.taskId) {
+    const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
+    try {
+      if (decision === "approved") {
+        await postJson(`${a2aServiceUrl}/v1/a2a/contexts/${approval.contextId}/accept`, {
+          taskId: approval.taskId,
+          acceptedByAgentId: "telegram_hitl_agent"
+        }, { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" });
+      } else {
+        await postJson(`${a2aServiceUrl}/v1/a2a/contexts/${approval.contextId}/cancel`, {
+          cancelledByAgentId: "telegram_hitl_agent",
+          reason: "rejected_by_human"
+        }, { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" });
+      }
+    } catch (err) {
+      server.log.error({ err, approvalId: approval.id }, "Failed to forward decision to A2A service");
+    }
+  }
+
   if (update.callback_query?.id) {
-    await answerTelegramCallback({ callbackQueryId: update.callback_query.id });
+    await answerTelegramCallback({ callbackQueryId: update.callback_query.id, message: decision === "approved" ? "✅ Aprovado com sucesso via KMS" : "❌ Operação rejeitada" });
   }
 
   return reply.code(200).send({ status: "recorded", decision, event });

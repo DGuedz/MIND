@@ -68,6 +68,8 @@ export const IntentSchema = z.object({
 export const ApprovalSchema = z.object({
   id: z.string(),
   intentId: z.string(),
+  contextId: z.string().optional(),
+  taskId: z.string().optional(),
   channel: z.enum(["telegram", "whatsapp", "api"]),
   requesterId: z.string(),
   decision: ApprovalDecision.optional(),

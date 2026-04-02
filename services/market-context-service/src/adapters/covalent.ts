@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { postJson } from "./http.js";
+import { GoldRushClient } from "@covalenthq/client-sdk";
 
 const canonicalize = (value: unknown): string => {
   if (value === null || value === undefined) {
@@ -24,19 +25,19 @@ type CovalentFetchedResult = {
   status: "fetched";
   statusCode: number;
   snapshotHash: string;
-  raw: string;
+  raw: any;
 };
 
 type CovalentSkippedResult = {
   status: "skipped";
-  reason: "missing_endpoint";
+  reason: "missing_endpoint" | "missing_api_key";
 };
 
 type CovalentFailedResult = {
   status: "failed";
-  reason: "http_error";
+  reason: "http_error" | "sdk_error";
   statusCode?: number;
-  raw: string;
+  raw: any;
 };
 
 export type CovalentContextResult =
@@ -44,36 +45,44 @@ export type CovalentContextResult =
   | CovalentSkippedResult
   | CovalentFailedResult;
 
-export const fetchCovalentContext = async (payload: Record<string, unknown>) => {
-  const endpoint = process.env.COVALENT_MARKET_CONTEXT_ENDPOINT;
-  if (!endpoint) {
-    return { status: "skipped", reason: "missing_endpoint" } as CovalentSkippedResult;
+export const fetchCovalentContext = async (payload: Record<string, unknown>): Promise<CovalentContextResult> => {
+  const apiKey = process.env.COVALENT_API_KEY;
+  if (!apiKey) {
+    return { status: "skipped", reason: "missing_api_key" } as CovalentSkippedResult;
   }
 
-  const apiKey = process.env.COVALENT_API_KEY;
-  const response = await postJson(
-    endpoint,
-    payload,
-    apiKey ? { authorization: `Bearer ${apiKey}` } : undefined
-  );
+  try {
+    const client = new GoldRushClient(apiKey);
+    let rawData: any = {};
 
-  if (!response.statusCode || response.statusCode < 200 || response.statusCode >= 300) {
+    // Covalent SDK Integration for Solana (solana-mainnet)
+    if (payload.action === "get_balances" && typeof payload.wallet === "string") {
+      const resp = await client.BalanceService.getTokenBalancesForWalletAddress("solana-mainnet", payload.wallet);
+      rawData = resp.data;
+    } else if (payload.action === "get_portfolio" && typeof payload.wallet === "string") {
+      const resp = await client.BalanceService.getHistoricalPortfolioForWalletAddress("solana-mainnet", payload.wallet);
+      rawData = resp.data;
+    } else {
+      // Fallback or generic Covalent endpoint logic if needed
+      rawData = { message: "unsupported_covalent_action", payload };
+    }
+
+    const snapshotHash = hashValue({ payload, response: rawData });
+
+    return {
+      status: "fetched",
+      statusCode: 200,
+      snapshotHash,
+      raw: rawData
+    };
+  } catch (error: any) {
     return {
       status: "failed",
-      reason: "http_error",
-      statusCode: response.statusCode,
-      raw: response.data
-    } as CovalentFailedResult;
+      reason: "sdk_error",
+      statusCode: error.status || 500,
+      raw: error.message || String(error)
+    };
   }
-
-  const snapshotHash = hashValue({ payload, response: response.data });
-
-  return {
-    status: "fetched",
-    statusCode: response.statusCode,
-    snapshotHash,
-    raw: response.data
-  } as CovalentFetchedResult;
 };
 
 export const computeSnapshotHash = (payload: Record<string, unknown>, raw: string) => {

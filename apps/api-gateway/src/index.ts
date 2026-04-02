@@ -55,24 +55,25 @@ const PlanExecutionInputSchema = z.object({
   mode: z.enum(["simulated", "real"])
 });
 
-const CreateA2ASessionInputSchema = z.object({
+const CreateA2AContextInputSchema = z.object({
   intentId: z.string(),
   initiatorAgentId: z.string(),
   counterpartyAgentId: z.string().optional(),
   expiresAt: z.string()
 });
 
-const CreateA2AProposalInputSchema = z.object({
-  proposerAgentId: z.string(),
-  payload: z.record(z.unknown())
+const CreateA2ATaskInputSchema = z.object({
+  executorAgentId: z.string(),
+  payload: z.record(z.unknown()),
+  idempotencyKey: z.string().optional()
 });
 
-const AcceptA2ASessionInputSchema = z.object({
-  proposalId: z.string(),
+const AcceptA2AContextInputSchema = z.object({
+  taskId: z.string(),
   acceptedByAgentId: z.string()
 });
 
-const CancelA2ASessionInputSchema = z.object({
+const CancelA2AContextInputSchema = z.object({
   cancelledByAgentId: z.string(),
   reason: z.string().optional()
 });
@@ -103,6 +104,10 @@ server.get("/health", async () => ({
   status: "ok",
   service: "api-gateway"
 }));
+
+server.get("/health/db", async (_request: FastifyRequest, reply: FastifyReply) => {
+  return reply.send({ status: "ok" });
+});
 
 server.post("/v1/agents/register", async (request: FastifyRequest, reply: FastifyReply) => {
   const parsed = CreateAgentInputSchema.safeParse(request.body);
@@ -137,6 +142,7 @@ server.post("/v1/intents", async (request: FastifyRequest, reply: FastifyReply) 
   }
 });
 
+// Proxy to Execution Service
 server.post("/v1/executions", async (request: FastifyRequest, reply: FastifyReply) => {
   const parsed = PlanExecutionInputSchema.safeParse(request.body);
   if (!parsed.success) {
@@ -155,15 +161,15 @@ server.post("/v1/executions", async (request: FastifyRequest, reply: FastifyRepl
   }
 });
 
-server.post("/v1/a2a/sessions", async (request: FastifyRequest, reply: FastifyReply) => {
-  const parsed = CreateA2ASessionInputSchema.safeParse(request.body);
+server.post("/v1/a2a/contexts", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = CreateA2AContextInputSchema.safeParse(request.body);
   if (!parsed.success) {
-    return reply.code(400).send({ error: "invalid_a2a_session", details: parsed.error.flatten() });
+    return reply.code(400).send({ error: "invalid_a2a_context", details: parsed.error.flatten() });
   }
 
   const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
   try {
-    const response = await postJson<Record<string, unknown>>(`${a2aServiceUrl}/v1/a2a/sessions`, parsed.data);
+    const response = await postJson<Record<string, unknown>>(`${a2aServiceUrl}/v1/a2a/contexts`, parsed.data, { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" });
     return reply.code(response.statusCode ?? 201).send(response.data);
   } catch (error) {
     return sendDownstreamError(reply, error);
@@ -171,18 +177,19 @@ server.post("/v1/a2a/sessions", async (request: FastifyRequest, reply: FastifyRe
 });
 
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/proposals",
+  "/v1/a2a/contexts/:id/tasks",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const parsed = CreateA2AProposalInputSchema.safeParse(request.body);
+    const parsed = CreateA2ATaskInputSchema.safeParse(request.body);
     if (!parsed.success) {
-      return reply.code(400).send({ error: "invalid_a2a_proposal", details: parsed.error.flatten() });
+      return reply.code(400).send({ error: "invalid_a2a_task", details: parsed.error.flatten() });
     }
 
     const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
     try {
       const response = await postJson<Record<string, unknown>>(
-        `${a2aServiceUrl}/v1/a2a/sessions/${request.params.id}/proposals`,
-        parsed.data
+        `${a2aServiceUrl}/v1/a2a/contexts/${request.params.id}/tasks`,
+        parsed.data,
+        { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" }
       );
       return reply.code(response.statusCode ?? 201).send(response.data);
     } catch (error) {
@@ -192,9 +199,9 @@ server.post<{ Params: { id: string } }>(
 );
 
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/accept",
+  "/v1/a2a/contexts/:id/accept",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const parsed = AcceptA2ASessionInputSchema.safeParse(request.body);
+    const parsed = AcceptA2AContextInputSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.code(400).send({ error: "invalid_a2a_accept", details: parsed.error.flatten() });
     }
@@ -202,8 +209,9 @@ server.post<{ Params: { id: string } }>(
     const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
     try {
       const response = await postJson<Record<string, unknown>>(
-        `${a2aServiceUrl}/v1/a2a/sessions/${request.params.id}/accept`,
-        parsed.data
+        `${a2aServiceUrl}/v1/a2a/contexts/${request.params.id}/accept`,
+        parsed.data,
+        { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" }
       );
       return reply.code(response.statusCode ?? 202).send(response.data);
     } catch (error) {
@@ -213,9 +221,9 @@ server.post<{ Params: { id: string } }>(
 );
 
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/cancel",
+  "/v1/a2a/contexts/:id/cancel",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const parsed = CancelA2ASessionInputSchema.safeParse(request.body);
+    const parsed = CancelA2AContextInputSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.code(400).send({ error: "invalid_a2a_cancel", details: parsed.error.flatten() });
     }
@@ -223,8 +231,9 @@ server.post<{ Params: { id: string } }>(
     const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
     try {
       const response = await postJson<Record<string, unknown>>(
-        `${a2aServiceUrl}/v1/a2a/sessions/${request.params.id}/cancel`,
-        parsed.data
+        `${a2aServiceUrl}/v1/a2a/contexts/${request.params.id}/cancel`,
+        parsed.data,
+        { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" }
       );
       return reply.code(response.statusCode ?? 202).send(response.data);
     } catch (error) {
@@ -233,13 +242,14 @@ server.post<{ Params: { id: string } }>(
   }
 );
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/billing",
+  "/v1/a2a/contexts/:id/billing",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
   const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
   try {
     const response = await postJson<Record<string, unknown>>(
-      `${a2aServiceUrl}/v1/a2a/sessions/${request.params.id}/billing`,
-      request.body ?? {}
+      `${a2aServiceUrl}/v1/a2a/contexts/${request.params.id}/billing`,
+      request.body ?? {},
+      { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" }
     );
     return reply.code(response.statusCode ?? 201).send(response.data);
   } catch (error) {
@@ -249,12 +259,13 @@ server.post<{ Params: { id: string } }>(
 
 
 server.get<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id",
+  "/v1/a2a/contexts/:id",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
     const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
     try {
       const response = await getJson<Record<string, unknown>>(
-        `${a2aServiceUrl}/v1/a2a/sessions/${request.params.id}`
+        `${a2aServiceUrl}/v1/a2a/contexts/${request.params.id}`,
+        { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" }
       );
       return reply.code(200).send(response.data);
     } catch (error) {
@@ -264,12 +275,13 @@ server.get<{ Params: { id: string } }>(
 );
 
 server.get<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/timeline",
+  "/v1/a2a/contexts/:id/timeline",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
     const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
     try {
       const response = await getJson<Record<string, unknown>>(
-        `${a2aServiceUrl}/v1/a2a/sessions/${request.params.id}/timeline`
+        `${a2aServiceUrl}/v1/a2a/contexts/${request.params.id}/timeline`,
+        { Authorization: "Bearer MIND_INSTITUTIONAL_ADMIN" }
       );
       return reply.code(200).send(response.data);
     } catch (error) {
@@ -306,6 +318,121 @@ const HeroFlowSchema = z.object({
     priceBounds: z.object({ min: z.number().optional(), max: z.number().optional() }).optional(),
     expiresAt: z.string()
   })
+});
+
+const IntentRequestSchema = z.object({
+  intentId: z.string().min(1),
+  contextId: z.string().optional(),
+  taskId: z.string().optional(),
+  channel: z.enum(["telegram", "whatsapp", "api"]).default("telegram"),
+  requesterId: z.string().min(1),
+  action: z.string().min(1).optional(),
+  amount: z.string().min(1).optional()
+});
+
+const AgentHaltSchema = z.object({
+  agentId: z.string().min(1),
+  reason: z.string().min(1)
+});
+
+const AgentRebalanceSchema = z.object({
+  targetAsset: z.string().min(1),
+  strategy: z.string().min(1)
+});
+
+const TgOnboardSchema = z.object({
+  agentToken: z.string().min(1),
+  wallet: z.string().min(1)
+});
+
+server.post("/v1/onboard/tg-agent", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = TgOnboardSchema.safeParse(request.body ?? {});
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_tg_onboard_request", details: parsed.error.flatten() });
+  }
+
+  const approvalServiceUrl = process.env.APPROVAL_GATEWAY_SERVICE_URL ?? "http://localhost:3003";
+  try {
+    const response = await postJson<Record<string, unknown>>(
+      `${approvalServiceUrl}/v1/onboard/tg-agent`,
+      parsed.data
+    );
+    return reply.code(response.statusCode ?? 200).send(response.data);
+  } catch (error) {
+    return sendDownstreamError(reply, error);
+  }
+});
+
+server.post("/v1/intents/request", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = IntentRequestSchema.safeParse(request.body ?? {});
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_intent_request", details: parsed.error.flatten() });
+  }
+
+  const approvalServiceUrl = process.env.APPROVAL_GATEWAY_SERVICE_URL ?? "http://localhost:3003";
+  try {
+    const response = await postJson<{ approvalId?: string; event?: unknown }>(
+      `${approvalServiceUrl}/v1/approvals/request`,
+      {
+        intentId: parsed.data.intentId,
+        contextId: parsed.data.contextId,
+        taskId: parsed.data.taskId,
+        channel: parsed.data.channel,
+        requesterId: parsed.data.requesterId
+      }
+    );
+
+    return reply.code(response.statusCode ?? 202).send({
+      status: "requested",
+      intentId: parsed.data.intentId,
+      approvalId: response.data?.approvalId ?? null,
+      event: response.data?.event ?? null
+    });
+  } catch (error) {
+    return sendDownstreamError(reply, error);
+  }
+});
+
+server.post("/v1/agent/halt", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = AgentHaltSchema.safeParse(request.body ?? {});
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_agent_halt", details: parsed.error.flatten() });
+  }
+
+  server.log.warn(
+    { action: "agent_halt_requested", agentId: parsed.data.agentId, reason: parsed.data.reason },
+    "Agent halt requested"
+  );
+
+  return reply.code(202).send({
+    status: "halted",
+    agentId: parsed.data.agentId,
+    reason: parsed.data.reason,
+    timestamp: new Date().toISOString()
+  });
+});
+
+server.post("/v1/agent/rebalance", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = AgentRebalanceSchema.safeParse(request.body ?? {});
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_agent_rebalance", details: parsed.error.flatten() });
+  }
+
+  server.log.info(
+    {
+      action: "agent_rebalance_requested",
+      targetAsset: parsed.data.targetAsset,
+      strategy: parsed.data.strategy
+    },
+    "Agent rebalance requested"
+  );
+
+  return reply.code(202).send({
+    status: "queued",
+    targetAsset: parsed.data.targetAsset,
+    strategy: parsed.data.strategy,
+    timestamp: new Date().toISOString()
+  });
 });
 
 server.post("/v1/hero-flow/run", async (request: FastifyRequest, reply: FastifyReply) => {

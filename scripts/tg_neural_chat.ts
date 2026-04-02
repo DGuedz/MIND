@@ -14,6 +14,20 @@ const OPENCLAW_ENDPOINT = process.env.OPENCLAW_INFERENCE_ENDPOINT || `${process.
 const OPENCLAW_TIMEOUT_MS = Number(process.env.OPENCLAW_TIMEOUT_MS ?? "15000");
 const TELEGRAM_X402_AMOUNT_SOL = Number(process.env.TELEGRAM_X402_AMOUNT_SOL ?? "0.00001");
 const TELEGRAM_X402_MODE: "dry-run" | "real" = process.env.TELEGRAM_X402_MODE === "dry-run" ? "dry-run" : "real";
+const API_GATEWAY_URL = (process.env.API_GATEWAY_URL || `http://localhost:${process.env.API_GATEWAY_PORT || "3000"}`).replace(/\/$/, "");
+const APPROVAL_GATEWAY_URL = (process.env.APPROVAL_GATEWAY_SERVICE_URL || "http://localhost:3003").replace(/\/$/, "");
+const EXECUTION_SERVICE_URL = (process.env.EXECUTION_SERVICE_URL || "http://localhost:3006").replace(/\/$/, "");
+const API_GATEWAY_API_KEY = process.env.API_GATEWAY_API_KEY;
+const MIND_API_TIMEOUT_MS = Number(process.env.MIND_API_TIMEOUT_MS ?? "10000");
+const TELEGRAM_INTENT_POLICY_ID = process.env.TELEGRAM_INTENT_POLICY_ID || "policy_v1";
+const TELEGRAM_CREATOR_AGENT_PREFIX = process.env.TELEGRAM_CREATOR_AGENT_PREFIX || "tg_guardian";
+const TELEGRAM_TARGET_AGENT_ID = process.env.TELEGRAM_TARGET_AGENT_ID || "mind_execution_agent";
+const TELEGRAM_INTENT_EXPIRY_MINUTES = Number(process.env.TELEGRAM_INTENT_EXPIRY_MINUTES ?? "20");
+const TURNKEY_SIGN_WITH =
+  process.env.TURNKEY_SIGN_WITH ||
+  process.env.X402_AGENT_PUBLIC_KEY ||
+  process.env.VITE_AGENT_PUBLIC_KEY ||
+  "";
 
 type DecisionContract = {
   decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
@@ -29,6 +43,40 @@ type DecisionContract = {
   };
 };
 
+type MindIntentAction = "buy" | "sell" | "rebalance" | "monitor";
+
+type UserState = {
+  isConnected: boolean;
+  balance: number;
+  lastIntentId?: string;
+  lastIntentLabel?: string;
+  lastIntentAmount?: string;
+  lastApprovalId?: string;
+};
+
+type MindIntentRequestInput = {
+  creatorAgentId: string;
+  targetAgentId?: string;
+  asset: string;
+  action: MindIntentAction;
+  amount: string;
+  confidence: number;
+  riskScore: number;
+  expiryTs: string;
+  policyId: string;
+};
+
+type CreateIntentResponse = {
+  status?: string;
+  intentId: string;
+};
+
+type RequestApprovalResponse = {
+  status?: string;
+  intentId?: string;
+  approvalId?: string | null;
+};
+
 // Configuração da Solana
 const rpcUrl = process.env.HELIUS_RPC_URL || "https://api.mainnet-beta.solana.com";
 const connection = new Connection(rpcUrl, "confirmed");
@@ -37,7 +85,7 @@ const connection = new Connection(rpcUrl, "confirmed");
 const publicKeyStr = process.env.VITE_AGENT_PUBLIC_KEY || "MockKmsPublicKey111111111111111111111111111";
 
 // Estado do usuário
-const userStates: Record<number, { isConnected: boolean; balance: number }> = {};
+const userStates: Record<number, UserState> = {};
 const x402InFlightByChat = new Set<number>();
 const consumedX402ApprovalByMessage = new Map<string, number>(); // approvalKey -> timestamp
 
@@ -56,6 +104,80 @@ setInterval(cleanupExpiredApprovals, 60000);
 function isApprovalExpired(messageUnixTime?: number): boolean {
   if (!messageUnixTime) return true;
   return Date.now() - messageUnixTime * 1000 > APPROVAL_EXPIRY_MS;
+}
+
+const toIsoInFuture = (minutes: number) => new Date(Date.now() + minutes * 60_000).toISOString();
+
+const buildGatewayHeaders = () => {
+  const headers: Record<string, string> = {
+    "content-type": "application/json"
+  };
+  if (API_GATEWAY_API_KEY) {
+    headers["x-api-key"] = API_GATEWAY_API_KEY;
+  }
+  return headers;
+};
+
+async function postMindApi<T>(path: string, body: unknown): Promise<T> {
+  const response = await fetch(`${API_GATEWAY_URL}${path}`, {
+    method: "POST",
+    signal: AbortSignal.timeout(MIND_API_TIMEOUT_MS),
+    headers: buildGatewayHeaders(),
+    body: JSON.stringify(body)
+  });
+
+  const raw = await response.text();
+  if (!response.ok) {
+    throw new Error(`api_gateway_${response.status}:${raw.slice(0, 400)}`);
+  }
+  if (!raw) {
+    return {} as T;
+  }
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    throw new Error(`invalid_json_response ${path}`);
+  }
+}
+
+async function relayApprovalCallback(callbackQueryId: string, callbackData: string) {
+  const response = await fetch(`${APPROVAL_GATEWAY_URL}/v1/approvals/telegram/webhook`, {
+    method: "POST",
+    signal: AbortSignal.timeout(MIND_API_TIMEOUT_MS),
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      callback_query: {
+        id: callbackQueryId,
+        data: callbackData
+      }
+    })
+  });
+  const raw = await response.text();
+  if (!response.ok) {
+    throw new Error(`approval_gateway_${response.status}:${raw.slice(0, 400)}`);
+  }
+}
+
+async function registerIntent(chatId: number, input: Omit<MindIntentRequestInput, "creatorAgentId" | "expiryTs" | "policyId">) {
+  const payload: MindIntentRequestInput = {
+    creatorAgentId: `${TELEGRAM_CREATOR_AGENT_PREFIX}_${chatId}`,
+    targetAgentId: input.targetAgentId,
+    asset: input.asset,
+    action: input.action,
+    amount: input.amount,
+    confidence: input.confidence,
+    riskScore: input.riskScore,
+    expiryTs: toIsoInFuture(TELEGRAM_INTENT_EXPIRY_MINUTES),
+    policyId: TELEGRAM_INTENT_POLICY_ID
+  };
+
+  const result = await postMindApi<CreateIntentResponse>("/v1/intents", payload);
+  if (!result.intentId) {
+    throw new Error("intent_id_missing");
+  }
+  userStates[chatId].lastIntentId = result.intentId;
+  userStates[chatId].lastIntentAmount = input.amount;
+  return result.intentId;
 }
 
 async function getRealBalance(): Promise<number> {
@@ -249,6 +371,7 @@ async function startBot() {
             const chatId = update.callback_query.message.chat.id;
             const data = update.callback_query.data;
             const queryId = update.callback_query.id;
+            const isApprovalGatewayCallback = data?.startsWith("approve:") || data?.startsWith("reject:");
             
             // Garante que o estado existe para os callbacks também
             if (!userStates[chatId]) {
@@ -257,7 +380,97 @@ async function startBot() {
             }
 
             console.log(`\n🖱️ Humano clicou no botão: ${data}`);
-            await answerCallback(queryId);
+            if (!isApprovalGatewayCallback) {
+              await answerCallback(queryId);
+            }
+
+            if (isApprovalGatewayCallback && data) {
+              try {
+                await relayApprovalCallback(queryId, data);
+                const [decision, approvalId] = data.split(":");
+                const isApproved = decision === "approve";
+                const isLatestApproval = approvalId && approvalId === userStates[chatId].lastApprovalId;
+
+                if (isApproved && isLatestApproval) {
+                  const msg = `🛡️ *Guardrails Ativados*\nAprovação registrada na API. Executando etapa de settlement da intent \`${userStates[chatId].lastIntentId}\`...`;
+                  await sendMsg(chatId, msg);
+                  if (!TURNKEY_SIGN_WITH) {
+                    await sendMsg(
+                      chatId,
+                      `❌ Falha de configuração: \`TURNKEY_SIGN_WITH\` ausente no ambiente. Execução real bloqueada por policy.`
+                    );
+                    continue;
+                  }
+
+                  try {
+                    const execResponse = await fetch(`${EXECUTION_SERVICE_URL}/v1/execution/execute`, {
+                      method: "POST",
+                      signal: AbortSignal.timeout(MIND_API_TIMEOUT_MS),
+                      headers: { "content-type": "application/json" },
+                      body: JSON.stringify({
+                        taskId: `tg-approval-${approvalId}-${Date.now()}`,
+                        action: "SWAP",
+                        amount: 0.00001,
+                        asset: "SOL",
+                        walletId: TURNKEY_SIGN_WITH
+                      })
+                    });
+
+                    const raw = await execResponse.text();
+                    if (!execResponse.ok) {
+                      await sendMsg(
+                        chatId,
+                        `❌ A execução real falhou no execution-service.\nStatus: ${execResponse.status}\nDetalhe: \`${raw.slice(0, 220)}\``
+                      );
+                      continue;
+                    }
+
+                    const parsed = JSON.parse(raw) as { proofOfIntent?: string };
+                    const txHash = parsed.proofOfIntent || "missing_tx_hash";
+                    const asciiReceipt = generateAsciiReceipt(
+                      "A2A Routing",
+                      [
+                        { name: "Settlement Probe", qty: 1, value: "0.00001" },
+                        { name: "Execution Fee", qty: 1, value: "0.00001" }
+                      ],
+                      "0.00002",
+                      txHash
+                    );
+
+                    const msg2 =
+                      `✅ *Liquidação Atômica Executada!*\n\n` +
+                      `• Intent API: \`${userStates[chatId].lastIntentId}\`\n` +
+                      `• Approval ID: \`${approvalId}\`\n` +
+                      `• TxHash: \`${txHash}\`\n` +
+                      `• Explorer: https://solscan.io/tx/${txHash}\n\n` +
+                      `${asciiReceipt}\n\n` +
+                      `_Sua tesouraria foi atualizada. Você pode auditar a prova criptográfica no Agent Hub._`;
+                    const kb2 = {
+                      inline_keyboard: [
+                        [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
+                        [{ text: "💾 Salvar como Skill Autônoma", callback_data: "save_skill" }],
+                        [{ text: "✨ Nova Intent", callback_data: "start_intent" }]
+                      ]
+                    };
+                    await sendMsg(chatId, msg2, kb2);
+                  } catch (executionError) {
+                    console.error("Falha no bridge Telegram->Execution:", executionError);
+                    await sendMsg(
+                      chatId,
+                      `❌ Erro no bridge de execução real. Verifique execution-service, signer-service e Turnkey.`
+                    );
+                  }
+                } else if (decision === "reject" && isLatestApproval) {
+                  await sendMsg(chatId, `🛑 Aprovação rejeitada e registrada no MIND. Nenhuma execução foi disparada.`);
+                } else {
+                  await sendMsg(chatId, `✅ Decisão registrada no gateway com sucesso.`);
+                }
+              } catch (error) {
+                console.error("Erro ao encaminhar callback para Approval Gateway:", error);
+                await sendMsg(chatId, `❌ Falha ao registrar a decisão no Approval Gateway. Tente novamente em instantes.`);
+              }
+              continue;
+            }
 
             if (data === "connect_wallet") {
               const msg = `Antes de começarmos, preciso conectar sua wallet na Solana. Isso é rápido e seguro — o Metaplex vai criar a identidade oficial do seu agent on-chain.`;
@@ -312,11 +525,32 @@ async function startBot() {
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "intent_arb") {
+              try {
+                const intentId = await registerIntent(chatId, {
+                  targetAgentId: TELEGRAM_TARGET_AGENT_ID,
+                  asset: "SOL",
+                  action: "rebalance",
+                  amount: "0.5",
+                  confidence: 0.88,
+                  riskScore: 0.2
+                });
+                userStates[chatId].lastIntentLabel = "A2A Routing & Atomic Settlement";
+                console.log(`[MIND API] Intent criada: ${intentId} para chat ${chatId}`);
+              } catch (error) {
+                console.error("Falha ao registrar intent_arb na API:", error);
+                await sendMsg(
+                  chatId,
+                  `❌ Não foi possível registrar esta intenção na API do MIND. Verifique se o gateway está online em \`${API_GATEWAY_URL}\` e tente novamente.`
+                );
+                continue;
+              }
+
               const msg = `Compreendido. Preparei um briefing para a sua revisão executiva sobre o produto **A2A Routing & Atomic Settlement** (Dark Pools):\n\n` +
                           `• **Estratégia:** Exploração de ineficiências de preço (MEV) protegida por criptografia Zero-Knowledge.\n` +
                           `• **Exposição Sugerida:** Até 0.5 SOL (Seu saldo atual: ${userStates[chatId].balance.toFixed(4)} SOL)\n` +
                           `• **Nível de Risco:** KMS Enforced (~2% slippage max)\n` +
-                          `• **Taxa de Execução:** 0.1% a 1% por match\n\n` +
+                          `• **Taxa de Execução:** 0.1% a 1% por match\n` +
+                          `• **Intent ID (API):** \`${userStates[chatId].lastIntentId}\`\n\n` +
                           `Como seu guardião de risco, eu validei esta operação. Você me autoriza a executar o fluxo atômico?`;
               const kb = { inline_keyboard: [
                   [{ text: "✅ Autorizar Liquidação", callback_data: "exec_approve" }],
@@ -326,6 +560,26 @@ async function startBot() {
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "intent_yield") {
+              try {
+                const intentId = await registerIntent(chatId, {
+                  targetAgentId: TELEGRAM_TARGET_AGENT_ID,
+                  asset: "SOL-USDC",
+                  action: "rebalance",
+                  amount: "10",
+                  confidence: 0.8,
+                  riskScore: 0.25
+                });
+                userStates[chatId].lastIntentLabel = "Capital Optimization (JIT Yield)";
+                console.log(`[MIND API] Intent criada: ${intentId} para chat ${chatId}`);
+              } catch (error) {
+                console.error("Falha ao registrar intent_yield na API:", error);
+                await sendMsg(
+                  chatId,
+                  `❌ Não foi possível registrar a delegação de capital na API do MIND. Verifique o gateway e tente novamente.`
+                );
+                continue;
+              }
+
               const msg = `🚨 *Nova Demanda de Liquidez Instantânea (JIT)*\n\n` +
                           `Identifiquei um pico de volatilidade na rede. O protocolo **Meteora DLMM** precisa de liquidez imediata na pool SOL-USDC para sustentar o volume de Swaps.\n\n` +
                           `Como um *Nó de Liquidez JIT*, seu Agente pode suprir essa demanda agora e capturar as taxas do protocolo.\n\n` +
@@ -333,7 +587,8 @@ async function startBot() {
                           `• *Flexível (Remove a qualquer momento):* ~15.2% APY\n` +
                           `• *Lock 7 Dias:* ~28.5% APY\n` +
                           `• *Lock 15 Dias:* ~35.0% APY\n` +
-                          `• *Lock 30 Dias:* ~45.2% APY\n\n` +
+                          `• *Lock 30 Dias:* ~45.2% APY\n` +
+                          `• **Intent ID (API):** \`${userStates[chatId].lastIntentId}\`\n\n` +
                           `Selecione o modelo de delegação para o seu saldo ocioso:`;
               const kb = { inline_keyboard: [
                   [{ text: "🔓 Flexível (15.2%)", callback_data: "exec_approve_yield_flex" }],
@@ -344,11 +599,32 @@ async function startBot() {
               await sendMsg(chatId, msg, kb);
             }
             else if (data === "intent_x402") {
+              try {
+                const intentId = await registerIntent(chatId, {
+                  targetAgentId: TELEGRAM_TARGET_AGENT_ID,
+                  asset: "NOAHAI_DATA",
+                  action: "buy",
+                  amount: TELEGRAM_X402_AMOUNT_SOL.toString(),
+                  confidence: 0.9,
+                  riskScore: 0.12
+                });
+                userStates[chatId].lastIntentLabel = "Market Intelligence (x402 Data Sales)";
+                console.log(`[MIND API] Intent criada: ${intentId} para chat ${chatId}`);
+              } catch (error) {
+                console.error("Falha ao registrar intent_x402 na API:", error);
+                await sendMsg(
+                  chatId,
+                  `❌ Não foi possível registrar a compra x402 na API do MIND. Verifique o gateway e tente novamente.`
+                );
+                continue;
+              }
+
               const msg = `🚨 *Aprovação Institucional Exigida (x402 A2A)*\n\nIdentifiquei a necessidade de adquirir dados externos de inteligência para nossa próxima tomada de decisão.\n\n` +
                           `• **Provedor:** Oráculo NoahAI\n` +
                           `• **Serviço:** Inferência de Risco de Mercado\n` +
                           `• **Custo da Liquidação:** ${TELEGRAM_X402_AMOUNT_SOL} SOL\n` +
-                          `• **Protocolo de Recibo:** Metaplex cNFT Proof\n\n` +
+                          `• **Protocolo de Recibo:** Metaplex cNFT Proof\n` +
+                          `• **Intent ID (API):** \`${userStates[chatId].lastIntentId}\`\n\n` +
                           `Por favor, confirme se devo prosseguir com a liberação JIT (Just-In-Time) deste pagamento on-chain.`;
               const kb = { inline_keyboard: [
                   [{ text: "✅ Aprovar Liquidação x402", callback_data: "exec_approve_x402" }],
@@ -388,7 +664,7 @@ async function startBot() {
               // Rodando em background para não travar o loop do bot
               setTimeout(async () => {
                 try {
-                  const intentId = `MIND-INTENT-${Math.floor(Math.random() * 10000)}`;
+                  const intentId = userStates[chatId].lastIntentId || `MIND-INTENT-${Math.floor(Math.random() * 10000)}`;
                   
                   // Fase Turnkey KMS: o modo default e real, mas pode ser forçado para dry-run via TELEGRAM_X402_MODE.
                   const raw = execFileSync(
@@ -469,33 +745,39 @@ async function startBot() {
               }, 100);
             }
             else if (data === "exec_approve") {
-              const msg = `🛡️ *Guardrails Ativados*\nValidando liquidez no JIT Treasury e simulando slippage em ZK Dark Pool...`;
-              await sendMsg(chatId, msg);
-              
-              // Execução de arbitragem (Mock seguro para o vídeo, já que o A2A x402 é o showcase de mainnet real)
-              setTimeout(async () => {
-                const asciiReceipt = generateAsciiReceipt(
-                  "A2A Routing",
-                  [
-                    { name: "Gross Profit", qty: 1, value: "0.47000" },
-                    { name: "Execution Fee", qty: 1, value: "0.00047" }
-                  ],
-                  "0.46953",
-                  "mock_darkpool_tx_89f" + Math.floor(Math.random() * 10000)
-                );
+              const intentId = userStates[chatId].lastIntentId;
+              if (!intentId) {
+                await sendMsg(chatId, `❌ Nenhuma intent ativa encontrada. Abra uma nova intenção antes de autorizar a liquidação.`);
+                continue;
+              }
 
-                const msg2 = `✅ *Liquidação Atômica Executada!*\n\n` +
-                             `• Status: Liquidado em Dark Pool\n` +
-                             `• Proteção MEV: Ativa (0 falhas)\n\n` +
-                             `${asciiReceipt}\n\n` +
-                             `_Sua tesouraria foi atualizada. Você pode auditar a prova criptográfica no Agent Hub._`;
-                const kb2 = { inline_keyboard: [
-                  [{ text: "🖥️ Abrir Dashboard", url: "https://landingpage-dgs-projects-ac3c4a7c.vercel.app/" }],
-                  [{ text: "💾 Salvar como Skill Autônoma", callback_data: "save_skill" }],
-                  [{ text: "✨ Nova Intent", callback_data: "start_intent" }]
-                ]};
-                await sendMsg(chatId, msg2, kb2);
-              }, 2500);
+              const msg = `🛡️ *Guardrails Ativados*\nRegistrando a solicitação de aprovação na API do MIND...`;
+              await sendMsg(chatId, msg);
+
+              try {
+                const requestApproval = await postMindApi<RequestApprovalResponse>("/v1/intents/request", {
+                  intentId,
+                  channel: "telegram",
+                  requesterId: String(chatId),
+                  action: userStates[chatId].lastIntentLabel || "A2A Routing",
+                  amount: userStates[chatId].lastIntentAmount || "0.5"
+                });
+
+                const approvalId = requestApproval.approvalId;
+                if (!approvalId) {
+                  await sendMsg(chatId, `❌ A API do MIND não retornou approvalId. Solicitação tratada como inconclusiva.`);
+                  continue;
+                }
+
+                userStates[chatId].lastApprovalId = approvalId;
+                await sendMsg(
+                  chatId,
+                  `✅ Solicitação registrada com sucesso.\n\n• Intent ID: \`${intentId}\`\n• Approval ID: \`${approvalId}\`\n\nA mensagem oficial de aprovação foi enviada no Telegram.`
+                );
+              } catch (error) {
+                console.error("Falha ao solicitar aprovação na API:", error);
+                await sendMsg(chatId, `❌ Falha ao solicitar aprovação no MIND API. Verifique os serviços e tente novamente.`);
+              }
             }
             else if (data.startsWith("exec_approve_yield")) {
               const lockType = data.split("_").pop();

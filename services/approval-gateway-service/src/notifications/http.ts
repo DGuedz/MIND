@@ -16,6 +16,7 @@ export const postJson = async (url: string, body: unknown, headers?: Record<stri
         headers: {
           "content-type": "application/json",
           "content-length": Buffer.byteLength(payload).toString(),
+          "Bypass-Tunnel-Reminder": "true",
           ...headers
         }
       },

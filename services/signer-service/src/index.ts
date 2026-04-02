@@ -1,62 +1,134 @@
-import fastify, { FastifyReply, FastifyRequest } from "fastify";
-import { createHmac } from "node:crypto";
+import * as dotenv from "dotenv";
+import { resolve } from "path";
+dotenv.config({ path: resolve(process.cwd(), "../../.env") });
+
+import fastify from "fastify";
 import { z } from "zod";
+import { createTurnkeyClient } from "./turnkey.js";
+import bs58 from "bs58";
+import { Transaction, VersionedTransaction } from "@solana/web3.js";
 
-const server = fastify({ logger: true });
+const app = fastify({ logger: true });
+const TURNKEY_TIMEOUT_MS = Number(process.env.SIGNER_TURNKEY_TIMEOUT_MS ?? "20000");
 
-server.get("/health", async () => ({
-  status: "ok",
-  service: "signer-service"
-}));
-
-const SignSchema = z.object({
-  payload: z.record(z.unknown()),
-  context: z.record(z.unknown()).optional()
-});
-
-const canonicalize = (value: unknown): string => {
-  if (value === null || value === undefined) {
-    return "null";
-  }
-  if (Array.isArray(value)) {
-    return `[${value.map(canonicalize).join(",")}]`;
-  }
-  if (typeof value === "object") {
-    const obj = value as Record<string, unknown>;
-    const keys = Object.keys(obj).sort();
-    return `{${keys.map((key) => `${JSON.stringify(key)}:${canonicalize(obj[key])}`).join(",")}}`;
-  }
-  return JSON.stringify(value);
+const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
+  return await Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`TURNKEY_TIMEOUT_${timeoutMs}ms`)), timeoutMs)
+    )
+  ]);
 };
 
-const signPayload = (payload: Record<string, unknown>, context?: Record<string, unknown>) => {
-  const secret = (process.env.SIGNER_SECRET ?? "").trim();
-  // VSC RULE 1: KMS Integration Mock - Keys are ephemeral and never logged
-  // In a real env, we'd call AWS KMS or GCP KMS here.
-  const ephemeralKmsKey = createHmac("sha256", secret).update("kms-ephemeral-key-request").digest("hex");
-  
-  const body = canonicalize({ payload, context: context ?? null });
-  // VSC RULE 8: Only log hashes
-  const bodyHash = createHmac("sha256", ephemeralKmsKey).update(body).digest("hex");
-  const signature = createHmac("sha256", ephemeralKmsKey).update(bodyHash).digest("hex");
-  
-  server.log.info({ action: "sign_payload", bodyHash, signatureHash: createHmac("sha256", "log").update(signature).digest("hex") }, "Payload signed via ephemeral KMS key");
-  
-  return { signature, bodyHash };
-};
-
-server.post("/v1/sign", async (request: FastifyRequest, reply: FastifyReply) => {
-  if (!(process.env.SIGNER_SECRET ?? "").trim()) {
-    return reply.code(503).send({ error: "signer_misconfigured", reason: "SIGNER_SECRET_missing" });
-  }
-  const parsed = SignSchema.safeParse(request.body);
-  if (!parsed.success) {
-    return reply.code(400).send({ error: "invalid_sign_request", details: parsed.error.flatten() });
-  }
-  const result = signPayload(parsed.data.payload, parsed.data.context);
-  return reply.code(200).send(result);
+app.get("/health", async (request, reply) => {
+  return reply.send({ status: "ok", service: "signer-service" });
 });
 
-const port = Number(process.env.SIGNER_SERVICE_PORT ?? 3007);
+app.get("/health/db", async (request, reply) => {
+  return reply.send({ status: "ok", service: "signer-service", db: "not_required" });
+});
 
-server.listen({ port, host: "0.0.0.0" });
+const signRequestSchema = z.object({
+  walletId: z.string(),
+  unsignedTransactionBase64: z.string().optional(),
+  unsignedTransactionBs58: z.string().optional(),
+});
+
+app.post("/v1/signer/sign", async (request, reply) => {
+  try {
+    const parsed = signRequestSchema.parse(request.body);
+    
+    if (!parsed.unsignedTransactionBase64 && !parsed.unsignedTransactionBs58) {
+      return reply.status(400).send({ error: "Must provide unsigned transaction" });
+    }
+
+    const orgId = process.env.TURNKEY_ORGANIZATION_ID;
+    if (!orgId) {
+      throw new Error("TURNKEY_ORGANIZATION_ID is missing");
+    }
+
+    // Decode the transaction to raw bytes
+    let txBytes: Uint8Array;
+    if (parsed.unsignedTransactionBase64) {
+      txBytes = Buffer.from(parsed.unsignedTransactionBase64, "base64");
+    } else {
+      txBytes = bs58.decode(parsed.unsignedTransactionBs58!);
+    }
+
+    // Try to parse the transaction to get the message to sign.
+    // Execution service may send the raw message bytes directly.
+    let messageToSign: Buffer;
+    try {
+      const vTx = VersionedTransaction.deserialize(txBytes);
+      messageToSign = Buffer.from(vTx.message.serialize());
+    } catch {
+      try {
+        // Fallback to legacy transaction format
+        const tx = Transaction.from(txBytes);
+        messageToSign = tx.serializeMessage();
+      } catch {
+        // Final fallback: treat incoming payload as raw message bytes
+        messageToSign = Buffer.from(txBytes);
+        request.log.warn("Received raw message payload; skipping transaction deserialization");
+      }
+    }
+
+    const payloadHex = messageToSign.toString("hex");
+
+    const client = createTurnkeyClient();
+    
+    request.log.info({ walletId: parsed.walletId }, "Requesting signature from Turnkey KMS");
+
+    const response = await withTimeout(
+      client.signRawPayload({
+        type: "ACTIVITY_TYPE_SIGN_RAW_PAYLOAD_V2",
+        timestampMs: String(Date.now()),
+        organizationId: orgId,
+        parameters: {
+          signWith: parsed.walletId,
+          payload: payloadHex,
+          encoding: "PAYLOAD_ENCODING_HEXADECIMAL",
+          hashFunction: "HASH_FUNCTION_NOT_APPLICABLE",
+        },
+      }),
+      TURNKEY_TIMEOUT_MS
+    );
+
+    const signatureHex = response.activity.result.signRawPayloadResult?.r;
+    const signatureS = response.activity.result.signRawPayloadResult?.s;
+    
+    if (!signatureHex || !signatureS) {
+      throw new Error("Failed to get signature from Turnkey");
+    }
+
+    // Ed25519 signature is 64 bytes: r (32) + s (32)
+    const signatureBytes = Buffer.concat([
+      Buffer.from(signatureHex, "hex"),
+      Buffer.from(signatureS, "hex")
+    ]);
+
+    // Return the signature so the execution service can append it
+    return reply.send({
+      signatureBase64: signatureBytes.toString("base64"),
+      signatureBs58: bs58.encode(signatureBytes),
+      status: "signed"
+    });
+
+  } catch (error: any) {
+    request.log.error(error);
+    return reply.status(500).send({ error: error.message });
+  }
+});
+
+const start = async () => {
+  try {
+    const port = process.env.SIGNER_SERVICE_PORT ? parseInt(process.env.SIGNER_SERVICE_PORT) : 3007;
+    await app.listen({ port, host: "0.0.0.0" });
+    console.log(`✅ Signer Service (KMS) running on port ${port}`);
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();

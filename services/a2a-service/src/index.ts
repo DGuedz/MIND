@@ -3,29 +3,51 @@ import { z } from "zod";
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { checkDb } from "./db/client.js";
 import { IntentFirewall } from "./core/IntentFirewall.js";
+import { TreasuryAgent } from "./core/agents/TreasuryAgent.js";
 import { IntentRequest } from "./core/types.js";
 import { JupiterAdapter } from "./adapters/JupiterAdapter.js";
 import { SolanaPaymentsLayer } from "./core/payments/SolanaPaymentsLayer.js";
 import { SUPPORTED_ASSETS, getAssetBySymbol } from "./core/payments/supportedAssets.js";
+import { ExecutionBridge } from "./core/ExecutionBridge.js";
 import {
-  createProposal,
-  createSession,
+  createTask,
+  createContext,
   getA2AMetrics,
-  getProposalById,
-  getSessionById,
-  listBillingEventsBySessionId,
-  listProposalsBySessionId,
-  listSessionEvents,
+  getTaskById,
+  getContextById,
+  listBillingEventsByContextId,
+  listTasksByContextId,
+  listContextEvents,
   recordBillingEvent,
-  updateSessionStatus
+  updateContextStatus
 } from "./db/repository.js";
 
 const server = fastify({ logger: true });
 const intentFirewall = new IntentFirewall();
+const treasuryAgent = new TreasuryAgent();
 const jupiterAdapter = new JupiterAdapter();
 const solanaNetwork = process.env.SOLANA_NETWORK === "devnet" ? "devnet" : "mainnet-beta";
 const solanaConnection = new Connection(process.env.HELIUS_RPC_URL ?? "https://api.mainnet-beta.solana.com", "confirmed");
 const solanaPaymentsLayer = new SolanaPaymentsLayer(solanaConnection, solanaNetwork);
+const executionBridge = new ExecutionBridge(server.log);
+
+// Rota raiz para health check amigável no navegador
+server.get("/", async (_request: FastifyRequest, reply: FastifyReply) => {
+  return reply.code(200).send({
+    service: "MIND Protocol - A2A Server",
+    status: "online",
+    version: "1.0.0",
+    message: "A2A API is running. The Landing Page is served on a different port (usually 5173 or 3000 via Vercel/Vite).",
+    endpoints: {
+      health: "/health",
+      agentCard: "/v1/a2a/agent-card",
+      paymentsAssets: "/v1/payments/solana/assets",
+      paymentsRequest: "/v1/payments/solana/request",
+      paymentsVerify: "/v1/payments/solana/verify",
+      metrics: "/v1/metrics/a2a"
+    }
+  });
+});
 
 server.get("/health", async () => ({
   status: "ok",
@@ -41,31 +63,63 @@ server.get("/health/db", async (_request: FastifyRequest, reply: FastifyReply) =
   }
 });
 
-const SessionStatusSchema = z.enum(["open", "accepted", "cancelled", "expired"]);
+server.get("/v1/a2a/agent-card", async (_request: FastifyRequest, reply: FastifyReply) => {
+  return reply.code(200).send({
+    name: "MIND A2A Treasury Server",
+    network: solanaNetwork,
+    version: "1.0.0",
+    capabilities: [
+      "streaming",
+      "async tasks",
+      "human approval",
+      "proof receipts",
+      "policy validation"
+    ],
+    skills: [
+      "market intelligence",
+      "risk analysis",
+      "route planning",
+      "treasury activation",
+      "execution orchestration",
+      "audit proofs"
+    ],
+    supported_intents: [
+      "swap",
+      "rebalance",
+      "provide_liquidity",
+      "withdraw_liquidity",
+      "arbitrage_candidate",
+      "treasury_reposition",
+      "hedge_request"
+    ]
+  });
+});
 
-const isSessionExpired = (expiresAt: Date) => {
+const ContextStatusSchema = z.enum(["open", "accepted", "cancelled", "expired"]);
+
+const isContextExpired = (expiresAt: Date) => {
   return Date.now() > expiresAt.getTime();
 };
 
-const CreateSessionSchema = z.object({
+const CreateContextSchema = z.object({
   intentId: z.string(),
   initiatorAgentId: z.string(),
   counterpartyAgentId: z.string().optional(),
   expiresAt: z.string()
 });
 
-const CreateProposalSchema = z.object({
-  proposerAgentId: z.string(),
+const CreateTaskSchema = z.object({
+  executorAgentId: z.string(),
   payload: z.record(z.unknown()),
   idempotencyKey: z.string().optional()
 });
 
-const AcceptSessionSchema = z.object({
-  proposalId: z.string(),
+const AcceptContextSchema = z.object({
+  taskId: z.string(),
   acceptedByAgentId: z.string()
 });
 
-const CancelSessionSchema = z.object({
+const CancelContextSchema = z.object({
   cancelledByAgentId: z.string(),
   reason: z.string().optional()
 });
@@ -122,10 +176,19 @@ const asServiceError = (error: unknown) => {
   return error instanceof Error ? error.message : "unknown_error";
 };
 
-server.post("/v1/a2a/sessions", async (request: FastifyRequest, reply: FastifyReply) => {
-  const parsed = CreateSessionSchema.safeParse(request.body);
+const verifyInstitutionalAuth = (request: FastifyRequest, reply: FastifyReply, done: (err?: Error) => void) => {
+  const authHeader = request.headers.authorization;
+  // Simples middleware de AuthZ para fins institucionais (em prod usaria JWT assinado por KMS)
+  if (!authHeader || !authHeader.startsWith("Bearer MIND_INSTITUTIONAL_")) {
+    return reply.code(401).send({ error: "unauthorized", message: "Missing or invalid institutional authorization token." });
+  }
+  done();
+};
+
+server.post("/v1/a2a/contexts", { preHandler: verifyInstitutionalAuth }, async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = CreateContextSchema.safeParse(request.body);
   if (!parsed.success) {
-    return reply.code(400).send({ error: "invalid_a2a_session", details: parsed.error.flatten() });
+    return reply.code(400).send({ error: "invalid_a2a_context", details: parsed.error.flatten() });
   }
 
   const expiresAtTs = Date.parse(parsed.data.expiresAt);
@@ -133,53 +196,54 @@ server.post("/v1/a2a/sessions", async (request: FastifyRequest, reply: FastifyRe
     return reply.code(400).send({ error: "invalid_expires_at" });
   }
 
-  const result = await createSession(parsed.data);
-  return reply.code(201).send({ status: "created", sessionId: result.sessionId, event: result.event });
+  const result = await createContext(parsed.data);
+  return reply.code(201).send({ status: "created", contextId: result.contextId, event: result.event });
 });
 
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/proposals",
+  "/v1/a2a/contexts/:id/tasks",
+  { preHandler: verifyInstitutionalAuth },
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const parsed = CreateProposalSchema.safeParse(request.body);
+    const parsed = CreateTaskSchema.safeParse(request.body);
     if (!parsed.success) {
-      return reply.code(400).send({ error: "invalid_a2a_proposal", details: parsed.error.flatten() });
+      return reply.code(400).send({ error: "invalid_a2a_task", details: parsed.error.flatten() });
     }
 
-    const session = await getSessionById(request.params.id);
-    if (!session) {
-      return reply.code(404).send({ error: "a2a_session_not_found" });
+    const context = await getContextById(request.params.id);
+    if (!context) {
+      return reply.code(404).send({ error: "a2a_context_not_found" });
     }
 
-    const statusParsed = SessionStatusSchema.safeParse(session.status);
+    const statusParsed = ContextStatusSchema.safeParse(context.status);
     if (!statusParsed.success) {
-      return reply.code(500).send({ error: "invalid_session_status" });
+      return reply.code(500).send({ error: "invalid_context_status" });
     }
 
-    if (isSessionExpired(session.expiresAt) && statusParsed.data === "open") {
-      const event = await updateSessionStatus({
-        sessionId: session.id,
+    if (isContextExpired(context.expiresAt) && statusParsed.data === "open") {
+      const event = await updateContextStatus({
+        contextId: context.id,
         status: "expired",
-        payloadForHash: { reason: "expired_by_proposal" },
-        eventType: "a2a.session.expired",
+        payloadForHash: { reason: "expired_by_task" },
+        eventType: "a2a.context.expired",
         expectedCurrentStatus: "open"
       });
-      return reply.code(409).send({ error: "a2a_session_expired", event });
+      return reply.code(409).send({ error: "a2a_context_expired", event });
     }
 
     if (statusParsed.data !== "open") {
-      return reply.code(409).send({ error: "a2a_session_not_open", status: statusParsed.data });
+      return reply.code(409).send({ error: "a2a_context_not_open", status: statusParsed.data });
     }
 
-    const result = await createProposal({
-      sessionId: session.id,
-      proposerAgentId: parsed.data.proposerAgentId,
+    const result = await createTask({
+      contextId: context.id,
+      executorAgentId: parsed.data.executorAgentId,
       payload: parsed.data.payload,
       idempotencyKey: parsed.data.idempotencyKey
     });
 
     return reply.code(201).send({
       status: "created",
-      proposalId: result.proposalId,
+      taskId: result.taskId,
       version: result.version,
       event: result.event,
       idempotent: result.event === null
@@ -188,140 +252,160 @@ server.post<{ Params: { id: string } }>(
 );
 
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/accept",
+  "/v1/a2a/contexts/:id/accept",
+  { preHandler: verifyInstitutionalAuth },
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const parsed = AcceptSessionSchema.safeParse(request.body);
+    const parsed = AcceptContextSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.code(400).send({ error: "invalid_accept_request", details: parsed.error.flatten() });
     }
 
-    const session = await getSessionById(request.params.id);
-    if (!session) {
-      return reply.code(404).send({ error: "a2a_session_not_found" });
+    const context = await getContextById(request.params.id);
+    if (!context) {
+      return reply.code(404).send({ error: "a2a_context_not_found" });
     }
 
-    if (session.status !== "open") {
-      return reply.code(409).send({ error: "a2a_session_not_open", status: session.status });
+    if (context.status !== "open") {
+      // Idempotency check before doing anything else
+      if (context.status === "accepted" && context.acceptedTaskId === parsed.data.taskId) {
+        return reply.code(200).send({
+          status: "accepted",
+          contextId: context.id,
+          taskId: parsed.data.taskId,
+          idempotent: true
+        });
+      }
+      return reply.code(409).send({ error: "a2a_context_not_open", status: context.status });
     }
 
-    if (isSessionExpired(session.expiresAt)) {
-      const event = await updateSessionStatus({
-        sessionId: session.id,
+    if (isContextExpired(context.expiresAt)) {
+      const event = await updateContextStatus({
+        contextId: context.id,
         status: "expired",
         payloadForHash: { reason: "expired_by_accept" },
-        eventType: "a2a.session.expired",
+        eventType: "a2a.context.expired",
         expectedCurrentStatus: "open"
       });
-      return reply.code(409).send({ error: "a2a_session_expired", event });
+      return reply.code(409).send({ error: "a2a_context_expired", event });
     }
 
-    const proposal = await getProposalById(session.id, parsed.data.proposalId);
-    if (!proposal) {
-      return reply.code(404).send({ error: "a2a_proposal_not_found" });
+    const task = await getTaskById(context.id, parsed.data.taskId);
+    if (!task) {
+      return reply.code(404).send({ error: "a2a_task_not_found" });
     }
 
     let event;
     try {
-      event = await updateSessionStatus({
-        sessionId: session.id,
+      event = await updateContextStatus({
+        contextId: context.id,
         status: "accepted",
-        acceptedProposalId: proposal.id,
+        acceptedTaskId: task.id,
         payloadForHash: {
-          proposalId: proposal.id,
+          taskId: task.id,
           acceptedByAgentId: parsed.data.acceptedByAgentId
         },
-        eventType: "a2a.session.accepted",
+        eventType: "a2a.context.accepted",
         expectedCurrentStatus: "open"
       });
     } catch (error) {
-      if (asServiceError(error) === "stale_session_state") {
-        const refreshed = await getSessionById(session.id);
-        if (refreshed?.status === "accepted" && refreshed.acceptedProposalId === proposal.id) {
+      if (asServiceError(error) === "stale_context_state") {
+        const refreshed = await getContextById(context.id);
+        if (refreshed?.status === "accepted" && refreshed.acceptedTaskId === task.id) {
           return reply.code(200).send({
             status: "accepted",
-            sessionId: refreshed.id,
-            proposalId: proposal.id,
+            contextId: refreshed.id,
+            taskId: task.id,
             idempotent: true
           });
         }
-        return reply.code(409).send({ error: "a2a_session_not_open", status: refreshed?.status ?? "unknown" });
+        return reply.code(409).send({ error: "a2a_context_not_open", status: refreshed?.status ?? "unknown" });
       }
       throw error;
     }
 
     await recordBillingEvent({
-      sessionId: session.id,
-      eventType: "a2a.session.accepted",
+      contextId: context.id,
+      eventType: "a2a.context.accepted",
       units: 1,
       metadata: {
-        proposalId: proposal.id,
+        taskId: task.id,
         acceptedByAgentId: parsed.data.acceptedByAgentId
       }
     });
 
-    return reply.code(202).send({ status: "accepted", sessionId: session.id, proposalId: proposal.id, event });
+    // Dispara a execução assíncrona on-chain delegando para a Execution Layer (Ponte)
+    executionBridge.executeAcceptedTask(context.id, task).catch(e => {
+      request.log.error({ err: e }, "Failed to trigger background execution");
+    });
+
+    return reply.code(202).send({ status: "accepted", contextId: context.id, taskId: task.id, event });
   }
 );
 
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/cancel",
+  "/v1/a2a/contexts/:id/cancel",
+  { preHandler: verifyInstitutionalAuth },
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const parsed = CancelSessionSchema.safeParse(request.body);
+    const parsed = CancelContextSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.code(400).send({ error: "invalid_cancel_request", details: parsed.error.flatten() });
     }
 
-    const session = await getSessionById(request.params.id);
-    if (!session) {
-      return reply.code(404).send({ error: "a2a_session_not_found" });
+    const context = await getContextById(request.params.id);
+    if (!context) {
+      return reply.code(404).send({ error: "a2a_context_not_found" });
     }
 
-    if (session.status !== "open") {
-      return reply.code(409).send({ error: "a2a_session_not_open", status: session.status });
+    if (context.status !== "open") {
+      if (context.status === "cancelled") {
+        return reply.code(200).send({ status: "cancelled", contextId: context.id, idempotent: true });
+      }
+      return reply.code(409).send({ error: "a2a_context_not_open", status: context.status });
     }
 
     let event;
     try {
-      event = await updateSessionStatus({
-        sessionId: session.id,
+      event = await updateContextStatus({
+        contextId: context.id,
         status: "cancelled",
         payloadForHash: {
           cancelledByAgentId: parsed.data.cancelledByAgentId,
           reason: parsed.data.reason ?? null
         },
-        eventType: "a2a.session.cancelled",
+        eventType: "a2a.context.cancelled",
         expectedCurrentStatus: "open"
       });
     } catch (error) {
-      if (asServiceError(error) === "stale_session_state") {
-        const refreshed = await getSessionById(session.id);
+      if (asServiceError(error) === "stale_context_state") {
+        const refreshed = await getContextById(context.id);
         if (refreshed?.status === "cancelled") {
-          return reply.code(200).send({ status: "cancelled", sessionId: refreshed.id, idempotent: true });
+          return reply.code(200).send({ status: "cancelled", contextId: refreshed.id, idempotent: true });
         }
-        return reply.code(409).send({ error: "a2a_session_not_open", status: refreshed?.status ?? "unknown" });
+        return reply.code(409).send({ error: "a2a_context_not_open", status: refreshed?.status ?? "unknown" });
       }
       throw error;
     }
 
-    return reply.code(202).send({ status: "cancelled", sessionId: session.id, event });
+    return reply.code(202).send({ status: "cancelled", contextId: context.id, event });
   }
 );
 
 server.post<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/billing",
+  "/v1/a2a/contexts/:id/billing",
+  { preHandler: verifyInstitutionalAuth },
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
     const parsed = BillingEventSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.code(400).send({ error: "invalid_billing_event", details: parsed.error.flatten() });
     }
 
-    const session = await getSessionById(request.params.id);
-    if (!session) {
-      return reply.code(404).send({ error: "a2a_session_not_found" });
+    const context = await getContextById(request.params.id);
+    if (!context) {
+      return reply.code(404).send({ error: "a2a_context_not_found" });
     }
 
     const billing = await recordBillingEvent({
-      sessionId: session.id,
+      contextId: context.id,
       eventType: parsed.data.eventType,
       units: parsed.data.units,
       metadata: parsed.data.metadata ?? {},
@@ -333,32 +417,32 @@ server.post<{ Params: { id: string } }>(
 );
 
 server.get<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id",
+  "/v1/a2a/contexts/:id",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const session = await getSessionById(request.params.id);
-    if (!session) {
-      return reply.code(404).send({ error: "a2a_session_not_found" });
+    const context = await getContextById(request.params.id);
+    if (!context) {
+      return reply.code(404).send({ error: "a2a_context_not_found" });
     }
 
-    const proposals = await listProposalsBySessionId(session.id, 10);
-    const billing = await listBillingEventsBySessionId(session.id, 10);
-    return reply.code(200).send({ session, proposals, billing });
+    const tasks = await listTasksByContextId(context.id, 10);
+    const billing = await listBillingEventsByContextId(context.id, 10);
+    return reply.code(200).send({ context, tasks, billing });
   }
 );
 
 server.get<{ Params: { id: string } }>(
-  "/v1/a2a/sessions/:id/timeline",
+  "/v1/a2a/contexts/:id/timeline",
   async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-    const session = await getSessionById(request.params.id);
-    if (!session) {
-      return reply.code(404).send({ error: "a2a_session_not_found" });
+    const context = await getContextById(request.params.id);
+    if (!context) {
+      return reply.code(404).send({ error: "a2a_context_not_found" });
     }
 
-    const events = await listSessionEvents(session.id, 200);
-    const proposals = await listProposalsBySessionId(session.id, 200);
-    const billing = await listBillingEventsBySessionId(session.id, 200);
+    const events = await listContextEvents(context.id, 200);
+    const tasks = await listTasksByContextId(context.id, 200);
+    const billing = await listBillingEventsByContextId(context.id, 200);
 
-    return reply.code(200).send({ sessionId: session.id, status: session.status, events, proposals, billing });
+    return reply.code(200).send({ contextId: context.id, status: context.status, events, tasks, billing });
   }
 );
 
@@ -468,10 +552,21 @@ server.post("/v1/a2a/intents/simulate", async (request: FastifyRequest, reply: F
   const balanceLamports = await solanaConnection.getBalance(walletPublicKey);
   const balanceSol = balanceLamports / LAMPORTS_PER_SOL;
   const policyGate = intentFirewall.validateIntent(intent, balanceSol);
+  
   if (!policyGate.allowed) {
+    if (policyGate.status === "approval_required") {
+      return reply.code(202).send({
+        status: "approval_required",
+        reason: policyGate.reason,
+        reasonCode: policyGate.reasonCode,
+        intentId: intent.intentId
+      });
+    }
+    
     return reply.code(403).send({
       status: "blocked_by_intent_firewall",
       reason: policyGate.reason,
+      reasonCode: policyGate.reasonCode,
       intentId: intent.intentId
     });
   }
@@ -504,6 +599,57 @@ server.get("/v1/metrics/a2a", async (_request: FastifyRequest, reply: FastifyRep
   return reply.code(200).send({ status: "ok", metrics });
 });
 
+// ============================================================================
+// TREASURY VAULT ENDPOINTS (KAMINO / JIT)
+// ============================================================================
+
+server.post("/v1/a2a/treasury/activate", async (request: FastifyRequest, reply: FastifyReply) => {
+  const schema = z.object({
+    asset: z.string(),
+    amount: z.number().positive(),
+    walletAddress: z.string()
+  });
+  
+  const parsed = schema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_treasury_activation", details: parsed.error.flatten() });
+  }
+
+  const result = await treasuryAgent.activateLiquidity(parsed.data.asset, parsed.data.amount, parsed.data.walletAddress);
+  if (!result.success) {
+    return reply.code(422).send({ status: "failed", message: result.message });
+  }
+
+  return reply.code(200).send(result);
+});
+
+server.post("/v1/a2a/treasury/park", async (request: FastifyRequest, reply: FastifyReply) => {
+  const schema = z.object({
+    asset: z.string(),
+    amount: z.number().positive(),
+    walletAddress: z.string()
+  });
+  
+  const parsed = schema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "invalid_treasury_parking", details: parsed.error.flatten() });
+  }
+
+  const result = await treasuryAgent.parkIdleCapital(parsed.data.asset, parsed.data.amount, parsed.data.walletAddress);
+  if (!result.success) {
+    return reply.code(422).send({ status: "failed", message: result.message });
+  }
+
+  return reply.code(200).send(result);
+});
+
 const port = Number(process.env.A2A_SERVICE_PORT ?? 3008);
 
-server.listen({ port, host: "0.0.0.0" });
+if (process.env.NODE_ENV !== "test") {
+  server.listen({ port, host: "0.0.0.0" }).catch((err) => {
+    server.log.error(err);
+    process.exit(1);
+  });
+}
+
+export { server };

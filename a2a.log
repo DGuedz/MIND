@@ -1,0 +1,8 @@
+
+> @mind/a2a-service@0.1.0 dev /Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/services/a2a-service
+> tsx src/index.ts
+
+{"level":30,"time":1775073231182,"pid":33861,"hostname":"MacBook-Air-de-Diego.local","msg":"Server listening at http://0.0.0.0:3008"}
+/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/services/a2a-service:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @mind/a2a-service@0.1.0 dev: `tsx src/index.ts`
+Exit status 143
