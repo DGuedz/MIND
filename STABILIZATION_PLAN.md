@@ -27,16 +27,18 @@ Copie o conteúdo abaixo e crie as **Issues** correspondentes na aba do seu repo
 ### Issue #2: `[Frontend] Validação do Preview Vercel (CI/CD)`
 **Descrição:** Confirmar se as edições no Copy (B2B, Invisible Toll, A2A) na branch `release/hackathon-submission` estão buildando corretamente através do CI/CD do Vercel sem travamentos de `node_modules`.
 **Ações da Issue:**
-- [ ] Validar se o build na Vercel está verde para o último commit.
-- [ ] Acessar `landingpage-dgs-projects-ac3c4a7c.vercel.app` e confirmar visualmente a headline "The Invisible Toll".
-- [ ] Validar o clique no botão do Telegram abrindo com `?start=connect`.
+- [x] Validar se o build na Vercel está verde para o último commit.
+- [x] Acessar `landingpage-dgs-projects-ac3c4a7c.vercel.app` e confirmar visualmente a headline "The Invisible Toll".
+- [x] Validar o clique no botão do Telegram abrindo com `?start=connect`.
+*(Evidência: Deploy https://landingpage-dgs-projects-ac3c4a7c.vercel.app renderizando com sucesso o novo copy na Vercel Edge Network)*
 
 ### Issue #3: `[E2E] Registro do Smoke Test Definitivo no HACKATHON_SUBMISSION.md`
 **Descrição:** Garantir que temos um log seguro e estático no documento de submissão provando a execução atômica via KMS + Telegram, para que os juízes possam auditar sem precisarem rodar nada local.
 **Ações da Issue:**
 - [x] Rodar script KMS e capturar Hash (Já registrado).
 - [x] Atualizar o HACKATHON_SUBMISSION.md com o log E2E estático.
-- [ ] Manter este Hash como prova incontestável para submissão caso a demonstração on-live falhe.
+- [x] Manter este Hash como prova incontestável para submissão caso a demonstração on-live falhe.
+*(Evidência: Hash PeYPPJF5CyXb71afSG5BtdXFPCnNb6edboDfSXMm1QFvt1kqrXV57TjRgU3zzQUxDDtiikSX66rVJ5YwdZjDWQz consolidado)*
 
 ---
 
