@@ -42,7 +42,7 @@ export function MainLayout() {
       <div className="noise" />
       
       {/* Navbar (Desktop) */}
-      <nav className="hidden md:flex fixed top-0 left-0 right-0 z-50 items-center justify-between px-8 py-4 bg-black/40 backdrop-blur-xl border-b border-white/5">
+      <nav className="hidden md:flex fixed top-0 left-0 right-0 z-[100] items-center justify-between px-8 py-4 bg-black/40 backdrop-blur-xl border-b border-white/5">
         <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-transparent overflow-hidden p-0.5">
             <MiniLogo />
@@ -51,7 +51,7 @@ export function MainLayout() {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="flex items-center gap-6 text-sm">
+        <div className="flex items-center gap-6 text-sm relative z-[101] pointer-events-auto">
           <NavLink to="/" className={navLinkClass}>Home</NavLink>
           <NavLink to="/app" className={navLinkClass}>App</NavLink>
           <NavLink to="/features" className={navLinkClass}>Features</NavLink>
@@ -61,9 +61,9 @@ export function MainLayout() {
           </a>
         </div>
 
-        <div>
+        <div className="relative z-[101] pointer-events-auto">
           <Link to="/register">
-            <Button variant="outline" className="rounded-full bg-transparent border-white/20 hover:bg-white/10 text-white">
+            <Button variant="outline" className="rounded-full bg-transparent border-white/20 hover:bg-white/10 text-white cursor-pointer">
               Create Account
             </Button>
           </Link>

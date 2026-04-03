@@ -43,7 +43,7 @@ type KaminoVaultMetrics = {
 
 const DEFAULT_RPC_URL = "https://api.mainnet-beta.solana.com";
 const DEFAULT_AGENT_PUBLIC_KEY = "FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah";
-const FALLBACK_BALANCE_SOL = 14.2051;
+const FALLBACK_BALANCE_SOL = 1.0000;
 const FALLBACK_SOL_PRICE_USD = 185;
 const ACTIVITY_LIMIT = 8;
 const REFRESH_INTERVAL_MS = 20_000;
@@ -69,12 +69,8 @@ const sseEndpointUrl = (import.meta.env.VITE_SSE_ENDPOINT || "http://localhost:3
 const rpcUrl = configuredRpcUrl || DEFAULT_RPC_URL;
 const agentPublicKeyText = configuredAgentPublicKey || DEFAULT_AGENT_PUBLIC_KEY;
 
-const fallbackIntents: IntentItem[] = [
-  { action: "ZK Stealth Swap", status: "Executed", amount: "+$45.20", time: "2m ago", icon: EyeOff, color: "text-gray-300", isOnchain: false },
-  { action: "A2A Oracle Payment", status: "Pending", amount: "-$0.50", time: "15m ago", icon: KeyRound, color: "text-gray-400", isOnchain: false },
-  { action: "Shielded Vault Route", status: "Executed", amount: "~$1,200.00", time: "1h ago", icon: Shield, color: "text-gray-300", isOnchain: false },
-  { action: "Policy Gate Blocked", status: "Blocked (KMS Limit)", amount: "$5,000.00", time: "3h ago", icon: Lock, color: "text-gray-500", isOnchain: false },
-];
+// Limpando os logs mocados para iniciar a demo de forma orgânica e "em branco".
+const fallbackIntents: IntentItem[] = [];
 
 const shortenAddress = (address: string) => `${address.slice(0, 4)}...${address.slice(-4)}`;
 const shortenSignature = (signature: string) => `${signature.slice(0, 6)}...${signature.slice(-6)}`;
@@ -246,7 +242,13 @@ export function AppPage() {
   const [balanceSource, setBalanceSource] = useState<"loading" | "live" | "fallback">("loading");
   const [priceSource, setPriceSource] = useState<"loading" | "live" | "fallback">("loading");
   const [metricsSource, setMetricsSource] = useState<"loading" | "live" | "fallback">("loading");
-  const walletExplorerUrl = buildExplorerAddressUrl(agentPublicKeyText, rpcUrl);
+  
+  // Lê a wallet da URL (query parameter) se existir
+  const searchParams = new URLSearchParams(window.location.search);
+  const urlWallet = searchParams.get("wallet");
+  const targetWalletText = urlWallet || agentPublicKeyText;
+
+  const walletExplorerUrl = buildExplorerAddressUrl(targetWalletText, rpcUrl);
   
   // Calcula o valor total em USD da carteira (SOL + USDC)
   const solValueUsd = (realBalance ?? 0) * (solUsdPrice ?? FALLBACK_SOL_PRICE_USD);
@@ -258,9 +260,9 @@ export function AppPage() {
     let walletAddress: PublicKey;
 
     try {
-      walletAddress = new PublicKey(agentPublicKeyText);
+      walletAddress = new PublicKey(targetWalletText);
     } catch (error) {
-      console.error("Invalid VITE_AGENT_PUBLIC_KEY; falling back to demo dashboard.", error);
+      console.error("Invalid Public Key; falling back to demo dashboard.", error);
       setRealBalance(FALLBACK_BALANCE_SOL);
       setUsdcBalance(0);
       setBalanceSource("fallback");
@@ -286,8 +288,15 @@ export function AppPage() {
       if (!active) return;
 
       if (balanceResult.status === "fulfilled") {
-        setRealBalance(balanceResult.value / LAMPORTS_PER_SOL);
-        setBalanceSource("live");
+        const liveBalance = balanceResult.value / LAMPORTS_PER_SOL;
+        // Estratégia B2B Pitch: Se o saldo for poeira (< 0.1 SOL), forçamos o valor mockado institucional.
+        if (liveBalance < 0.1) {
+          setRealBalance(FALLBACK_BALANCE_SOL);
+          setBalanceSource("fallback");
+        } else {
+          setRealBalance(liveBalance);
+          setBalanceSource("live");
+        }
       } else {
         console.error("Failed to fetch live Solana balance:", balanceResult.reason);
         setRealBalance(FALLBACK_BALANCE_SOL);
@@ -666,7 +675,7 @@ export function AppPage() {
             <h1 className="text-4xl font-medium tracking-tight text-white">Agent Hub</h1>
             <div className="flex items-center gap-4 bg-black border border-white/10 rounded-full py-2 px-4">
               <span className="text-sm text-gray-500 uppercase tracking-wider font-mono text-[10px]">Wallet:</span>
-              <span className="text-sm font-mono text-gray-300" title={agentPublicKeyText}>{shortenAddress(agentPublicKeyText)}</span>
+              <span className="text-sm font-mono text-gray-300" title={targetWalletText}>{shortenAddress(targetWalletText)}</span>
               <div className="w-px h-4 bg-white/20 mx-2" />
               <Badge variant="outline" className="bg-white/5 text-gray-300 border-white/10 font-mono text-[10px] uppercase tracking-wider">
                 Connected

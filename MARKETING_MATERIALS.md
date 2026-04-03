@@ -44,31 +44,52 @@ Every autonomous intent leaves a Mindprint.
 
 ---
 
-**2) Script do vídeo (45s cravados)**
+**2) Script do vídeo (45s cravados - Edição Realinhada Tese)**
 
-**0s–5s**
-Tela: Título “MIND — The Invisible Toll for the Agent Economy” (Design minimalista B&W, logo concêntrico)
-Voz: “MIND transforma intenção de agentes em liquidação atômica e verificável na Solana.”
+**[TELEPROMPTER PT-BR]**
 
-**5s–12s**
-Tela: `curl /v1/health/services` + `curl /v1/health/db` tudo verde
-Voz: “Nove serviços de domínio ativos, health checks e infraestrutura de banco operantes.”
+**0s–8s (O Problema)**
+*Cena: Tela escura, logo MIND girando lentamente, texto forte.*
+**Voz:** "Agentes de IA não conseguem operar finanças entre si com segurança e compliance on-chain. Faltam trilhos nativos."
 
-**12s–22s**
-Tela: Fluxo Telegram aprovação (Simulação HITL)
-Voz: “A aprovação humana no Telegram dispara guardrails e políticas institucionais rigorosas.”
+**8s–18s (A Tese)**
+*Cena: Transição rápida mostrando o volume do aGDP (gráfico da landing page).*
+**Voz:** "MIND is the A2A financial rail for the Agent Economy. Nós não criamos agentes, construímos as rodovias pelas quais eles transacionam."
 
-**22s–32s**
-Tela: Chamada `POST /v1/execution/execute` unificada no Gateway
-Voz: “O Gateway coordena a execução e o Signer Service assina com Zero-Trust via Turnkey KMS.”
+**18s–30s (Como Funciona)**
+*Cena: Terminal rodando o script HITL e o bot do Telegram recebendo o 'Approve'.*
+**Voz:** "Nosso motor de liquidação une Policy Engine, execução atômica via Turnkey KMS e gera uma trilha auditável em tempo real na Solana."
 
-**32s–40s**
-Tela: Retorno da API com `proofOfIntent` / `txHash`
-Voz: “A transação é liquidada na mainnet via Helius RPC, gerando um Proof of Intent.”
+**30s–40s (O Valor)**
+*Cena: Terminal mostrando o hash verde gerado e a tela do Solscan com a transação confirmada.*
+**Voz:** "O resultado? Menos risco operacional, zero exposição de chaves privadas e velocidade máxima de integração institucional."
 
-**40s–45s**
-Tela: Solscan aberto no hash real validado
-Voz: “MIND: Segurança institucional e coordenação A2A para o futuro da economia de agentes.”
+**40s–45s (CTA)**
+*Cena: Câmera no founder (Diego) ou tela final com o CTA e contatos.*
+**Voz:** "Estamos abrindo pilotos com times que querem infraestrutura financeira agent-native. Junte-se ao MIND."
+
+
+**[TELEPROMPTER EN - PARA TRENDS GLOBAL]**
+
+**0s–8s (The Problem)**
+*Scene: Dark screen, MIND logo spinning slowly, bold text.*
+**Voice:** "AI agents cannot execute financial operations securely with on-chain compliance. They lack native rails."
+
+**8s–18s (The Thesis)**
+*Scene: Fast transition showing the aGDP volume (landing page chart).*
+**Voice:** "MIND is the A2A financial rail for the Agent Economy. We don't build agents; we build the highways they transact on."
+
+**18s–30s (How it Works)**
+*Scene: Terminal running the HITL script and Telegram bot receiving the 'Approve' action.*
+**Voice:** "Our settlement engine combines Policy Gates, atomic execution via Turnkey KMS, and generates a real-time auditable trail on Solana."
+
+**30s–40s (The Value)**
+*Scene: Terminal showing the green generated hash and Solscan screen with the confirmed transaction.*
+**Voice:** "The result? Less operational risk, zero private key exposure, and maximum speed for institutional integration."
+
+**40s–45s (CTA)**
+*Scene: Camera on founder (Diego) or final screen with CTA and contacts.*
+**Voice:** "We are opening pilots with teams that need agent-native financial infrastructure. Join MIND."
 
 ---
 
