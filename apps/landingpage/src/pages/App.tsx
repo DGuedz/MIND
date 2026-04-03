@@ -289,14 +289,9 @@ export function AppPage() {
 
       if (balanceResult.status === "fulfilled") {
         const liveBalance = balanceResult.value / LAMPORTS_PER_SOL;
-        // Estratégia B2B Pitch: Se o saldo for poeira (< 0.1 SOL), forçamos o valor mockado institucional.
-        if (liveBalance < 0.1) {
-          setRealBalance(FALLBACK_BALANCE_SOL);
-          setBalanceSource("fallback");
-        } else {
-          setRealBalance(liveBalance);
-          setBalanceSource("live");
-        }
+        // Estratégia B2B Pitch: Forçamos o valor mockado de 1.00 SOL para facilitar a matemática do vídeo (mesmo que a carteira real tenha mais).
+        setRealBalance(FALLBACK_BALANCE_SOL);
+        setBalanceSource("fallback");
       } else {
         console.error("Failed to fetch live Solana balance:", balanceResult.reason);
         setRealBalance(FALLBACK_BALANCE_SOL);
@@ -565,7 +560,7 @@ export function AppPage() {
       const newIntent: IntentItem = {
         action: "Force Rebalance (USDC)", 
         status: "Executing...", 
-        amount: "14.2 SOL", 
+        amount: "1.0 SOL", 
         time: "Just now", 
         icon: ArrowRightLeft, 
         color: "text-blue-400",

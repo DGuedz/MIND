@@ -28,6 +28,7 @@ const TURNKEY_SIGN_WITH =
   process.env.X402_AGENT_PUBLIC_KEY ||
   process.env.VITE_AGENT_PUBLIC_KEY ||
   "";
+const DASHBOARD_URL = process.env.VITE_DASHBOARD_URL || "http://localhost:5173";
 
 type DecisionContract = {
   decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
@@ -198,16 +199,12 @@ async function getRealBalance(): Promise<number> {
     console.log(`[getRealBalance] Fetching balance for ${publicKeyStr} on Mainnet...`);
     const balance = await connection.getBalance(new PublicKey(publicKeyStr));
     console.log(`[getRealBalance] Done: ${balance} lamports`);
-    // Fallback estético para o Pitch se a carteira real tiver poeira (dust) < 1 SOL
-    const solBalance = balance / LAMPORTS_PER_SOL;
-    if (solBalance < 0.1) {
-      console.log(`[getRealBalance] Saldo baixo detectado. Usando Mock Institucional de 14.2051 SOL para consistência do Pitch Deck.`);
-      return 14.2051;
-    }
-    return solBalance;
+    // Fallback estético para o Pitch: Forçamos 1.0000 SOL (mesmo que a carteira real tenha mais)
+    console.log(`[getRealBalance] Forçando Mock Institucional de 1.0000 SOL para consistência do Pitch Deck.`);
+    return 1.0000;
   } catch (e) {
     console.error("Erro ao buscar saldo real:", e);
-    return 14.2051;
+    return 1.0000;
   }
 }
 
@@ -523,7 +520,7 @@ async function startBot() {
                         `_Sua tesouraria foi atualizada. Você pode auditar a prova criptográfica no Agent Hub._`;
                       const kb2 = {
                         inline_keyboard: [
-                          [{ text: "🖥️ Abrir Dashboard", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }],
+                          [{ text: "🖥️ Abrir Dashboard", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }],
                           [{ text: "💾 Salvar como Skill Autônoma", callback_data: "save_skill" }],
                           [{ text: "✨ Nova Intent", callback_data: "start_intent" }]
                         ]
@@ -594,7 +591,7 @@ async function startBot() {
                           `*Nota de Transparência Institucional: Apenas as Integrações Ativas executam código on-chain neste momento. O restante encontra-se em fase de prototipagem segura (Simulação).*`;
               const kb = { inline_keyboard: [
                   [{ text: "✨ Voltar para Intenções", callback_data: "start_intent" }],
-                  [{ text: "🖥️ Acessar Agent Hub", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }]
+                  [{ text: "🖥️ Acessar Agent Hub", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }]
               ]};
               await sendMsg(chatId, msg, kb);
             }
@@ -801,7 +798,7 @@ async function startBot() {
 
                   const kb2 = {
                     inline_keyboard: [
-                      [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }],
+                      [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }],
                       [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]
                     ]
                   };
@@ -917,7 +914,7 @@ async function startBot() {
                              `_Como Remover:_ ` + (lockType === "flex" ? `Você pode solicitar o saque ("Unstake") a qualquer momento pelo Agent Hub.` : `O capital + rendimentos serão destravados automaticamente e retornarão para sua carteira ao final do período.`) + `\n\n` +
                              `_Nota Institucional: A taxa de performance (Performance Fee) será deduzida apenas sobre o lucro líquido no momento do saque._`;
                 const kb2 = { inline_keyboard: [
-                  [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }],
+                  [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }],
                   [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]
                 ]};
                 await sendMsg(chatId, msg2, kb2);
@@ -955,7 +952,7 @@ async function startBot() {
               const msg = `✅ *Políticas de Risco Atualizadas*\n\nOs novos limites foram sincronizados on-chain e propagados para a malha de agentes e para as regras do KMS.\n\nO seu capital está operando sob os novos guardrails institucionais.`;
               const kb = {
                 inline_keyboard: [
-                  [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }],
+                  [{ text: "🖥️ Acessar Agent Hub (Dashboard)", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }],
                   [{ text: "✨ Menu Principal", callback_data: "start_intent" }]
                 ]
               };
@@ -966,7 +963,7 @@ async function startBot() {
               const kb = {
                 inline_keyboard: [
                   [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }],
-                  [{ text: "🖥️ Acessar Agent Hub", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }]
+                  [{ text: "🖥️ Acessar Agent Hub", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }]
                 ]
               };
               await sendMsg(chatId, msg, kb);
@@ -975,7 +972,7 @@ async function startBot() {
               const msg = `💾 *Skill Autônoma Armazenada*\n\nA estratégia foi salva e incorporada ao seu Agent Hub. A partir de agora, o sistema monitorará condições semelhantes de mercado.\n\nVocê pode auditar todas as execuções autônomas no painel de controle.`;
               const kb = {
                 inline_keyboard: [
-                  [{ text: "🖥️ Acessar Agent Hub", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }],
+                  [{ text: "🖥️ Acessar Agent Hub", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }],
                   [{ text: "✨ Criar Nova Intenção", callback_data: "start_intent" }]
                 ]
               };
@@ -995,7 +992,7 @@ async function startBot() {
                           `O histórico completo (append-only logs) está disponível no seu painel web.`;
               const kb = {
                 inline_keyboard: [
-                  [{ text: "🖥️ Abrir Dashboard", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }],
+                  [{ text: "🖥️ Abrir Dashboard", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }],
                   [{ text: "✨ Voltar às Intenções", callback_data: "start_intent" }]
                 ]
               };
@@ -1010,7 +1007,7 @@ async function startBot() {
                           `Você pode acompanhar o fluxo da rede diretamente pelo painel.`;
               const kb = {
                 inline_keyboard: [
-                  [{ text: "🖥️ Abrir Dashboard", url: `https://landingpage-dgs-projects-ac3c4a7c.vercel.app/?wallet=${publicKeyStr}` }],
+                  [{ text: "🖥️ Abrir Dashboard", url: `${DASHBOARD_URL}/?wallet=${publicKeyStr}` }],
                   [{ text: "✨ Voltar às Intenções", callback_data: "start_intent" }]
                 ]
               };

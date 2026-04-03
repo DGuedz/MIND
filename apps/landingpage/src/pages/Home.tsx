@@ -116,7 +116,7 @@ export function HomePage() {
               <Button 
                 variant="outline" 
                 className="w-full sm:w-auto rounded-full px-8 py-6 bg-transparent border-white/20 text-white hover:bg-white/10 text-sm font-medium transition-all hover:border-white/40"
-                onClick={() => window.open('../../docs/RELEASE_BUNDLE.md', '_blank')}
+                onClick={() => window.open('https://github.com/DGuedz/MIND', '_blank')}
               >
                 Discover More
               </Button>
