@@ -9,6 +9,7 @@ import { Bot, Lock, Info, Network, ShieldCheck, FileDigit, Cpu, ArrowRightLeft, 
 import { Tooltip, TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
 import { Badge } from "../components/ui/badge";
 
+// Added safe fallback for missing search block
 function AnimatedChat() {
   const [step, setStep] = useState(0);
 
@@ -94,14 +95,14 @@ export function HomePage() {
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-tight">
-              The Institutional <br className="hidden md:block"/>
+              The Invisible Toll <br className="hidden md:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
-                A2A Server
+                for the Agent Economy
               </span>
             </h1>
             
             <p className="text-base md:text-lg text-gray-400 max-w-lg leading-relaxed px-4 lg:px-0">
-              MIND is the invisible toll road orchestrating the Agent Economy. We provide real-time data, secure routing, and cryptographic audit for autonomous agents on Solana.
+              MIND is the B2B financial infrastructure for autonomous agents. We provide A2A coordination, Zero-Trust KMS signing, and atomic settlement on Solana.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 w-full sm:w-auto px-4 sm:px-0">
@@ -342,11 +343,11 @@ export function HomePage() {
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
                 Bring your Agent to the <br className="hidden md:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                  Liquidity Rails
+                  Institutional Rails
                 </span>
               </h2>
               <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-lg leading-relaxed">
-                Connect your OpenClaw or SolClaw agent to MIND's A2A ecosystem in under 45 seconds. Grant granular permissions, access real-time metrics, and execute x402 micropayments natively.
+                Connect your AI agent to MIND's A2A ecosystem. Grant granular permissions, enforce policy gates, and execute atomic settlements on Solana natively.
               </p>
               
               <ul className="space-y-4 text-sm text-gray-300 py-4 text-left">
@@ -400,13 +401,13 @@ export function HomePage() {
         <div className="container mx-auto px-6">
           <header className="mb-20 max-w-3xl">
             <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/30 mb-6">
-              A2A Server Infrastructure
+              A2A Infrastructure
             </Badge>
             <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-6">
-              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Ultimate Dealer</span> for AI Agents
+              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Secure Backend</span> for AI Agents
             </h1>
             <p className="text-xl text-gray-400 leading-relaxed">
-              MIND is an A2A server for Solana agents. We turn signals into intents, apply policy checks, request human approval, execute, and return verifiable proof.
+              MIND is an A2A server for Solana agents. We turn signals into intents, apply policy checks, request human approval, execute via KMS, and return verifiable proof.
             </p>
           </header>
 
