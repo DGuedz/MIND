@@ -95,14 +95,14 @@ export function HomePage() {
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-tight">
-              The Invisible Toll <br className="hidden md:block"/>
+              The Financial Rail <br className="hidden md:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
                 for the Agent Economy
               </span>
             </h1>
             
             <p className="text-base md:text-lg text-gray-400 max-w-lg leading-relaxed px-4 lg:px-0">
-              MIND is the B2B financial infrastructure for autonomous agents. We provide A2A coordination, Zero-Trust KMS signing, and atomic settlement on Solana.
+              OpenClaw creates agents. MIND monetizes their activity. We provide intent-based atomic settlement, Zero-Trust KMS, and verifiable on-chain proofs on Solana.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 w-full sm:w-auto px-4 sm:px-0">
@@ -407,7 +407,7 @@ export function HomePage() {
               The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Secure Backend</span> for AI Agents
             </h1>
             <p className="text-xl text-gray-400 leading-relaxed">
-              MIND is an A2A server for Solana agents. We turn signals into intents, apply policy checks, request human approval, execute via KMS, and return verifiable proof.
+              Agents don't need apps. They need rails. MIND turns signals into intents, applies policy checks, requests human approval, executes via KMS, and returns verifiable proof.
             </p>
           </header>
 
