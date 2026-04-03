@@ -95,14 +95,14 @@ export function HomePage() {
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-tight">
-              The Invisible Toll <br className="hidden md:block"/>
+              Conecte seu agente e <br className="hidden md:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
-                for the Agent Economy
+                execute com segurança em segundos.
               </span>
             </h1>
             
             <p className="text-base md:text-lg text-gray-400 max-w-lg leading-relaxed px-4 lg:px-0">
-              MIND is the B2B financial infrastructure for autonomous agents. We provide A2A coordination, Zero-Trust KMS signing, and atomic settlement on Solana.
+              Você aprova no Telegram. Nós cuidamos da execução e da prova on-chain na Solana.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 w-full sm:w-auto px-4 sm:px-0">
@@ -111,14 +111,14 @@ export function HomePage() {
                 onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}
               >
                 <Bot className="w-4 h-4 mr-2" />
-                Launch in Telegram ↗
+                Conectar meu agente agora ↗
               </Button>
               <Button 
                 variant="outline" 
                 className="w-full sm:w-auto rounded-full px-8 py-6 bg-transparent border-white/20 text-white hover:bg-white/10 text-sm font-medium transition-all hover:border-white/40"
-                onClick={() => window.open('../../docs/RELEASE_BUNDLE.md', '_blank')}
+                onClick={() => window.open('https://solscan.io/tx/PeYPPJF5CyXb71afSG5BtdXFPCnNb6edboDfSXMm1QFvt1kqrXV57TjRgU3zzQUxDDtiikSX66rVJ5YwdZjDWQz', '_blank')}
               >
-                Discover More
+                Ver prova real no Solscan
               </Button>
             </div>
             
@@ -407,7 +407,7 @@ export function HomePage() {
               The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Secure Backend</span> for AI Agents
             </h1>
             <p className="text-xl text-gray-400 leading-relaxed">
-              MIND is an A2A server for Solana agents. We turn signals into intents, apply policy checks, request human approval, execute via KMS, and return verifiable proof.
+              MIND is the A2A Settlement Layer for Solana agents. We turn signals into intents, apply policy checks, request human approval, execute via KMS, and return verifiable proof.
             </p>
           </header>
 
@@ -416,9 +416,9 @@ export function HomePage() {
               <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Network className="w-6 h-6 text-purple-400" />
               </div>
-              <h3 className="text-xl font-medium mb-3 text-white">Real-Time A2A Routing</h3>
+              <h3 className="text-xl font-medium mb-3 text-white">Atomic x402 Settlement</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Routing intent through a controlled execution path. The current demo focuses on policy enforcement, approval flow, and execution evidence.
+                The agent economy requires massive scale. We use Helius RPC to ensure deterministic execution in milliseconds, making high-volume A2A transactions economically viable.
               </p>
               <Button variant="outline" className="w-full border-purple-500/30 text-purple-300 hover:bg-purple-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}>
                 Test x402 Flow
@@ -429,9 +429,9 @@ export function HomePage() {
               <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <ShieldCheck className="w-6 h-6 text-blue-400" />
               </div>
-              <h3 className="text-xl font-medium mb-3 text-white">Institutional Yield Vaults</h3>
+              <h3 className="text-xl font-medium mb-3 text-white">Zero-Trust KMS Security</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Optional treasury modules can be connected in future phases. The hackathon flow keeps scope tight around intent safety and proof.
+                AI agents think, but they cannot sign. We abstract cryptographic complexity using Turnkey KMS, ensuring no raw private keys are ever exposed to the agent.
               </p>
               <Button variant="outline" className="w-full border-blue-500/30 text-blue-300 hover:bg-blue-500/10" onClick={() => navigate("/app")}>
                 View Dashboard
@@ -442,12 +442,12 @@ export function HomePage() {
               <div className="w-12 h-12 rounded-2xl bg-green-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Lock className="w-6 h-6 text-green-400" />
               </div>
-              <h3 className="text-xl font-medium mb-3 text-white">ZK Dark Pool Execution</h3>
+              <h3 className="text-xl font-medium mb-3 text-white">Agentic GDP & JIT Liquidity</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Privacy and advanced routing are roadmap topics. This build demonstrates verifiable intent gating, human approval, and controlled execution.
+                Convert idle treasury capital into Just-In-Time (JIT) liquidity. Every agent must pay a secure execution toll, generating massive recurring revenue for B2B SaaS.
               </p>
               <Button variant="outline" className="w-full border-green-500/30 text-green-300 hover:bg-green-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}>
-                Simulate Dark Pool
+                Simulate Execution
               </Button>
             </div>
 
@@ -455,9 +455,9 @@ export function HomePage() {
               <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <FileDigit className="w-6 h-6 text-orange-400" />
               </div>
-              <h3 className="text-xl font-medium mb-3 text-white">Human-in-the-Loop (HITL)</h3>
+              <h3 className="text-xl font-medium mb-3 text-white">Telegram HITL</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Telegram-based sovereign approval flows. Retain total control while your agent moves at machine speed.
+                Intents pass through Telegram Human-in-the-Loop approval. Retain total institutional control while your agent moves at machine speed.
               </p>
               <Button variant="outline" className="w-full border-orange-500/30 text-orange-300 hover:bg-orange-500/10" onClick={() => window.open('https://t.me/Mind_Agent_Protocol_bot?start=connect', '_blank')}>
                 Try Telegram Bot
@@ -468,9 +468,9 @@ export function HomePage() {
               <div className="w-12 h-12 rounded-2xl bg-pink-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Cpu className="w-6 h-6 text-pink-400" />
               </div>
-              <h3 className="text-xl font-medium mb-3 text-white">Master Skill CLI</h3>
+              <h3 className="text-xl font-medium mb-3 text-white">Model Agnostic</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Developer experience first. Use natural language commands to search, clone, and inject new agent skills directly into your codebase.
+                We don't build the best bot, we build the safest highways. Fully compatible with OpenClaw, Eliza, Llama, or any proprietary agent framework.
               </p>
               <Button variant="outline" className="w-full border-pink-500/30 text-pink-300 hover:bg-pink-500/10" onClick={() => window.open('https://github.com/DGuedz/MIND', '_blank')}>
                 Read Documentation
@@ -487,9 +487,9 @@ export function HomePage() {
               <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <ArrowRightLeft className="w-6 h-6 text-cyan-400" />
               </div>
-              <h3 className="text-xl font-medium mb-3 text-white">Decentralized Delegation</h3>
+              <h3 className="text-xl font-medium mb-3 text-white">Proof of Intent</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                Hire other agents on-demand. Delegate 0.5 SOL to a specialized data agent before executing a trade, all atomically settled.
+                Every autonomous intent leaves a "Mindprint". Generate explorer-verifiable cryptographic receipts for every A2A execution on the Solana mainnet.
               </p>
               <Button variant="outline" className="w-full border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10" onClick={() => navigate("/app")}>
                 Explore A2A Ecosystem
@@ -504,13 +504,13 @@ export function HomePage() {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto mb-20">
             <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30 mb-6">
-              Why This Matters
+              Infraestrutura de Valor
             </Badge>
             <h2 className="text-3xl md:text-5xl font-medium tracking-tight mb-6">
-              Control Layer for <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Autonomous Agents</span>
+              Execute sem expor <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">chave privada</span>
             </h2>
             <p className="text-xl text-gray-400 leading-relaxed">
-              MIND focuses on one production path: policy-first intent routing, human approval, deterministic execution, and cryptographic proof.
+              Ative em minutos, sem refatorar seu bot. Veja o comprovante da transação na hora com 1-click approval.
             </p>
           </div>
 
@@ -520,12 +520,12 @@ export function HomePage() {
               <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <BarChart3 className="w-7 h-7 text-purple-400" />
               </div>
-              <h3 className="text-2xl font-medium text-white mb-3">Market Intelligence (x402)</h3>
+              <h3 className="text-2xl font-medium text-white mb-3">Pagamento Automático por Operação</h3>
               <p className="text-gray-400 text-base leading-relaxed mb-6">
-                Agents pay micro-fees via <strong>x402 (Payment Required)</strong> to access our structured on-chain data, market sentiment, and risk scores before risking capital. Instant programmatic settlement.
+                Agentes geram receita através de micropagamentos. Acesso a dados e roteamento seguro.
               </p>
               <div className="text-sm font-mono text-purple-400 bg-purple-500/10 px-4 py-2 rounded-lg inline-block">
-                Demo Evidence: x402 Data Lane
+                Demo: 60s Onboarding
               </div>
             </div>
 
@@ -534,12 +534,12 @@ export function HomePage() {
               <div className="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Network className="w-7 h-7 text-blue-400" />
               </div>
-              <h3 className="text-2xl font-medium text-white mb-3">A2A Routing & Atomic Settlement</h3>
+              <h3 className="text-2xl font-medium text-white mb-3">Cofre Institucional</h3>
               <p className="text-gray-400 text-base leading-relaxed mb-6">
-                The execution lane connecting agent intents with policy and approval checks before settlement on Solana.
+                Evite erro humano. Chaves protegidas e comprovante auditável de cada execução na Solana.
               </p>
               <div className="text-sm font-mono text-blue-400 bg-blue-500/10 px-4 py-2 rounded-lg inline-block">
-                Demo Evidence: A2A Intent Routing
+                Caso Real com Hash
               </div>
             </div>
 
