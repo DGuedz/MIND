@@ -28,7 +28,7 @@ const TURNKEY_SIGN_WITH =
   process.env.X402_AGENT_PUBLIC_KEY ||
   process.env.VITE_AGENT_PUBLIC_KEY ||
   "";
-const DASHBOARD_URL = process.env.VITE_DASHBOARD_URL || "http://localhost:5173";
+const DASHBOARD_URL = process.env.VITE_DASHBOARD_URL || "https://landingpage-dgs-projects-ac3c4a7c.vercel.app";
 
 type DecisionContract = {
   decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
@@ -209,11 +209,20 @@ async function getRealBalance(): Promise<number> {
 }
 
 async function sendMsg(chatId: number, text: string, keyboard?: any) {
-  await fetch(`${TELEGRAM_API}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown", reply_markup: keyboard })
-  });
+  try {
+    const res = await fetch(`${TELEGRAM_API}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown", reply_markup: keyboard })
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error(`[Telegram sendMsg Error] ${res.status} ${res.statusText}: ${errText}`);
+      console.error(`Failed text payload: ${text}`);
+    }
+  } catch (err) {
+    console.error(`[Telegram sendMsg Network Error]:`, err);
+  }
 }
 
 async function answerCallback(queryId: string, text?: string) {
@@ -248,7 +257,7 @@ const generateAsciiReceipt = (
   const shortTx = txHash.length > 20 ? txHash.substring(0, 10) + "..." + txHash.substring(txHash.length - 10) : txHash;
   const shortReceipt = receiptHash.length > 20 ? receiptHash.substring(0, 10) + "..." + receiptHash.substring(receiptHash.length - 10) : receiptHash;
 
-  let receipt = `\`\`\`text\n`;
+  let receipt = `\`\`\`\n`;
   receipt += `================================\n`;
   receipt += `         MIND PROTOCOL\n`;
   receipt += `       A2A SERVER (NFC-e)\n`;
@@ -487,14 +496,14 @@ async function startBot() {
                       if (execResponse.ok) {
                         const raw = await execResponse.text();
                         const parsed = JSON.parse(raw) as { proofOfIntent?: string };
-                        txHash = parsed.proofOfIntent || "mock_darkp_tx_" + Math.floor(Math.random() * 1000000);
+                        txHash = parsed.proofOfIntent || "mock-darkp-tx-" + Math.floor(Math.random() * 1000000);
                       } else {
                         console.warn(`[EXECUTION SERVICE] Erro HTTP. Usando mock txHash.`);
-                        txHash = "mock_darkp_tx_" + Math.floor(Math.random() * 1000000);
+                        txHash = "mock-darkp-tx-" + Math.floor(Math.random() * 1000000);
                       }
                     } catch (fetchError) {
                       console.warn(`[EXECUTION SERVICE OFFLINE] Falha no fetch. Usando mock txHash para continuar fluxo E2E.`);
-                      txHash = "mock_darkp_tx_" + Math.floor(Math.random() * 1000000);
+                      txHash = "mock-darkp-tx-" + Math.floor(Math.random() * 1000000);
                     }
 
                     // Gatilho On-Chain A2A Routing via Terminal (Automático)
