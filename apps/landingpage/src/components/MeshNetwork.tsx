@@ -24,6 +24,13 @@ export const MeshNetwork = () => {
 
   return (
     <div className="absolute inset-0 z-0 flex justify-center items-center opacity-30 pointer-events-none">
+      {/* Background Image (Wireframe Head) */}
+      <img 
+        src="/mind_bg.png" 
+        alt="MIND Wireframe" 
+        className="absolute w-full max-w-[800px] object-contain opacity-50 invert mix-blend-screen animate-pulse duration-1000"
+      />
+      
       <svg viewBox="0 0 1000 800" className="absolute inset-0 w-full h-full max-w-[1200px] mx-auto">
         <defs>
           <filter id="mesh-glow">
