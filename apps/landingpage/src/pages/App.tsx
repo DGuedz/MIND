@@ -572,6 +572,12 @@ export function AppPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-black text-gray-200 font-sans">
+      {/* Background Image (Wireframe Head) */}
+      <img 
+        src="/mind_bg.png" 
+        alt="MIND Wireframe" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] object-contain opacity-20 invert mix-blend-screen pointer-events-none -z-10"
+      />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/[0.03] via-black to-black -z-10" />
       
       {/* ========================================================================= */}
