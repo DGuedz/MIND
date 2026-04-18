@@ -10,6 +10,8 @@ const rateLimitMax = Number(process.env.API_GATEWAY_RATE_LIMIT_MAX ?? 60);
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
 const isHealthRoute = (url: string) => url.startsWith("/health") || url.startsWith("/v1/health");
+const isPublicReadRoute = (method: string, url: string) =>
+  method.toUpperCase() === "GET" && url.startsWith("/v1/market/signals");
 
 const getApiKey = (request: FastifyRequest) => {
   const header = request.headers["authorization"];
@@ -21,7 +23,7 @@ const getApiKey = (request: FastifyRequest) => {
 };
 
 server.addHook("preHandler", async (request, reply) => {
-  if (isHealthRoute(request.url)) {
+  if (isHealthRoute(request.url) || isPublicReadRoute(request.method, request.url)) {
     return;
   }
 
@@ -157,6 +159,84 @@ const toMinorAmount = (asset: z.infer<typeof X402AssetSchema>, amountDecimal: nu
   const minor = Math.round(amountDecimal * Math.pow(10, decimals));
   if (!Number.isFinite(minor) || minor <= 0) return null;
   return String(minor);
+};
+
+type EcosystemSignalItem = {
+  protocol_name: string;
+  source_url: string;
+  source_type: string;
+  published_at: string;
+  timestamp: string;
+  headline: string;
+  summary: string;
+  claim_type: string;
+  classification_layer: "public_ecosystem_signal" | "verified_onchain_metric";
+  confidence_score: number;
+  content_hash: string;
+  last_seen_at: string;
+};
+
+type EcosystemSignalsResponse = {
+  feed: "ecosystem_intel";
+  layer: "public_ecosystem_signal";
+  stale: boolean;
+  fallback_reason?: string;
+  source_mode: "remote_feed" | "fallback_snapshot";
+  cached_at: string;
+  items: EcosystemSignalItem[];
+};
+
+const marketSignalsCacheTtlMs = Number(process.env.MARKET_SIGNALS_CACHE_TTL_MS ?? 30_000);
+const marketSignalsFeedUrl = (process.env.MARKET_INTEL_FEED_URL ?? "").trim();
+let marketSignalsCache: { expiresAt: number; payload: EcosystemSignalsResponse } | null = null;
+
+const fallbackEcosystemSignals = (): EcosystemSignalItem[] => {
+  const now = new Date().toISOString();
+  const publishedAt = "2026-04-01T00:00:00.000Z";
+  return [
+    {
+      protocol_name: "Kamino",
+      source_url: "https://app.kamino.finance/",
+      source_type: "product_page",
+      published_at: publishedAt,
+      timestamp: now,
+      headline: "Kamino Prime market footprint highlighted",
+      summary: "Institutional collateral management updates tracked as ecosystem signal.",
+      claim_type: "company_claim",
+      classification_layer: "public_ecosystem_signal",
+      confidence_score: 0.62,
+      content_hash: "8d8762afdb69616f5f79e5a627e5798b77a0524ae7189bdb2eb0df8cb5f96656",
+      last_seen_at: now
+    },
+    {
+      protocol_name: "Meteora",
+      source_url: "https://meteora.ag/",
+      source_type: "product_page",
+      published_at: publishedAt,
+      timestamp: now,
+      headline: "Liquidity routing programs remain active",
+      summary: "Public ecosystem communication indicates active liquidity incentives.",
+      claim_type: "liquidity_program",
+      classification_layer: "public_ecosystem_signal",
+      confidence_score: 0.68,
+      content_hash: "7b8f2b73ad2f6211d737ea04d5a35a6b4174e2fe777526845109fab64f4f64d2",
+      last_seen_at: now
+    },
+    {
+      protocol_name: "Ondo",
+      source_url: "https://ondo.finance/",
+      source_type: "institutional_announcement",
+      published_at: publishedAt,
+      timestamp: now,
+      headline: "RWA expansion narratives tied to Solana ecosystem",
+      summary: "Institutional footprint references are tracked as market signal only.",
+      claim_type: "company_claim",
+      classification_layer: "public_ecosystem_signal",
+      confidence_score: 0.6,
+      content_hash: "d5d32fa5bbf6ec5c7d9f60942a7766fd80f3f090c94295f5f6ecf0af45d311e5",
+      last_seen_at: now
+    }
+  ];
 };
 
 server.get("/health", async () => ({
@@ -539,6 +619,56 @@ server.post("/v1/risk/assess", async (request: FastifyRequest, reply: FastifyRep
   } catch (error) {
     return sendDownstreamError(reply, error);
   }
+});
+
+server.get("/v1/market/signals", async (_request: FastifyRequest, reply: FastifyReply) => {
+  const now = Date.now();
+  if (marketSignalsCache && now < marketSignalsCache.expiresAt) {
+    return reply.code(200).send(marketSignalsCache.payload);
+  }
+
+  const cachedAt = new Date().toISOString();
+  const buildPayload = (
+    items: EcosystemSignalItem[],
+    stale: boolean,
+    sourceMode: "remote_feed" | "fallback_snapshot",
+    fallbackReason?: string
+  ): EcosystemSignalsResponse => ({
+    feed: "ecosystem_intel",
+    layer: "public_ecosystem_signal",
+    stale,
+    source_mode: sourceMode,
+    fallback_reason: fallbackReason,
+    cached_at: cachedAt,
+    items: items
+      .filter((item) => item.classification_layer === "public_ecosystem_signal")
+      .map((item) => ({
+        ...item,
+        confidence_score: Math.max(0, Math.min(1, Number(item.confidence_score ?? 0))),
+        last_seen_at: item.last_seen_at || cachedAt,
+        timestamp: item.timestamp || cachedAt
+      }))
+  });
+
+  try {
+    if (marketSignalsFeedUrl) {
+      const response = await getJson<{ items?: EcosystemSignalItem[] }>(marketSignalsFeedUrl);
+      const payload = buildPayload(response.data?.items ?? [], false, "remote_feed");
+      marketSignalsCache = { payload, expiresAt: now + marketSignalsCacheTtlMs };
+      return reply.code(200).send(payload);
+    }
+  } catch (error) {
+    server.log.warn({ error: (error as Error).message }, "market signals feed unavailable, using fallback snapshot");
+  }
+
+  const payload = buildPayload(
+    fallbackEcosystemSignals(),
+    true,
+    "fallback_snapshot",
+    marketSignalsFeedUrl ? "remote_feed_unavailable" : "remote_feed_not_configured"
+  );
+  marketSignalsCache = { payload, expiresAt: now + marketSignalsCacheTtlMs };
+  return reply.code(200).send(payload);
 });
 
 // Analytics

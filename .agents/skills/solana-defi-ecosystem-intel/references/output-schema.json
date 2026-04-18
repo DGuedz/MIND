@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIND Solana DeFi Ecosystem Intel Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_name",
+    "source_url",
+    "source_type",
+    "published_at",
+    "headline",
+    "summary",
+    "claim_type",
+    "classification_layer",
+    "confidence_score",
+    "content_hash",
+    "timestamp",
+    "last_seen_at"
+  ],
+  "properties": {
+    "protocol_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "blog",
+        "docs",
+        "changelog",
+        "product_page",
+        "x_post",
+        "institutional_announcement",
+        "press_release",
+        "governance_forum"
+      ]
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Extraction timestamp in UTC."
+    },
+    "headline": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim_type": {
+      "type": "string",
+      "enum": [
+        "integration",
+        "partnership",
+        "product_launch",
+        "risk_incident",
+        "liquidity_program",
+        "incentive_program",
+        "compliance_update",
+        "company_claim"
+      ]
+    },
+    "classification_layer": {
+      "type": "string",
+      "enum": [
+        "public_ecosystem_signal",
+        "verified_onchain_metric"
+      ]
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "SHA-256 hash over canonicalized source content."
+    },
+    "last_seen_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "first_seen_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_url",
+          "content_hash"
+        ],
+        "properties": {
+          "source_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "extraction_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stale": {
+      "type": "boolean"
+    },
+    "fallback_reason": {
+      "type": "string"
+    }
+  }
+}
+

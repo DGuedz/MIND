@@ -5,6 +5,7 @@ import { ConnectAgentModal } from "../components/ConnectAgentModal";
 import { Badge } from "../components/ui/badge";
 import { motion, useMotionValue, useTransform, useSpring, useScroll, MotionValue, AnimatePresence, useInView } from "framer-motion";
 import { Zap, Loader2, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
+import { buildArchiveSignalsMap, fetchEcosystemSignals } from "../lib/ecosystemIntel";
 
 // Component for Metallic Reflective Text synced with Scroll
 function MetallicText({ children, className, progress }: { children: React.ReactNode, className?: string, progress?: MotionValue<number> }) {
@@ -595,7 +596,7 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
       {/* Title Section within SVG */}
       <g transform="translate(40, 60)">
         <text fontSize="8" fill="#525252" fontFamily="monospace" letterSpacing="3">CONTRACTUAL LOGIC</text>
-        <text y="20" fontSize="18" fill="#ffffff" fontWeight="bold" tracking-tight>Execution Constraints.</text>
+        <text y="20" fontSize="18" fill="#ffffff" fontWeight="bold">Execution Constraints.</text>
       </g>
 
       <g transform="translate(40, 140) scale(0.95)">
@@ -719,7 +720,7 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
 }
 
 // Archive Card SVGs
-function InstitutionalDeFiSVG({ isHovered }: { isHovered: boolean }) {
+function InstitutionalDeFiSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -743,16 +744,16 @@ function InstitutionalDeFiSVG({ isHovered }: { isHovered: boolean }) {
       </g>
       {isHovered && (
         <g className="font-mono" fill="#ffffff" opacity="0.6">
-          <text x="30" y="40" fontSize="8">KAMINO_PRIME: $570M</text>
-          <text x="30" y="55" fontSize="8">ONDO_RWA: $560.9M</text>
-          <text x="30" y="70" fontSize="6" fill="#525252">ANCHORAGE_DIGITAL_INTEGRATED</text>
+          <text x="30" y="40" fontSize="8">{signal?.line1 ?? "KAMINO_PRIME: $570M"}</text>
+          <text x="30" y="55" fontSize="8">{signal?.line2 ?? "ONDO_RWA: $560.9M"}</text>
+          <text x="30" y="70" fontSize="6" fill="#525252">{signal?.line3 ?? "LABEL: MARKET_SIGNALS"}</text>
         </g>
       )}
     </svg>
   );
 }
 
-function DataMarketplaceSVG({ isHovered }: { isHovered: boolean }) {
+function DataMarketplaceSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -773,16 +774,16 @@ function DataMarketplaceSVG({ isHovered }: { isHovered: boolean }) {
       </g>
       {isHovered && (
         <g className="font-mono" fill="#ffffff" opacity="0.6">
-          <text x="30" y="40" fontSize="8">A2A_VOLUME: $2.87B</text>
-          <text x="30" y="55" fontSize="8">GROWTH: +80% (30D)</text>
-          <text x="30" y="70" fontSize="6" fill="#525252">REAL_TIME_SETTLEMENT_v2</text>
+          <text x="30" y="40" fontSize="8">{signal?.line1 ?? "A2A_VOLUME: $2.87B"}</text>
+          <text x="30" y="55" fontSize="8">{signal?.line2 ?? "GROWTH: +80% (30D)"}</text>
+          <text x="30" y="70" fontSize="6" fill="#525252">{signal?.line3 ?? "LABEL: MARKET_SIGNALS"}</text>
         </g>
       )}
     </svg>
   );
 }
 
-function CrossChainRoutingSVG({ isHovered }: { isHovered: boolean }) {
+function CrossChainRoutingSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -798,16 +799,16 @@ function CrossChainRoutingSVG({ isHovered }: { isHovered: boolean }) {
       </g>
       {isHovered && (
         <g className="font-mono" fill="#ffffff" opacity="0.6">
-          <text x="30" y="40" fontSize="8">SOLANA_RWA_DOM: 7.27%</text>
-          <text x="30" y="55" fontSize="8">RANK: #3 GLOBAL</text>
-          <text x="30" y="70" fontSize="6" fill="#525252">USDC_GUSTO_SETTLED</text>
+          <text x="30" y="40" fontSize="8">{signal?.line1 ?? "SOLANA_RWA_DOM: 7.27%"}</text>
+          <text x="30" y="55" fontSize="8">{signal?.line2 ?? "RANK: #3 GLOBAL"}</text>
+          <text x="30" y="70" fontSize="6" fill="#525252">{signal?.line3 ?? "LABEL: MARKET_SIGNALS"}</text>
         </g>
       )}
     </svg>
   );
 }
 
-function YieldOptimizationSVG({ isHovered }: { isHovered: boolean }) {
+function YieldOptimizationSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -828,16 +829,16 @@ function YieldOptimizationSVG({ isHovered }: { isHovered: boolean }) {
       </g>
       {isHovered && (
         <g className="font-mono" fill="#ffffff" opacity="0.6">
-          <text x="30" y="40" fontSize="8">TOTAL_TVL: $5.8B</text>
-          <text x="30" y="55" fontSize="8">STABLECOIN_REG: ACTIVE</text>
-          <text x="30" y="70" fontSize="6" fill="#525252">YIELD_ADJUSTED_RISK</text>
+          <text x="30" y="40" fontSize="8">{signal?.line1 ?? "TOTAL_TVL: $5.8B"}</text>
+          <text x="30" y="55" fontSize="8">{signal?.line2 ?? "STABLECOIN_REG: ACTIVE"}</text>
+          <text x="30" y="70" fontSize="6" fill="#525252">{signal?.line3 ?? "LABEL: MARKET_SIGNALS"}</text>
         </g>
       )}
     </svg>
   );
 }
 
-function GovernanceSDKSVG({ isHovered }: { isHovered: boolean }) {
+function GovernanceSDKSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3} transform="translate(200, 150)">
@@ -852,9 +853,9 @@ function GovernanceSDKSVG({ isHovered }: { isHovered: boolean }) {
       </g>
       {isHovered && (
         <g className="font-mono" fill="#ffffff" opacity="0.6">
-          <text x="30" y="40" fontSize="8">RWA_CAP: $2B+</text>
-          <text x="30" y="55" fontSize="8">COMPLIANCE: x402_GATED</text>
-          <text x="30" y="70" fontSize="6" fill="#525252">ZERO_TRUST_ENFORCED</text>
+          <text x="30" y="40" fontSize="8">{signal?.line1 ?? "RWA_CAP: $2B+"}</text>
+          <text x="30" y="55" fontSize="8">{signal?.line2 ?? "COMPLIANCE: x402_GATED"}</text>
+          <text x="30" y="70" fontSize="6" fill="#525252">{signal?.line3 ?? "LABEL: MARKET_SIGNALS"}</text>
         </g>
       )}
     </svg>
@@ -862,7 +863,7 @@ function GovernanceSDKSVG({ isHovered }: { isHovered: boolean }) {
 }
 
 function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave }: { 
-  item: any, 
+  item: { title: string; span: string; render: (isActive: boolean) => React.ReactNode }, 
   index: number, 
   isHovered: boolean,
   onMouseEnter: () => void,
@@ -890,7 +891,7 @@ function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave }: {
       className={`relative aspect-[16/10] rounded-[2rem] overflow-hidden border border-white/5 cursor-pointer group ${item.span}`}
     >
       <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105">
-        <item.component isHovered={isActive} />
+        {item.render(isActive)}
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
       
@@ -914,6 +915,7 @@ export function HomePage() {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [hoveredArchive, setHoveredArchive] = useState<number | null>(null);
+  const [archiveSignals, setArchiveSignals] = useState<Record<string, { line1: string; line2: string; line3: string }>>({});
   const navigate = useNavigate();
   const location = useLocation();
   const heroRef = useRef<HTMLDivElement>(null);
@@ -948,6 +950,31 @@ export function HomePage() {
     if (!hash) return;
     scrollToSection(hash);
   }, [location.hash]);
+
+  useEffect(() => {
+    let active = true;
+
+    const hydrateSignals = async () => {
+      try {
+        const payload = await fetchEcosystemSignals();
+        if (!active) return;
+        setArchiveSignals(buildArchiveSignalsMap(payload.items));
+      } catch {
+        if (!active) return;
+        setArchiveSignals(buildArchiveSignalsMap([]));
+      }
+    };
+
+    void hydrateSignals();
+    const interval = window.setInterval(() => {
+      void hydrateSignals();
+    }, 30_000);
+
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div className="container mx-auto px-6 space-y-32 pb-32 pt-32">
@@ -1214,11 +1241,11 @@ export function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { title: "Institutional DeFi", component: InstitutionalDeFiSVG, span: "lg:col-span-2" },
-            { title: "Data Marketplace", component: DataMarketplaceSVG, span: "" },
-            { title: "Cross-Chain Routing", component: CrossChainRoutingSVG, span: "" },
-            { title: "Yield Optimization", component: YieldOptimizationSVG, span: "" },
-            { title: "Governance SDK", component: GovernanceSDKSVG, span: "" }
+            { title: "Institutional DeFi", span: "lg:col-span-2", render: (isActive: boolean) => <InstitutionalDeFiSVG isHovered={isActive} signal={archiveSignals["Institutional DeFi"]} /> },
+            { title: "Data Marketplace", span: "", render: (isActive: boolean) => <DataMarketplaceSVG isHovered={isActive} signal={archiveSignals["Data Marketplace"]} /> },
+            { title: "Cross-Chain Routing", span: "", render: (isActive: boolean) => <CrossChainRoutingSVG isHovered={isActive} signal={archiveSignals["Cross-Chain Routing"]} /> },
+            { title: "Yield Optimization", span: "", render: (isActive: boolean) => <YieldOptimizationSVG isHovered={isActive} signal={archiveSignals["Yield Optimization"]} /> },
+            { title: "Governance SDK", span: "", render: (isActive: boolean) => <GovernanceSDKSVG isHovered={isActive} signal={archiveSignals["Governance SDK"]} /> }
           ].map((item, i) => (
             <ArchiveCard 
               key={i}
