@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Bot, ShieldCheck, Wallet, ArrowRight, CheckCircle2, Loader2, Sparkles } from "lucide-react";
+import { Bot, ShieldCheck, Wallet, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { Badge } from "../components/ui/badge";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 // Procedural Agent Identity Visual (The "Mindprint")
 function MindprintVisual({ seed }: { seed: string }) {
