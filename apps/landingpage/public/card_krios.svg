@@ -1,0 +1,19 @@
+<svg width="500" height="667" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="667" fill="#050505" />
+  <g opacity="0.8">
+    <line x1="50" y1="100" x2="450" y2="100" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+<rect x="100" y="90" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="0.5" transform="rotate(45 110 100)" opacity="0.5" />
+<line x1="50" y1="150" x2="450" y2="150" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+<line x1="50" y1="200" x2="450" y2="200" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+<rect x="140" y="190" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="0.5" transform="rotate(45 150 200)" opacity="0.5" />
+<line x1="50" y1="250" x2="450" y2="250" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+<line x1="50" y1="300" x2="450" y2="300" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+<rect x="180" y="290" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="0.5" transform="rotate(45 190 300)" opacity="0.5" />
+<line x1="50" y1="350" x2="450" y2="350" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+<line x1="50" y1="400" x2="450" y2="400" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+<rect x="220" y="390" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="0.5" transform="rotate(45 230 400)" opacity="0.5" />
+<line x1="50" y1="450" x2="450" y2="450" stroke="#ffffff" stroke-width="0.5" opacity="0.2" />
+
+  </g>
+  <text x="50" y="600" font-family="monospace" font-size="12" fill="#a1a1aa" letter-spacing="4">KRIOS // RISK_FIREWALL</text>
+</svg>

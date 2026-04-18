@@ -1,0 +1,19 @@
+============================================
+⚡️ Iniciando MIND Performance Mode
+============================================
+
+🛑 [1/3] Parando containers Docker (Safe Down)...
+no configuration file provided: not found
+🛑 [2/3] Matando processos soltos (Node, APIs, Bots, Scripts)...
+🛑 [3/3] Matando túneis (Localtunnel, Ngrok)...
+Nenhum localtunnel ativo.
+Nenhum ngrok ativo.
+
+✅ Todos os processos pesados foram encerrados.
+✅ Seu código e dados (DB) estão intactos.
+
+🧠 Processos são descartáveis. Código é permanente.
+
+Para subir tudo novamente com estado limpo, rode:
+👉 pnpm run dev:services
+============================================

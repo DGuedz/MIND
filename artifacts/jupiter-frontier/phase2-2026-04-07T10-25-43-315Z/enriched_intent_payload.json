@@ -1,0 +1,15 @@
+{
+  "creatorAgentId": "mind_jupiter_agent",
+  "targetAgentId": "mind_execution_agent",
+  "asset": "SOL",
+  "action": "rebalance",
+  "amount": "1",
+  "notional": "1",
+  "confidence": 0.8,
+  "riskScore": 0.3,
+  "latencyPenaltyBps": 2,
+  "mevRiskScore": 0.03,
+  "expiryTs": "2026-04-07T10:55:43.323Z",
+  "policyId": "policy_v1",
+  "marketContextId": "900c70d36540a1dc7c2c6a9a38a78cf3633a5715be4c8b71afe1272005f3ad40"
+}

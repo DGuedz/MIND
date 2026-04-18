@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-04-07T10:28:25.447Z",
+  "elapsedMs": 4820,
+  "pass": false,
+  "dryRun": true,
+  "intentUrl": "http://127.0.0.1:3111",
+  "marketUrl": "http://127.0.0.1:3112",
+  "steps": [
+    {
+      "step": "jupiter_enrich",
+      "ok": true,
+      "statusCode": 200,
+      "details": {
+        "mocked": true,
+        "status": "skipped",
+        "reason": "dry_run",
+        "snapshotHash": "72b157800bd620ef11c7cfa0823c4915e140a998d1e24609d411efaf47d2af63"
+      }
+    },
+    {
+      "step": "intent_create",
+      "ok": true,
+      "statusCode": 201,
+      "details": {
+        "intentId": "95076888-5a6b-4ac7-909a-4dbb2abc6222"
+      }
+    }
+  ],
+  "error": "fetch failed"
+}

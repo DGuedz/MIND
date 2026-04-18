@@ -1,0 +1,30 @@
+[dotenv@17.3.1] injecting env (22) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[2026-04-05T23:29:07.955Z] [1/7] Register Agent A and Agent B
+[2026-04-05T23:29:09.901Z] [2/7] Create A2A context and task (Agent A -> Agent B)
+[2026-04-05T23:29:13.096Z] [3/7] Fetch market context + create economic intent
+[2026-04-05T23:29:15.098Z] [4/7] Run EV decision and handle approval if required
+[2026-04-05T23:29:15.332Z] [5/7] Accept A2A context (handshake)
+[2026-04-05T23:29:17.953Z] [6/7] Plan and run canonical execution
+[2026-04-05T23:29:21.550Z] [7/7] Compose and verify proof bundle
+[2026-04-05T23:29:23.753Z] [7/7] proofVerified=true externalAnchorStatus=confirmed external_submit_status=confirmed strict_local=false strict_effective=true strict_source=.env (dotenv override=true)
+{
+  "agentA": "79b4e0f5-7e1c-4e08-912e-35d278b73f7b",
+  "agentB": "a2081815-ba1e-4a4f-8133-f1d51f73ebb2",
+  "paymentExecuted": true,
+  "EV_net": 20,
+  "decision": "ALLOW",
+  "proofVerified": true,
+  "metaplexConfirmed": true,
+  "externalAnchorStatus": "confirmed",
+  "metaplex_proof_tx": "mockMetaTx_b2b7118fe5f342972af57a89330b2c70877593e35cf7",
+  "metaplex_registry_ref": "https://devnet.helius-rpc.com/?api-key=",
+  "metaplexProofTx": "mockMetaTx_b2b7118fe5f342972af57a89330b2c70877593e35cf7",
+  "metaplexRegistryRef": "https://devnet.helius-rpc.com/?api-key=",
+  "externalProvider": "metaplex",
+  "strictModeLocal": false,
+  "strictModeEffective": true,
+  "strictModeSource": ".env (dotenv override=true)",
+  "valueTransferred": "0.25 SOL->USDC",
+  "routeUsed": "DefiTuna",
+  "elapsedMs": 15798
+}

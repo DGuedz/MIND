@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+dist/
+
+# Environment Variables (CRITICAL: DO NOT COMMIT REAL KEYS)
+.env
+.env.*
+!.env.example
+
+# Firecrawl outputs (local only)
+.firecrawl/
+
+# Documentation (Internal only, not for public repo)
+docs/
+*.txt
+
+# OS Files
+.DS_Store
+*.pem
+*.key
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Keys and Secrets
+burner_wallets.json

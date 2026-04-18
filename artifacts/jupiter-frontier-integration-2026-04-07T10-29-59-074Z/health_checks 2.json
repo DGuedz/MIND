@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-04-07T10:30:03.565Z",
+  "intentHealthDb": {
+    "statusCode": 200,
+    "ok": true,
+    "data": {
+      "status": "ok",
+      "service": "intent-service",
+      "db": "ok"
+    },
+    "raw": "{\"status\":\"ok\",\"service\":\"intent-service\",\"db\":\"ok\"}"
+  },
+  "marketHealthDb": {
+    "statusCode": 200,
+    "ok": true,
+    "data": {
+      "status": "ok",
+      "service": "market-context-service",
+      "db": "ok"
+    },
+    "raw": "{\"status\":\"ok\",\"service\":\"market-context-service\",\"db\":\"ok\"}"
+  }
+}

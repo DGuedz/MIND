@@ -1,0 +1,256 @@
+<svg width="500" height="667" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="667" fill="#050505" />
+  <g opacity="0.6">
+    <circle cx="50" cy="50" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="50" y1="50" x2="110" y2="80" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="50" cy="80" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="50" y1="80" x2="110" y2="110" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="50" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="350" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="50" cy="380" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="50" y1="380" x2="110" y2="410" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="50" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="50" cy="470" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="80" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="410" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="80" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="80" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="320" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="110" y1="320" x2="170" y2="350" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="110" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="110" cy="410" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="110" y1="410" x2="170" y2="440" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="110" cy="440" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="110" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="170" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="140" cy="200" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="140" cy="230" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="140" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="380" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="140" cy="410" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="140" y1="410" x2="200" y2="440" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="140" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="140" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="50" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="170" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="110" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="170" cy="140" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="170" y1="140" x2="230" y2="170" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="170" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="260" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="170" y1="260" x2="230" y2="290" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="170" cy="290" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="170" y1="290" x2="230" y2="320" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="170" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="170" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="50" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="200" y1="50" x2="260" y2="80" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="200" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="290" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="200" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="380" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="200" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="200" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="80" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="230" y1="80" x2="290" y2="110" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="230" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="140" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="230" y1="140" x2="290" y2="170" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="230" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="200" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="230" y1="200" x2="290" y2="230" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="230" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="260" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="230" y1="260" x2="290" y2="290" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="230" cy="290" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="230" y1="290" x2="290" y2="320" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="230" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="380" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="230" y1="380" x2="290" y2="410" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="230" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="230" cy="440" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="230" cy="470" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="260" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="170" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="260" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="290" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="260" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="260" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="230" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="290" y1="230" x2="350" y2="260" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="290" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="350" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="290" y1="350" x2="350" y2="380" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="290" cy="380" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="290" y1="380" x2="350" y2="410" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="290" cy="410" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="290" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="290" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="320" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="80" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="350" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="140" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="350" y1="140" x2="410" y2="170" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="350" cy="170" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="350" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="290" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="350" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="380" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="350" cy="410" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="350" y1="410" x2="410" y2="440" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="350" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="350" cy="470" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="380" cy="50" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="380" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="290" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="380" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="380" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="410" cy="440" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="410" y1="440" x2="470" y2="470" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="410" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="110" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="350" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="440" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="440" cy="440" r="1.5" fill="#ffffff" opacity="0.8" />
+<circle cx="440" cy="470" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="50" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="80" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="110" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="470" y1="110" x2="530" y2="140" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+<circle cx="470" cy="140" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="170" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="200" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="230" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="260" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="290" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="320" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="350" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="380" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="410" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="440" r="0.8" fill="#ffffff" opacity="0.1" />
+<circle cx="470" cy="470" r="1.5" fill="#ffffff" opacity="0.8" />
+<line x1="470" y1="470" x2="530" y2="500" stroke="#ffffff" stroke-width="0.2" opacity="0.1" />
+
+  </g>
+  <text x="50" y="600" font-family="monospace" font-size="12" fill="#a1a1aa" letter-spacing="4">DEXTER // DATA_GRID</text>
+</svg>

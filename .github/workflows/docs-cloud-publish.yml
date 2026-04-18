@@ -1,0 +1,90 @@
+name: docs-cloud-publish
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "docs/**"
+      - "governance/**/*.md"
+      - "governance/**/*.json"
+      - "governance/**/*.yaml"
+      - "governance/**/*.yml"
+      - ".github/workflows/docs-cloud-publish.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare site payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .cloud-site/docs .cloud-site/governance
+          if [ -d docs ]; then
+            cp -R docs/. .cloud-site/docs/
+          fi
+          if [ -d governance ]; then
+            find governance -type f \( -name "*.md" -o -name "*.json" -o -name "*.yaml" -o -name "*.yml" \) -print0 \
+              | while IFS= read -r -d '' f; do
+                  target=".cloud-site/${f}"
+                  mkdir -p "$(dirname "$target")"
+                  cp "$f" "$target"
+                done
+          fi
+          cat > .cloud-site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <title>MIND Docs Cloud</title>
+            </head>
+            <body>
+              <h1>MIND Docs Cloud</h1>
+              <p>Documentation is automatically published from GitHub Actions.</p>
+              <ul>
+                <li><a href="./docs/">docs/</a></li>
+                <li><a href="./governance/">governance/</a></li>
+              </ul>
+            </body>
+          </html>
+          HTML
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-cloud-bundle
+          path: .cloud-site
+          retention-days: 30
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .cloud-site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,2 @@
+{"message":"Route POST:/v1/a2a/sessions not found","error":"Not Found","statusCode":404}
+a2a smoke failed: sessionId missing

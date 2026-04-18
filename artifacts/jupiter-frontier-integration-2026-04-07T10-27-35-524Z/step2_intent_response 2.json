@@ -1,0 +1,37 @@
+{
+  "request": {
+    "creatorAgentId": "mind_jupiter_it_agent",
+    "targetAgentId": "mind_execution_agent",
+    "asset": "SOL",
+    "action": "rebalance",
+    "amount": "1",
+    "notional": "1",
+    "confidence": 0.84,
+    "riskScore": 0.25,
+    "expectedProfitBps": 30,
+    "latencyPenaltyBps": 2,
+    "mevRiskScore": 0.03,
+    "expiryTs": "2026-04-07T10:47:40.066Z",
+    "policyId": "policy_v1",
+    "marketContextId": "f80a2d9d3eeedb3f594e46f791fd0286055362b5612f32e80d6e956e0e6570e5"
+  },
+  "response": {
+    "statusCode": 201,
+    "ok": true,
+    "data": {
+      "status": "created",
+      "intentId": "11c99f69-8e69-4ce3-a286-e025348e2911",
+      "event": {
+        "id": "8e4bd9ed-fbe3-4189-a89d-237b5d8ce086",
+        "intentId": "11c99f69-8e69-4ce3-a286-e025348e2911",
+        "eventType": "intent.created",
+        "payloadHash": "9b27169891af70115c3602f92a985cf6b64ec908749a78421cdc264f5a9faa99",
+        "prevHash": null,
+        "eventHash": "88056e7ffd8ae1b1fad5dc89985e3b7b6c25653effc8fa70f6a33a01010b4c00",
+        "createdAt": "2026-04-07T10:27:40.651Z"
+      },
+      "policyHash": null
+    },
+    "raw": "{\"status\":\"created\",\"intentId\":\"11c99f69-8e69-4ce3-a286-e025348e2911\",\"event\":{\"id\":\"8e4bd9ed-fbe3-4189-a89d-237b5d8ce086\",\"intentId\":\"11c99f69-8e69-4ce3-a286-e025348e2911\",\"eventType\":\"intent.created\",\"payloadHash\":\"9b27169891af70115c3602f92a985cf6b64ec908749a78421cdc264f5a9faa99\",\"prevHash\":null,\"eventHash\":\"88056e7ffd8ae1b1fad5dc89985e3b7b6c25653effc8fa70f6a33a01010b4c00\",\"createdAt\":\"2026-04-07T10:27:40.651Z\"},\"policyHash\":null}"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "data": {
+    "So11111111111111111111111111111111111111112": {
+      "id": "So11111111111111111111111111111111111111112",
+      "price": 140,
+      "confidence": 0.5
+    },
+    "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": {
+      "id": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "price": 1,
+      "confidence": 0.5
+    }
+  }
+}

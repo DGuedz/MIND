@@ -1,0 +1,38 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/security/v1"
+  ],
+  "type": "Agent",
+  "id": "did:web:api.mindprotocol.io",
+  "name": "MIND Protocol Institutional Gateway",
+  "description": "The institutional highway for Agentic GDP on Solana. Transforms autonomous intent into sovereign execution.",
+  "publicKey": [
+    {
+      "id": "did:web:api.mindprotocol.io#key-1",
+      "type": "Ed25519VerificationKey2018",
+      "publicKeyBase58": "A2aMindProtocolPublicKeyPlaceholder"
+    }
+  ],
+  "endpoints": {
+    "intentSubmission": "https://api.mindprotocol.io/v1/intents",
+    "status": "https://api.mindprotocol.io/v1/status"
+  },
+  "protocols": [
+    "https://a2a.linuxfoundation.org/protocols/v1",
+    "https://mindprotocol.io/protocols/x402-settlement/v1"
+  ],
+  "pricing": {
+    "currency": "SOL",
+    "paymentRequiredCode": 402,
+    "baseFeeBps": 5,
+    "supportedTokens": ["SOL", "USDC", "PYUSD"]
+  },
+  "security": {
+    "perception": "Covalent",
+    "policyGovernance": "OpenClaw (Programmatic Guardrails)",
+    "kms": "Turnkey",
+    "settlement": "Solana Atomic",
+    "audit": "Metaplex cNFT"
+  }
+}

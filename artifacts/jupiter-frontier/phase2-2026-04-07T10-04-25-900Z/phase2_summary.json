@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-04-07T10:04:25.916Z",
+  "elapsedMs": 16,
+  "status": "skipped",
+  "mocked": true,
+  "source": "jupiter",
+  "artifactDir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/jupiter-frontier/phase2-2026-04-07T10-04-25-900Z",
+  "snapshotHash": "900c70d36540a1dc7c2c6a9a38a78cf3633a5715be4c8b71afe1272005f3ad40",
+  "priceEndpoint": "dry-run:price",
+  "tokensEndpoint": "dry-run:tokens",
+  "intentSchemaValid": true,
+  "dryRun": true,
+  "policyReadyContext": {
+    "maxSlippageBps": 50,
+    "policy": {
+      "maxAmount": null,
+      "maxRiskScore": null,
+      "maxSlippageBps": null,
+      "requireApprovalOver": null
+    },
+    "economics": {
+      "expectedProfitBps": 0,
+      "executionCostBps": 50,
+      "latencyPenaltyBps": 2,
+      "mevRiskScore": 0.03,
+      "riskBufferBps": 10,
+      "notional": 1,
+      "marketTokenVerificationRatio": 1
+    },
+    "marketContext": {
+      "source": "jupiter",
+      "policyContext": {
+        "source": "jupiter",
+        "mocked": true,
+        "suggestedMaxSlippageBps": 50,
+        "riskBufferBps": 10,
+        "mevRiskScore": 0.03,
+        "tokenVerificationRatio": 1,
+        "hasUnverifiedToken": false,
+        "volatilityBps": 0,
+        "latencyPenaltyBps": 2,
+        "reasonHints": [
+          "mock_context_only"
+        ]
+      }
+    }
+  }
+}

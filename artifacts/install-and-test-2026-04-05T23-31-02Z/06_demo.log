@@ -1,0 +1,30 @@
+[dotenv@17.3.1] injecting env (22) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[2026-04-05T23:32:03.276Z] [1/7] Register Agent A and Agent B
+[2026-04-05T23:32:05.317Z] [2/7] Create A2A context and task (Agent A -> Agent B)
+[2026-04-05T23:32:08.172Z] [3/7] Fetch market context + create economic intent
+[2026-04-05T23:32:10.389Z] [4/7] Run EV decision and handle approval if required
+[2026-04-05T23:32:10.607Z] [5/7] Accept A2A context (handshake)
+[2026-04-05T23:32:12.644Z] [6/7] Plan and run canonical execution
+[2026-04-05T23:32:16.128Z] [7/7] Compose and verify proof bundle
+[2026-04-05T23:32:18.223Z] [7/7] proofVerified=true externalAnchorStatus=confirmed external_submit_status=confirmed strict_local=false strict_effective=true strict_source=.env (dotenv override=true)
+{
+  "agentA": "9703a8f4-43ba-4445-86c6-1cc10a3332fd",
+  "agentB": "64f0cb21-26dd-479e-bdef-cd2b403af927",
+  "paymentExecuted": true,
+  "EV_net": 20,
+  "decision": "ALLOW",
+  "proofVerified": true,
+  "metaplexConfirmed": true,
+  "externalAnchorStatus": "confirmed",
+  "metaplex_proof_tx": "mockMetaTx_f5f1fe6779fe786528829ac7f70b6ff00adc9b208939",
+  "metaplex_registry_ref": "https://devnet.helius-rpc.com/?api-key=",
+  "metaplexProofTx": "mockMetaTx_f5f1fe6779fe786528829ac7f70b6ff00adc9b208939",
+  "metaplexRegistryRef": "https://devnet.helius-rpc.com/?api-key=",
+  "externalProvider": "metaplex",
+  "strictModeLocal": false,
+  "strictModeEffective": true,
+  "strictModeSource": ".env (dotenv override=true)",
+  "valueTransferred": "0.25 SOL->USDC",
+  "routeUsed": "Scorch -> AlphaQ",
+  "elapsedMs": 14947
+}

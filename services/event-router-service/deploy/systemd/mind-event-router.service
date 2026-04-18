@@ -1,0 +1,25 @@
+[Unit]
+Description=MIND Event Router Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mind
+Group=mind
+WorkingDirectory=/opt/mind
+Environment=NODE_ENV=production
+EnvironmentFile=/opt/mind/services/event-router-service/router.env
+ExecStart=/usr/bin/env pnpm exec tsx scripts/event_router_service.ts
+Restart=always
+RestartSec=3
+TimeoutStopSec=10
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/mind/governance/spec_runtime /opt/mind/logs
+
+[Install]
+WantedBy=multi-user.target

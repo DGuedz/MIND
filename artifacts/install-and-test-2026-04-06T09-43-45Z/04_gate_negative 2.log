@@ -1,0 +1,140 @@
+
+> mind-monorepo@ validate:strict-go-no-go /Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND
+> pnpm exec tsx scripts/strict_mode_go_no_go.ts
+
+[dotenv@17.3.1] injecting env (22) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[strict-go-no-go] decision=NO_GO
+[strict-go-no-go] report=/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/strict-mode-go-no-go-2026-04-06T09-43-54-502Z.json
+{
+  "reportType": "strict_metaplex_go_no_go",
+  "generatedAt": "2026-04-06T09:43:54.502Z",
+  "decision": "NO_GO",
+  "decisionContract": {
+    "decision": "BLOCK",
+    "reason_codes": [
+      "RC_MISSING_EVIDENCE",
+      "RC_TOOL_FAILURE"
+    ],
+    "confidence": 0.99,
+    "assumptions": [
+      "Promotion means enabling strict external anchor mode by default in target environment."
+    ],
+    "required_followups": [
+      "Set METAPLEX_PROOF_ENDPOINT and METAPLEX_PROOF_AUTH.",
+      "Fix demo flow execution before promotion.",
+      "Provide real external anchor evidence in demo output: externalAnchorStatus=confirmed + metaplexProofTx."
+    ],
+    "evidence": [
+      "All local services reported healthy via /v1/health/services.",
+      "Promotion gate not satisfied; keep STRICT_METAPLEX_ANCHOR default disabled."
+    ]
+  },
+  "checks": {
+    "env": {
+      "metaplexProofEndpointConfigured": false,
+      "metaplexProofAuthConfigured": false,
+      "strictEnvValue": "false"
+    },
+    "health": {
+      "status": "ok",
+      "services": [
+        {
+          "name": "intent-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "intent-service"
+          }
+        },
+        {
+          "name": "market-context-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "market-context-service"
+          }
+        },
+        {
+          "name": "approval-gateway-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "approval-gateway-service"
+          }
+        },
+        {
+          "name": "registry-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "registry-service"
+          }
+        },
+        {
+          "name": "proof-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "proof-service"
+          }
+        },
+        {
+          "name": "execution-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "execution-service"
+          }
+        },
+        {
+          "name": "signer-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "signer-service"
+          }
+        },
+        {
+          "name": "a2a-service",
+          "status": "ok",
+          "response": {
+            "status": "ok",
+            "service": "a2a-service"
+          }
+        }
+      ]
+    },
+    "strictBehavior": {
+      "strictEffective": true,
+      "pendingCheck": {
+        "proofId": "50073015-5371-4dcb-99dd-9e162d9345d1",
+        "verified": false,
+        "internalVerified": true,
+        "externalAnchorStatus": "pending",
+        "metaplexConfirmed": false,
+        "reason": "external_anchor_not_confirmed"
+      },
+      "confirmedCheck": {
+        "proofId": "5c37abc9-fbda-4a6e-871c-53d7530a4b05",
+        "verified": true,
+        "internalVerified": true,
+        "externalAnchorStatus": "confirmed",
+        "metaplexConfirmed": true,
+        "reason": null
+      }
+    },
+    "finalProofOutcome": {
+      "demoExitCode": 1,
+      "demoParseError": null,
+      "proofVerified": false,
+      "externalAnchorStatus": null,
+      "metaplexConfirmed": null,
+      "metaplexProofTxPresent": false,
+      "strictModeLocal": false,
+      "strictModeEffective": null,
+      "demoStdoutTail": "[dotenv@17.3.1] injecting env (22) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }\n[2026-04-06T09:43:58.584Z] [1/7] Register Agent A and Agent B\n[2026-04-06T09:44:01.054Z] [2/7] Create A2A context and task (Agent A -> Agent B)\n{\n  \"agentA\": \"f0992f92-a43c-4a8f-a31a-3e317fbc5aa0\",\n  \"agentB\": \"a6c7925e-e437-435a-9fa6-e72307d91c52\",\n  \"paymentExecuted\": false,\n  \"EV_net\": null,\n  \"decision\": null,\n  \"proofVerified\": false,\n  \"metaplexConfirmed\": null,\n  \"externalAnchorStatus\": null,\n  \"metaplex_proof_tx\": null,\n  \"metaplex_registry_ref\": null,\n  \"metaplexProofTx\": null,\n  \"metaplexRegistryRef\": null,\n  \"externalProvider\": null,\n  \"strictModeLocal\": false,\n  \"strictModeEffective\": null,\n  \"strictModeSource\": \".env (dotenv override=true)\",\n  \"valueTransferred\": \"0.25 SOL->USDC\",\n  \"routeUsed\": null,\n  \"elapsedMs\": 13393,\n  \"error\": \"a2a_context_timeout\"\n}\n",
+      "demoStderrTail": ""
+    }
+  }
+}
+ ELIFECYCLE  Command failed with exit code 1.

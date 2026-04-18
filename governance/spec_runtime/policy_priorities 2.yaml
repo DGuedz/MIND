@@ -1,0 +1,63 @@
+{
+  "version": "1.0",
+  "description": "Priority and queue policy for runtime and spec-trigger processing.",
+  "priorities": {
+    "high": {
+      "queue": "runtime_high",
+      "max_concurrency": 4,
+      "timeout_ms": 10000,
+      "retry": 2,
+      "backoff_ms": 500
+    },
+    "medium": {
+      "queue": "runtime_medium",
+      "max_concurrency": 3,
+      "timeout_ms": 15000,
+      "retry": 1,
+      "backoff_ms": 1000
+    },
+    "low": {
+      "queue": "runtime_low",
+      "max_concurrency": 1,
+      "timeout_ms": 30000,
+      "retry": 0,
+      "backoff_ms": 0
+    }
+  },
+  "event_priority_map": {
+    "intent.policy.checked": {
+      "when": [
+        { "path": "context.decision", "equals": "BLOCK", "priority": "high" },
+        { "path": "context.decision", "equals": "ALLOW", "priority": "medium" }
+      ],
+      "default": "medium"
+    },
+    "proof.verified": {
+      "when": [
+        { "path": "context.proof_status", "equals": "verified", "priority": "medium" },
+        { "path": "context.proof_status", "equals": "failed", "priority": "high" }
+      ],
+      "default": "medium"
+    },
+    "market.runtime.signal": {
+      "when": [
+        { "path": "context.slippage_bps", "gt": 50, "priority": "high" },
+        { "path": "context.latency_ms", "gt": 60000, "priority": "high" },
+        { "path": "context.anchor_timeout", "equals": true, "priority": "high" }
+      ],
+      "default": "medium"
+    },
+    "conversation.message.received": {
+      "when": [
+        { "path": "context.tags", "contains_any": ["sensitive_claim"], "priority": "high" }
+      ],
+      "default": "low"
+    },
+    "drift.detected": {
+      "when": [
+        { "path": "context.thesis_pitch_alignment", "equals": "diverged", "priority": "high" }
+      ],
+      "default": "medium"
+    }
+  }
+}

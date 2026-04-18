@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-04-07T10:30:04.507Z",
+  "elapsedMs": 5433,
+  "pass": true,
+  "dryRun": true,
+  "intentUrl": "http://127.0.0.1:3111",
+  "marketUrl": "http://127.0.0.1:3112",
+  "steps": [
+    {
+      "step": "jupiter_enrich",
+      "ok": true,
+      "statusCode": 200,
+      "details": {
+        "mocked": true,
+        "status": "skipped",
+        "reason": "dry_run",
+        "snapshotHash": "b549ba03a5fd0422693628d1ce8e904dc99eb449b0d290bceb47adc2f54a7241"
+      }
+    },
+    {
+      "step": "intent_create",
+      "ok": true,
+      "statusCode": 201,
+      "details": {
+        "intentId": "e909794c-fb00-42d5-aa57-d45e9f7e63c0"
+      }
+    },
+    {
+      "step": "policy_check",
+      "ok": true,
+      "statusCode": 200,
+      "details": {
+        "allowed": false,
+        "decision": "REJECT",
+        "reasons": [
+          "high_mev_risk",
+          "ev_net_below_threshold"
+        ]
+      }
+    }
+  ]
+}

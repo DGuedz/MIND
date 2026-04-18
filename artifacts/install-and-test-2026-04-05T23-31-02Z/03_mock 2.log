@@ -1,0 +1,14 @@
+
+> mind-monorepo@ dev:metaplex-proof-mock /Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND
+> pnpm exec tsx scripts/mock_metaplex_proof_endpoint.ts
+
+[dotenv@17.3.1] injecting env (22) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+{"level":30,"time":1775431868862,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","msg":"Server listening at http://0.0.0.0:3015"}
+{"level":30,"time":1775431868862,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","msg":"metaplex-proof-mock listening on http://0.0.0.0:3015"}
+{"level":30,"time":1775431869943,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","reqId":"req-1","req":{"method":"POST","url":"/v1/proofs/anchor","hostname":"localhost:3015","remoteAddress":"127.0.0.1","remotePort":51328},"msg":"incoming request"}
+{"level":30,"time":1775431869947,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","reqId":"req-1","res":{"statusCode":401},"responseTime":3.5370410000905395,"msg":"request completed"}
+{"level":30,"time":1775431915856,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","reqId":"req-2","req":{"method":"POST","url":"/v1/proofs/anchor","hostname":"localhost:3015","remoteAddress":"127.0.0.1","remotePort":51385},"msg":"incoming request"}
+{"level":30,"time":1775431915858,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","reqId":"req-2","res":{"statusCode":200},"responseTime":1.3729169992730021,"msg":"request completed"}
+{"level":30,"time":1775431936142,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","reqId":"req-3","req":{"method":"POST","url":"/v1/proofs/anchor","hostname":"localhost:3015","remoteAddress":"127.0.0.1","remotePort":51406},"msg":"incoming request"}
+{"level":30,"time":1775431936142,"pid":35319,"hostname":"MacBook-Air-de-Diego.local","reqId":"req-3","res":{"statusCode":200},"responseTime":0.3739999998360872,"msg":"request completed"}
+ ELIFECYCLE  Command failed.

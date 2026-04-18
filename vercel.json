@@ -1,0 +1,22 @@
+{
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --dir apps/landingpage build",
+  "outputDirectory": "apps/landingpage/dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/v1/(.*)",
+      "destination": "https://mind-api-gateway.vercel.app/v1/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "env": {
+    "VITE_API_GATEWAY_URL": "https://mind-api-gateway.vercel.app",
+    "VITE_HELIUS_RPC_URL": "https://mainnet.helius-rpc.com/?api-key=f5287e07-6571-4770-b186-778899aabbcc",
+    "VITE_SOLANA_NETWORK": "mainnet-beta",
+    "VITE_MIND_PROTOCOL_VERSION": "1.0.0-neural"
+  }
+}

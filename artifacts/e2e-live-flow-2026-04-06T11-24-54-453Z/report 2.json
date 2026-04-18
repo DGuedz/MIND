@@ -1,0 +1,136 @@
+{
+  "status": "pass",
+  "generated_at": "2026-04-06T11:24:59.566Z",
+  "artifact_dir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/e2e-live-flow-2026-04-06T11-24-54-453Z",
+  "total": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "unauthorized_rejected",
+      "pass": true,
+      "details": {
+        "expected": 401,
+        "got": 401,
+        "body": {
+          "status": "unauthorized"
+        }
+      }
+    },
+    {
+      "name": "accepted_block_event_1",
+      "pass": true,
+      "details": {
+        "expected": 202,
+        "got": 202,
+        "body": {
+          "status": "accepted",
+          "event_id": "evt_e2e_block_1_1775474695647",
+          "latency_ms": 1512,
+          "router_output": "{\n  \"at\": \"2026-04-06T11:24:57.192Z\",\n  \"latency_ms\": 696,\n  \"emit_only\": false,\n  \"dry_run\": false,\n  \"event_id\": \"evt_e2e_block_1_1775474695647\",\n  \"event_type\": \"intent.policy.checked\",\n  \"queue_priority\": \"high\",\n  \"event_stream_file\": \"/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/governance/spec_runtime/event_stream.jsonl\",\n  \"resolver_output\": \"{\\n  \\\"at\\\": \\\"2026-04-06T11:24:57.176Z\\\",\\n  \\\"started_at\\\": \\\"2026-04-06T11:24:57.172Z\\\",\\n  \\\"dry_run\\\": false,\\n  \\\"event\\\": {\\n    \\\"event_id\\\": \\\"evt_e2e_block_1_1775474695647\\\",\\n    \\\"event_type\\\": \\\"intent.policy.checked\\\",\\n    \\\"timestamp\\\": \\\"2026-04-06T11:24:55.647Z\\\",\\n    \\\"agent_id\\\": \\\"mind_router\\\",\\n    \\\"context\\\": {\\n      \\\"intent_id\\\": \\\"int_e2e_block_1_1775474695647\\\",\\n      \\\"decision\\\": \\\"BLOCK\\\",\\n      \\\"reason_codes\\\": [\\n        \\\"RC_POLICY_VIOLATION\\\"\\n      ],\\n      \\\"proof_status\\\": \\\"failed\\\"\\n    },\\n    \\\"policy\\\": {\\n      \\\"severity\\\": \\\"high\\\",\\n      \\\"queue_priority\\\": \\\"high\\\"\\n    }\\n  },\\n  \\\"matched_count\\\": 1,\\n  \\\"applied\\\": [\\n    {\\n      \\\"trigger_id\\\": \\\"execution.intent_blocked\\\",\\n      \\\"class\\\": \\\"execution\\\",\\n      \\\"suppressed\\\": false,\\n      \\\"policy\\\": {\\n        \\\"severity\\\": \\\"high\\\",\\n        \\\"cooldown_sec\\\": 20,\\n        \\\"dedupe_key\\\": \\\"intent-block:${context.intent_id}\\\"\\n      },\\n      \\\"actions\\\": [\\n        {\\n          \\\"action\\\": \\\"spec:append-decision-log\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        },\\n        {\\n          \\\"action\\\": \\\"spec:update-risk-register\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        },\\n        {\\n          \\\"action\\\": \\\"spec:file-execution-learning\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        },\\n        {\\n          \\\"action\\\": \\\"spec:block-similar-intents\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"\n}"
+        }
+      }
+    },
+    {
+      "name": "replay_rejected",
+      "pass": true,
+      "details": {
+        "expected": 409,
+        "got": 409,
+        "body": {
+          "status": "replay_rejected",
+          "event_id": "evt_e2e_block_1_1775474695647"
+        }
+      }
+    },
+    {
+      "name": "duplicate_suppressed",
+      "pass": true,
+      "details": {
+        "expected": 202,
+        "got": 202,
+        "body": {
+          "status": "duplicate_suppressed",
+          "event_id": "evt_e2e_dup_1775474697221"
+        }
+      }
+    },
+    {
+      "name": "guardrail_slippage_violation",
+      "pass": true,
+      "details": {
+        "expected": 422,
+        "got": 422,
+        "body": {
+          "status": "guardrail_violation",
+          "reason": "slippage_breach"
+        }
+      }
+    },
+    {
+      "name": "accepted_block_event_2",
+      "pass": true,
+      "details": {
+        "expected": 202,
+        "got": 202,
+        "body": {
+          "status": "accepted",
+          "event_id": "evt_e2e_block_2_1775474697231",
+          "latency_ms": 1317,
+          "router_output": "{\n  \"at\": \"2026-04-06T11:24:58.540Z\",\n  \"latency_ms\": 693,\n  \"emit_only\": false,\n  \"dry_run\": false,\n  \"event_id\": \"evt_e2e_block_2_1775474697231\",\n  \"event_type\": \"intent.policy.checked\",\n  \"queue_priority\": \"high\",\n  \"event_stream_file\": \"/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/governance/spec_runtime/event_stream.jsonl\",\n  \"resolver_output\": \"{\\n  \\\"at\\\": \\\"2026-04-06T11:24:58.528Z\\\",\\n  \\\"started_at\\\": \\\"2026-04-06T11:24:58.525Z\\\",\\n  \\\"dry_run\\\": false,\\n  \\\"event\\\": {\\n    \\\"event_id\\\": \\\"evt_e2e_block_2_1775474697231\\\",\\n    \\\"event_type\\\": \\\"intent.policy.checked\\\",\\n    \\\"timestamp\\\": \\\"2026-04-06T11:24:55.647Z\\\",\\n    \\\"agent_id\\\": \\\"mind_router\\\",\\n    \\\"context\\\": {\\n      \\\"intent_id\\\": \\\"int_e2e_block_2_1775474697231\\\",\\n      \\\"decision\\\": \\\"BLOCK\\\",\\n      \\\"reason_codes\\\": [\\n        \\\"RC_POLICY_VIOLATION\\\"\\n      ],\\n      \\\"proof_status\\\": \\\"failed\\\"\\n    },\\n    \\\"policy\\\": {\\n      \\\"severity\\\": \\\"high\\\",\\n      \\\"queue_priority\\\": \\\"high\\\"\\n    }\\n  },\\n  \\\"matched_count\\\": 1,\\n  \\\"applied\\\": [\\n    {\\n      \\\"trigger_id\\\": \\\"execution.intent_blocked\\\",\\n      \\\"class\\\": \\\"execution\\\",\\n      \\\"suppressed\\\": false,\\n      \\\"policy\\\": {\\n        \\\"severity\\\": \\\"high\\\",\\n        \\\"cooldown_sec\\\": 20,\\n        \\\"dedupe_key\\\": \\\"intent-block:${context.intent_id}\\\"\\n      },\\n      \\\"actions\\\": [\\n        {\\n          \\\"action\\\": \\\"spec:append-decision-log\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        },\\n        {\\n          \\\"action\\\": \\\"spec:update-risk-register\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        },\\n        {\\n          \\\"action\\\": \\\"spec:file-execution-learning\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        },\\n        {\\n          \\\"action\\\": \\\"spec:block-similar-intents\\\",\\n          \\\"status\\\": \\\"executed\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"\n}"
+        }
+      }
+    },
+    {
+      "name": "circuit_open_rejects",
+      "pass": true,
+      "details": {
+        "expected": 503,
+        "got": 503,
+        "body": {
+          "status": "circuit_open",
+          "retry_after_sec": 29
+        }
+      }
+    },
+    {
+      "name": "logs_written",
+      "pass": true,
+      "details": {
+        "ingress": 2,
+        "outcomes": 2,
+        "security": 5,
+        "reviewQueueExists": true
+      }
+    },
+    {
+      "name": "dispatch_reaches_trigger_resolver",
+      "pass": true,
+      "details": {
+        "trackedEventIds": [
+          "evt_e2e_block_1_1775474695647",
+          "evt_e2e_dup_1775474697221",
+          "evt_e2e_market_1775474697226",
+          "evt_e2e_block_2_1775474697231",
+          "evt_e2e_block_3_1775474698556"
+        ],
+        "matched": true
+      }
+    },
+    {
+      "name": "health_endpoint_available",
+      "pass": true,
+      "details": {
+        "expected": 200,
+        "got": 200,
+        "body": {
+          "status": "ok",
+          "service": "event-router-service",
+          "timestamp": "2026-04-06T11:24:59.163Z",
+          "circuit_open": true,
+          "spec_dir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/governance/spec_runtime",
+          "log_dir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/e2e-live-flow-2026-04-06T11-24-54-453Z/logs"
+        }
+      }
+    }
+  ]
+}

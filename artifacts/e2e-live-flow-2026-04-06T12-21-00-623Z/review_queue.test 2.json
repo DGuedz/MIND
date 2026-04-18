@@ -1,0 +1,24 @@
+[
+  {
+    "id": "rq_evt_e2e_market_1775478062714",
+    "at": "2026-04-06T12:21:02.715Z",
+    "reason": "slippage_breach",
+    "severity": "high",
+    "event": {
+      "event_id": "evt_e2e_market_1775478062714",
+      "event_type": "market.runtime.signal",
+      "timestamp": "2026-04-06T12:21:02.714Z",
+      "agent_id": "mind_router",
+      "context": {
+        "intent_id": "int_e2e_market_1775478062714",
+        "slippage_bps": 120,
+        "latency_ms": 4500,
+        "route_failure": false,
+        "anchor_timeout": false,
+        "proof_status": null,
+        "fee_capture_bps": null
+      },
+      "policy": {}
+    }
+  }
+]

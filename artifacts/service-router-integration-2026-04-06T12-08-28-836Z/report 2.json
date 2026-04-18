@@ -1,0 +1,93 @@
+{
+  "status": "pass",
+  "generated_at": "2026-04-06T12:08:48.993Z",
+  "artifact_dir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/service-router-integration-2026-04-06T12-08-28-836Z",
+  "total": 7,
+  "failed": 0,
+  "results": [
+    {
+      "name": "adapter_emissions_succeeded",
+      "pass": true,
+      "details": {
+        "emitted_count": 14
+      }
+    },
+    {
+      "name": "replay_protection_works",
+      "pass": true,
+      "details": {
+        "replayFirst": {
+          "ok": true,
+          "status": "delivered",
+          "event_id": "evt_it_replay_1775477325343",
+          "attempts": 1,
+          "http_status": 202
+        },
+        "replaySecond": {
+          "ok": true,
+          "status": "duplicate",
+          "event_id": "evt_it_replay_1775477325343",
+          "attempts": 0
+        }
+      }
+    },
+    {
+      "name": "guardrail_breach_captured",
+      "pass": true,
+      "details": {
+        "marketSlippage": {
+          "ok": true,
+          "status": "delivered",
+          "event_id": "evt_2b7a824e-c6ef-415e-8fbd-5e7232bb14da",
+          "attempts": 1,
+          "http_status": 422
+        }
+      }
+    },
+    {
+      "name": "dispatch_failure_spooled",
+      "pass": true,
+      "details": {
+        "spooled": {
+          "ok": false,
+          "status": "spooled",
+          "event_id": "evt_it_spool_1775477326477",
+          "attempts": 2,
+          "error": "fetch failed",
+          "spool_file": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/service-router-integration-2026-04-06T12-08-28-836Z/failed_event_spool/pending/1775477326581-evt_it_spool_1775477326477.json"
+        },
+        "pending_files": [
+          "1775477326581-evt_it_spool_1775477326477.json"
+        ]
+      }
+    },
+    {
+      "name": "spool_recovery_works",
+      "pass": true,
+      "details": {
+        "drained": {
+          "processed": 1,
+          "delivered": 1,
+          "pending": 0
+        },
+        "pending_after_drain": []
+      }
+    },
+    {
+      "name": "router_logs_persisted",
+      "pass": true,
+      "details": {
+        "ingress": 15,
+        "outcomes": 15,
+        "security": 1
+      }
+    },
+    {
+      "name": "resolver_received_service_events",
+      "pass": true,
+      "details": {
+        "tracked_event_ids": 14
+      }
+    }
+  ]
+}

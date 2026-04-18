@@ -1,0 +1,41 @@
+{
+  "reportType": "strict_stack_install_and_test",
+  "timestamp": "2026-04-06T09:39:22Z",
+  "overall": "FAIL",
+  "rootDir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND",
+  "artifactsDir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/install-and-test-2026-04-06T09-36-04Z",
+  "services": {
+    "apiGatewayUrl": "http://localhost:3000",
+    "proofServiceUrl": "http://localhost:3005",
+    "signerServiceUrl": "http://localhost:3007",
+    "strictRuntimeEnabled": true
+  },
+  "metaplex": {
+    "mockEndpoint": "http://localhost:3015/v1/proofs/anchor",
+    "mockAuthConfigured": true
+  },
+  "steps": [
+    { "id": "microtask-00", "name": "openclaw_doctor_fix", "status": "skipped" },
+    { "id": "microtask-01", "name": "install_dependencies", "status": "pass" },
+    { "id": "microtask-01b", "name": "openclaw_upgrade_validation", "status": "pass" },
+    { "id": "microtask-02", "name": "services_health", "status": "fail" },
+    { "id": "microtask-03", "name": "mock_auth_guard", "status": "blocked" },
+    { "id": "microtask-04", "name": "gate_negative_no_endpoint_auth", "status": "blocked" },
+    { "id": "microtask-05", "name": "gate_positive_with_mock", "status": "blocked" },
+    { "id": "microtask-06", "name": "demo_positive_external_confirmed", "status": "blocked" },
+    { "id": "microtask-07", "name": "bundle_internal_external_schema", "status": "blocked" },
+    { "id": "microtask-08a", "name": "smoke_health_db", "status": "blocked" },
+    { "id": "microtask-08b", "name": "smoke_a2a", "status": "blocked" },
+    { "id": "microtask-08c", "name": "smoke_proof_bundle", "status": "blocked" }
+  ],
+  "evidence": {
+    "openclawDoctorLog": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/install-and-test-2026-04-06T09-36-04Z/00_openclaw_doctor.log",
+    "openclawUpgradeValidationLog": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/install-and-test-2026-04-06T09-36-04Z/01b_openclaw_upgrade_validation.log",
+    "negativeGateReport": "",
+    "positiveGateReport": "",
+    "demoOutputJson": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/install-and-test-2026-04-06T09-36-04Z/demo_output.json",
+    "bundleSnapshot": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/install-and-test-2026-04-06T09-36-04Z/07_bundle.json",
+    "logsDir": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/artifacts/install-and-test-2026-04-06T09-36-04Z"
+  },
+  "failures": 1
+}

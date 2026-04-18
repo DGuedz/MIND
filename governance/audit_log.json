@@ -1,0 +1,62 @@
+[
+  {
+    "timestamp": "2026-04-03T14:25:25.960Z",
+    "intentId": "real_x402_1775226320",
+    "userId": "CfvC1ERLc8RZzbjn2QY99ggXTqHPXAM81Hqc4wrHUXh8",
+    "decision": "ALLOW",
+    "reasonCodes": [],
+    "confidence": 1,
+    "txHash": "vEgGGYLwgSd9x4cZNoEYV81rkPdgByT5qc8rCdtykshXxFi3uu21ahPHq21rphmFrfsVHK3BydtTH1zcHgFPr9k",
+    "receiptHash": "46829005fb3d8b4af22bf24b398d0c95c6120ebaa1990f56c1c46dfbbda607d5"
+  },
+  {
+    "timestamp": "2026-04-03T14:43:36.537Z",
+    "intentId": "MIND-INTENT-FALLBACK-5442",
+    "userId": "CfvC1ERLc8RZzbjn2QY99ggXTqHPXAM81Hqc4wrHUXh8",
+    "decision": "ALLOW",
+    "reasonCodes": [],
+    "confidence": 1,
+    "txHash": "3yMWX6aWSwiyNfFCw3F8N8Fq49bazz6BJjN41oVDV97vPBu8hBPLhUZnpW9XMEGHNhZhqf3pbtdf31jUK1iLdiHy",
+    "receiptHash": "efb7cdc34b9f67eaf037909e64a0daf10207c289bd42cdaf08cd0186441f1b9c"
+  },
+  {
+    "timestamp": "2026-04-03T14:50:07.777Z",
+    "intentId": "MIND-INTENT-FALLBACK-1214",
+    "userId": "CfvC1ERLc8RZzbjn2QY99ggXTqHPXAM81Hqc4wrHUXh8",
+    "decision": "ALLOW",
+    "reasonCodes": [],
+    "confidence": 1,
+    "txHash": "3fNnqanmgFU8hva3jdtaPQ5pE3ouRBSFKgZMdLHW2eSk45f8XerMr3jToNKceRzpdzbFu7FcY6dQvLUdpuafguUA",
+    "receiptHash": "da44755d79aec27f8e975d5fbada9c2f2e31dc39172b1663d48a57cc09966b3c"
+  },
+  {
+    "timestamp": "2026-04-03T15:28:24.967Z",
+    "intentId": "MIND-INTENT-FALLBACK-7060",
+    "userId": "CfvC1ERLc8RZzbjn2QY99ggXTqHPXAM81Hqc4wrHUXh8",
+    "decision": "ALLOW",
+    "reasonCodes": [],
+    "confidence": 1,
+    "txHash": "4BbpavTCUyTbv2BM7iumjkgJ52CJBhGihbnmwQMdxtthhDJNn7pia33swroLxYWBdMi93A6m49HWTgKG7cLggyTS",
+    "receiptHash": "ef319401cf6e2f3f929db05c9c15fd88029a09a0749712627a47b3e4a1f1cf15"
+  },
+  {
+    "timestamp": "2026-04-03T16:47:32.101Z",
+    "intentId": "MIND-INTENT-FALLBACK-4945",
+    "userId": "CfvC1ERLc8RZzbjn2QY99ggXTqHPXAM81Hqc4wrHUXh8",
+    "decision": "ALLOW",
+    "reasonCodes": [],
+    "confidence": 1,
+    "txHash": "4kgi6YXDvJwfPZr6tU5VjoFT5XUXh6Rr8RLP6yEJV77hnNtG3UWK2D2kQCkGeLvGzFHwsk5BnqkrJ7vtGBZXgCaD",
+    "receiptHash": "975e49d794029ce70a998f729d8896a6803489922d4f5f8becddd7a53201898f"
+  },
+  {
+    "timestamp": "2026-04-03T16:48:51.959Z",
+    "intentId": "MIND-INTENT-FALLBACK-9220",
+    "userId": "CfvC1ERLc8RZzbjn2QY99ggXTqHPXAM81Hqc4wrHUXh8",
+    "decision": "ALLOW",
+    "reasonCodes": [],
+    "confidence": 1,
+    "txHash": "AMTQTyyh6KgKDVfgXfrwiqQmtf1Z9vcjcEMJNKWaGun4QekwYY8pMNJWMJgJSs6PDXaUDrWjCvfAJB7XvDgNvYW",
+    "receiptHash": "4b94ab54c3ed14a55887058425a3279a5556c6f3889ca0bbb065a0db262d4fbe"
+  }
+]

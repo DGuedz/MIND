@@ -1,0 +1,53 @@
+{
+  "endpoint": "dry-run:tokens",
+  "signals": [
+    {
+      "id": "So11111111111111111111111111111111111111112",
+      "symbol": "SOL",
+      "name": "Solana",
+      "verified": true,
+      "verificationLabel": "verified",
+      "organicScore": 0.95,
+      "tags": [
+        "mock"
+      ],
+      "source": "mock"
+    },
+    {
+      "id": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "symbol": "USDC",
+      "name": "USD Coin",
+      "verified": true,
+      "verificationLabel": "verified",
+      "organicScore": 0.99,
+      "tags": [
+        "mock"
+      ],
+      "source": "mock"
+    }
+  ],
+  "raw": {
+    "data": {
+      "So11111111111111111111111111111111111111112": {
+        "address": "So11111111111111111111111111111111111111112",
+        "symbol": "SOL",
+        "name": "Solana",
+        "verified": true,
+        "organicScore": 0.95,
+        "tags": [
+          "mock"
+        ]
+      },
+      "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": {
+        "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "symbol": "USDC",
+        "name": "USD Coin",
+        "verified": true,
+        "organicScore": 0.99,
+        "tags": [
+          "mock"
+        ]
+      }
+    }
+  }
+}

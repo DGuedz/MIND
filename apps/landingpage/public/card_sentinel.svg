@@ -1,0 +1,39 @@
+<svg width="500" height="667" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="667" fill="#050505" />
+  <g opacity="0.7">
+    <polygon points="100,60 140,80 140,120 100,140 60,120 60,80" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="100,120 140,140 140,180 100,200 60,180 60,140" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="100,180 140,200 140,240 100,260 60,240 60,200" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="100,240 140,260 140,300 100,320 60,300 60,260" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="100,300 140,320 140,360 100,380 60,360 60,320" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="100,360 140,380 140,420 100,440 60,420 60,380" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="170,90 210,110 210,150 170,170 130,150 130,110" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="170,150 210,170 210,210 170,230 130,210 130,170" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="170,210 210,230 210,270 170,290 130,270 130,230" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="170,270 210,290 210,330 170,350 130,330 130,290" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="170,330 210,350 210,390 170,410 130,390 130,350" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="170,390 210,410 210,450 170,470 130,450 130,410" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="240,60 280,80 280,120 240,140 200,120 200,80" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="240,120 280,140 280,180 240,200 200,180 200,140" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="240,180 280,200 280,240 240,260 200,240 200,200" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="240,240 280,260 280,300 240,320 200,300 200,260" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="240,300 280,320 280,360 240,380 200,360 200,320" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="240,360 280,380 280,420 240,440 200,420 200,380" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="310,90 350,110 350,150 310,170 270,150 270,110" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="310,150 350,170 350,210 310,230 270,210 270,170" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="310,210 350,230 350,270 310,290 270,270 270,230" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="310,270 350,290 350,330 310,350 270,330 270,290" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="310,330 350,350 350,390 310,410 270,390 270,350" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="310,390 350,410 350,450 310,470 270,450 270,410" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="380,60 420,80 420,120 380,140 340,120 340,80" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="380,120 420,140 420,180 380,200 340,180 340,140" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="380,180 420,200 420,240 380,260 340,240 340,200" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="380,240 420,260 420,300 380,320 340,300 340,260" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="380,300 420,320 420,360 380,380 340,360 340,320" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+<polygon points="380,360 420,380 420,420 380,440 340,420 340,380" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15" />
+
+    <circle cx="250" cy="300" r="80" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4" />
+    <circle cx="250" cy="300" r="10" fill="#ffffff" opacity="0.8" />
+  </g>
+  <text x="50" y="600" font-family="monospace" font-size="12" fill="#a1a1aa" letter-spacing="4">SENTINEL // KMS_SHIELD</text>
+</svg>

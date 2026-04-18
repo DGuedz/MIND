@@ -1,0 +1,21 @@
+{
+  "status": "dispatched",
+  "created_at": "2026-04-06T12:08:46.581Z",
+  "attempts": 2,
+  "reason": "fetch failed",
+  "payload": {
+    "source": "execution_service",
+    "domain": "execution",
+    "event_id": "evt_it_spool_1775477326477",
+    "event_type": "execution.submitted",
+    "timestamp": "2026-04-06T12:08:46.477Z",
+    "agent_id": "execution_agent",
+    "context": {
+      "execution_id": "ex_it_spool_1775477326477",
+      "intent_id": "int_it_spool_1775477326477",
+      "mode": "simulated"
+    }
+  },
+  "dispatched_at": "2026-04-06T12:08:47.836Z",
+  "detail": "{\"status\":\"accepted\",\"event_id\":\"evt_it_spool_1775477326477\",\"latency_ms\":1251,\"router_output\":\"{\\n  \\\"at\\\": \\\"2026-04-06T12:08:47.821Z\\\",\\n  \\\"latency_ms\\\": 681,\\n  \\\"emit_only\\\": false,\\n  \\\"dry_run\\\": false,\\n  \\\"event_id\\\": \\\"evt_it_spool_1775477326477\\\",\\n  \\\"event_type\\\": \\\"execution.submitted\\\",\\n  \\\"queue_priority\\\": \\\"medium\\\",\\n  \\\"event_stream_file\\\": \\\"/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/governance/spec_runtime/event_stream.jsonl\\\",\\n  \\\"resolver_output\\\": \\\"{\\\\n  \\\\\\\"at\\\\\\\": \\\\\\\"2026-04-06T12:08:47.808Z\\\\\\\",\\\\n  \\\\\\\"started_at\\\\\\\": \\\\\\\"2026-04-06T12:08:47.806Z\\\\\\\",\\\\n  \\\\\\\"dry_run\\\\\\\": false,\\\\n  \\\\\\\"event\\\\\\\": {\\\\n    \\\\\\\"event_id\\\\\\\": \\\\\\\"evt_it_spool_1775477326477\\\\\\\",\\\\n    \\\\\\\"event_type\\\\\\\": \\\\\\\"execution.submitted\\\\\\\",\\\\n    \\\\\\\"timestamp\\\\\\\": \\\\\\\"2026-04-06T12:08:46.477Z\\\\\\\",\\\\n    \\\\\\\"agent_id\\\\\\\": \\\\\\\"execution_agent\\\\\\\",\\\\n    \\\\\\\"context\\\\\\\": {\\\\n      \\\\\\\"intent_id\\\\\\\": \\\\\\\"int_it_spool_1775477326477\\\\\\\",\\\\n      \\\\\\\"execution_id\\\\\\\": \\\\\\\"ex_it_spool_1775477326477\\\\\\\",\\\\n      \\\\\\\"tx_hash\\\\\\\": null,\\\\n      \\\\\\\"route_failure\\\\\\\": false,\\\\n      \\\\\\\"retry_count\\\\\\\": 0,\\\\n      \\\\\\\"slippage_bps\\\\\\\": null,\\\\n      \\\\\\\"latency_ms\\\\\\\": null,\\\\n      \\\\\\\"mode\\\\\\\": \\\\\\\"simulated\\\\\\\"\\\\n    },\\\\n    \\\\\\\"policy\\\\\\\": {\\\\n      \\\\\\\"severity\\\\\\\": \\\\\\\"medium\\\\\\\",\\\\n      \\\\\\\"queue_priority\\\\\\\": \\\\\\\"medium\\\\\\\"\\\\n    }\\\\n  },\\\\n  \\\\\\\"matched_count\\\\\\\": 0,\\\\n  \\\\\\\"applied\\\\\\\": []\\\\n}\\\"\\n}\"}"
+}

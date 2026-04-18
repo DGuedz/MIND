@@ -1,0 +1,18 @@
+{
+  "event_id": "evt_market_001",
+  "event_type": "market.runtime.signal",
+  "timestamp": "2026-04-06T12:15:00Z",
+  "agent_id": "mind_router",
+  "context": {
+    "intent_id": "int_999",
+    "latency_ms": 70000,
+    "route_failure": false,
+    "slippage_bps": 72,
+    "anchor_timeout": true,
+    "proof_status": "failed",
+    "fee_capture_bps": 0.4
+  },
+  "policy": {
+    "severity": "high"
+  }
+}

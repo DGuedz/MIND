@@ -1,0 +1,30 @@
+[
+  {
+    "id": "rq_evt_d72c59cc-13e6-4535-af31-967ae70554a8",
+    "at": "2026-04-06T12:06:35.968Z",
+    "reason": "slippage_breach",
+    "severity": "high",
+    "event": {
+      "event_id": "evt_d72c59cc-13e6-4535-af31-967ae70554a8",
+      "event_type": "market.slippage.alert",
+      "timestamp": "2026-04-06T12:06:35.967Z",
+      "agent_id": "market_agent",
+      "context": {
+        "intent_id": "int_it_mk_1775477195966",
+        "slippage_bps": 72,
+        "latency_ms": null,
+        "route_failure": false,
+        "anchor_timeout": false,
+        "proof_status": null,
+        "fee_capture_bps": null,
+        "source": "integration_test",
+        "path": "market.slippage.alert"
+      },
+      "policy": {
+        "severity": "high",
+        "dedupe_key": "market-slippage:int_it_mk_1775477195966:72",
+        "run_spec_update": true
+      }
+    }
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "agentA": "79b4e0f5-7e1c-4e08-912e-35d278b73f7b",
+  "agentB": "a2081815-ba1e-4a4f-8133-f1d51f73ebb2",
+  "paymentExecuted": true,
+  "EV_net": 20,
+  "decision": "ALLOW",
+  "proofVerified": true,
+  "metaplexConfirmed": true,
+  "externalAnchorStatus": "confirmed",
+  "metaplex_proof_tx": "mockMetaTx_b2b7118fe5f342972af57a89330b2c70877593e35cf7",
+  "metaplex_registry_ref": "https://devnet.helius-rpc.com/?api-key=",
+  "metaplexProofTx": "mockMetaTx_b2b7118fe5f342972af57a89330b2c70877593e35cf7",
+  "metaplexRegistryRef": "https://devnet.helius-rpc.com/?api-key=",
+  "externalProvider": "metaplex",
+  "strictModeLocal": false,
+  "strictModeEffective": true,
+  "strictModeSource": ".env (dotenv override=true)",
+  "valueTransferred": "0.25 SOL->USDC",
+  "routeUsed": "DefiTuna",
+  "elapsedMs": 15798
+}

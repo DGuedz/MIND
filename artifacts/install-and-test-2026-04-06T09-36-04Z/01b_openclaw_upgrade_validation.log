@@ -1,0 +1,15 @@
+
+> mind-monorepo@ validate:openclaw-upgrade /Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND
+> pnpm exec tsx scripts/validate_openclaw_upgrade.ts
+
+{
+  "status": "pass",
+  "intentId": "OPENCLAW-UPGRADE-1775468172224",
+  "endpoint": "http://127.0.0.1:57408/v1/inference",
+  "checks": {
+    "contextVisibility": "pass",
+    "headerOverride": "pass",
+    "authOverride": "pass",
+    "structuredProgressEvents": "pass"
+  }
+}

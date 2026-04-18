@@ -1,0 +1,26 @@
+{
+  "id": "card_signal_premium",
+  "name": "Whale Movement Signal",
+  "description": "Detecta movimentos >$500k em DEXes e CEXes depositando/retirando SPL Tokens. Sinal premium para fundos autônomos. Acesso restrito a chamadas pagas.",
+  "tags": ["alpha", "signals", "whales", "onchain-analysis"],
+  "pricing": {
+    "model": "per_request",
+    "currency": "USDC",
+    "price": 0.05
+  },
+  "endpoints": {
+    "discovery": "/v1/agents/card_signal_premium",
+    "metadata": "/v1/agents/card_signal_premium/onchain",
+    "data": "https://api.mindprotocol.ai/x402/card_signal_premium/data",
+    "payment": "/v1/payment/x402"
+  },
+  "economicMetrics": {
+    "monthlyRevenue": 12000,
+    "profitMargin": 0.95
+  },
+  "provenance": {
+    "source": "MIND Registry",
+    "createdAt": "2026-04-14T09:15:00Z",
+    "signature": "0xghi789..."
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "maxSlippageBps": 35,
+  "policy": {
+    "maxAmount": null,
+    "maxRiskScore": null,
+    "maxSlippageBps": null,
+    "requireApprovalOver": null
+  },
+  "economics": {
+    "expectedProfitBps": 0,
+    "executionCostBps": 35,
+    "latencyPenaltyBps": 2,
+    "mevRiskScore": 1,
+    "riskBufferBps": 20,
+    "notional": 1,
+    "marketTokenVerificationRatio": 1
+  },
+  "marketContext": {
+    "source": "jupiter",
+    "policyContext": {
+      "source": "jupiter",
+      "mocked": true,
+      "suggestedMaxSlippageBps": 35,
+      "riskBufferBps": 20,
+      "mevRiskScore": 1,
+      "tokenVerificationRatio": 1,
+      "hasUnverifiedToken": false,
+      "volatilityBps": 9929,
+      "latencyPenaltyBps": 2,
+      "reasonHints": [
+        "volatility_guard_applied",
+        "mock_context_only"
+      ]
+    }
+  }
+}

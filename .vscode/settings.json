@@ -1,0 +1,24 @@
+{
+  "css.customData": [".vscode/tailwind.json"],
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.next/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true
+  },
+  "colab.activityBar": true,
+  "colab.uploading": true,
+  "colab.serverMounting": true,
+  "colab.terminal": true,
+  "colab.logging.level": "info",
+  "tailwindCSS.experimental.configFile": "apps/landingpage/tailwind.config.js"
+}

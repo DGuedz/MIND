@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-04-07T10:15:29.632Z",
+  "mode": "mock",
+  "payload": {
+    "intentId": "phase2-demo-intent",
+    "inputMint": "So11111111111111111111111111111111111111112",
+    "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "slippageBps": 50,
+    "dryRun": false
+  },
+  "ids": [
+    "So11111111111111111111111111111111111111112",
+    "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+  ],
+  "priceEndpoint": "dry-run:price",
+  "tokensEndpoint": "dry-run:tokens",
+  "forcedDryRun": false,
+  "hasApiKey": false,
+  "hasBaseUrl": false
+}

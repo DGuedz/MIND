@@ -1,0 +1,15 @@
+# SOLANA & RPC
+METAPLEX_KEYPAIR="sua_chave_privada_base58_aqui"
+NOAHAI_SETTLEMENT_WALLET="endereco_publico_do_recebedor"
+HELIUS_RPC_URL="https://mainnet.helius-rpc.com/?api-key=sua_chave"
+
+# IA / ORACLE
+OPENCLAW_API_KEY="chave_da_ia_ou_mock"
+OPENCLAW_INFERENCE_ENDPOINT="url_da_ia_ou_localhost"
+
+# COVALENT
+COVALENT_API_KEY="cqt_..."
+RPC
+https://mainnet.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY
+Gatekeeper RPC URL (beta)
+https://beta.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY
