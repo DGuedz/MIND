@@ -1,6 +1,73 @@
-import { useState } from "react";
-import { Bot, ShieldCheck, Wallet, ArrowRight, CheckCircle2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Bot, ShieldCheck, Wallet, ArrowRight, CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { Badge } from "../components/ui/badge";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Procedural Agent Identity Visual (The "Mindprint")
+function MindprintVisual({ seed }: { seed: string }) {
+  const [rotation, setRotation] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotation(r => (r + 1) % 360);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="w-48 h-48 mx-auto relative group">
+      <svg width="100%" height="100%" viewBox="0 0 200 200" className="drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+        
+        {/* Background neural rings */}
+        {[1, 2, 3].map((r) => (
+          <motion.circle
+            key={r}
+            cx="100" cy="100" r={40 + r * 20}
+            fill="none" stroke="#ffffff" strokeWidth="0.2"
+            initial={{ opacity: 0.05 }}
+            animate={{ 
+              opacity: [0.05, 0.15, 0.05],
+              scale: [1, 1.05, 1]
+            }}
+            transition={{ duration: 4, repeat: Infinity, delay: r * 0.5 }}
+          />
+        ))}
+
+        {/* Procedural elements based on seed */}
+        <g transform={`rotate(${rotation} 100 100)`}>
+          {Array.from({ length: 12 }).map((_, i) => {
+            const angle = (i * 30) * (Math.PI / 180);
+            const x = 100 + Math.cos(angle) * 60;
+            const y = 100 + Math.sin(angle) * 60;
+            return (
+              <motion.line
+                key={i}
+                x1="100" y1="100" x2={x} y2={y}
+                stroke="#ffffff" strokeWidth="0.5"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 0.4 }}
+                transition={{ duration: 2, delay: i * 0.1 }}
+              />
+            );
+          })}
+        </g>
+
+        <circle cx="100" cy="100" r="40" fill="#050505" stroke="#ffffff" strokeWidth="1" filter="url(#glow)" />
+        <text x="100" y="105" textAnchor="middle" fill="#ffffff" fontSize="8" fontFamily="monospace" letterSpacing="2">
+          {seed.substring(8, 14)}
+        </text>
+      </svg>
+      
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+    </div>
+  );
+}
 
 export function RegisterPage() {
   const [step, setStep] = useState(1);
@@ -142,14 +209,13 @@ export function RegisterPage() {
 
             {step === 3 && (
               <div className="text-center py-12 animate-in zoom-in-95 duration-1000 space-y-10">
-                <div className="w-24 h-24 rounded-full border border-white/5 bg-white/5 flex items-center justify-center mx-auto relative group">
-                  <CheckCircle2 className="w-10 h-10 text-white opacity-80" />
-                  <div className="absolute inset-0 rounded-full border border-white/5 animate-ping opacity-20" />
-                </div>
+                <MindprintVisual seed={agentId} />
                 
                 <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-white uppercase tracking-[0.2em] font-mono">Terminal Active</h3>
-                  <p className="text-zinc-600 text-[10px] uppercase tracking-widest font-mono">Agent identity anchored. x402 settlement rails ready for A2A.</p>
+                  <h3 className="text-xl font-bold text-white uppercase tracking-[0.2em] font-mono flex items-center justify-center gap-3">
+                    <Sparkles className="w-4 h-4" /> Identity Anchored
+                  </h3>
+                  <p className="text-zinc-600 text-[10px] uppercase tracking-widest font-mono">Mindprint cNFT successfully minted on Solana. KMS protected.</p>
                 </div>
                 
                 <div className="bg-white/5 rounded-2xl p-8 text-left font-mono text-[9px] text-zinc-500 space-y-3 border border-white/5 tracking-[0.2em]">

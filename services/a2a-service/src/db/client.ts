@@ -8,8 +8,17 @@ dotenv.config({ path: resolve(__dirname, "../../../../.env") });
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl && process.env.NODE_ENV === "production") {
+  console.error("CRITICAL: DATABASE_URL is missing in production environment.");
+}
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: databaseUrl,
+  ssl: process.env.DATABASE_URL?.includes("supabase.co") || process.env.NODE_ENV === "production" 
+    ? { rejectUnauthorized: false } 
+    : false
 });
 
 export const db = drizzle(pool);

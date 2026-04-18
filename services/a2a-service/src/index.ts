@@ -554,9 +554,9 @@ server.post("/v1/a2a/intents/simulate", async (request: FastifyRequest, reply: F
   const policyGate = intentFirewall.validateIntent(intent, balanceSol);
   
   if (!policyGate.allowed) {
-    if (policyGate.status === "approval_required") {
-      return reply.code(202).send({
-        status: "approval_required",
+    if (policyGate.status === "credential_insufficient") {
+      return reply.code(403).send({
+        status: "credential_insufficient",
         reason: policyGate.reason,
         reasonCode: policyGate.reasonCode,
         intentId: intent.intentId
@@ -643,13 +643,35 @@ server.post("/v1/a2a/treasury/park", async (request: FastifyRequest, reply: Fast
   return reply.code(200).send(result);
 });
 
+// Blindagem Global contra Crash
+server.setErrorHandler((error, _request, reply) => {
+  server.log.error(error);
+  return reply.status(500).send({ 
+    error: "internal_server_error", 
+    message: process.env.NODE_ENV === "production" ? "An unexpected error occurred." : error.message,
+    code: "FUNCTION_INVOCATION_FAILED_HANDLED"
+  });
+});
+
 const port = Number(process.env.A2A_SERVICE_PORT ?? 3008);
 
-if (process.env.NODE_ENV !== "test") {
-  server.listen({ port, host: "0.0.0.0" }).catch((err) => {
+const start = async () => {
+  try {
+    await server.listen({ port, host: "0.0.0.0" });
+    console.log(`MIND A2A Server running on port ${port}`);
+  } catch (err) {
     server.log.error(err);
     process.exit(1);
-  });
+  }
+};
+
+if (process.env.NODE_ENV !== "test") {
+  start();
 }
+
+export default async (req: any, res: any) => {
+  await server.ready();
+  server.server.emit('request', req, res);
+};
 
 export { server };

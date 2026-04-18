@@ -4,6 +4,7 @@ import type { LucideIcon } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useDecryptText } from "../hooks/useDecryptText";
+import { motion } from "framer-motion";
 
 type IntentItem = {
   action: string;
@@ -210,6 +211,82 @@ const mockTasks: A2ATask[] = [
   { id: "tsk_1", contextId: "ctx_1", status: "approval_required", executor: "Risk Agent", payload: { amount: 250000, asset: "USDC" } },
   { id: "tsk_2", contextId: "ctx_2", status: "completed", executor: "Execution Agent", payload: { txHash: "5xt...9aZ" } },
 ];
+
+// Neural Activity Heatmap Component
+function NeuralActivityHeatmap() {
+  const [pulse, setPulse] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPulse(p => (p + 1) % 100);
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-black/40 border border-white/5 rounded-3xl p-8 aspect-video relative overflow-hidden group">
+      <div className="absolute inset-0 opacity-20">
+        <svg width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="none">
+          {Array.from({ length: 20 }).map((_, i) => 
+            Array.from({ length: 10 }).map((_, j) => {
+              const x = i * 40 + 20;
+              const y = j * 40 + 20;
+              const isActive = (i * 10 + j + pulse) % 100 > 95;
+              return (
+                <motion.circle
+                  key={`${i}-${j}`}
+                  cx={x} cy={y} r={isActive ? 2 : 1}
+                  fill={isActive ? "#ffffff" : "#333333"}
+                  animate={{ opacity: isActive ? [0.2, 0.8, 0.2] : 0.1 }}
+                />
+              );
+            })
+          )}
+        </svg>
+      </div>
+      
+      <div className="relative z-10 h-full flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+          <div className="space-y-1">
+            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em]">A2A Flow Discovery</div>
+            <div className="text-xl font-bold text-white tracking-tight">Neural Activity.</div>
+          </div>
+          <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono text-[8px] uppercase tracking-widest px-3">
+            Real-time Rails
+          </Badge>
+        </div>
+
+        <div className="grid grid-cols-3 gap-8">
+          <HeatmapMetric label="Active Nodes" value="42" change="+12%" />
+          <HeatmapMetric label="Intent Density" value="0.82" change="Optimal" />
+          <HeatmapMetric label="Settlement/s" value="14.2" change="Live" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeatmapMetric({ label, value, change }: { label: string, value: string, change: string }) {
+  return (
+    <div className="space-y-1.5">
+      <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em]">{label}</div>
+      <div className="text-2xl font-bold text-white tracking-tight font-mono">{value}</div>
+      <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">{change}</div>
+    </div>
+  );
+}
+
+function PolicyItem({ label, value, status }: { label: string, value: string, status: string }) {
+  return (
+    <div className="flex justify-between items-center bg-white/[0.02] border border-white/5 rounded-xl p-4">
+      <div className="space-y-1">
+        <div className="text-[8px] font-mono text-zinc-700 uppercase tracking-widest">{label}</div>
+        <div className="text-xs font-mono text-zinc-300">{value}</div>
+      </div>
+      <Badge variant="outline" className="border-zinc-800 text-zinc-600 text-[7px] uppercase tracking-widest">{status}</Badge>
+    </div>
+  );
+}
 
 export function AppPage() {
   const [intents, setIntents] = useState<IntentItem[]>(fallbackIntents);
@@ -574,6 +651,17 @@ export function AppPage() {
           <section className="space-y-8">
             <div className="flex items-center justify-between border-b border-white/5 pb-6">
               <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3">
+                <ShieldCheck className="w-3.5 h-3.5" /> Discovery Heatmap
+              </h2>
+              <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-widest">A2A Flow Analysis</span>
+            </div>
+            
+            <NeuralActivityHeatmap />
+          </section>
+
+          <section className="space-y-8">
+            <div className="flex items-center justify-between border-b border-white/5 pb-6">
+              <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3">
                 <ShieldCheck className="w-3.5 h-3.5" /> Approval Queue
               </h2>
               <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-widest">Action Required</span>
@@ -695,6 +783,18 @@ export function AppPage() {
                   <div className="text-[10px] text-zinc-400 font-mono">X402</div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/5 pb-6">
+              <ShieldCheck className="w-3.5 h-3.5" /> KMS Policy Gating
+            </h2>
+            <div className="space-y-4">
+              <PolicyItem label="Max Split" value="8%" status="ACTIVE" />
+              <PolicyItem label="Min APY" value="12.5%" status="ACTIVE" />
+              <PolicyItem label="RWA Gating" value="ON" status="ACTIVE" />
+              <PolicyItem label="Zero-Trust" value="STRICT" status="ENFORCED" />
             </div>
           </section>
 
