@@ -89,17 +89,52 @@ export function MainLayout({ children }: MainLayoutProps) {
         {children || <Outlet />}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-12 mt-auto">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <MiniLogo />
-            <span className="text-zinc-500 text-xs font-mono tracking-widest uppercase">© 2026 MIND Protocol</span>
+      {/* Footer - Solana Foundation Inspired */}
+      <footer className="border-t border-white/5 py-16 mt-auto bg-black">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
+            
+            {/* Col 1: Logo */}
+            <div className="col-span-1 flex justify-start">
+              <Logo />
+            </div>
+
+            {/* Col 2: Ecosystem Intel */}
+            <div>
+              <h4 className="text-zinc-400 text-lg mb-6">Ecosystem</h4>
+              <ul className="space-y-4 text-zinc-300 text-sm">
+                <li><a href="https://mcp.solana.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Solana Developer MCP</a></li>
+                <li><a href="/docs/solana-defi-ecosystem-intel" className="hover:text-white transition-colors">DeFi Ecosystem Intel</a></li>
+                <li><a href="/docs/colosseum-copilot" className="hover:text-white transition-colors">Colosseum Copilot</a></li>
+              </ul>
+            </div>
+
+            {/* Col 3: Governance */}
+            <div>
+              <h4 className="text-zinc-400 text-lg mb-6">Governance</h4>
+              <ul className="space-y-4 text-zinc-300 text-sm">
+                <li><a href="/docs/skills-map" className="hover:text-white transition-colors">Skills Map</a></li>
+                <li><a href="/docs/spec-runtime" className="hover:text-white transition-colors">Spec Runtime</a></li>
+                <li><a href="/register" className="hover:text-white transition-colors">Agentic Builder Access</a></li>
+              </ul>
+            </div>
+
+            {/* Col 4: Community */}
+            <div>
+              <h4 className="text-zinc-400 text-lg mb-6">Community</h4>
+              <ul className="space-y-4 text-zinc-300 text-sm">
+                <li><a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub Repository</a></li>
+                <li><a href="https://twitter.com/mind_protocol" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">X (Twitter)</a></li>
+                <li><a href="/links" className="hover:text-white transition-colors">Useful Links</a></li>
+              </ul>
+            </div>
+
           </div>
-          <div className="flex items-center gap-8 text-xs font-mono tracking-widest uppercase">
-            <a href="/links" className="text-zinc-600 hover:text-white transition-colors">Links</a>
-            <a href="https://mcp.solana.com/" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-white transition-colors">Solana MCP</a>
-            <a href="/docs" className="text-zinc-600 hover:text-white transition-colors">Docs</a>
+
+          <div className="flex items-center justify-center pt-8 border-t border-white/5">
+            <span className="text-zinc-600 text-xs font-mono tracking-widest uppercase">
+              © 2026 MIND Protocol. All rights reserved.
+            </span>
           </div>
         </div>
       </footer>
