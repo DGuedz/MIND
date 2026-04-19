@@ -184,6 +184,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[event_router] failed:", error);
+  console.error("[event_router] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

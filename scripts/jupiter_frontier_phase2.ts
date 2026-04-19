@@ -192,6 +192,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[jupiter_frontier_phase2] failed:", error);
+  console.error("[jupiter_frontier_phase2] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

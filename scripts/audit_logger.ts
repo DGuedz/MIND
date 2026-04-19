@@ -37,6 +37,6 @@ export async function logAuditDecision(
     await fs.writeFile(AUDIT_LOG_FILE, JSON.stringify(logs, null, 2), "utf8");
     console.log(`[AUDIT] Decision logged persistently for intent ${intentId}.`);
   } catch (error) {
-    console.error(`[AUDIT ERROR] Failed to write to audit log:`, error);
+    console.error(`[AUDIT ERROR] Failed to write to audit log:`, error instanceof Error ? error.message : String(error));
   }
 }

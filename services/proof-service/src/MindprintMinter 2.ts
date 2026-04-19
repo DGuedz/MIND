@@ -85,7 +85,7 @@ export class MindprintMinter {
         explorerUrl: `https://explorer.solana.com/address/${assetId}?cluster=devnet`
       };
     } catch (error) {
-      console.error("[MindprintMinter] Falha ao cunhar recibo on-chain:", error);
+      console.error("[MindprintMinter] Falha ao cunhar recibo on-chain:", error instanceof Error ? error.message : String(error));
       // Fallback seguro: se falhar o mint, não revertemos o capital, mas logamos a anomalia
       return {
         assetId: "MINT_FAILED_FALLBACK",

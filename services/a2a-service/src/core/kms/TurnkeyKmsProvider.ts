@@ -74,7 +74,7 @@ export class TurnkeyKmsProvider implements KmsProvider {
     console.log(`[${this.name}] Requesting KMS signature for user ${userId}...`);
     
     if (intentContext) {
-      console.log(`[${this.name}] Intent Context:`, JSON.stringify(intentContext));
+      console.log(`[${this.name}] Intent Context ID:`, intentContext.intentId || "unknown");
     }
 
     try {
@@ -84,7 +84,7 @@ export class TurnkeyKmsProvider implements KmsProvider {
       
       return transaction;
     } catch (error) {
-      console.error(`[${this.name}] Failed to sign transaction via KMS:`, error);
+      console.error(`[${this.name}] Failed to sign transaction via KMS:`, error instanceof Error ? error.message : String(error));
       throw new Error(`KMS Signature Failed: ${(error as Error).message}`);
     }
   }

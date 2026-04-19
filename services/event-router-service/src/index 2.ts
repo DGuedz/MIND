@@ -379,7 +379,7 @@ const isMain = (() => {
 
 if (isMain) {
   startEventRouterService().catch((error) => {
-    console.error("[event-router-service] failed:", error);
+    console.error("[event-router-service] failed:", error instanceof Error ? error.message : String(error));
     process.exit(1);
   });
 }

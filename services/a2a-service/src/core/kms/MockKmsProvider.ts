@@ -33,6 +33,10 @@ export class MockKmsProvider implements KmsProvider {
   ): Promise<VersionedTransaction | Transaction> {
     console.log(`[${this.name}] Policy check passed for user ${userId}. Requesting signature...`);
     
+    if (intentContext) {
+      console.log(`[${this.name}] Intent Context ID:`, intentContext.intentId || "unknown");
+    }
+
     if (this.devKeypair) {
       if ('version' in transaction) {
         transaction.sign([this.devKeypair]);

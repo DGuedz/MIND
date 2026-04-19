@@ -57,7 +57,7 @@ export class OpenClawAdapter {
       // OpenClaw devolve um Audit ID para rastrear a notificação despachada
       return data.audit_id || `oc_audit_${Date.now()}`;
     } catch (error) {
-      console.error("[OpenClawAdapter] Falha ao contatar OpenClaw webhook:", error);
+      console.error("[OpenClawAdapter] Falha ao contatar OpenClaw webhook:", error instanceof Error ? error.message : String(error));
       // Não trava a execução da transação se a notificação falhar (Programmatic Autonomy)
       return `oc_audit_fallback_${Date.now()}`;
     }

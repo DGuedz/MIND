@@ -55,7 +55,7 @@ async function runWorkflow() {
         console.log("\n✅ Resultado do ZEE Workflow:");
         console.log(result);
     } catch (error) {
-        console.error("\n❌ Erro na execução do ZEE Workflow:", error);
+        console.error("\n❌ Erro na execução do ZEE Workflow:", error instanceof Error ? error.message : String(error));
     }
 }
 

@@ -133,6 +133,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[runtime_metrics] failed:", error);
+  console.error("[runtime_metrics] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

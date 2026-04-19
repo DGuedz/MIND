@@ -178,6 +178,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[validate_deployment_pack] failed:", error);
+  console.error("[validate_deployment_pack] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

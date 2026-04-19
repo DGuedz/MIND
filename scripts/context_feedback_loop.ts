@@ -166,6 +166,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[context_feedback_loop] failed:", error);
+  console.error("[context_feedback_loop] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

@@ -101,7 +101,7 @@ async function getChatId() {
         }
       }
     } catch (e) {
-      console.error("Erro ao buscar atualizações:", e);
+      console.error("Erro ao buscar atualizações:", e instanceof Error ? e.message : String(e));
     }
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
@@ -176,7 +176,7 @@ async function waitForApproval(intentId: string) {
         }
       }
     } catch (e) {
-      console.error("Erro ao buscar callback:", e);
+      console.error("Erro ao buscar callback:", e instanceof Error ? e.message : String(e));
     }
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
@@ -246,7 +246,7 @@ async function runDemo() {
       console.log("\n🤖 Resultado OpenClaw/NoahAI:");
       console.log(JSON.stringify(aiDecision, null, 2));
     } catch (e) {
-      console.error("Erro ao executar liquidação:", e);
+      console.error("Erro ao executar liquidação:", e instanceof Error ? e.message : String(e));
     }
   } else {
     console.log("🛑 Execução cancelada com segurança.");

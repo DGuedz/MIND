@@ -116,7 +116,7 @@ export class SolanaPaymentsLayer {
       }
 
     } catch (error) {
-      console.error("[SolanaPaymentsLayer] Verify Error:", error);
+      console.error("[SolanaPaymentsLayer] Verify Error:", error instanceof Error ? error.message : String(error));
       // RPC 429 or other network issues
       return { status: "failed", reason: `rpc_or_network_error: ${(error as Error).message}` };
     }

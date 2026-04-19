@@ -9,6 +9,6 @@ pool.query(sql).then(() => {
   console.log('Migrations applied');
   process.exit(0);
 }).catch(err => {
-  console.error(err);
+  console.error(err instanceof Error ? err.message : String(err));
   process.exit(1);
 });

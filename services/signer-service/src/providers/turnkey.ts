@@ -67,7 +67,7 @@ export class TurnkeyProvider implements KmsProvider {
 
       return { walletId, publicKey };
     } catch (error) {
-      console.error("[TurnkeyProvider] Falha ao criar wallet KMS:", error);
+      console.error("[TurnkeyProvider] Falha ao criar wallet KMS:", error instanceof Error ? error.message : String(error));
       throw new Error("RC_TOOL_FAILURE");
     }
   }
@@ -126,7 +126,7 @@ export class TurnkeyProvider implements KmsProvider {
       };
 
     } catch (error) {
-      console.error("[TurnkeyProvider] Falha ao assinar transação:", error);
+      console.error("[TurnkeyProvider] Falha ao assinar transação:", error instanceof Error ? error.message : String(error));
       throw new Error("RC_TOOL_FAILURE");
     }
   }

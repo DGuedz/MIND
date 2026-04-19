@@ -57,7 +57,7 @@ async function main() {
     console.log("\n✅ Teste de integração concluído. O Colosseum Copilot está agora pronto para alimentar as skills de 'skill_compile_knowledge' e 'skill_assemble_context'.");
 
   } catch (error) {
-    console.error("❌ Falha na integração:", error);
+    console.error("❌ Falha na integração:", error instanceof Error ? error.message : String(error));
   }
 }
 

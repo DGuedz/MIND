@@ -203,7 +203,7 @@ async function getRealBalance(): Promise<number> {
     console.log(`[getRealBalance] Forçando Mock Institucional de 1.0000 SOL para consistência do Pitch Deck.`);
     return 1.0000;
   } catch (e) {
-    console.error("Erro ao buscar saldo real:", e);
+    console.error("Erro ao buscar saldo real:", e instanceof Error ? e.message : String(e));
     return 1.0000;
   }
 }
@@ -233,7 +233,7 @@ async function sendMsg(chatId: number, text: string, keyboard?: TelegramInlineKe
       console.error(`Failed text payload: ${text}`);
     }
   } catch (err) {
-    console.error(`[Telegram sendMsg Network Error]:`, err);
+    console.error(`[Telegram sendMsg Network Error]:`, err instanceof Error ? err.message : String(err));
   }
 }
 
@@ -560,7 +560,7 @@ async function startBot() {
                   await sendMsg(chatId, `✅ Decisão registrada no gateway com sucesso.`);
                 }
               } catch (error) {
-                console.error("Erro ao encaminhar callback para Approval Gateway:", error);
+                console.error("Erro ao encaminhar callback para Approval Gateway:", error instanceof Error ? error.message : String(error));
                 await sendMsg(chatId, `❌ Falha ao registrar a decisão no Approval Gateway. Tente novamente em instantes.`);
               }
               continue;
@@ -629,7 +629,7 @@ async function startBot() {
                 userStates[chatId].lastIntentLabel = "A2A Routing & Atomic Settlement";
                 console.log(`[MIND API] Intent criada: ${intentId} para chat ${chatId}`);
               } catch (error) {
-                console.error("Falha ao registrar intent_arb na API:", error);
+                console.error("Falha ao registrar intent_arb na API:", error instanceof Error ? error.message : String(error));
                 await sendMsg(
                   chatId,
                   `❌ Não foi possível registrar esta intenção na API do MIND. Verifique se o gateway está online em \`${API_GATEWAY_URL}\` e tente novamente.`
@@ -664,7 +664,7 @@ async function startBot() {
                 userStates[chatId].lastIntentLabel = "Capital Optimization (JIT Yield)";
                 console.log(`[MIND API] Intent criada: ${intentId} para chat ${chatId}`);
               } catch (error) {
-                console.error("Falha ao registrar intent_yield na API:", error);
+                console.error("Falha ao registrar intent_yield na API:", error instanceof Error ? error.message : String(error));
                 await sendMsg(
                   chatId,
                   `❌ Não foi possível registrar a delegação de capital na API do MIND. Verifique o gateway e tente novamente.`
@@ -703,7 +703,7 @@ async function startBot() {
                 userStates[chatId].lastIntentLabel = "Market Intelligence (x402 Data Sales)";
                 console.log(`[MIND API] Intent criada: ${intentId} para chat ${chatId}`);
               } catch (error) {
-                console.error("Falha ao registrar intent_x402 na API:", error);
+                console.error("Falha ao registrar intent_x402 na API:", error instanceof Error ? error.message : String(error));
                 await sendMsg(
                   chatId,
                   `❌ Não foi possível registrar a compra x402 na API do MIND. Verifique o gateway e tente novamente.`
@@ -825,7 +825,7 @@ async function startBot() {
                   };
                   await sendMsg(chatId, msg2, kb2);
                 } catch (err) {
-                  console.error("Erro no fluxo x402/noahai:", err);
+                  console.error("Erro no fluxo x402/noahai:", err instanceof Error ? err.message : String(err));
                   const errorMsg = `❌ *Falha na liquidação x402/NoahAI*\n\nNão foi possível completar a operação. O sistema de IA ou a rede podem estar instáveis no momento.\n\n_Dica: Seu saldo está seguro. Tente novamente mais tarde._`;
                   const errorKb = {
                     inline_keyboard: [
@@ -886,7 +886,7 @@ async function startBot() {
                 await sendMsg(chatId, mockGatewayMsg, mockGatewayKb);
 
               } catch (error) {
-                console.error("Falha fatal ao processar aprovação:", error);
+                console.error("Falha fatal ao processar aprovação:", error instanceof Error ? error.message : String(error));
                 await sendMsg(chatId, `❌ Erro interno ao processar a intenção.`);
               }
             }
@@ -1038,7 +1038,7 @@ async function startBot() {
         }
       }
     } catch (e) {
-      console.error("Erro no polling:", e);
+      console.error("Erro no polling:", e instanceof Error ? e.message : String(e));
     }
     await new Promise(resolve => setTimeout(resolve, 1000));
   }

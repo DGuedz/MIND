@@ -396,6 +396,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[service_router_integration_test] failed:", error);
+  console.error("[service_router_integration_test] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

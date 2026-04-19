@@ -455,6 +455,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[trigger_resolver] failed:", error);
+  console.error("[trigger_resolver] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

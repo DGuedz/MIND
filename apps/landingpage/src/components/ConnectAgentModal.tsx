@@ -102,7 +102,7 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
         setAgentData(data);
       }
     } catch (error) {
-      console.error("Backend onboard failed:", error);
+      console.error("Backend onboard failed:", error instanceof Error ? error.message : String(error));
     } finally {
       setIsProcessing(false);
     }

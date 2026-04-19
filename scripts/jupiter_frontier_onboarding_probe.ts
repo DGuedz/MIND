@@ -208,7 +208,7 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[jupiter_frontier_onboarding_probe] failed:", error);
+  console.error("[jupiter_frontier_onboarding_probe] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });
 

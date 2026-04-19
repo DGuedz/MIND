@@ -34,6 +34,6 @@ fetch(`https://api.telegram.org/bot${token}/setWebhook?url=${encodeURIComponent(
     console.log(`🔎 Webhook ativo no Telegram: ${info.result?.url ?? "(vazio)"}\n`);
   })
   .catch((error) => {
-    console.error("\n❌ Erro ao configurar/validar webhook:", error);
+    console.error("\n❌ Erro ao configurar/validar webhook:", error instanceof Error ? error.message : String(error));
     process.exit(1);
   });

@@ -210,6 +210,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("[validate_openclaw_upgrade] failed:", error);
+  console.error("[validate_openclaw_upgrade] failed:", error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

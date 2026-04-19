@@ -75,7 +75,7 @@ export class ColosseumAdapter {
 
       return { projects, archives };
     } catch (error) {
-      console.error("[ColosseumAdapter] Falha ao consultar API:", error);
+      console.error("[ColosseumAdapter] Falha ao consultar API:", error instanceof Error ? error.message : String(error));
       return { projects: [], archives: [] };
     }
   }
