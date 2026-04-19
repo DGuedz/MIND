@@ -10,7 +10,6 @@ import {
   Shield
 } from "lucide-react"
 import { Logo } from "../components/Logo"
-import { MiniLogo } from "../components/MiniLogo"
 
 interface MainLayoutProps {
   children?: React.ReactNode

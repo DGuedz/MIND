@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Box, Globe, BookOpen, ExternalLink, Code } from "lucide-react";
 import { motion } from "framer-motion";
