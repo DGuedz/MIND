@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Github, Twitter, BookOpen, ExternalLink, Code } from "lucide-react";
+import { ArrowRight, Box, Globe, BookOpen, ExternalLink, Code } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const LinksPage = () => {
@@ -16,7 +16,7 @@ export const LinksPage = () => {
       title: "MIND Protocol GitHub",
       description: "Official repository for MIND Protocol smart contracts and agent services.",
       url: "https://github.com/DGuedz/MIND",
-      icon: <Github className="w-5 h-5" />,
+      icon: <Box className="w-5 h-5" />,
       tag: "Source"
     },
     {
@@ -31,7 +31,7 @@ export const LinksPage = () => {
       title: "X (Twitter)",
       description: "Follow us for ecosystem updates and announcements.",
       url: "https://twitter.com/mind_protocol",
-      icon: <Twitter className="w-5 h-5" />,
+      icon: <Globe className="w-5 h-5" />,
       tag: "Community"
     }
   ];
