@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Github, Twitter, BookOpen, ExternalLink, Code } from "lucide-react";
-import { PageHeader } from "../components/PageHeader";
 import { motion } from "framer-motion";
 
 export const LinksPage = () => {
@@ -40,10 +39,14 @@ export const LinksPage = () => {
   return (
     <div className="min-h-screen bg-black text-white pt-24 pb-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <PageHeader 
-          title="Useful Links" 
-          description="Official resources, documentation, and community channels for the MIND ecosystem."
-        />
+        <div className="space-y-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+            Useful <span className="italic font-light opacity-60">Links.</span>
+          </h2>
+          <p className="text-zinc-500 leading-relaxed font-light">
+            Official resources, documentation, and community channels for the MIND ecosystem.
+          </p>
+        </div>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2">
           {links.map((link, i) => (
