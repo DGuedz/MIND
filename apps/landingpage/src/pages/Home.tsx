@@ -1008,12 +1008,12 @@ export function HomePage() {
                   </Badge>
 
                   <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] drop-shadow-2xl pb-4">
-                    <MetallicText progress={scrollYProgress}>Agent-to-Agent</MetallicText> <br />
-                    <MetallicText progress={scrollYProgress} className="italic font-light opacity-80 text-zinc-400">Settlement Rails.</MetallicText>
+                    <MetallicText progress={scrollYProgress}>The A2A Marketplace</MetallicText> <br />
+                    <MetallicText progress={scrollYProgress} className="italic font-light opacity-80 text-zinc-400">on Solana.</MetallicText>
                   </h1>
 
                   <p className="text-xl text-zinc-300 leading-relaxed max-w-xl font-light drop-shadow-lg">
-                    Policy-gated execution, proof-first delivery, escrow settlement, and automatic splits on Solana.
+                    Developers publish Agent Cards and earn 92% per execution. Agents discover, pay, and execute atomically.
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-6 pt-4">
@@ -1119,16 +1119,16 @@ export function HomePage() {
             onClick={() => navigate("/app")}
             className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-colors flex items-center gap-4 group"
           >
-            Open Marketplace
+            Explore Registry
             <div className="w-8 h-px bg-zinc-800 group-hover:w-12 transition-all duration-500" />
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { id: "dexter", name: "Dexter", type: "Data Agent", price: "$120", component: DexterCardSVG },
-            { id: "volan", name: "Volan", type: "Yield Agent", price: "$185", component: VolanCardSVG },
-            { id: "krios", name: "Krios", type: "Risk Agent", price: "$95", component: KriosCardSVG }
+            { id: "dexter", name: "Dexter", type: "Data Agent", price: "$0.05 / req", component: DexterCardSVG },
+            { id: "volan", name: "Volan", type: "Yield Agent", price: "$0.005 / exec", component: VolanCardSVG },
+            { id: "krios", name: "Krios", type: "Risk Agent", price: "$0.02 / scan", component: KriosCardSVG }
           ].map((item, i) => (
             <motion.div 
               key={i}
@@ -1163,27 +1163,27 @@ export function HomePage() {
           <EscrowFlowSVG />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
           <div className="absolute bottom-10 left-10 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-            Escrow Settlement Flow
+            Atomic Settlement Flow
           </div>
         </div>
         
         <div className="space-y-12">
           <div className="space-y-6">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
-              Request. Lock. <br />
-              <span className="italic font-light opacity-60">Prove. Release.</span>
+              Intent. Validate. <br />
+              <span className="italic font-light opacity-60">Execute. Mint.</span>
             </h2>
             <p className="text-zinc-500 leading-relaxed font-light text-lg">
-              A2A commerce needs rails, not promises. Policies define limits, proofs define truth, and escrow defines settlement.
+              A2A commerce needs atomic rails, not promises. Policies define limits, credentials prove truth, and atomic transactions define settlement.
             </p>
           </div>
 
           <div className="space-y-10">
             {[
-              { id: "01", title: "Request", desc: "An agent requests a service under an explicit policy and price." },
-              { id: "02", title: "Lock", desc: "Funds lock into escrow with a reference and expiry, not a handshake." },
-              { id: "03", title: "Prove", desc: "Delivery produces a proof bundle (ids, hashes, tx evidence) before release." },
-              { id: "04", title: "Release", desc: "Escrow releases and splits automatically by contract constraints on Solana." }
+              { id: "01", title: "Intent", desc: "An agent requests a service under an explicit policy and micro-price." },
+              { id: "02", title: "Validate Credential", desc: "The API Gateway validates the caller's Metaplex Mindprint credential instantly." },
+              { id: "03", title: "Execute & Split", desc: "Service executes and payment is routed atomically (92% Provider / 8% Protocol)." },
+              { id: "04", title: "Mint Proof", desc: "A cNFT receipt is minted as an immutable cryptographic proof of execution." }
             ].map((item, i) => (
               <div key={i} className="flex gap-8 group">
                 <span className="text-[10px] font-mono text-zinc-700 group-hover:text-white transition-colors duration-500 pt-1.5">{item.id}</span>
@@ -1218,7 +1218,7 @@ export function HomePage() {
               className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
               onClick={() => navigate("/register")}
             >
-              List Your Card
+              Publish Agent Card
             </Button>
             <Button
               size="lg"
@@ -1273,10 +1273,10 @@ export function HomePage() {
         <div className="space-y-4 max-w-2xl">
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">Repository Access</div>
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-            Evidence is gated until mainnet.
+            Source code is currently in private Devnet for security.
           </h3>
           <p className="text-zinc-500 leading-relaxed font-light">
-            During devnet validation, the repository remains private to prevent operational leakage. Access is granted to builders on request.
+            Colosseum Judges: Access granted via submitted project links. This maintains institutional security while removing friction for evaluation.
           </p>
         </div>
 
@@ -1294,7 +1294,7 @@ export function HomePage() {
             className="border-white/10 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
             onClick={() => navigate("/app")}
           >
-            Open Marketplace
+            Explore Registry
           </Button>
         </div>
       </section>
