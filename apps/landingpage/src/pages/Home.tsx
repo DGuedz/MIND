@@ -4,6 +4,7 @@ import { Button } from "../components/ui/button";
 import { ConnectAgentModal } from "../components/ConnectAgentModal";
 import { Badge } from "../components/ui/badge";
 import { motion, useMotionValue, useTransform, useSpring, useScroll, MotionValue, AnimatePresence, useInView } from "framer-motion";
+import { ArrowDown } from "lucide-react";
 import { Zap, Loader2, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { buildArchiveSignalsMap, fetchEcosystemSignals } from "../lib/ecosystemIntel";
 
@@ -1006,7 +1007,7 @@ export function HomePage() {
                     Settlement Rails
                   </Badge>
 
-                  <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-[0.9] drop-shadow-2xl">
+                  <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] drop-shadow-2xl pb-4">
                     <MetallicText progress={scrollYProgress}>Agent-to-Agent</MetallicText> <br />
                     <MetallicText progress={scrollYProgress} className="italic font-light opacity-80 text-zinc-400">Settlement Rails.</MetallicText>
                   </h1>
@@ -1034,9 +1035,18 @@ export function HomePage() {
                   </div>
                 </div>
               </motion.div>
+           <motion.div 
+                  className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  onClick={() => scrollToSection("process")}
+                >
+                  <span className="text-[10px] font-mono tracking-widest text-white/50 uppercase drop-shadow-md">Scroll Down</span>
+                  <ArrowDown className="w-5 h-5 text-white/50 drop-shadow-md" />
+                </motion.div>
+              </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* NEW SECTION: Neural Bridge Discovery */}
@@ -1289,21 +1299,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Footer: Floria Style */}
-      <footer className="pt-32 flex flex-col md:flex-row justify-between items-center gap-12 border-t border-white/5">
-        <div className="flex items-center gap-4">
-          <span className="text-xs font-bold tracking-[0.4em] text-white uppercase">MIND Protocol</span>
-          <div className="w-12 h-px bg-zinc-800" />
-          <span className="text-[10px] text-zinc-600 font-mono tracking-widest uppercase">Frontier 2026</span>
-        </div>
-        
-        <div className="flex gap-12 text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">
-          <button onClick={() => navigate("/app")} className="hover:text-white transition-colors duration-500">Shop</button>
-          <button onClick={() => scrollToSection("process")} className="hover:text-white transition-colors duration-500">Process</button>
-          <button onClick={() => scrollToSection("github")} className="hover:text-white transition-colors duration-500">Repository</button>
-          <button onClick={() => navigate("/register")} className="hover:text-white transition-colors duration-500">Access</button>
-        </div>
-      </footer>
+      {/* MainLayout handles the footer now */}
     </div>
   );
 }

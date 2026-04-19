@@ -24,7 +24,7 @@ const generateWallets = () => {
     }
   };
 
-  const filePath = path.join(process.cwd(), "burner_wallets.json");
+  const filePath = path.join(process.cwd(), "jsons", "burner_wallets.json");
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
   console.log("✅ Wallets reais geradas com sucesso!");

@@ -10,6 +10,7 @@ import {
   Shield
 } from "lucide-react"
 import { Logo } from "../components/Logo"
+import { MiniLogo } from "../components/MiniLogo"
 
 interface MainLayoutProps {
   children?: React.ReactNode
@@ -87,6 +88,21 @@ export function MainLayout({ children }: MainLayoutProps) {
       <main className="flex-1">
         {children || <Outlet />}
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-12 mt-auto">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <MiniLogo />
+            <span className="text-zinc-500 text-xs font-mono tracking-widest uppercase">© 2026 MIND Protocol</span>
+          </div>
+          <div className="flex items-center gap-8 text-xs font-mono tracking-widest uppercase">
+            <a href="/links" className="text-zinc-600 hover:text-white transition-colors">Links</a>
+            <a href="https://mcp.solana.com/" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-white transition-colors">Solana MCP</a>
+            <a href="/docs" className="text-zinc-600 hover:text-white transition-colors">Docs</a>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

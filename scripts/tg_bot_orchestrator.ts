@@ -41,13 +41,13 @@ const extractDecisionFromOutput = (raw: string): DecisionContract | null => {
 
 const sendApprovalCard = async (chatId: number, intentId: string) => {
   const text =
-    `🚨 Aprovação Necessária\n\n` +
-    `Agente: NoahAI / Scan\n` +
-    `Ação: Pagamento x402 A2A (0.001 SOL)\n` +
-    `Motivo: Inferência de Dados e Risco\n` +
-    `Recibo: Metaplex Core cNFT\n\n` +
-    `Deseja autorizar esta liquidação on-chain?`;
-  const keyboard = { inline_keyboard: [[{ text: "✅ Aprovar e Liquidar", callback_data: `approve:${intentId}` }, { text: "❌ Rejeitar", callback_data: `reject:${intentId}` }]] };
+    `🚨 Approval Required\n\n` +
+    `Agent: NoahAI / Scan\n` +
+    `Action: x402 A2A Payment (0.001 SOL)\n` +
+    `Reason: Data Inference & Risk\n` +
+    `Receipt: Metaplex Core cNFT\n\n` +
+    `Do you want to authorize this on-chain settlement?`;
+  const keyboard = { inline_keyboard: [[{ text: "✅ Approve & Settle", callback_data: `approve:${intentId}` }, { text: "❌ Reject", callback_data: `reject:${intentId}` }]] };
   await fetch(`${TELEGRAM_API}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -70,10 +70,10 @@ const callOraculo = async (intentId: string, decision: DecisionContract) => {
     signal: AbortSignal.timeout(OPENCLAW_TIMEOUT_MS),
     headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
     body: JSON.stringify({
-      intentId,
-      prompt: "Resumo curto de risco para a liquidacao x402 executada.",
-      paymentProof: { txHash: decision.artifacts?.txHash, receiptHash: decision.artifacts?.receiptHash, metaplexProofTxHash: decision.artifacts?.metaplexProofTxHash }
-    })
+        intentId,
+        prompt: "Short risk summary for the executed x402 settlement.",
+        paymentProof: { txHash: decision.artifacts?.txHash, receiptHash: decision.artifacts?.receiptHash, metaplexProofTxHash: decision.artifacts?.metaplexProofTxHash }
+      })
   });
   const raw = await response.text();
   return { ok: response.ok, status: response.status, body: raw };
@@ -143,14 +143,14 @@ async function main() {
             const dataCb = q.data as string;
             const queryId = q.id as string;
             if (dataCb.startsWith("approve:")) {
-              await answerCallback(queryId, "Decisão Registrada pelo MIND");
+              await answerCallback(queryId, "Decision Recorded by MIND");
               const intentId = dataCb.split(":")[1];
               const decision = settle(intentId);
               if (!decision || decision.decision !== "ALLOW") {
                 await fetch(`${TELEGRAM_API}/sendMessage`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ chat_id: chatId, text: "Liquidação bloqueada ou inconclusiva." })
+                  body: JSON.stringify({ chat_id: chatId, text: "Settlement blocked or inconclusive." })
                 });
                 continue;
               }
@@ -159,14 +159,14 @@ async function main() {
               await fetch(`${TELEGRAM_API}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: chatId, text: `Oráculo: ${ai.ok ? "ALLOW" : "INSUFFICIENT_EVIDENCE"} [${ai.status}]` })
+                body: JSON.stringify({ chat_id: chatId, text: `Oracle: ${ai.ok ? "ALLOW" : "INSUFFICIENT_EVIDENCE"} [${ai.status}]` })
               });
             } else if (dataCb.startsWith("reject:")) {
-              await answerCallback(queryId, "Decisão Registrada pelo MIND");
+              await answerCallback(queryId, "Decision Recorded by MIND");
               await fetch(`${TELEGRAM_API}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: chatId, text: "Execução cancelada com segurança." })
+                body: JSON.stringify({ chat_id: chatId, text: "Execution safely cancelled." })
               });
             }
           }

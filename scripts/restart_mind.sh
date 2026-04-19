@@ -34,13 +34,13 @@ pnpm install
 # 3. Subir os serviços em background
 echo "🚀 [3/3] Subindo serviços e gateway em background..."
 # O dev:services levanta os microsserviços do MIND
-nohup pnpm run dev:services > services.log 2>&1 &
+nohup pnpm run dev:services > logs_/services.log 2>&1 &
 SERVICES_PID=$!
 
 echo ""
 echo "✅ MIND Protocol Reiniciado com Sucesso!"
 echo "✅ Serviços rodando em background (PID: $SERVICES_PID)"
 echo ""
-echo "👉 Para ver os logs em tempo real: tail -f services.log"
+echo "👉 Para ver os logs em tempo real: tail -f logs_/services.log"
 echo "👉 Para desligar tudo novamente: ./scripts/performance_mode.sh"
 echo "============================================"

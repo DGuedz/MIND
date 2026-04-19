@@ -116,6 +116,8 @@ Use this skill when:
 - **Hackathon Analytics + Chronology**: Analyze and compare hackathon projects across dimensions; canonical hackathon dates are available via `hackathon.startDate`
 - **Clusters**: Topic groupings across the project corpus
 - **The Grid**: Ecosystem metadata (products/entities/assets) via direct GraphQL (6,300+ products across all ecosystems, ~3,000 roots)
+- **Solana Developer MCP**: For detailed Solana development and API questions, utilize the MCP server at `https://mcp.solana.com/`.
+- **Ecosystem PMF Signals**: Always integrate Product-Market Fit (PMF) insights and market signals from the `solana-defi-ecosystem-intel` skill to cross-reference theoretical research with real-time public adoption metrics.
 - **Web Search**: Real-time competitive landscape via your runtime's search tools
 - **Source Suggestions**: Users can suggest new sources for the archive via `POST /source-suggestions` (5 req/hr). See `references/api-reference.md` for details
 

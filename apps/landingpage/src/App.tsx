@@ -8,6 +8,8 @@ import { RegisterPage } from "./pages/Register";
 import { TooltipProvider } from "./components/ui/tooltip";
 // Dialog components are now in DialogComponents.tsx
 
+import { LinksPage } from "./pages/Links";
+
 function App() {
   return (
     <TooltipProvider>
@@ -20,6 +22,7 @@ function App() {
             <Route path="features" element={<FeaturesPage />} />
             <Route path="infrastructure" element={<InfrastructurePage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="links" element={<LinksPage />} />
             <Route path="builders" element={<Navigate to="/register" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
