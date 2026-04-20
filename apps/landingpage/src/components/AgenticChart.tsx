@@ -140,9 +140,9 @@ export function AgenticChart({ showOnlyAgent }: { showOnlyAgent: boolean }) {
   return (
     <div className="w-full h-40 mt-4 relative group">
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0a]/80 z-10 backdrop-blur-sm rounded-md border border-white/5">
+        <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0a]/80 z-10 backdrop-blur-sm rounded-md border border-white/20">
           <div className="flex flex-col items-center gap-2">
-            <div className="w-4 h-4 border-2 border-t-cyan-400 border-white/10 rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-t-cyan-400 border-white/30 rounded-full animate-spin" />
             <span className="text-[10px] text-cyan-400/80 animate-pulse tracking-widest uppercase">
               Fetching On-Chain Data...
             </span>

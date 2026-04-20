@@ -54,7 +54,7 @@ function AgentCredentialSVG({ agentId, tier = "Pro" }: { agentId: string, tier?:
   }, [seed, tier]);
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" className="rounded-xl overflow-hidden shadow-2xl border border-white/10">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" className="rounded-xl overflow-hidden shadow-2xl border border-white/30">
       <rect width="500" height="500" fill="#050505" />
       <defs>
         <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
@@ -140,8 +140,8 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[650px] bg-black/95 border-white/10 text-white backdrop-blur-2xl p-0 overflow-hidden rounded-3xl">
-        <div className="p-8 border-b border-white/5 bg-white/[0.02]">
+      <DialogContent className="sm:max-w-[650px] bg-black/95 border-white/30 text-white backdrop-blur-2xl p-0 overflow-hidden rounded-3xl">
+        <div className="p-8 border-b border-white/20 bg-white/[0.02]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-4 text-xl font-bold tracking-[0.3em] uppercase font-mono">
               <Bot className="w-5 h-5 text-zinc-400" />
@@ -169,7 +169,7 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all duration-700 ${
                   step > i ? "bg-white/5 border-white/20 text-white" :
                   step === i ? "bg-white/10 border-white/40 text-white animate-pulse" :
-                  "bg-black border-white/5 text-zinc-800"
+                  "bg-black border-white/20 text-zinc-800"
                 }`}>
                   {step > i ? <CheckCircle2 className="w-4 h-4" /> : <s.icon className="w-4 h-4" />}
                 </div>
@@ -181,7 +181,7 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
           </div>
 
           {/* Dynamic Content Area */}
-          <div className="bg-white/[0.01] border border-white/5 rounded-3xl p-8 min-h-[420px] font-mono text-xs relative overflow-hidden flex flex-col justify-center">
+          <div className="bg-white/[0.01] border border-white/20 rounded-3xl p-8 min-h-[420px] font-mono text-xs relative overflow-hidden flex flex-col justify-center">
             
             <AnimatePresence mode="wait">
               {/* Step 0: Trigger */}
@@ -208,23 +208,23 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
                   className="space-y-6"
                 >
                   <div className="flex gap-4">
-                    <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/30 flex items-center justify-center shrink-0">
                       <span className="text-zinc-400 text-[10px]">TG</span>
                     </div>
-                    <div className="bg-white/5 rounded-2xl rounded-tl-none p-4 text-zinc-400 border border-white/5 max-w-[80%]">
+                    <div className="bg-white/5 rounded-2xl rounded-tl-none p-4 text-zinc-400 border border-white/20 max-w-[80%]">
                       <p className="leading-relaxed">Agent detected. Integrating with institutional liquidity rails.</p>
                     </div>
                   </div>
                   
                   {step >= 2 && (
                     <div className="flex gap-4 flex-row-reverse animate-in fade-in slide-in-from-bottom-4 duration-700">
-                      <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/30 flex items-center justify-center shrink-0">
                         <Bot className="w-4 h-4 text-zinc-400" />
                       </div>
-                      <div className="bg-white/5 rounded-2xl rounded-tr-none p-4 text-zinc-400 border border-white/5 max-w-[80%]">
+                      <div className="bg-white/5 rounded-2xl rounded-tr-none p-4 text-zinc-400 border border-white/20 max-w-[80%]">
                         <p className="mb-4 text-white">Identity verified.</p>
                         <div className="space-y-2 text-[10px] uppercase tracking-widest opacity-60">
-                          <div className="flex justify-between border-b border-white/5 pb-2">
+                          <div className="flex justify-between border-b border-white/20 pb-2">
                             <span>Name</span>
                             <span className="text-white">SolClaw_Alpha</span>
                           </div>
@@ -253,7 +253,7 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
                     <div className="absolute inset-0 bg-white/5 animate-pulse rounded-xl" />
                   </div>
                   <div className="text-center space-y-2">
-                    <Badge variant="outline" className="bg-white/5 text-zinc-400 border-white/10 uppercase tracking-[0.3em] px-4 py-1 font-mono text-[9px]">
+                    <Badge variant="outline" className="bg-white/5 text-zinc-400 border-white/30 uppercase tracking-[0.3em] px-4 py-1 font-mono text-[9px]">
                       Forging Credential
                     </Badge>
                     <p className="text-[10px] text-zinc-500 uppercase tracking-widest animate-pulse">
@@ -272,10 +272,10 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
                   exit={{ opacity: 0, y: -10 }}
                   className="flex flex-col justify-center items-center"
                 >
-                  <Badge variant="outline" className="bg-white/5 text-zinc-400 border-white/10 mb-8 uppercase tracking-[0.2em] px-4 py-1 font-mono text-[9px]">
+                  <Badge variant="outline" className="bg-white/5 text-zinc-400 border-white/30 mb-8 uppercase tracking-[0.2em] px-4 py-1 font-mono text-[9px]">
                     Autonomous Policy Applied
                   </Badge>
-                  <div className="w-full max-w-sm space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
+                  <div className="w-full max-w-sm space-y-4 bg-white/5 p-6 rounded-2xl border border-white/20">
                     <div className="flex items-center justify-between">
                       <span className="text-zinc-500 text-[10px] uppercase tracking-widest font-mono">Credential-Gated Signing</span>
                       <Switch checked={true} readOnly className="data-[state=checked]:bg-white" />
@@ -300,7 +300,7 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col justify-center items-center text-center"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 rotate-12">
+                  <div className="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/30 rotate-12">
                     <CheckCircle2 className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-[0.3em] font-mono">Baptized</h3>

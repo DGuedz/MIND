@@ -144,8 +144,8 @@ function NeuralMessageBridge() {
   };
 
   return (
-    <div className="bg-zinc-950/50 border border-white/5 rounded-3xl p-6 font-mono text-[10px] min-h-[500px] flex flex-col shadow-2xl backdrop-blur-md">
-      <div className="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
+    <div className="bg-zinc-950/50 border border-white/20 rounded-3xl p-6 font-mono text-[10px] min-h-[500px] flex flex-col shadow-2xl backdrop-blur-md">
+      <div className="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
           <span className="uppercase tracking-[0.3em] text-zinc-400">Neural Bridge v1.0</span>
@@ -167,7 +167,7 @@ function NeuralMessageBridge() {
               initial={{ opacity: 0, x: -5 }}
               animate={{ opacity: 1, x: 0 }}
               className={`p-3 rounded-lg border ${
-                msg.type === 'proof' ? 'border-white/20 bg-white/5' : 'border-white/5 bg-black/40'
+                msg.type === 'proof' ? 'border-white/20 bg-white/5' : 'border-white/20 bg-black/40'
               }`}
             >
               <div className="flex items-center gap-2 mb-1">
@@ -209,7 +209,7 @@ function NeuralMessageBridge() {
             <Button 
               onClick={() => { setMessages([]); setTxComplete(false); }}
               variant="outline"
-              className="w-full border-white/10 text-zinc-500 hover:bg-white/5 h-12 rounded-2xl uppercase tracking-[0.2em] text-[9px]"
+              className="w-full border-white/30 text-zinc-500 hover:bg-white/5 h-12 rounded-2xl uppercase tracking-[0.2em] text-[9px]"
             >
               Clear Neural Buffer
             </Button>
@@ -889,7 +889,7 @@ function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave }: {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className={`relative aspect-[16/10] rounded-[2rem] overflow-hidden border border-white/5 cursor-pointer group ${item.span}`}
+      className={`relative aspect-[16/10] rounded-[2rem] overflow-hidden border border-white/20 cursor-pointer group ${item.span}`}
     >
       <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105">
         {item.render(isActive)}
@@ -1027,7 +1027,7 @@ export function HomePage() {
                     <Button 
                       size="lg" 
                       variant="outline" 
-                      className="border-white/10 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
+                      className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
                       onClick={() => navigate("/app")}
                     >
                       Browse Marketplace
@@ -1067,7 +1067,7 @@ export function HomePage() {
 
           <div className="space-y-6 pt-4">
             <div className="flex gap-6 items-start">
-              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/30 flex items-center justify-center shrink-0">
                 <Zap className="w-4 h-4 text-white" />
               </div>
               <div className="space-y-1">
@@ -1082,7 +1082,7 @@ export function HomePage() {
               transition={{ delay: 0.2 }}
               className="flex gap-6 items-start group"
             >
-              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:border-white/20 transition-colors duration-500">
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/30 flex items-center justify-center shrink-0 group-hover:border-white/20 transition-colors duration-500">
                 <ShieldCheck className="w-4 h-4 text-white" />
               </div>
               <div className="space-y-1">
@@ -1106,7 +1106,7 @@ export function HomePage() {
 
       {/* Section 1: Curated Assemblages */}
       <section id="marketplace" className="space-y-16">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-white/5 pb-12">
+        <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-white/20 pb-12">
           <div className="space-y-4 max-w-2xl">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
               Agent Cards <span className="italic font-light opacity-60">Marketplace.</span>
@@ -1141,7 +1141,7 @@ export function HomePage() {
               onMouseLeave={() => setHoveredCard(null)}
               onClick={() => navigate("/app")}
             >
-              <div className="aspect-[3/4] rounded-3xl mb-6 overflow-hidden border border-white/5 bg-[#050505] transition-all duration-700 group-hover:border-white/20 relative">
+              <div className="aspect-[3/4] rounded-3xl mb-6 overflow-hidden border border-white/20 bg-[#050505] transition-all duration-700 group-hover:border-white/20 relative">
                 <item.component isHovered={hoveredCard === item.id} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
               </div>
@@ -1159,7 +1159,7 @@ export function HomePage() {
 
       {/* Section 2: Architecture of Nature (Trust) */}
       <section id="process" className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-        <div className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/5 overflow-hidden relative">
+        <div className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative">
           <EscrowFlowSVG />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
           <div className="absolute bottom-10 left-10 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
@@ -1223,7 +1223,7 @@ export function HomePage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-white/10 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
+              className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
               onClick={() => scrollToSection("process")}
             >
               View Settlement Flow
@@ -1231,7 +1231,7 @@ export function HomePage() {
           </div>
         </div>
 
-        <div className="rounded-[3rem] border border-white/5 overflow-hidden bg-zinc-950 relative aspect-[4/5] lg:aspect-auto lg:h-[667px] group">
+        <div className="rounded-[3rem] border border-white/20 overflow-hidden bg-zinc-950 relative aspect-[4/5] lg:aspect-auto lg:h-[667px] group">
           <div className="absolute inset-0 z-0">
             <BuildersMatrixSVG isVisible={isBuildersInView} />
           </div>
@@ -1269,7 +1269,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="github" className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/5 rounded-[3rem] p-10 md:p-14">
+      <section id="github" className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/20 rounded-[3rem] p-10 md:p-14">
         <div className="space-y-4 max-w-2xl">
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">Repository Access</div>
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
@@ -1291,7 +1291,7 @@ export function HomePage() {
           <Button
             size="lg"
             variant="outline"
-            className="border-white/10 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
+            className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
             onClick={() => navigate("/app")}
           >
             Explore Registry

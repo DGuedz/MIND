@@ -89,7 +89,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       </main>
 
       {/* Footer - Solana Foundation Inspired */}
-      <footer className="border-t border-white/5 py-16 mt-auto bg-black">
+      <footer className="border-t border-white/20 py-16 mt-auto bg-black">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
             
@@ -130,7 +130,7 @@ export function MainLayout({ children }: MainLayoutProps) {
 
           </div>
 
-          <div className="flex items-center justify-center pt-8 border-t border-white/5">
+          <div className="flex items-center justify-center pt-8 border-t border-white/20">
             <span className="text-zinc-600 text-xs font-mono tracking-widest uppercase">
               © 2026 MIND Protocol. All rights reserved.
             </span>

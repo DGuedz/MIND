@@ -85,7 +85,7 @@ export function RegisterPage() {
 
   return (
     <div className="container mx-auto px-6 pt-48 pb-32 space-y-32">
-      <header className="space-y-8 border-b border-white/5 pb-16">
+      <header className="space-y-8 border-b border-white/20 pb-16">
         <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[9px] tracking-[0.3em] px-4 py-1">
           Institutional Onboarding
         </Badge>
@@ -99,7 +99,7 @@ export function RegisterPage() {
       </header>
 
       <div className="max-w-2xl mx-auto w-full">
-        <div className="bg-white/[0.02] border border-white/5 p-12 md:p-20 rounded-[3rem] relative overflow-hidden">
+        <div className="bg-white/[0.02] border border-white/20 p-12 md:p-20 rounded-[3rem] relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-zinc-500/5 to-transparent opacity-50" />
           
           {/* Progress Indicator */}
@@ -113,7 +113,7 @@ export function RegisterPage() {
               <div key={idx} className="flex flex-col items-center gap-4 relative z-10">
                 <div 
                   className={`w-12 h-12 rounded-full flex items-center justify-center text-[10px] font-mono transition-all duration-700 ${
-                    step >= idx + 1 ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.1)]" : "bg-black border border-white/5 text-zinc-800"
+                    step >= idx + 1 ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.1)]" : "bg-black border border-white/20 text-zinc-800"
                   }`}
                 >
                   {step > idx + 1 ? <CheckCircle2 className="w-4 h-4" /> : stepInfo.num}
@@ -138,7 +138,7 @@ export function RegisterPage() {
                     placeholder="ALPHA_TERMINAL_01"
                     value={formData.agentName}
                     onChange={(e) => setFormData({...formData, agentName: e.target.value})}
-                    className="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-white/20 transition-all font-mono text-xs placeholder:text-zinc-800 tracking-widest uppercase"
+                    className="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-white/20 transition-all font-mono text-xs placeholder:text-zinc-800 tracking-widest uppercase"
                   />
                 </div>
 
@@ -149,7 +149,7 @@ export function RegisterPage() {
                   <select 
                     value={formData.agentRole}
                     onChange={(e) => setFormData({...formData, agentRole: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-white/20 transition-all appearance-none font-mono text-xs tracking-widest uppercase"
+                    className="w-full bg-white/5 border border-white/30 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-white/20 transition-all appearance-none font-mono text-xs tracking-widest uppercase"
                   >
                     <option value="trading">JIT Liquidity Provision</option>
                     <option value="oracle">A2A Data Provider</option>
@@ -178,11 +178,11 @@ export function RegisterPage() {
                     placeholder="7nxB...4vP9"
                     value={formData.walletAddress}
                     onChange={(e) => setFormData({...formData, walletAddress: e.target.value})}
-                    className="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-white/20 transition-all font-mono text-xs placeholder:text-zinc-800 tracking-widest uppercase"
+                    className="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-white/20 transition-all font-mono text-xs placeholder:text-zinc-800 tracking-widest uppercase"
                   />
                 </div>
 
-                <div className="bg-white/5 p-6 rounded-2xl flex gap-6 border border-white/5">
+                <div className="bg-white/5 p-6 rounded-2xl flex gap-6 border border-white/20">
                   <ShieldCheck className="w-4 h-4 text-zinc-600 shrink-0 mt-0.5" />
                   <p className="text-[9px] text-zinc-600 uppercase tracking-widest leading-relaxed">
                     MIND anchors Mindprint cNFTs to your agent to verify institutional policy compliance and A2A governance.
@@ -193,7 +193,7 @@ export function RegisterPage() {
                   <button 
                     type="button" 
                     onClick={() => setStep(1)} 
-                    className="w-1/3 rounded-full py-6 border border-white/5 hover:bg-white/5 font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-500 hover:text-white transition-all duration-500"
+                    className="w-1/3 rounded-full py-6 border border-white/20 hover:bg-white/5 font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-500 hover:text-white transition-all duration-500"
                   >
                     Back
                   </button>
@@ -218,9 +218,9 @@ export function RegisterPage() {
                   <p className="text-zinc-600 text-[10px] uppercase tracking-widest font-mono">Mindprint cNFT successfully minted on Solana. KMS protected.</p>
                 </div>
                 
-                <div className="bg-white/5 rounded-2xl p-8 text-left font-mono text-[9px] text-zinc-500 space-y-3 border border-white/5 tracking-[0.2em]">
-                  <p className="flex justify-between border-b border-white/5 pb-3"><span className="text-zinc-800">AGENT ID</span> <span className="text-zinc-400">{agentId}</span></p>
-                  <p className="flex justify-between border-b border-white/5 pb-3"><span className="text-zinc-800">RAILS</span> <span className="text-zinc-300">X402_ATOMIC_SETTLEMENT</span></p>
+                <div className="bg-white/5 rounded-2xl p-8 text-left font-mono text-[9px] text-zinc-500 space-y-3 border border-white/20 tracking-[0.2em]">
+                  <p className="flex justify-between border-b border-white/20 pb-3"><span className="text-zinc-800">AGENT ID</span> <span className="text-zinc-400">{agentId}</span></p>
+                  <p className="flex justify-between border-b border-white/20 pb-3"><span className="text-zinc-800">RAILS</span> <span className="text-zinc-300">X402_ATOMIC_SETTLEMENT</span></p>
                   <p className="flex justify-between"><span className="text-zinc-800">NETWORK</span> <span className="text-zinc-400">SOLANA_MAINNET</span></p>
                 </div>
 

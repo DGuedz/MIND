@@ -9,13 +9,13 @@ export const MindzGroup = () => {
       <div className="absolute top-1/2 left-12 w-24 h-12 border-l border-t border-white/20 rounded-tl-xl -translate-y-full z-0" />
       
       {/* Mindz 1 (Menor, Topo) */}
-      <div className="absolute left-20 -top-8 w-6 h-6 rounded-full border border-white/10 bg-black/80 backdrop-blur-md flex items-center justify-center p-0.5 z-10 shadow-[0_0_10px_rgba(170,59,255,0.2)] animate-float">
+      <div className="absolute left-20 -top-8 w-6 h-6 rounded-full border border-white/30 bg-black/80 backdrop-blur-md flex items-center justify-center p-0.5 z-10 shadow-[0_0_10px_rgba(170,59,255,0.2)] animate-float">
         <MiniLogo />
         <div className="absolute -right-1 -top-1 w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
       </div>
 
       {/* Mindz 2 (Menor, Base) */}
-      <div className="absolute left-24 top-14 w-7 h-7 rounded-full border border-white/10 bg-black/80 backdrop-blur-md flex items-center justify-center p-0.5 z-10 shadow-[0_0_10px_rgba(255,255,255,0.1)] animate-float-delayed">
+      <div className="absolute left-24 top-14 w-7 h-7 rounded-full border border-white/30 bg-black/80 backdrop-blur-md flex items-center justify-center p-0.5 z-10 shadow-[0_0_10px_rgba(255,255,255,0.1)] animate-float-delayed">
         <MiniLogo />
       </div>
 

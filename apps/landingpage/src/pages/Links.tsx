@@ -73,7 +73,7 @@ export const LinksPage = () => {
 };
 
 const LinkCard = ({ link }: { link: any }) => (
-  <div className="h-full bg-zinc-900/50 border border-white/5 rounded-xl p-6 transition-all duration-300 group-hover:bg-zinc-800/50 group-hover:border-white/20 flex flex-col relative overflow-hidden">
+  <div className="h-full bg-zinc-900/50 border border-white/20 rounded-xl p-6 transition-all duration-300 group-hover:bg-zinc-800/50 group-hover:border-white/20 flex flex-col relative overflow-hidden">
     <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0">
       {link.internal ? <ArrowRight className="w-5 h-5 text-white/50" /> : <ExternalLink className="w-5 h-5 text-white/50" />}
     </div>

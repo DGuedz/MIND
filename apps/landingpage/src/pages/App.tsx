@@ -224,7 +224,7 @@ function NeuralActivityHeatmap() {
   }, []);
 
   return (
-    <div className="bg-black/40 border border-white/5 rounded-3xl p-8 aspect-video relative overflow-hidden group">
+    <div className="bg-black/40 border border-white/20 rounded-3xl p-8 aspect-video relative overflow-hidden group">
       <div className="absolute inset-0 opacity-20">
         <svg width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="none">
           {Array.from({ length: 20 }).map((_, i) => 
@@ -278,7 +278,7 @@ function HeatmapMetric({ label, value, change }: { label: string, value: string,
 
 function PolicyItem({ label, value, status }: { label: string, value: string, status: string }) {
   return (
-    <div className="flex justify-between items-center bg-white/[0.02] border border-white/5 rounded-xl p-4">
+    <div className="flex justify-between items-center bg-white/[0.02] border border-white/20 rounded-xl p-4">
       <div className="space-y-1">
         <div className="text-[8px] font-mono text-zinc-700 uppercase tracking-widest">{label}</div>
         <div className="text-xs font-mono text-zinc-300">{value}</div>
@@ -602,7 +602,7 @@ export function AppPage() {
 
   return (
     <div className="container mx-auto px-6 space-y-8 pt-32 pb-32">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/5 pb-12">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/20 pb-12">
         <div className="space-y-4">
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[9px] tracking-[0.3em] px-4 py-1">
             Agentic GDP Marketplace
@@ -611,7 +611,7 @@ export function AppPage() {
         </div>
         
         <div className="flex items-center gap-6">
-          <div className="px-4 py-2 bg-white/5 border border-white/5 rounded-full flex items-center gap-3">
+          <div className="px-4 py-2 bg-white/5 border border-white/20 rounded-full flex items-center gap-3">
             <div className={`w-1.5 h-1.5 rounded-full ${balanceSource === 'live' ? 'bg-white opacity-80 animate-pulse' : 'bg-zinc-800'}`} />
             <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.2em]">{balanceSource === 'live' ? 'Protocol Live' : 'Protocol Fallback'}</span>
           </div>
@@ -649,7 +649,7 @@ export function AppPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2 space-y-12">
           <section className="space-y-8">
-            <div className="flex items-center justify-between border-b border-white/5 pb-6">
+            <div className="flex items-center justify-between border-b border-white/20 pb-6">
               <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3">
                 <ShieldCheck className="w-3.5 h-3.5" /> Discovery Heatmap
               </h2>
@@ -660,7 +660,7 @@ export function AppPage() {
           </section>
 
           <section className="space-y-8">
-            <div className="flex items-center justify-between border-b border-white/5 pb-6">
+            <div className="flex items-center justify-between border-b border-white/20 pb-6">
               <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3">
                 <ShieldCheck className="w-3.5 h-3.5" /> Approval Queue
               </h2>
@@ -669,10 +669,10 @@ export function AppPage() {
 
             <div className="space-y-4">
               {mockTasks.filter(t => t.status === 'approval_required').map(task => (
-                <div key={task.id} className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex justify-between items-center hover:border-white/10 transition-all duration-500">
+                <div key={task.id} className="bg-white/[0.02] border border-white/20 rounded-2xl p-6 flex justify-between items-center hover:border-white/30 transition-all duration-500">
                   <div className="space-y-6">
                     <div className="flex items-center gap-4">
-                      <Badge variant="outline" className="bg-white/5 text-zinc-400 border-white/10 text-[9px] font-mono uppercase tracking-widest">
+                      <Badge variant="outline" className="bg-white/5 text-zinc-400 border-white/30 text-[9px] font-mono uppercase tracking-widest">
                         {task.status}
                       </Badge>
                       <span className="text-[9px] text-zinc-700 font-mono tracking-widest uppercase">{task.id}</span>
@@ -714,7 +714,7 @@ export function AppPage() {
           </section>
 
           <section className="space-y-8">
-            <div className="flex items-center justify-between border-b border-white/5 pb-6">
+            <div className="flex items-center justify-between border-b border-white/20 pb-6">
               <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3">
                 <History className="w-3.5 h-3.5" /> Agentic Settlement Log
               </h2>
@@ -732,15 +732,15 @@ export function AppPage() {
                   <Loader2 className="w-5 h-5 animate-spin text-zinc-800" />
                 </div>
               ) : intents.length === 0 ? (
-                <div className="text-center py-20 border border-dashed border-white/5 rounded-3xl">
+                <div className="text-center py-20 border border-dashed border-white/20 rounded-3xl">
                   <Terminal className="w-6 h-6 text-zinc-800 mx-auto mb-4" />
                   <p className="text-zinc-700 font-mono text-[9px] uppercase tracking-widest">Listening for on-chain events...</p>
                 </div>
               ) : (
                 intents.map((intent, i) => (
-                  <div key={i} className="bg-white/[0.01] border border-white/5 rounded-xl p-4 flex items-center justify-between group hover:border-white/10 transition-all duration-500">
+                  <div key={i} className="bg-white/[0.01] border border-white/20 rounded-xl p-4 flex items-center justify-between group hover:border-white/30 transition-all duration-500">
                     <div className="flex items-center gap-6">
-                      <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/30 flex items-center justify-center">
                         <intent.icon className="w-3.5 h-3.5 text-zinc-600" />
                       </div>
                       <div>
@@ -763,22 +763,22 @@ export function AppPage() {
 
         <div className="space-y-12">
           <section className="space-y-8">
-            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/5 pb-6">
+            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/20 pb-6">
               <KeyRound className="w-3.5 h-3.5" /> KMS Identity
             </h2>
             <div className="space-y-6">
-              <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-4">
+              <div className="bg-white/[0.02] border border-white/20 rounded-2xl p-6 space-y-4">
                 <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.2em]">Agent Public Key</div>
                 <div className="text-[9px] font-mono text-zinc-500 break-all leading-relaxed cursor-pointer hover:text-white transition-colors duration-500" onClick={() => window.open(walletExplorerUrl, "_blank")}>
                   {targetWalletText}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6">
+                <div className="bg-white/[0.02] border border-white/20 rounded-2xl p-6">
                   <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.2em] mb-2">Policy</div>
                   <div className="text-[10px] text-zinc-400 font-mono">STRICT</div>
                 </div>
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6">
+                <div className="bg-white/[0.02] border border-white/20 rounded-2xl p-6">
                   <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.2em] mb-2">Standard</div>
                   <div className="text-[10px] text-zinc-400 font-mono">X402</div>
                 </div>
@@ -787,7 +787,7 @@ export function AppPage() {
           </section>
 
           <section className="space-y-8">
-            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/5 pb-6">
+            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/20 pb-6">
               <ShieldCheck className="w-3.5 h-3.5" /> KMS Policy Gating
             </h2>
             <div className="space-y-4">
@@ -799,7 +799,7 @@ export function AppPage() {
           </section>
 
           <section className="space-y-8">
-            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/5 pb-6">
+            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/20 pb-6">
               <TrendingUp className="w-3.5 h-3.5" /> Market Context
             </h2>
             <div className="space-y-2">
@@ -814,24 +814,24 @@ export function AppPage() {
           </section>
 
           <section className="space-y-8">
-            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/5 pb-6">
+            <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3 border-b border-white/20 pb-6">
               <Terminal className="w-3.5 h-3.5" /> Overrides
             </h2>
             <div className="space-y-4">
               <button 
-                className="w-full bg-white/5 border border-white/5 text-zinc-500 hover:text-white hover:border-white/10 text-[9px] font-mono uppercase tracking-[0.2em] h-12 rounded-full transition-all duration-500"
+                className="w-full bg-white/5 border border-white/20 text-zinc-500 hover:text-white hover:border-white/30 text-[9px] font-mono uppercase tracking-[0.2em] h-12 rounded-full transition-all duration-500"
                 onClick={handleSimulateHeroFlow}
               >
                 Simulate Intent
               </button>
               <button 
-                className="w-full bg-white/5 border border-white/5 text-zinc-500 hover:text-white hover:border-white/10 text-[9px] font-mono uppercase tracking-[0.2em] h-12 rounded-full transition-all duration-500"
+                className="w-full bg-white/5 border border-white/20 text-zinc-500 hover:text-white hover:border-white/30 text-[9px] font-mono uppercase tracking-[0.2em] h-12 rounded-full transition-all duration-500"
                 onClick={handleForceRebalance}
               >
                 Force Rebalance
               </button>
               <button 
-                className="w-full bg-black border border-white/5 text-zinc-800 hover:text-zinc-600 text-[9px] font-mono uppercase tracking-[0.2em] h-12 rounded-full transition-all duration-500 mt-8"
+                className="w-full bg-black border border-white/20 text-zinc-800 hover:text-zinc-600 text-[9px] font-mono uppercase tracking-[0.2em] h-12 rounded-full transition-all duration-500 mt-8"
                 onClick={handleKillSwitch}
               >
                 Kill Switch
@@ -846,9 +846,9 @@ export function AppPage() {
 
 function StatCard({ label, value, subValue, icon: Icon }: { label: string, value: any, subValue: string, icon: any }) {
   return (
-    <div className="bg-white/[0.02] border border-white/5 p-8 rounded-[2rem] group hover:border-white/10 transition-all duration-500">
+    <div className="bg-white/[0.02] border border-white/20 p-8 rounded-[2rem] group hover:border-white/30 transition-all duration-500">
       <div className="flex justify-between items-start mb-8">
-        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center">
           <Icon className="w-4 h-4 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
         </div>
       </div>
@@ -863,7 +863,7 @@ function StatCard({ label, value, subValue, icon: Icon }: { label: string, value
 
 function MarketItem({ label, value }: { label: string, value: string }) {
   return (
-    <div className="flex justify-between items-center py-4 border-b border-white/5 last:border-none">
+    <div className="flex justify-between items-center py-4 border-b border-white/20 last:border-none">
       <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em]">{label}</span>
       <span className="text-[10px] font-mono text-zinc-400 tracking-widest">{value}</span>
     </div>
