@@ -60,13 +60,25 @@ const defaultSignals: Record<string, ArchiveCardSignal> = {
 const short = (text: string, max = 28) => (text.length > max ? `${text.slice(0, max - 3)}...` : text);
 
 export const fetchEcosystemSignals = async (): Promise<EcosystemSignalsResponse> => {
-  const response = await fetch(`${gatewayBaseUrl}/v1/market/signals`, {
-    headers: { Accept: "application/json" }
-  });
-  if (!response.ok) {
-    throw new Error(`market_signals_http_${response.status}`);
+  try {
+    const response = await fetch(`${gatewayBaseUrl}/v1/market/signals`, {
+      headers: { Accept: "application/json" }
+    });
+    if (!response.ok) {
+      throw new Error(`market_signals_http_${response.status}`);
+    }
+    return (await response.json()) as EcosystemSignalsResponse;
+  } catch (error) {
+    // Silently fallback if connection is refused or other network errors occur
+    console.warn("Backend unavailable, using fallback signals:", error instanceof Error ? error.message : String(error));
+    return {
+      feed: "ecosystem_intel",
+      layer: "public_ecosystem_signal",
+      stale: true,
+      cached_at: new Date().toISOString(),
+      items: []
+    };
   }
-  return (await response.json()) as EcosystemSignalsResponse;
 };
 
 export const buildArchiveSignalsMap = (items: EcosystemSignalItem[]) => {
