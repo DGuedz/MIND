@@ -37,7 +37,7 @@ function MetallicText({ children, className, progress }: { children: React.React
 }
 
 // Component to control video playback via scroll and mouse parallax at point zero
-function VideoScrollPlayer({ src, progress }: { src: string, progress: MotionValue<number> }) {
+function VideoScrollPlayer({ src, progress, className }: { src: string, progress: MotionValue<number>, className?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // Mouse movement tracking
@@ -98,7 +98,7 @@ function VideoScrollPlayer({ src, progress }: { src: string, progress: MotionVal
         scale,
         transformStyle: "preserve-3d"
       }}
-      className="relative w-full h-full flex items-center justify-center overflow-hidden"
+      className={`relative w-full h-full flex items-center justify-center overflow-hidden ${className || ''}`}
     >
       <video
         ref={videoRef}
@@ -106,11 +106,8 @@ function VideoScrollPlayer({ src, progress }: { src: string, progress: MotionVal
         muted
         playsInline
         preload="auto"
-        className="w-full h-full object-cover opacity-90 transition-opacity duration-1000"
+        className="w-full h-full object-cover"
       />
-      {/* Subtle overlay to blend with the background */}
-      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-zinc-950 pointer-events-none" />
     </motion.div>
   );
 }
@@ -978,41 +975,46 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="container mx-auto px-6 space-y-32 pb-32 pt-32">
+    <div className="space-y-32 pb-32 pt-32 bg-black">
       <ConnectAgentModal 
         isOpen={isConnectModalOpen} 
         onClose={() => setIsConnectModalOpen(false)} 
         onSuccess={() => {}}
       />
 
-      {/* Hero Section: Full Background Video Scroll */}
-      <section id="hero" ref={heroRef} className="relative h-[250vh] -mt-32">
-        <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-          {/* BACKGROUND VIDEO LAYER */}
-          <div className="absolute inset-0 z-0">
-            <VideoScrollPlayer src="/hero_scroll.mp4" progress={scrollYProgress} />
-          </div>
+      {/* Hero Section: Editorial Asymmetric Layout (9:16) */}
+      <section id="hero" ref={heroRef} className="relative h-[250vh] -mt-32 bg-black overflow-hidden">
+        <div className="sticky top-0 h-screen w-full flex items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full items-center">
+            
+            {/* LEFT COLUMN: VIDEO 9:16 (Editorial Premium) */}
+            <div className="lg:col-span-5 h-full relative bg-black flex items-center justify-start overflow-hidden">
+              <VideoScrollPlayer 
+                src="/banner_agentic_id.mp4" 
+                progress={scrollYProgress} 
+                className="w-full h-[90%] lg:h-full object-contain lg:object-left translate-x-[-10%] lg:translate-x-0"
+              />
+            </div>
 
-          {/* CONTENT LAYER */}
-          <div className="relative z-10 w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+            {/* RIGHT COLUMN: UNBOXED TYPOGRAPHY */}
+            <div className="lg:col-span-7 flex flex-col justify-center px-8 lg:px-24 py-24 gap-10 z-10">
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="flex flex-col gap-10"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="flex flex-col gap-10 max-w-2xl"
               >
                 <div className="space-y-8">
-                  <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
+                  <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm w-fit">
                     Settlement Rails
                   </Badge>
 
-                  <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] drop-shadow-2xl pb-4">
-                    <MetallicText progress={scrollYProgress}>The A2A Marketplace</MetallicText> <br />
-                    <MetallicText progress={scrollYProgress} className="italic font-light opacity-80 text-zinc-400">on Solana.</MetallicText>
+                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] text-white font-mono uppercase">
+                    <MetallicText progress={scrollYProgress}>GitHub is now</MetallicText> <br />
+                    <MetallicText progress={scrollYProgress} className="italic font-light opacity-60 text-zinc-400 text-4xl md:text-6xl lg:text-7xl">the A2A Protocol.</MetallicText>
                   </h1>
 
-                  <p className="text-xl text-zinc-300 leading-relaxed max-w-xl font-light drop-shadow-lg">
+                  <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-xl font-light">
                     Developers publish Agent Cards and earn 92% per execution. Agents discover, pay, and execute atomically.
                   </p>
 
@@ -1022,7 +1024,7 @@ export function HomePage() {
                       className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
                       onClick={() => setIsConnectModalOpen(true)}
                     >
-                      Request Agent Card
+                      Publish Agent Card
                     </Button>
                     <Button 
                       size="lg" 
@@ -1030,27 +1032,29 @@ export function HomePage() {
                       className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
                       onClick={() => navigate("/app")}
                     >
-                      Browse Marketplace
+                      Explore Registry
                     </Button>
                   </div>
                 </div>
               </motion.div>
-           <motion.div 
-                  className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  onClick={() => scrollToSection("process")}
-                >
-                  <span className="text-[10px] font-mono tracking-widest text-white/50 uppercase drop-shadow-md">Scroll Down</span>
-                  <ArrowDown className="w-5 h-5 text-white/50 drop-shadow-md" />
-                </motion.div>
-              </div>
             </div>
           </div>
+
+          {/* SCROLL INDICATOR */}
+          <motion.div 
+            className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            onClick={() => scrollToSection("process")}
+          >
+            <span className="text-[10px] font-mono tracking-widest text-white/30 uppercase">Scroll Down</span>
+            <ArrowDown className="w-4 h-4 text-white/30" />
+          </motion.div>
+        </div>
       </section>
 
       {/* NEW SECTION: Neural Bridge Discovery */}
-      <section id="neural-bridge" className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <section id="neural-bridge" className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <div className="space-y-10 order-2 lg:order-1">
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
             Discovery & Execution
@@ -1105,7 +1109,7 @@ export function HomePage() {
       </section>
 
       {/* Section 1: Curated Assemblages */}
-      <section id="marketplace" className="space-y-16">
+      <section id="marketplace" className="container mx-auto px-6 space-y-16">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-white/20 pb-12">
           <div className="space-y-4 max-w-2xl">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
@@ -1158,7 +1162,7 @@ export function HomePage() {
       </section>
 
       {/* Section 2: Architecture of Nature (Trust) */}
-      <section id="process" className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <section id="process" className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <div className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative">
           <EscrowFlowSVG />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
@@ -1197,7 +1201,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="builders" ref={buildersRef} className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <section id="builders" ref={buildersRef} className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <div className="space-y-10">
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
             Builders
@@ -1239,7 +1243,7 @@ export function HomePage() {
       </section>
 
       {/* Section 3: The Archives */}
-      <section className="space-y-16">
+      <section className="container mx-auto px-6 space-y-16">
         <div className="space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
             The <span className="italic font-light opacity-60">Archives.</span>
@@ -1269,7 +1273,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="github" className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/20 rounded-[3rem] p-10 md:p-14">
+      <section id="github" className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/20 rounded-[3rem] p-10 md:p-14">
         <div className="space-y-4 max-w-2xl">
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">Repository Access</div>
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">

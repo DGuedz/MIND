@@ -5,7 +5,9 @@ import { randomUUID } from "node:crypto";
 import { fetchCovalentContext } from "./adapters/covalent.js";
 import { checkDb, db } from "./db/client.js";
 import { marketContexts } from "./db/schema.js";
-import { getMarketContextById, listMarketContexts } from "./db/repository.js";
+import { getMarketContextById, listMarketContexts, listEcosystemSignals } from "./db/repository.js";
+import { runColosseumDeepDive } from "./skills/skill_colosseum_intel.js";
+import { runEcosystemIntelUpdate } from "./skills/skill_ecosystem_intel.js";
 
 const server = fastify({ logger: true });
 
@@ -70,7 +72,24 @@ server.post("/v1/market-context", async (request: FastifyRequest, reply: Fastify
   return reply.code(201).send({ status: "created", marketContext: parsed.data });
 });
 
-server.get("/v1/market-context", async (request: FastifyRequest, reply: FastifyReply) => {
+server.get("/v1/market/signals", async (request, reply) => {
+  const signals = await listEcosystemSignals(10);
+  return {
+    feed: "ecosystem_intel",
+    layer: "public_ecosystem_signal",
+    stale: signals.length === 0,
+    cached_at: new Date().toISOString(),
+    items: signals
+  };
+});
+
+server.post("/v1/market/signals/update", async (request, reply) => {
+  const { query } = request.body as { query?: string };
+  const signals = await runEcosystemIntelUpdate(query);
+  return { success: true, count: signals.length };
+});
+
+server.get("/v1/market/context", async (request, reply) => {
   const limitValue = Number((request.query as { limit?: string }).limit ?? "20");
   const limit = Number.isFinite(limitValue) ? Math.min(Math.max(limitValue, 1), 100) : 20;
   const contexts = await listMarketContexts(limit);

@@ -651,14 +651,15 @@ server.get("/v1/market/signals", async (_request: FastifyRequest, reply: Fastify
   });
 
   try {
-    if (marketSignalsFeedUrl) {
-      const response = await getJson<{ items?: EcosystemSignalItem[] }>(marketSignalsFeedUrl);
-      const payload = buildPayload(response.data?.items ?? [], false, "remote_feed");
+    const marketContextServiceUrl = process.env.MARKET_CONTEXT_SERVICE_URL ?? "http://localhost:3002";
+    const response = await getJson<{ items?: any[] }>(`${marketContextServiceUrl}/v1/market/signals`);
+    if (response.data?.items && response.data.items.length > 0) {
+      const payload = buildPayload(response.data.items as any[], false, "remote_feed");
       marketSignalsCache = { payload, expiresAt: now + marketSignalsCacheTtlMs };
       return reply.code(200).send(payload);
     }
   } catch (error) {
-    server.log.warn({ error: (error as Error).message }, "market signals feed unavailable, using fallback snapshot");
+    server.log.warn({ error: (error as Error).message }, "market signals service unavailable, using fallback snapshot");
   }
 
   const payload = buildPayload(

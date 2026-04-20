@@ -45,14 +45,24 @@
   }
 
   body {
-    @apply bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-500/30 selection:text-white;
+    background-color: rgb(9 9 11);
+    color: rgb(244 244 245);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv05", "cv11";
   }
 }
 
 @layer components {
   .metallic-reflect {
-    @apply relative overflow-hidden bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-400 to-white bg-[length:200%_auto] transition-all duration-700;
+    position: relative;
+    overflow: hidden;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, white, rgb(161 161 170), white);
+    background-size: 200% auto;
+    transition: all 0.7s;
   }
 
   .metallic-reflect:hover {
@@ -60,25 +70,36 @@
   }
 
   .premium-card {
-    @apply bg-zinc-900/40 backdrop-blur-2xl border border-white/[0.05] rounded-[2.5rem] transition-all duration-500;
+    background-color: rgba(24, 24, 27, 0.4);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 2.5rem;
+    transition: all 0.5s;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
 
   .premium-card:hover {
-    @apply border-white/[0.1] bg-zinc-900/60;
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(24, 24, 27, 0.6);
     box-shadow: 0 0 80px -20px rgba(148, 163, 184, 0.15);
   }
 
   .metallic-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-b from-zinc-100 via-zinc-400 to-zinc-600;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(to bottom, rgb(244 244 245), rgb(161 161 170), rgb(82 82 91));
   }
 
   .landing-container {
-    @apply min-h-screen bg-zinc-950;
+    min-h: 100vh;
+    background-color: rgb(9 9 11);
   }
 
   .main-stage {
-    @apply p-0 space-y-32;
+    padding: 0;
+    margin-bottom: 8rem;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -86,17 +107,23 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    background: transparent;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    transition: color 0.2s;
   }
 }
 
 /* Taste-Skill Primitives */
 .glass-panel {
-  @apply bg-white/[0.02] backdrop-blur-md border border-white/[0.05] rounded-3xl;
+  background-color: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1.5rem;
 }
 
 .metallic-border {

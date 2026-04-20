@@ -40,3 +40,26 @@ export async function logAuditDecision(
     console.error(`[AUDIT ERROR] Failed to write to audit log:`, error instanceof Error ? error.message : String(error));
   }
 }
+
+export async function logOpenClawProgressEvent(event: { action: string, details: string, status: string }) {
+  const PROGRESS_LOG_FILE = path.join(process.cwd(), "governance", "progress_log.json");
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    ...event
+  };
+
+  try {
+    let logs = [];
+    try {
+      const data = await fs.readFile(PROGRESS_LOG_FILE, "utf8");
+      logs = JSON.parse(data);
+    } catch (e) {}
+
+    logs.push(logEntry);
+    await fs.mkdir(path.dirname(PROGRESS_LOG_FILE), { recursive: true });
+    await fs.writeFile(PROGRESS_LOG_FILE, JSON.stringify(logs, null, 2), "utf8");
+    console.log(`[PROGRESS] ${event.action}: ${event.status}`);
+  } catch (error) {
+    console.error(`[PROGRESS ERROR] Failed to write to progress log:`, error instanceof Error ? error.message : String(error));
+  }
+}
