@@ -3,10 +3,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { ConnectAgentModal } from "../components/ConnectAgentModal";
 import { Badge } from "../components/ui/badge";
-import { motion, useMotionValue, useTransform, useSpring, useScroll, MotionValue, AnimatePresence, useInView } from "framer-motion";
+import { motion, useMotionValue, useTransform, MotionValue, AnimatePresence, useInView } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Zap, Loader2, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
-import { buildArchiveSignalsMap, fetchEcosystemSignals } from "../lib/ecosystemIntel";
 
 // Component for Metallic Reflective Text synced with Scroll
 function MetallicText({ children, className, progress }: { children: React.ReactNode, className?: string, progress?: MotionValue<number> }) {
@@ -33,82 +32,6 @@ function MetallicText({ children, className, progress }: { children: React.React
     >
       {children}
     </motion.span>
-  );
-}
-
-// Component to control video playback via scroll and mouse parallax at point zero
-function VideoScrollPlayer({ src, progress, className }: { src: string, progress: MotionValue<number>, className?: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  
-  // Mouse movement tracking
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  
-  // Spring for mouse smoothing
-  const mouseXSpring = useSpring(mouseX, { damping: 40, stiffness: 100 });
-  const mouseYSpring = useSpring(mouseY, { damping: 40, stiffness: 100 });
-
-  // Map mouse position to more pronounced rotation and translation
-  // Increased intensity to "follow" the mouse
-  const rotateX = useTransform(mouseYSpring, [0, 1], ["8deg", "-8deg"]);
-  const rotateY = useTransform(mouseXSpring, [0, 1], ["-8deg", "8deg"]);
-  const translateX = useTransform(mouseXSpring, [0, 1], ["-20px", "20px"]);
-  const translateY = useTransform(mouseYSpring, [0, 1], ["-20px", "20px"]);
-  
-  const scale = useTransform(progress, [0, 0.1], [1.1, 1]);
-  
-  // Keep the effect active throughout the entire hero scroll for better engagement
-  const mouseEffectOpacity = useTransform(progress, [0, 0.8], [1, 0.2]);
-
-  // Smooth out the scroll progress - Removed spring to avoid "back and forth" jitter on video.currentTime
-  // video.currentTime is very sensitive to precise values.
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Use a ref to track the last applied time to prevent "going backwards" if desired, 
-    // but usually for scroll-scrubbing, we want it to follow the scroll exactly.
-    // The "backwards" feeling the user mentioned is likely the useSpring overshoot/bounce.
-    const unsubscribe = progress.on("change", (v) => {
-      if (video.duration) {
-        video.currentTime = Number(v) * video.duration;
-      }
-    });
-
-    const handleMouseMove = (e: MouseEvent) => {
-      // Update mouse values regardless of scroll position for a continuous feeling
-      mouseX.set(e.clientX / window.innerWidth);
-      mouseY.set(e.clientY / window.innerHeight);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      unsubscribe();
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [progress]);
-
-  return (
-    <motion.div 
-      style={{ 
-        rotateX: useTransform(mouseEffectOpacity, (v) => `${Number(v) * parseFloat(rotateX.get() as string)}deg`),
-        rotateY: useTransform(mouseEffectOpacity, (v) => `${Number(v) * parseFloat(rotateY.get() as string)}deg`),
-        x: useTransform(mouseEffectOpacity, (v) => Number(v) * parseFloat(translateX.get() as string)),
-        y: useTransform(mouseEffectOpacity, (v) => Number(v) * parseFloat(translateY.get() as string)),
-        scale,
-        transformStyle: "preserve-3d"
-      }}
-      className={`relative w-full h-full flex items-center justify-center overflow-hidden ${className || ''}`}
-    >
-      <video
-        ref={videoRef}
-        src={src}
-        muted
-        playsInline
-        preload="auto"
-        className="w-full h-full object-cover"
-      />
-    </motion.div>
   );
 }
 
@@ -718,7 +641,7 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
 }
 
 // Archive Card SVGs
-function InstitutionalDeFiSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
+export function InstitutionalDeFiSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -751,7 +674,7 @@ function InstitutionalDeFiSVG({ isHovered, signal }: { isHovered: boolean; signa
   );
 }
 
-function DataMarketplaceSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
+export function DataMarketplaceSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -781,7 +704,7 @@ function DataMarketplaceSVG({ isHovered, signal }: { isHovered: boolean; signal?
   );
 }
 
-function CrossChainRoutingSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
+export function CrossChainRoutingSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -806,7 +729,7 @@ function CrossChainRoutingSVG({ isHovered, signal }: { isHovered: boolean; signa
   );
 }
 
-function YieldOptimizationSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
+export function YieldOptimizationSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -836,7 +759,7 @@ function YieldOptimizationSVG({ isHovered, signal }: { isHovered: boolean; signa
   );
 }
 
-function GovernanceSDKSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
+export function GovernanceSDKSVG({ isHovered, signal }: { isHovered: boolean; signal?: { line1: string; line2: string; line3: string } }) {
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <g opacity={isHovered ? 0.8 : 0.3} transform="translate(200, 150)">
@@ -860,7 +783,7 @@ function GovernanceSDKSVG({ isHovered, signal }: { isHovered: boolean; signal?: 
   );
 }
 
-function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave }: { 
+export function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave }: { 
   item: { title: string; span: string; render: (isActive: boolean) => React.ReactNode }, 
   index: number, 
   isHovered: boolean,
@@ -912,22 +835,201 @@ function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave }: {
 export function HomePage() {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [hoveredArchive, setHoveredArchive] = useState<number | null>(null);
-  const [archiveSignals, setArchiveSignals] = useState<Record<string, { line1: string; line2: string; line3: string }>>({});
+  const [isHeroReady, setIsHeroReady] = useState(false);
+  const [heroPinMode, setHeroPinMode] = useState<"before" | "pinned" | "after">("before");
   const navigate = useNavigate();
   const location = useLocation();
-  const heroRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const heroCanvasRef = useRef<HTMLCanvasElement>(null);
+  const heroFramesRef = useRef<HTMLImageElement[]>([]);
+  const heroRafRef = useRef<number | null>(null);
+  const heroLoopRafRef = useRef<number | null>(null);
+  const heroPendingFrameRef = useRef<number>(0);
+  const heroCurrentFrameRef = useRef<number>(-1);
+  const heroCtxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const heroPinModeRef = useRef<"before" | "pinned" | "after">("before");
   const buildersRef = useRef<HTMLDivElement>(null);
 
   // Builders Scroll Activation
   const isBuildersInView = useInView(buildersRef, { amount: 0.4 });
 
+  const heroProgress = useMotionValue(0);
+  const heroCopyOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
 
-  // Track scroll progress of just the hero section
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
+  useEffect(() => {
+    const heroEl = heroRef.current;
+    const canvas = heroCanvasRef.current;
+    if (!heroEl || !canvas) return;
+
+    let alive = true;
+    setIsHeroReady(false);
+
+    const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const N = 120;
+    const path = (i: number) =>
+      `/frames/reverse_mind_solana_core_v2/frame_${String(i).padStart(4, "0")}.jpg`;
+
+    heroFramesRef.current = new Array(N);
+    heroPendingFrameRef.current = 0;
+    heroCurrentFrameRef.current = -1;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    heroCtxRef.current = ctx;
+
+    const drawContain = (img: HTMLImageElement) => {
+      const cw = canvas.clientWidth;
+      const ch = canvas.clientHeight;
+      if (cw <= 0 || ch <= 0) return;
+
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      if (iw <= 0 || ih <= 0) return;
+
+      ctx.clearRect(0, 0, cw, ch);
+      const scale = Math.min(cw / iw, ch / ih);
+      const dw = iw * scale;
+      const dh = ih * scale;
+      const dx = (cw - dw) / 2;
+      const dy = (ch - dh) / 2;
+      ctx.drawImage(img, dx, dy, dw, dh);
+    };
+
+    const draw = (idx: number, force = false) => {
+      idx = clamp(idx, 0, N - 1);
+      if (!force && idx === heroCurrentFrameRef.current) return;
+
+      const frames = heroFramesRef.current;
+      const img = frames[idx];
+      if (img?.complete && img.naturalWidth) {
+        drawContain(img);
+        heroCurrentFrameRef.current = idx;
+        return;
+      }
+
+      for (let d = 1; d < N; d++) {
+        const a = idx - d >= 0 ? frames[idx - d] : undefined;
+        const b = idx + d < N ? frames[idx + d] : undefined;
+        if (a?.complete && a.naturalWidth) {
+          drawContain(a);
+          heroCurrentFrameRef.current = idx;
+          return;
+        }
+        if (b?.complete && b.naturalWidth) {
+          drawContain(b);
+          heroCurrentFrameRef.current = idx;
+          return;
+        }
+      }
+    };
+
+    const resize = () => {
+      measure();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, Math.floor(canvas.clientWidth * dpr));
+      const h = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+      if (canvas.width !== w) canvas.width = w;
+      if (canvas.height !== h) canvas.height = h;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw(heroCurrentFrameRef.current < 0 ? 0 : heroCurrentFrameRef.current, true);
+    };
+
+    let startY = 0;
+    let endY = 1;
+    const measure = () => {
+      const rect = heroEl.getBoundingClientRect();
+      startY = window.scrollY + rect.top;
+      endY = startY + heroEl.offsetHeight - window.innerHeight;
+    };
+
+    const computeProgress = () => {
+      const total = Math.max(1, endY - startY);
+      return clamp((window.scrollY - startY) / total, 0, 1);
+    };
+
+    const loadFrame = (i: number) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = path(i + 1);
+      img.onload = () => {
+        if (!alive) return;
+        if (i === 0) {
+          setIsHeroReady(true);
+          resize();
+          draw(0, true);
+        }
+        if (i === heroPendingFrameRef.current) {
+          draw(i, true);
+        }
+      };
+      heroFramesRef.current[i] = img;
+    };
+
+    if (prefersReducedMotion) {
+      loadFrame(0);
+      window.addEventListener("resize", resize);
+      resize();
+      return () => {
+        alive = false;
+        window.removeEventListener("resize", resize);
+      };
+    }
+
+    const order: number[] = [];
+    const seen = new Array(N).fill(false);
+    const push = (i: number) => {
+      if (i < 0 || i >= N) return;
+      if (seen[i]) return;
+      seen[i] = true;
+      order.push(i);
+    };
+    push(0);
+    for (let step = N >> 1; step >= 1; step >>= 1) {
+      for (let i = step; i < N; i += step) push(i);
+    }
+    order.forEach(loadFrame);
+
+    window.addEventListener("resize", resize);
+    resize();
+    const tick = () => {
+      if (!alive) return;
+      const y = window.scrollY;
+      let nextMode: "before" | "pinned" | "after" = "before";
+      if (y < startY) nextMode = "before";
+      else if (y > endY) nextMode = "after";
+      else nextMode = "pinned";
+      if (nextMode !== heroPinModeRef.current) {
+        heroPinModeRef.current = nextMode;
+        setHeroPinMode(nextMode);
+      }
+
+      const p = computeProgress();
+      heroProgress.set(p);
+      const idx = Math.round(p * (N - 1));
+      heroPendingFrameRef.current = idx;
+      draw(idx);
+      heroLoopRafRef.current = requestAnimationFrame(tick);
+    };
+    heroLoopRafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      alive = false;
+      window.removeEventListener("resize", resize);
+      if (heroRafRef.current != null) {
+        cancelAnimationFrame(heroRafRef.current);
+        heroRafRef.current = null;
+      }
+      if (heroLoopRafRef.current != null) {
+        cancelAnimationFrame(heroLoopRafRef.current);
+        heroLoopRafRef.current = null;
+      }
+    };
+  }, [heroProgress]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -949,33 +1051,8 @@ export function HomePage() {
     scrollToSection(hash);
   }, [location.hash]);
 
-  useEffect(() => {
-    let active = true;
-
-    const hydrateSignals = async () => {
-      try {
-        const payload = await fetchEcosystemSignals();
-        if (!active) return;
-        setArchiveSignals(buildArchiveSignalsMap(payload.items));
-      } catch {
-        if (!active) return;
-        setArchiveSignals(buildArchiveSignalsMap([]));
-      }
-    };
-
-    void hydrateSignals();
-    const interval = window.setInterval(() => {
-      void hydrateSignals();
-    }, 30_000);
-
-    return () => {
-      active = false;
-      window.clearInterval(interval);
-    };
-  }, []);
-
   return (
-    <div className="space-y-32 pb-32 pt-32 bg-black">
+    <div className="pb-32 pt-32 bg-black">
       <ConnectAgentModal 
         isOpen={isConnectModalOpen} 
         onClose={() => setIsConnectModalOpen(false)} 
@@ -983,64 +1060,68 @@ export function HomePage() {
       />
 
       {/* Hero Section: Editorial Asymmetric Layout (9:16) */}
-      <section id="hero" ref={heroRef} className="relative h-[250vh] -mt-32 bg-black overflow-hidden">
-        <div className="sticky top-0 h-screen w-full flex items-center">
-          <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full items-center">
-            
-            {/* LEFT COLUMN: VIDEO 9:16 (Editorial Premium) */}
-            <div className="lg:col-span-5 h-full relative bg-black flex items-center justify-start overflow-hidden">
-              <VideoScrollPlayer 
-                src="/banner_agentic_id.mp4" 
-                progress={scrollYProgress} 
-                className="w-full h-[90%] lg:h-full object-contain lg:object-left translate-x-[-10%] lg:translate-x-0"
-              />
-            </div>
-
-            {/* RIGHT COLUMN: UNBOXED TYPOGRAPHY */}
-            <div className="lg:col-span-7 flex flex-col justify-center px-8 lg:px-24 py-24 gap-10 z-10">
+      <section
+        id="hero"
+        ref={heroRef}
+        className="relative -mt-32 bg-black h-[400vh]"
+      >
+        <div className={`${heroPinMode === "pinned" ? "fixed top-0 left-0 right-0" : heroPinMode === "after" ? "absolute bottom-0 left-0 right-0" : "absolute top-0 left-0 right-0"} h-screen w-full bg-black flex items-center justify-center pt-20 relative z-20`}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full items-center max-w-7xl mx-auto px-6 lg:px-8 gap-12 relative z-20">
+            <div className="order-2 lg:order-1 lg:col-span-6 flex flex-col justify-center h-full py-10 lg:py-0">
               <motion.div 
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="flex flex-col gap-10 max-w-2xl"
+                className="max-w-xl space-y-10"
+                style={{ opacity: heroCopyOpacity }}
               >
-                <div className="space-y-8">
+                <div className="space-y-4">
                   <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm w-fit">
-                    Settlement Rails
+                    Solana-First Rails
                   </Badge>
 
                   <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] text-white font-mono uppercase">
-                    <MetallicText progress={scrollYProgress}>GitHub is now</MetallicText> <br />
-                    <MetallicText progress={scrollYProgress} className="italic font-light opacity-60 text-zinc-400 text-4xl md:text-6xl lg:text-7xl">the A2A Protocol.</MetallicText>
+                    <MetallicText progress={heroProgress}>Solana is now</MetallicText> <br />
+                    <MetallicText progress={heroProgress} className="italic font-light opacity-60 text-zinc-400 text-4xl md:text-6xl lg:text-7xl">the A2A Settlement Layer.</MetallicText>
                   </h1>
+                </div>
 
-                  <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-xl font-light">
-                    Developers publish Agent Cards and earn 92% per execution. Agents discover, pay, and execute atomically.
-                  </p>
+                <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-xl font-light">
+                  Builders publish Agent Cards with policy-gated execution and proof-native delivery. Agents discover skills, consume market signals, and settle atomically with a 92/8 split.
+                </p>
 
-                  <div className="flex flex-col sm:flex-row gap-6 pt-4">
-                    <Button 
-                      size="lg" 
-                      className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-                      onClick={() => setIsConnectModalOpen(true)}
-                    >
-                      Publish Agent Card
-                    </Button>
-                    <Button 
-                      size="lg" 
-                      variant="outline" 
-                      className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
-                      onClick={() => navigate("/app")}
-                    >
-                      Explore Registry
-                    </Button>
-                  </div>
+                <div className="flex flex-col sm:flex-row gap-6 pt-4">
+                  <Button 
+                    size="lg" 
+                    className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
+                    onClick={() => setIsConnectModalOpen(true)}
+                  >
+                    Publish Agent Card
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
+                    onClick={() => navigate("/app")}
+                  >
+                    Explore Registry
+                  </Button>
                 </div>
               </motion.div>
             </div>
+
+            <div className="order-1 lg:order-2 lg:col-span-6 flex items-center justify-center lg:justify-end">
+              <div className="relative w-full max-w-2xl">
+                <div className="relative w-full overflow-hidden" style={{ height: "clamp(360px, 52vh, 720px)" }}>
+                  <canvas ref={heroCanvasRef} className="absolute inset-0 w-full h-full" />
+                  <div className={`absolute inset-0 z-10 flex items-center justify-center bg-black transition-opacity duration-700 ${isHeroReady ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
+                    <span className="text-[10px] font-mono tracking-widest text-white/30 uppercase">Loading Frames</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* SCROLL INDICATOR */}
           <motion.div 
             className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
             animate={{ y: [0, 10, 0] }}
@@ -1054,7 +1135,7 @@ export function HomePage() {
       </section>
 
       {/* NEW SECTION: Neural Bridge Discovery */}
-      <section id="neural-bridge" className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <section id="neural-bridge" className="relative z-20 bg-black container mx-auto px-6 pt-16 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <div className="space-y-10 order-2 lg:order-1">
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
             Discovery & Execution
@@ -1109,7 +1190,7 @@ export function HomePage() {
       </section>
 
       {/* Section 1: Curated Assemblages */}
-      <section id="marketplace" className="container mx-auto px-6 space-y-16">
+      <section id="marketplace" className="container mx-auto px-6 mt-16 space-y-16">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-white/20 pb-12">
           <div className="space-y-4 max-w-2xl">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
@@ -1162,7 +1243,7 @@ export function HomePage() {
       </section>
 
       {/* Section 2: Architecture of Nature (Trust) */}
-      <section id="process" className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <section id="process" className="container mx-auto px-6 mt-16 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <div className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative">
           <EscrowFlowSVG />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
@@ -1201,7 +1282,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="builders" ref={buildersRef} className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <section id="builders" ref={buildersRef} className="container mx-auto px-6 mt-32 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <div className="space-y-10">
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
             Builders
@@ -1242,38 +1323,9 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Section 3: The Archives */}
-      <section className="container mx-auto px-6 space-y-16">
-        <div className="space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-            The <span className="italic font-light opacity-60">Archives.</span>
-          </h2>
-          <p className="text-zinc-500 leading-relaxed font-light">
-            Explore our categorical studies in agentic architecture and protocol governance.
-          </p>
-        </div>
+      {/* Section 3: The Archives - Removed as signals moved to Hero */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { title: "Institutional DeFi", span: "lg:col-span-2", render: (isActive: boolean) => <InstitutionalDeFiSVG isHovered={isActive} signal={archiveSignals["Institutional DeFi"]} /> },
-            { title: "Data Marketplace", span: "", render: (isActive: boolean) => <DataMarketplaceSVG isHovered={isActive} signal={archiveSignals["Data Marketplace"]} /> },
-            { title: "Cross-Chain Routing", span: "", render: (isActive: boolean) => <CrossChainRoutingSVG isHovered={isActive} signal={archiveSignals["Cross-Chain Routing"]} /> },
-            { title: "Yield Optimization", span: "", render: (isActive: boolean) => <YieldOptimizationSVG isHovered={isActive} signal={archiveSignals["Yield Optimization"]} /> },
-            { title: "Governance SDK", span: "", render: (isActive: boolean) => <GovernanceSDKSVG isHovered={isActive} signal={archiveSignals["Governance SDK"]} /> }
-          ].map((item, i) => (
-            <ArchiveCard 
-              key={i}
-              item={item}
-              index={i}
-              isHovered={hoveredArchive === i}
-              onMouseEnter={() => setHoveredArchive(i)}
-              onMouseLeave={() => setHoveredArchive(null)}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section id="github" className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/20 rounded-[3rem] p-10 md:p-14">
+      <section id="github" className="container mx-auto px-6 mt-32 flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/20 rounded-[3rem] p-10 md:p-14">
         <div className="space-y-4 max-w-2xl">
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">Repository Access</div>
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
