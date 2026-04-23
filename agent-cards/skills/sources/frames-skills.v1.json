@@ -1,0 +1,17 @@
+{
+  "source": {
+    "name": "frames.ag (AgentWallet)",
+    "url": "https://frames.ag/skill.md",
+    "license": "UNSPECIFIED",
+    "description": "AgentWallet: server wallets para agentes com signing server-side, policies e proxy de pagamentos x402 (fetch).",
+    "ingestedAt": "2026-04-22T00:00:00Z"
+  },
+  "skills": [
+    {
+      "name": "agentwallet",
+      "category": "infrastructure",
+      "description": "Wallets para agentes com signing server-side e policies. Inclui x402/fetch (one-step payment proxy) para pagar e chamar APIs com retry e dedupe.",
+      "repoPath": ".agents/skills/agentwallet/SKILL.md"
+    }
+  ]
+}

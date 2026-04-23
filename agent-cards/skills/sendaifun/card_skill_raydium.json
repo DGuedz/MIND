@@ -1,0 +1,94 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "raydium (Skill)",
+    "version": "1.0.0",
+    "description": "AMM pools, CLMM, CPMM, LaunchLab token launches",
+    "tags": [
+      "solana",
+      "agent-skill",
+      "sendaifun",
+      "defi",
+      "raydium"
+    ],
+    "license": "Apache-2.0",
+    "author": {
+      "name": "SendAI",
+      "contact": "https://github.com/sendaifun/skills"
+    }
+  },
+  "discovery": {
+    "intent": "api_integration",
+    "category": "finance",
+    "keywords": [
+      "solana",
+      "agent-skill",
+      "sendaifun",
+      "defi",
+      "raydium"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "skill_name",
+          "type": "string",
+          "description": "Nome da skill"
+        },
+        {
+          "name": "installation",
+          "type": "string",
+          "description": "Instrucoes de instalacao/ativacao"
+        },
+        {
+          "name": "usage",
+          "type": "string",
+          "description": "Como acionar a skill no agente"
+        }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.75
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/sendaifun/skills",
+      "metadata": "https://github.com/sendaifun/skills",
+      "data": "https://github.com/sendaifun/skills"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "sendaifun/skills",
+    "createdAt": "2026-04-22T19:29:42.305Z",
+    "updatedAt": "2026-04-22T19:29:42.305Z",
+    "signature": "unsigned"
+  },
+  "skill": {
+    "source_url": "https://github.com/sendaifun/skills",
+    "repo_path": null,
+    "install": [
+      "/plugin marketplace add sendaifun/skills",
+      "/plugin install raydium",
+      "npx skills add sendaifun/skills"
+    ]
+  }
+}

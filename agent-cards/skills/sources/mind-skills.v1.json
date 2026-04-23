@@ -1,0 +1,35 @@
+{
+  "source": {
+    "name": "MIND/.agents/skills",
+    "url": "https://github.com/DGuedz/MIND",
+    "license": "Proprietary",
+    "description": "Skills internas do repositório MIND (estrutura .agents/skills).",
+    "ingestedAt": "2026-04-21T00:00:00Z"
+  },
+  "skills": [
+    {
+      "name": "kuka",
+      "category": "education",
+      "description": "Mentor Solana com analogias TradFi e didatica direta (termos, quiz, learning path, walkthrough).",
+      "repoPath": ".agents/skills/kuka/SKILL.md"
+    },
+    {
+      "name": "solana-defi-ecosystem-intel",
+      "category": "ecosystem-intelligence",
+      "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
+      "repoPath": ".agents/skills/solana-defi-ecosystem-intel/SKILL.md"
+    },
+    {
+      "name": "colosseum-copilot",
+      "category": "ecosystem-intelligence",
+      "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
+      "repoPath": ".agents/skills/colosseum-copilot/SKILL.md"
+    },
+    {
+      "name": "render-validation-expert",
+      "category": "qa-design",
+      "description": "Auditoria visual e correcoes de bugs de renderizacao no localhost (Vite/React e Next.js).",
+      "repoPath": ".agents/skills/render-validation-expert/SKILL.md"
+    }
+  ]
+}
