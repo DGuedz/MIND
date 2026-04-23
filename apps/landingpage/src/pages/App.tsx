@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Lock, Terminal, Loader2, KeyRound, ArrowRightLeft, History, Coins, Activity, TrendingUp, ShieldCheck, Bot, ArrowUpRight } from "lucide-react";
+import { Lock, Terminal, Loader2, KeyRound, ArrowRightLeft, History, Coins, Activity, TrendingUp, ShieldCheck, Bot, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
@@ -405,6 +405,120 @@ function PolicyItem({ label, value, status }: { label: string, value: string, st
         <div className="text-xs font-mono text-zinc-300">{value}</div>
       </div>
       <Badge variant="outline" className="border-zinc-800 text-zinc-600 text-[7px] uppercase tracking-widest">{status}</Badge>
+    </div>
+  );
+}
+
+// NOVO COMPONENTE: AgenticID Card (Inspirado na UI Brutalista/Metaplex)
+function AgenticIDCard({ wallet }: { wallet: string }) {
+  return (
+    <div className="bg-[#050505] border border-white/10 rounded-3xl p-6 md:p-8 relative overflow-hidden group col-span-1 lg:col-span-3 mb-12 shadow-2xl flex flex-col md:flex-row gap-8 items-stretch">
+      {/* Background Glows */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-white/[0.02] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
+
+      {/* Decorative Neural Head Placeholder (Left Side) */}
+      <div className="hidden md:flex flex-col items-center justify-center w-48 shrink-0 relative">
+        <div className="w-full h-full absolute inset-0 border border-white/5 rounded-2xl bg-black/50 flex items-center justify-center overflow-hidden">
+           {/* Abstract Neural Lines */}
+           <svg width="100%" height="100%" viewBox="0 0 100 100" className="opacity-20">
+             {Array.from({length: 10}).map((_, i) => (
+               <ellipse key={i} cx="50" cy="50" rx={20 + i*3} ry={30 + i*4} fill="none" stroke="#fff" strokeWidth="0.2" transform={`rotate(${i * 15} 50 50)`} />
+             ))}
+           </svg>
+           <div className="absolute font-mono text-xs text-white tracking-[0.4em] opacity-80">MIND</div>
+        </div>
+        <div className="absolute left-[-2rem] top-1/2 -translate-y-1/2 -rotate-90 text-[6px] font-mono text-zinc-600 tracking-[0.4em] uppercase whitespace-nowrap">
+          MIND PROTOCOL \ NEURAL RAILS FOR THE AGENTIC ECONOMY
+        </div>
+      </div>
+
+      {/* Main Info Section */}
+      <div className="flex-1 flex flex-col justify-between relative z-10 space-y-6">
+        
+        {/* Header */}
+        <div className="flex justify-between items-start">
+          <div className="space-y-1">
+            <h2 className="text-3xl md:text-5xl font-medium tracking-tight text-white">AgenticID</h2>
+            <div className="text-[10px] font-mono text-green-500/80 uppercase tracking-[0.2em]">ON-CHAIN AGENT IDENTITY</div>
+          </div>
+          <div className="text-right space-y-1">
+             <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">POWERED BY</div>
+             <div className="text-sm font-bold text-white tracking-widest flex items-center justify-end gap-2">
+               MIND PROTOCOL <span className="text-zinc-700">|</span> METAPLEX
+             </div>
+          </div>
+        </div>
+
+        {/* Public Key Plate */}
+        <div className="bg-black/60 border border-white/10 rounded-xl p-4 flex justify-between items-center">
+          <div className="space-y-1">
+            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">AGENT PUBLIC KEY</div>
+            <div className="text-sm font-mono text-zinc-300 break-all">{wallet}</div>
+          </div>
+          <button className="text-zinc-500 hover:text-white transition-colors p-2 bg-white/5 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          </button>
+        </div>
+
+        {/* Metadata Grid */}
+        <div className="grid grid-cols-2 gap-4 border-b border-white/5 pb-6">
+          <div className="space-y-1">
+            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">AGENT TYPE</div>
+            <div className="text-sm font-mono text-zinc-300">AUTONOMOUS</div>
+          </div>
+          <div className="space-y-1">
+            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">CREATED</div>
+            <div className="text-sm font-mono text-zinc-300">2026-04-22 19:29:42Z</div>
+          </div>
+          <div className="space-y-1">
+            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">NETWORK</div>
+            <div className="text-sm font-mono text-zinc-300 flex items-center gap-2">
+               <span className="w-3 h-3 rounded-full bg-gradient-to-tr from-purple-500 to-green-500"></span> SOLANA
+            </div>
+          </div>
+          <div className="space-y-1">
+            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">STANDARD</div>
+            <div className="text-sm font-mono text-zinc-300">METAPLEX CORE</div>
+          </div>
+          <div className="space-y-1">
+            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">STATUS</div>
+            <div className="text-sm font-mono text-green-500 flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3" /> ACTIVE
+            </div>
+          </div>
+          <div className="space-y-1">
+            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">TIER</div>
+            <div className="text-sm font-mono text-zinc-300">TIER 2 PRO</div>
+          </div>
+        </div>
+
+        {/* Capabilities */}
+        <div className="space-y-3">
+           <div className="text-[8px] font-mono text-green-500/80 uppercase tracking-[0.2em]">CAPABILITIES</div>
+           <div className="flex flex-wrap gap-2">
+             {["INTENT EXECUTION", "CAPITAL MANAGEMENT", "A2A COMMUNICATION", "DATA VERIFICATION", "X402 PAYMENTS", "COMPLIANCE NATIVE"].map((tag) => (
+               <div key={tag} className="px-2 py-1 rounded bg-white/5 border border-white/10 text-[8px] font-mono text-zinc-400 tracking-widest">{tag}</div>
+             ))}
+           </div>
+        </div>
+
+        {/* Bottom Status Row */}
+        <div className="flex justify-between items-center pt-4 border-t border-white/5">
+           <div className="flex items-center gap-2">
+             <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">VERIFICATION</div>
+             <div className="text-[9px] font-mono text-green-500 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> ON-CHAIN VERIFIED</div>
+           </div>
+           <div className="flex items-center gap-2">
+             <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">POLICY GATING</div>
+             <div className="text-[9px] font-mono text-zinc-300 flex items-center gap-1"><Lock className="w-3 h-3 text-zinc-500" /> ENABLED</div>
+           </div>
+           <div className="flex items-center gap-2">
+             <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">ZERO TRUST</div>
+             <div className="text-[9px] font-mono text-zinc-300 flex items-center gap-1"><ShieldCheck className="w-3 h-3 text-zinc-500" /> ENFORCED</div>
+           </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -857,9 +971,9 @@ export function AppPage() {
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/20 pb-12">
         <div className="space-y-4">
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[9px] tracking-[0.3em] px-4 py-1">
-            Agentic GDP Marketplace
+            Agent Headquarters
           </Badge>
-          <h1 className="text-4xl font-bold text-white tracking-tight uppercase font-mono">Discover.</h1>
+          <h1 className="text-4xl font-bold text-white tracking-tight uppercase font-mono">Command Center.</h1>
         </div>
         
         <div className="flex items-center gap-6">
@@ -869,6 +983,9 @@ export function AppPage() {
           </div>
         </div>
       </header>
+
+      {/* AgenticID Card */}
+      <AgenticIDCard wallet={targetWalletText} />
 
       <section className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
