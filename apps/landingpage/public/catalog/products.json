@@ -1,0 +1,71 @@
+{
+  "as_of": "2026-04-21T00:00:00Z",
+  "items": [
+    {
+      "id": "card_price_feed_sol",
+      "kind": "product",
+      "name": "High-Freq Price Feed Oracle",
+      "description": "Agente oráculo que fornece cotações de alta frequência (sub-second) para pares Solana DeFi (SOL/USDC, JUP/USDC, etc). Ideal para MEV bots e arbitrageurs.",
+      "source": "mind",
+      "category": "oracle",
+      "license": "Proprietary",
+      "tags": ["oracle", "price-feed", "defi"],
+      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.005 }
+    },
+    {
+      "id": "card_signal_premium",
+      "kind": "product",
+      "name": "Whale Movement Signal",
+      "description": "Detecta movimentos >$500k em DEXes e CEXes depositando/retirando SPL Tokens. Sinal premium para fundos autônomos. Acesso restrito a chamadas pagas.",
+      "source": "mind",
+      "category": "signals",
+      "license": "Proprietary",
+      "tags": ["alpha", "signals", "whales"],
+      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.05 }
+    },
+    {
+      "id": "card_jupiter_route",
+      "kind": "product",
+      "name": "Smart Swap Router (Jupiter-backed)",
+      "description": "Calcula a rota mais eficiente de swap usando liquidez profunda da Solana. Retorna transação montada pronta para assinatura pelo seu Agente.",
+      "source": "mind",
+      "category": "execution",
+      "license": "Proprietary",
+      "tags": ["swap", "routing", "jupiter", "defi"],
+      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.009 }
+    },
+    {
+      "id": "mind_autonomous_execution_engine",
+      "kind": "product",
+      "name": "MIND Autonomous Execution Engine",
+      "description": "Motor de execução autônoma com zero latência para trades algorítmicos e liquidações atômicas em Solana",
+      "source": "mind",
+      "category": "orchestration",
+      "license": "Apache-2.0",
+      "tags": ["autonomous", "trading", "execution", "solana", "defi"],
+      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.05 }
+    },
+    {
+      "id": "mind_market_intelligence_api",
+      "kind": "product",
+      "name": "MIND Market Intelligence API",
+      "description": "Inteligência de mercado em tempo real com dados de 5.400+ projetos Solana e pesquisa Colosseum Copilot",
+      "source": "mind",
+      "category": "data-analysis",
+      "license": "Apache-2.0",
+      "tags": ["market", "intelligence", "research", "solana", "analytics"],
+      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.02 }
+    },
+    {
+      "id": "mind_autonomous_risk_scoring_engine",
+      "kind": "product",
+      "name": "MIND Autonomous Risk Scoring Engine",
+      "description": "Sistema de scoring de risco em tempo real para operações autônomas com machine learning e análise preditiva",
+      "source": "mind",
+      "category": "risk",
+      "license": "Apache-2.0",
+      "tags": ["risk", "scoring", "defi", "security", "compliance"],
+      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.03 }
+    }
+  ]
+}

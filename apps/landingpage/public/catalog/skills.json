@@ -1,0 +1,168 @@
+{
+  "as_of": "2026-04-22T00:00:00Z",
+  "items": [
+    {
+      "id": "skill_jupiter",
+      "kind": "skill",
+      "name": "jupiter",
+      "description": "Ultra swaps, limit orders, DCA, perpetuals, lending, and token APIs",
+      "source": "sendaifun",
+      "category": "defi",
+      "license": "Apache-2.0",
+      "tags": ["solana", "defi", "swaps", "orders", "dca", "perps", "lending"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install jupiter", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_glam",
+      "kind": "skill",
+      "name": "glam",
+      "description": "Tokenized vaults, DeFi integrations (Jupiter, Kamino), staking, asset management",
+      "source": "sendaifun",
+      "category": "defi",
+      "license": "Apache-2.0",
+      "tags": ["solana", "defi", "vaults", "staking", "asset-management"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install glam", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_kamino",
+      "kind": "skill",
+      "name": "kamino",
+      "description": "Lending, borrowing, liquidity management, leverage trading",
+      "source": "sendaifun",
+      "category": "defi",
+      "license": "Apache-2.0",
+      "tags": ["solana", "defi", "lending", "borrowing", "leverage"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install kamino", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_meteora",
+      "kind": "skill",
+      "name": "meteora",
+      "description": "DLMM, DAMM pools, bonding curves, Alpha Vaults",
+      "source": "sendaifun",
+      "category": "defi",
+      "license": "Apache-2.0",
+      "tags": ["solana", "defi", "amm", "dlmm", "vaults"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install meteora", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_orca",
+      "kind": "skill",
+      "name": "orca",
+      "description": "Whirlpools concentrated liquidity AMM, swaps, positions",
+      "source": "sendaifun",
+      "category": "defi",
+      "license": "Apache-2.0",
+      "tags": ["solana", "defi", "clmm", "amm", "swaps"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install orca", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_marginfi",
+      "kind": "skill",
+      "name": "marginfi",
+      "description": "Lending, borrowing, leveraged positions (looping) and flash loans",
+      "source": "sendaifun",
+      "category": "defi",
+      "license": "Apache-2.0",
+      "tags": ["solana", "defi", "lending", "flash-loans"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install marginfi", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_helius",
+      "kind": "skill",
+      "name": "helius",
+      "description": "RPC, DAS API, webhooks, priority fees, LaserStream gRPC",
+      "source": "sendaifun",
+      "category": "infrastructure",
+      "license": "Apache-2.0",
+      "tags": ["solana", "rpc", "das", "webhooks", "priority-fees"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install helius", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_squads",
+      "kind": "skill",
+      "name": "squads",
+      "description": "Multisig wallets, smart accounts, account abstraction",
+      "source": "sendaifun",
+      "category": "infrastructure",
+      "license": "Apache-2.0",
+      "tags": ["solana", "multisig", "governance", "smart-accounts"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install squads", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_metaplex",
+      "kind": "skill",
+      "name": "metaplex",
+      "description": "Core, Token Metadata, Bubblegum, Candy Machine, Umi framework",
+      "source": "sendaifun",
+      "category": "nft-tokens",
+      "license": "Apache-2.0",
+      "tags": ["solana", "nft", "metaplex", "core", "bubblegum"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install metaplex", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_vulnhunter",
+      "kind": "skill",
+      "name": "vulnhunter",
+      "description": "Vulnerability detection, dangerous API hunting, variant analysis",
+      "source": "sendaifun",
+      "category": "security",
+      "license": "Apache-2.0",
+      "tags": ["security", "audit", "static-analysis"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install vulnhunter", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_code_recon",
+      "kind": "skill",
+      "name": "code-recon",
+      "description": "Deep architectural context building for security audits",
+      "source": "sendaifun",
+      "category": "security",
+      "license": "Apache-2.0",
+      "tags": ["security", "audit", "architecture"],
+      "install": ["/plugin marketplace add sendaifun/skills", "/plugin install code-recon", "npx skills add sendaifun/skills"]
+    },
+    {
+      "id": "skill_kuka",
+      "kind": "skill",
+      "name": "kuka",
+      "description": "Mentor Solana com analogias TradFi e didatica direta (termos, quiz, learning path, walkthrough).",
+      "source": "mind",
+      "category": "education",
+      "license": "Proprietary",
+      "tags": ["solana", "education", "anchor", "pda", "cpi"]
+    },
+    {
+      "id": "skill_solana_defi_ecosystem_intel",
+      "kind": "skill",
+      "name": "solana-defi-ecosystem-intel",
+      "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi com taxonomias e regras anti-alucinacao.",
+      "source": "mind",
+      "category": "ecosystem-intelligence",
+      "license": "Proprietary",
+      "tags": ["solana", "defi", "intel", "firecrawl", "signals"]
+    },
+    {
+      "id": "skill_solana_glossary",
+      "kind": "skill",
+      "name": "solana-glossary",
+      "description": "Glossary explorer: SDK com 1001 termos Solana, 14 categorias, cross-references e i18n (pt/es).",
+      "source": "stbr",
+      "category": "education",
+      "license": "MIT",
+      "tags": ["solana", "glossary", "terminology", "i18n", "pt"],
+      "install": ["npm i @stbr/solana-glossary"]
+    },
+    {
+      "id": "skill_agentwallet",
+      "kind": "skill",
+      "name": "agentwallet",
+      "description": "Wallets para agentes com signing server-side e policies. Inclui x402/fetch (one-step payment proxy) para pagar e chamar APIs com retry e dedupe.",
+      "source": "frames",
+      "category": "infrastructure",
+      "license": "UNSPECIFIED",
+      "tags": ["payments", "x402", "wallet", "policy", "tools-registry"],
+      "install": ["Read https://frames.ag/skill.md"]
+    }
+  ]
+}
