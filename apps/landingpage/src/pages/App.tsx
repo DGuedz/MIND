@@ -950,15 +950,38 @@ export function AppPage() {
                     <div className="flex gap-3">
                       <button
                         className="bg-white text-black hover:bg-zinc-200 text-[9px] font-mono uppercase tracking-[0.2em] px-6 py-2 rounded-full transition-all duration-500"
-                        onClick={() => window.open("https://github.com/DGuedz/MIND/tree/main/agent-cards", "_blank")}
+                        onClick={async () => {
+                          try {
+                            const res = await fetch("http://127.0.0.1:3000/v1/treasury/shield-pay", {
+                              method: "POST",
+                              headers: { 
+                                "Content-Type": "application/json",
+                                "x-api-key": "EPHEMERAL_SESSION_KEY_MOCK"
+                              },
+                              body: JSON.stringify({
+                                intentId: "purchase_card_" + item.id,
+                                amountLamports: item.pricing?.price ? item.pricing.price * 1000000000 : 1000000,
+                                recipientPubkey: targetWalletText
+                              })
+                            });
+                            if (res.ok) {
+                              const data = await res.json();
+                              alert(`Atomic Execution Successful!\nDecision: ${data.decision}\nCloak Nullifier: ${data.data?.noteNullifier}`);
+                            } else {
+                              alert("Atomic Execution Failed. Ensure API Gateway is running on port 3000.");
+                            }
+                          } catch (e) {
+                            alert("Connection to API Gateway failed. Ensure the Fastify server is running on port 3000.");
+                          }
+                        }}
                       >
-                        View on GitHub
+                        Execute Atomically (x402)
                       </button>
                       <button
                         className="text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-600 hover:text-white transition-colors px-6 py-2 border border-white/20 rounded-full"
-                        onClick={() => window.location.href = "/register"}
+                        onClick={() => window.open("https://github.com/DGuedz/MIND/tree/main/agent-cards", "_blank")}
                       >
-                        Builder Flow
+                        View on GitHub
                       </button>
                     </div>
                   </div>
