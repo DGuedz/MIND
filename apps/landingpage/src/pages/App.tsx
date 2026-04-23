@@ -462,26 +462,36 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
                 }}
               />
               <div className="hidden absolute inset-0 flex items-center justify-center bg-zinc-900">
-                {/* Wireframe Agent Silhouette Fallback SVG */}
-                <svg viewBox="0 0 100 100" className="w-full h-full p-2 opacity-80">
-                  <g stroke="#fff" fill="none" strokeWidth="0.5" opacity="0.7">
-                    {/* Base Head Outline */}
-                    <path d="M35 90 L35 70 L25 50 L35 20 L65 20 L75 50 L65 70 L65 90 Z" strokeWidth="1" />
-                    {/* Internal Facets */}
-                    <path d="M35 20 L50 35 L65 20" />
-                    <path d="M25 50 L50 35 L75 50" />
-                    <path d="M35 70 L50 55 L65 70" />
-                    <path d="M50 35 L50 55" />
-                    <path d="M25 50 L35 70" />
-                    <path d="M75 50 L65 70" />
-                    {/* Cybernetic Visor/Eye Slit */}
-                    <rect x="35" y="42" width="30" height="6" fill="#fff" fillOpacity="0.2" strokeWidth="1" />
-                    <line x1="35" y1="45" x2="65" y2="45" strokeWidth="0.5" strokeDasharray="2 2" />
-                    {/* Neural nodes */}
-                    <circle cx="50" cy="35" r="2" fill="#fff" fillOpacity="0.8" />
-                    <circle cx="50" cy="55" r="2" fill="#fff" fillOpacity="0.8" />
-                    <circle cx="35" cy="70" r="1.5" fill="#fff" fillOpacity="0.5" />
-                    <circle cx="65" cy="70" r="1.5" fill="#fff" fillOpacity="0.5" />
+                {/* Symmetrical Cybernetic Face Fallback SVG */}
+                <svg viewBox="0 0 100 100" className="w-full h-full p-2 opacity-90">
+                  <defs>
+                    <linearGradient id="faceGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#111" />
+                      <stop offset="50%" stopColor="#444" />
+                      <stop offset="100%" stopColor="#111" />
+                    </linearGradient>
+                    <linearGradient id="eyeGlow" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#fff" />
+                      <stop offset="100%" stopColor="#666" />
+                    </linearGradient>
+                  </defs>
+                  <g stroke="#fff" fill="none" strokeWidth="0.5" opacity="0.8">
+                    {/* Shoulders */}
+                    <path d="M20 90 Q35 75 50 75 Q65 75 80 90" strokeWidth="1" fill="url(#faceGrad)" />
+                    {/* Neck */}
+                    <path d="M40 75 L40 60 L60 60 L60 75 Z" fill="#111" />
+                    {/* Head Outline */}
+                    <path d="M35 60 C30 40 35 15 50 15 C65 15 70 40 65 60 Z" fill="url(#faceGrad)" strokeWidth="1" />
+                    {/* Central Symmetry Line */}
+                    <line x1="50" y1="15" x2="50" y2="90" stroke="#000" strokeWidth="2" opacity="0.5" />
+                    <line x1="50" y1="15" x2="50" y2="90" stroke="#fff" strokeWidth="0.2" strokeDasharray="2 2" />
+                    {/* Eyes */}
+                    <rect x="41" y="44" width="5" height="2" fill="url(#eyeGlow)" stroke="none" />
+                    <rect x="54" y="44" width="5" height="2" fill="url(#eyeGlow)" stroke="none" />
+                    {/* Cheekbones & Jaw */}
+                    <path d="M35 50 L42 55 L45 65" opacity="0.5" />
+                    <path d="M65 50 L58 55 L55 65" opacity="0.5" />
+                    <path d="M45 65 L50 68 L55 65" opacity="0.8" />
                   </g>
                 </svg>
               </div>
