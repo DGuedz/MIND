@@ -462,7 +462,14 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
                 }}
               />
               <div className="hidden absolute inset-0 flex items-center justify-center bg-zinc-900">
-                <Bot className="w-8 h-8 text-zinc-600" />
+                {/* Abstract Neural Core Fallback SVG */}
+                <svg viewBox="0 0 100 100" className="w-full h-full p-2 opacity-80">
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" strokeWidth="0.5" strokeDasharray="4 4" />
+                  <circle cx="50" cy="50" r="30" fill="none" stroke="#fff" strokeWidth="1" opacity="0.5" />
+                  <circle cx="50" cy="50" r="15" fill="#fff" opacity="0.1" />
+                  <path d="M50 20 L50 80 M20 50 L80 50 M28 28 L72 72 M28 72 L72 28" stroke="#fff" strokeWidth="0.5" opacity="0.3" />
+                  <circle cx="50" cy="50" r="5" fill="#fff" />
+                </svg>
               </div>
             </div>
             
