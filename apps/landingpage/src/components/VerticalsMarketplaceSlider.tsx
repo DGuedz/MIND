@@ -247,7 +247,12 @@ export function VerticalsMarketplaceSlider({
                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                       <div className="flex items-end justify-between gap-6">
                         <div className="space-y-2">
-                          <div className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">Featured Card</div>
+                          <div className="flex items-center gap-3">
+                            <div className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">Featured Card</div>
+                            <div className="px-2 py-0.5 rounded text-[8px] font-mono uppercase tracking-[0.2em] bg-zinc-800 text-zinc-300 border border-zinc-700">
+                              The Garage Premium
+                            </div>
+                          </div>
                           <div className="text-2xl font-mono uppercase text-white tracking-tight">{v.card.name}</div>
                           <div className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">{v.card.type}</div>
                         </div>
