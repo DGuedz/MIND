@@ -462,13 +462,27 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
                 }}
               />
               <div className="hidden absolute inset-0 flex items-center justify-center bg-zinc-900">
-                {/* Abstract Neural Core Fallback SVG */}
+                {/* Wireframe Agent Silhouette Fallback SVG */}
                 <svg viewBox="0 0 100 100" className="w-full h-full p-2 opacity-80">
-                  <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" strokeWidth="0.5" strokeDasharray="4 4" />
-                  <circle cx="50" cy="50" r="30" fill="none" stroke="#fff" strokeWidth="1" opacity="0.5" />
-                  <circle cx="50" cy="50" r="15" fill="#fff" opacity="0.1" />
-                  <path d="M50 20 L50 80 M20 50 L80 50 M28 28 L72 72 M28 72 L72 28" stroke="#fff" strokeWidth="0.5" opacity="0.3" />
-                  <circle cx="50" cy="50" r="5" fill="#fff" />
+                  <g stroke="#fff" fill="none" strokeWidth="0.5" opacity="0.7">
+                    {/* Base Head Outline */}
+                    <path d="M35 90 L35 70 L25 50 L35 20 L65 20 L75 50 L65 70 L65 90 Z" strokeWidth="1" />
+                    {/* Internal Facets */}
+                    <path d="M35 20 L50 35 L65 20" />
+                    <path d="M25 50 L50 35 L75 50" />
+                    <path d="M35 70 L50 55 L65 70" />
+                    <path d="M50 35 L50 55" />
+                    <path d="M25 50 L35 70" />
+                    <path d="M75 50 L65 70" />
+                    {/* Cybernetic Visor/Eye Slit */}
+                    <rect x="35" y="42" width="30" height="6" fill="#fff" fillOpacity="0.2" strokeWidth="1" />
+                    <line x1="35" y1="45" x2="65" y2="45" strokeWidth="0.5" strokeDasharray="2 2" />
+                    {/* Neural nodes */}
+                    <circle cx="50" cy="35" r="2" fill="#fff" fillOpacity="0.8" />
+                    <circle cx="50" cy="55" r="2" fill="#fff" fillOpacity="0.8" />
+                    <circle cx="35" cy="70" r="1.5" fill="#fff" fillOpacity="0.5" />
+                    <circle cx="65" cy="70" r="1.5" fill="#fff" fillOpacity="0.5" />
+                  </g>
                 </svg>
               </div>
             </div>
