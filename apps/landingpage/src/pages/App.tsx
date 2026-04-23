@@ -238,54 +238,77 @@ const mockTasks: A2ATask[] = [
   { id: "tsk_2", contextId: "ctx_2", status: "completed", executor: "Execution Agent", payload: { txHash: "5xt...9aZ" } },
 ];
 
-// Neural Activity Heatmap Component
+// Mock Data para P2P transfers baseadas no payload da payments.org
+const P2P_MOCK_DATA = [
+  { hash: "5BDqKZmK5V3UFQjA...", amount: 0.95, from: "BwMnmzg...", to: "R4rNJHaf..." },
+  { hash: "4u3aw6fLKjU15NFH...", amount: 0.55, from: "6Js7mMJG...", to: "HiCoUYBU..." },
+  { hash: "5UqhkUjSSzfQGPco...", amount: 0.95, from: "GYmRqdKm...", to: "R4rNJHaf..." },
+  { hash: "3KNPgMAYWBSufYtH...", amount: 21.47, from: "62Q9eeDY...", to: "7y7wh81f..." },
+  { hash: "4pjPg9WYZdjGTcNp...", amount: 1000.0, from: "FPBYdAMJ...", to: "B5srxkT5..." },
+  { hash: "33vcSwA1neoTgVRi...", amount: 20200.0, from: "5tzFkiKs...", to: "CyzxxfsX..." },
+  { hash: "jmLzxZzY5BLvRBt3...", amount: 10.0, from: "Hmc2dLxZ...", to: "7tMB6fcK..." }
+];
+
+// Neural Activity Heatmap Component (P2P Sensor)
 function NeuralActivityHeatmap() {
-  const [pulse, setPulse] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPulse(p => (p + 1) % 100);
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [activeTransfer, setActiveTransfer] = useState(P2P_MOCK_DATA[0]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+    
+    // Pick a random transfer based on mouse movement to simulate stream
+    if (Math.random() > 0.8) {
+      setActiveTransfer(P2P_MOCK_DATA[Math.floor(Math.random() * P2P_MOCK_DATA.length)]);
+    }
+  };
 
   return (
-    <div className="bg-black/40 border border-white/20 rounded-3xl p-8 aspect-video relative overflow-hidden group">
-      <div className="absolute inset-0 opacity-20">
-        <svg width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="none">
-          {Array.from({ length: 20 }).map((_, i) => 
-            Array.from({ length: 10 }).map((_, j) => {
-              const x = i * 40 + 20;
-              const y = j * 40 + 20;
-              const isActive = (i * 10 + j + pulse) % 100 > 95;
-              return (
-                <motion.circle
-                  key={`${i}-${j}`}
-                  cx={x} cy={y} r={isActive ? 2 : 1}
-                  fill={isActive ? "#ffffff" : "#333333"}
-                  animate={{ opacity: isActive ? [0.2, 0.8, 0.2] : 0.1 }}
-                />
-              );
-            })
-          )}
-        </svg>
-      </div>
+    <div 
+      className="bg-[#020202] border border-white/10 rounded-3xl p-8 relative overflow-hidden group cursor-crosshair h-[300px] flex flex-col justify-between"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Dynamic Mouse Tracker Background */}
+      <div 
+        className="absolute inset-0 opacity-30 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.1), transparent 40%)`
+        }}
+      />
       
-      <div className="relative z-10 h-full flex flex-col justify-between">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em]">A2A Flow Discovery</div>
-            <div className="text-xl font-bold text-white tracking-tight">Neural Activity.</div>
-          </div>
-          <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono text-[8px] uppercase tracking-widest px-3">
-            Real-time Rails
-          </Badge>
-        </div>
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
 
-        <div className="grid grid-cols-3 gap-8">
-          <HeatmapMetric label="Active Nodes" value="42" change="+12%" />
-          <HeatmapMetric label="Intent Density" value="0.82" change="Optimal" />
-          <HeatmapMetric label="Settlement/s" value="14.2" change="Live" />
+      <div className="relative z-10 flex justify-between items-start">
+        <div className="space-y-1">
+          <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+            Live P2P Stream
+          </div>
+          <div className="text-xl font-bold text-white tracking-tight font-mono">Neural Sensor.</div>
+        </div>
+        <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono text-[8px] uppercase tracking-widest px-3">
+          Hover to scan
+        </Badge>
+      </div>
+
+      {/* Dynamic Data Display */}
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 mt-auto">
+        <div className="bg-black/60 border border-white/5 rounded-xl p-4">
+          <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">Vol (USDC)</div>
+          <div className="text-lg font-mono text-green-400">${activeTransfer.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
+        </div>
+        <div className="bg-black/60 border border-white/5 rounded-xl p-4">
+          <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">From / To</div>
+          <div className="text-[10px] font-mono text-zinc-400">{activeTransfer.from}</div>
+          <div className="text-[10px] font-mono text-zinc-400">{activeTransfer.to}</div>
+        </div>
+        <div className="bg-black/60 border border-white/5 rounded-xl p-4">
+          <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">TX Hash</div>
+          <div className="text-xs font-mono text-zinc-500 truncate">{activeTransfer.hash}</div>
         </div>
       </div>
     </div>
