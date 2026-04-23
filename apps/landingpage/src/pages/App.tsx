@@ -429,15 +429,26 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
       <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
 
       {/* Decorative Neural Head Placeholder (Left Side) */}
-      <div className="hidden md:flex flex-col items-center justify-center w-48 shrink-0 relative">
-        <div className="w-full h-full absolute inset-0 border border-white/5 rounded-2xl bg-black/50 flex items-center justify-center overflow-hidden">
-           {/* Abstract Neural Lines */}
-           <svg width="100%" height="100%" viewBox="0 0 100 100" className="opacity-20">
+      <div className="hidden md:flex flex-col items-center justify-center w-64 shrink-0 relative">
+        <div className="w-full h-full absolute inset-0 border border-white/5 rounded-2xl bg-black/50 flex items-center justify-center overflow-hidden p-4">
+           {/* PFP Image from User Input */}
+           <img 
+             src="https://raw.githubusercontent.com/DGuedz/MIND/main/apps/landingpage/public/mind-pfp.jpg" 
+             alt="Agent Neural Profile" 
+             className="w-full h-full object-contain opacity-80"
+             onError={(e) => {
+               // Fallback to SVG if image fails to load
+               const target = e.target as HTMLImageElement;
+               target.style.display = 'none';
+               target.nextElementSibling?.classList.remove('hidden');
+             }}
+           />
+           {/* Fallback SVG if image is missing */}
+           <svg width="100%" height="100%" viewBox="0 0 100 100" className="opacity-20 hidden">
              {Array.from({length: 10}).map((_, i) => (
                <ellipse key={i} cx="50" cy="50" rx={20 + i*3} ry={30 + i*4} fill="none" stroke="#fff" strokeWidth="0.2" transform={`rotate(${i * 15} 50 50)`} />
              ))}
            </svg>
-           <div className="absolute font-mono text-xs text-white tracking-[0.4em] opacity-80">MIND</div>
         </div>
         <div className="absolute left-[-2rem] top-1/2 -translate-y-1/2 -rotate-90 text-[6px] font-mono text-zinc-600 tracking-[0.4em] uppercase whitespace-nowrap">
           MIND PROTOCOL \ NEURAL RAILS FOR THE AGENTIC ECONOMY
@@ -873,19 +884,16 @@ export function AppPage() {
     }, METRICS_REFRESH_INTERVAL_MS);
 
     let eventSource: EventSource | null = null;
-    try {
-      // Remover a dependência do backend local que estava causando ERR_CONNECTION_REFUSED
-      // e usar uma técnica silenciosa apenas se houver backend configurado,
-      // ou remover totalmente o stream de sucesso do gateway se não for estritamente necessário.
-      // eventSource = new EventSource(sseEndpointUrl);
-      // eventSource.addEventListener("payment_success", () => {
-      //   void hydrateDashboard();
-      //   void hydrateProtocolMetrics();
-      // });
-      // eventSource.onerror = () => {
-      //   eventSource?.close();
-      // };
-    } catch (e) {}
+    // try {
+    //   eventSource = new EventSource(sseEndpointUrl);
+    //   eventSource.addEventListener("payment_success", () => {
+    //     void hydrateDashboard();
+    //     void hydrateProtocolMetrics();
+    //   });
+    //   eventSource.onerror = () => {
+    //     eventSource?.close();
+    //   };
+    // } catch (e) {}
 
     return () => {
       active = false;
