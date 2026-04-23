@@ -3,9 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { ConnectAgentModal } from "../components/ConnectAgentModal";
 import { Badge } from "../components/ui/badge";
-import { motion, useMotionValue, useTransform, MotionValue, AnimatePresence, useInView } from "framer-motion";
+import { motion, useMotionValue, useTransform, MotionValue, AnimatePresence, useInView, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Zap, Loader2, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
+import { VerticalsMarketplaceSlider } from "../components/VerticalsMarketplaceSlider";
 
 // Component for Metallic Reflective Text synced with Scroll
 function MetallicText({ children, className, progress }: { children: React.ReactNode, className?: string, progress?: MotionValue<number> }) {
@@ -21,7 +22,7 @@ function MetallicText({ children, className, progress }: { children: React.React
   // Se progress for fornecido, o brilho reage ao scroll. Caso contrário, reage ao mouse.
   const backgroundPosition = useTransform(
     progress || mouseX,
-    (v) => progress ? `${Number(v) * 200}% 50%` : `${Number(mouseX.get()) / 10}% ${Number(mouseY.get()) / 10}%`
+    (v: any) => progress ? `${Number(v) * 200}% 50%` : `${Number(mouseX.get()) / 10}% ${Number(mouseY.get()) / 10}%`
   );
 
   return (
@@ -834,202 +835,47 @@ export function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave
 // Home Page Component
 export function HomePage() {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [isHeroReady, setIsHeroReady] = useState(false);
-  const [heroPinMode, setHeroPinMode] = useState<"before" | "pinned" | "after">("before");
   const navigate = useNavigate();
   const location = useLocation();
+  
   const heroRef = useRef<HTMLElement>(null);
-  const heroCanvasRef = useRef<HTMLCanvasElement>(null);
-  const heroFramesRef = useRef<HTMLImageElement[]>([]);
-  const heroRafRef = useRef<number | null>(null);
-  const heroLoopRafRef = useRef<number | null>(null);
-  const heroPendingFrameRef = useRef<number>(0);
-  const heroCurrentFrameRef = useRef<number>(-1);
-  const heroCtxRef = useRef<CanvasRenderingContext2D | null>(null);
-  const heroPinModeRef = useRef<"before" | "pinned" | "after">("before");
+  const videoRef = useRef<HTMLVideoElement>(null);
   const buildersRef = useRef<HTMLDivElement>(null);
 
   // Builders Scroll Activation
   const isBuildersInView = useInView(buildersRef, { amount: 0.4 });
 
-  const heroProgress = useMotionValue(0);
-  const heroCopyOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end end"]
+  });
+
+  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
+    if (videoRef.current && videoRef.current.duration) {
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = latest * videoRef.current.duration;
+        }
+      });
+    }
+  });
 
   useEffect(() => {
-    const heroEl = heroRef.current;
-    const canvas = heroCanvasRef.current;
-    if (!heroEl || !canvas) return;
-
-    let alive = true;
-    setIsHeroReady(false);
-
-    const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
-    const prefersReducedMotion =
-      typeof window !== "undefined" &&
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const N = 120;
-    const path = (i: number) =>
-      `/frames/reverse_mind_solana_core_v2/frame_${String(i).padStart(4, "0")}.jpg`;
-
-    heroFramesRef.current = new Array(N);
-    heroPendingFrameRef.current = 0;
-    heroCurrentFrameRef.current = -1;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    heroCtxRef.current = ctx;
-
-    const drawContain = (img: HTMLImageElement) => {
-      const cw = canvas.clientWidth;
-      const ch = canvas.clientHeight;
-      if (cw <= 0 || ch <= 0) return;
-
-      const iw = img.naturalWidth;
-      const ih = img.naturalHeight;
-      if (iw <= 0 || ih <= 0) return;
-
-      ctx.clearRect(0, 0, cw, ch);
-      const scale = Math.min(cw / iw, ch / ih);
-      const dw = iw * scale;
-      const dh = ih * scale;
-      const dx = (cw - dw) / 2;
-      const dy = (ch - dh) / 2;
-      ctx.drawImage(img, dx, dy, dw, dh);
-    };
-
-    const draw = (idx: number, force = false) => {
-      idx = clamp(idx, 0, N - 1);
-      if (!force && idx === heroCurrentFrameRef.current) return;
-
-      const frames = heroFramesRef.current;
-      const img = frames[idx];
-      if (img?.complete && img.naturalWidth) {
-        drawContain(img);
-        heroCurrentFrameRef.current = idx;
-        return;
-      }
-
-      for (let d = 1; d < N; d++) {
-        const a = idx - d >= 0 ? frames[idx - d] : undefined;
-        const b = idx + d < N ? frames[idx + d] : undefined;
-        if (a?.complete && a.naturalWidth) {
-          drawContain(a);
-          heroCurrentFrameRef.current = idx;
-          return;
-        }
-        if (b?.complete && b.naturalWidth) {
-          drawContain(b);
-          heroCurrentFrameRef.current = idx;
-          return;
-        }
+    if (!videoRef.current) return;
+    const handleLoadedMetadata = () => {
+      if (videoRef.current) {
+        videoRef.current.currentTime = scrollYProgress.get() * videoRef.current.duration;
       }
     };
-
-    const resize = () => {
-      measure();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = Math.max(1, Math.floor(canvas.clientWidth * dpr));
-      const h = Math.max(1, Math.floor(canvas.clientHeight * dpr));
-      if (canvas.width !== w) canvas.width = w;
-      if (canvas.height !== h) canvas.height = h;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      draw(heroCurrentFrameRef.current < 0 ? 0 : heroCurrentFrameRef.current, true);
-    };
-
-    let startY = 0;
-    let endY = 1;
-    const measure = () => {
-      const rect = heroEl.getBoundingClientRect();
-      startY = window.scrollY + rect.top;
-      endY = startY + heroEl.offsetHeight - window.innerHeight;
-    };
-
-    const computeProgress = () => {
-      const total = Math.max(1, endY - startY);
-      return clamp((window.scrollY - startY) / total, 0, 1);
-    };
-
-    const loadFrame = (i: number) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = path(i + 1);
-      img.onload = () => {
-        if (!alive) return;
-        if (i === 0) {
-          setIsHeroReady(true);
-          resize();
-          draw(0, true);
-        }
-        if (i === heroPendingFrameRef.current) {
-          draw(i, true);
-        }
-      };
-      heroFramesRef.current[i] = img;
-    };
-
-    if (prefersReducedMotion) {
-      loadFrame(0);
-      window.addEventListener("resize", resize);
-      resize();
-      return () => {
-        alive = false;
-        window.removeEventListener("resize", resize);
-      };
-    }
-
-    const order: number[] = [];
-    const seen = new Array(N).fill(false);
-    const push = (i: number) => {
-      if (i < 0 || i >= N) return;
-      if (seen[i]) return;
-      seen[i] = true;
-      order.push(i);
-    };
-    push(0);
-    for (let step = N >> 1; step >= 1; step >>= 1) {
-      for (let i = step; i < N; i += step) push(i);
-    }
-    order.forEach(loadFrame);
-
-    window.addEventListener("resize", resize);
-    resize();
-    const tick = () => {
-      if (!alive) return;
-      const y = window.scrollY;
-      let nextMode: "before" | "pinned" | "after" = "before";
-      if (y < startY) nextMode = "before";
-      else if (y > endY) nextMode = "after";
-      else nextMode = "pinned";
-      if (nextMode !== heroPinModeRef.current) {
-        heroPinModeRef.current = nextMode;
-        setHeroPinMode(nextMode);
-      }
-
-      const p = computeProgress();
-      heroProgress.set(p);
-      const idx = Math.round(p * (N - 1));
-      heroPendingFrameRef.current = idx;
-      draw(idx);
-      heroLoopRafRef.current = requestAnimationFrame(tick);
-    };
-    heroLoopRafRef.current = requestAnimationFrame(tick);
-
+    videoRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
     return () => {
-      alive = false;
-      window.removeEventListener("resize", resize);
-      if (heroRafRef.current != null) {
-        cancelAnimationFrame(heroRafRef.current);
-        heroRafRef.current = null;
-      }
-      if (heroLoopRafRef.current != null) {
-        cancelAnimationFrame(heroLoopRafRef.current);
-        heroLoopRafRef.current = null;
+      if (videoRef.current) {
+        videoRef.current.removeEventListener("loadedmetadata", handleLoadedMetadata);
       }
     };
-  }, [heroProgress]);
+  }, [scrollYProgress]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -1043,6 +889,13 @@ export function HomePage() {
     const el = document.getElementById(id);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const scrollToHeroEnd = () => {
+    const heroEl = heroRef.current;
+    if (!heroEl) return;
+    const top = heroEl.offsetTop + heroEl.offsetHeight - window.innerHeight;
+    window.scrollTo({ top, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -1059,74 +912,78 @@ export function HomePage() {
         onSuccess={() => {}}
       />
 
-      {/* Hero Section: Editorial Asymmetric Layout (9:16) */}
+      {/* Hero Section: Scroll-Driven Video Scrubbing */}
       <section
         id="hero"
         ref={heroRef}
-        className="relative -mt-32 bg-black h-[400vh]"
+        className="relative -mt-32 bg-black h-[300vh]"
       >
-        <div className={`${heroPinMode === "pinned" ? "fixed top-0 left-0 right-0" : heroPinMode === "after" ? "absolute bottom-0 left-0 right-0" : "absolute top-0 left-0 right-0"} h-screen w-full bg-black flex items-center justify-center pt-20 relative z-20`}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full items-center max-w-7xl mx-auto px-6 lg:px-8 gap-12 relative z-20">
-            <div className="order-2 lg:order-1 lg:col-span-6 flex flex-col justify-center h-full py-10 lg:py-0">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="max-w-xl space-y-10"
-                style={{ opacity: heroCopyOpacity }}
-              >
-                <div className="space-y-4">
-                  <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm w-fit">
-                    Solana-First Rails
-                  </Badge>
+        <div className="sticky top-0 h-screen overflow-hidden bg-black">
+          {/* Scroll-Scrubbed Video */}
+          <video
+            ref={videoRef}
+            src="/sanduiche_rev_mind_solana_core.mp4"
+            muted
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-contain z-0"
+          />
 
-                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] text-white font-mono uppercase">
-                    <MetallicText progress={heroProgress}>Solana is now</MetallicText> <br />
-                    <MetallicText progress={heroProgress} className="italic font-light opacity-60 text-zinc-400 text-4xl md:text-6xl lg:text-7xl">the A2A Settlement Layer.</MetallicText>
-                  </h1>
-                </div>
+          {/* Camada de Segurança Visual (Overlay Dinâmico) */}
+          <motion.div 
+            className="absolute inset-0 bg-black/60 z-10 pointer-events-none"
+            style={{ opacity: heroCopyOpacity }}
+          />
 
-                <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-xl font-light">
-                  Builders publish Agent Cards with policy-gated execution and proof-native delivery. Agents discover skills, consume market signals, and settle atomically with a 92/8 split.
-                </p>
+          {/* Copy - Centered and Relative */}
+          <div className="relative z-20 flex flex-col items-center justify-center h-full px-6 text-center">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="max-w-4xl space-y-10 flex flex-col items-center"
+              style={{ opacity: heroCopyOpacity }}
+            >
+              <div className="space-y-4 flex flex-col items-center">
+                <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm w-fit">
+                  Solana-First Rails
+                </Badge>
 
-                <div className="flex flex-col sm:flex-row gap-6 pt-4">
-                  <Button 
-                    size="lg" 
-                    className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-                    onClick={() => setIsConnectModalOpen(true)}
-                  >
-                    Publish Agent Card
-                  </Button>
-                  <Button 
-                    size="lg" 
-                    variant="outline" 
-                    className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
-                    onClick={() => navigate("/app")}
-                  >
-                    Explore Registry
-                  </Button>
-                </div>
-              </motion.div>
-            </div>
-
-            <div className="order-1 lg:order-2 lg:col-span-6 flex items-center justify-center lg:justify-end">
-              <div className="relative w-full max-w-2xl">
-                <div className="relative w-full overflow-hidden" style={{ height: "clamp(360px, 52vh, 720px)" }}>
-                  <canvas ref={heroCanvasRef} className="absolute inset-0 w-full h-full" />
-                  <div className={`absolute inset-0 z-10 flex items-center justify-center bg-black transition-opacity duration-700 ${isHeroReady ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
-                    <span className="text-[10px] font-mono tracking-widest text-white/30 uppercase">Loading Frames</span>
-                  </div>
-                </div>
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] text-white font-mono uppercase">
+                  <MetallicText progress={scrollYProgress}>Solana is now</MetallicText> <br />
+                  <MetallicText progress={scrollYProgress} className="italic font-medium text-zinc-300 text-4xl md:text-6xl lg:text-7xl drop-shadow-2xl">the A2A Settlement Layer.</MetallicText>
+                </h1>
               </div>
-            </div>
+
+              <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-2xl font-light text-center">
+                Builders publish Agent Cards with policy-gated execution and proof-native delivery. Agents discover skills, consume market signals, and settle atomically with a 92/8 split.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-6 pt-4 justify-center">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
+                  onClick={() => setIsConnectModalOpen(true)}
+                >
+                  Publish Agent Card
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
+                  onClick={() => navigate("/app")}
+                >
+                  Explore Registry
+                </Button>
+              </div>
+            </motion.div>
           </div>
 
           <motion.div 
             className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            onClick={() => scrollToSection("process")}
+            onClick={scrollToHeroEnd}
           >
             <span className="text-[10px] font-mono tracking-widest text-white/30 uppercase">Scroll Down</span>
             <ArrowDown className="w-4 h-4 text-white/30" />
@@ -1190,56 +1047,54 @@ export function HomePage() {
       </section>
 
       {/* Section 1: Curated Assemblages */}
-      <section id="marketplace" className="container mx-auto px-6 mt-16 space-y-16">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-white/20 pb-12">
-          <div className="space-y-4 max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-              Agent Cards <span className="italic font-light opacity-60">Marketplace.</span>
-            </h2>
-            <p className="text-zinc-500 leading-relaxed font-light">
-              Execution-grade services packaged as cards: explicit pricing, evidence requirements, and settlement rails.
-            </p>
-          </div>
-          <button 
-            onClick={() => navigate("/app")}
-            className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-colors flex items-center gap-4 group"
-          >
-            Explore Registry
-            <div className="w-8 h-px bg-zinc-800 group-hover:w-12 transition-all duration-500" />
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { id: "dexter", name: "Dexter", type: "Data Agent", price: "$0.05 / req", component: DexterCardSVG },
-            { id: "volan", name: "Volan", type: "Yield Agent", price: "$0.005 / exec", component: VolanCardSVG },
-            { id: "krios", name: "Krios", type: "Risk Agent", price: "$0.02 / scan", component: KriosCardSVG }
-          ].map((item, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group cursor-pointer"
-              onMouseEnter={() => setHoveredCard(item.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-              onClick={() => navigate("/app")}
-            >
-              <div className="aspect-[3/4] rounded-3xl mb-6 overflow-hidden border border-white/20 bg-[#050505] transition-all duration-700 group-hover:border-white/20 relative">
-                <item.component isHovered={hoveredCard === item.id} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
-              </div>
-              <div className="flex justify-between items-end px-2">
-                <div className="space-y-1">
-                  <h3 className="text-white font-medium tracking-wide">{item.name}</h3>
-                  <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">{item.type}</p>
-                </div>
-                <span className="text-[10px] font-mono text-zinc-500">{item.price}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      <section id="marketplace" className="container mx-auto px-6 mt-16">
+        <VerticalsMarketplaceSlider
+          onExploreRegistry={() => navigate("/app")}
+          verticals={[
+            {
+              id: "data",
+              indexLabel: "01",
+              title: "Dexter",
+              subtitle: "Data Vertical",
+              description: "Indexing-grade intelligence. Queryable truth with explicit cost and verifiable delivery.",
+              stats: [
+                { label: "Latency Power", value: "180ms", hint: "p50 quote" },
+                { label: "Throughput", value: "42 req/s", hint: "burst" },
+                { label: "Compute Units", value: "8.2k", hint: "sim depth" },
+                { label: "Escrow Logic", value: "Strict", hint: "policy" }
+              ],
+              card: { id: "dexter", name: "Dexter", type: "Data Agent", price: "$0.05 / req", Art: DexterCardSVG }
+            },
+            {
+              id: "yield",
+              indexLabel: "02",
+              title: "Volan",
+              subtitle: "Yield Vertical",
+              description: "Composable yield execution. Explicit rails, predictable settlement, opt-in strategies.",
+              stats: [
+                { label: "Latency Power", value: "240ms", hint: "p50 route" },
+                { label: "Throughput", value: "18 exec/s", hint: "safe" },
+                { label: "Compute Units", value: "12.6k", hint: "route sim" },
+                { label: "Escrow Logic", value: "Vaulted", hint: "escrow" }
+              ],
+              card: { id: "volan", name: "Volan", type: "Yield Agent", price: "$0.005 / exec", Art: VolanCardSVG }
+            },
+            {
+              id: "risk",
+              indexLabel: "03",
+              title: "Krios",
+              subtitle: "Risk Vertical",
+              description: "Pre-trade and runtime policy checks. Deterministic gating before any capital moves.",
+              stats: [
+                { label: "Latency Power", value: "95ms", hint: "p50 scan" },
+                { label: "Throughput", value: "120 scans/s", hint: "batch" },
+                { label: "Compute Units", value: "4.1k", hint: "rules" },
+                { label: "Escrow Logic", value: "Guarded", hint: "deny" }
+              ],
+              card: { id: "krios", name: "Krios", type: "Risk Agent", price: "$0.02 / scan", Art: KriosCardSVG }
+            }
+          ]}
+        />
       </section>
 
       {/* Section 2: Architecture of Nature (Trust) */}
@@ -1329,28 +1184,26 @@ export function HomePage() {
         <div className="space-y-4 max-w-2xl">
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">Repository Access</div>
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-            Source code is currently in private Devnet for security.
+            Source code is open for institutional review.
           </h3>
           <p className="text-zinc-500 leading-relaxed font-light">
-            Colosseum Judges: Access granted via submitted project links. This maintains institutional security while removing friction for evaluation.
+            Builders: Access the MIND Protocol repository to explore our Agent Cards, atomic settlement rails, and Zero-Trust implementation. Submit your PRs and join the Agentic Economy.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-6 w-full md:w-auto">
           <Button
-            size="lg"
+            onClick={() => window.open("https://github.com/DGuedz/MIND", "_blank")}
             className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-            onClick={() => navigate("/register")}
           >
-            Request Access
+            Access Repository
           </Button>
           <Button
-            size="lg"
             variant="outline"
+            onClick={() => window.open("https://github.com/DGuedz/MIND/blob/main/CONTRIBUTING.md", "_blank")}
             className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
-            onClick={() => navigate("/app")}
           >
-            Explore Registry
+            Contribution Guide
           </Button>
         </div>
       </section>

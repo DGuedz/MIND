@@ -63,8 +63,12 @@ export function MainLayout({ children }: MainLayoutProps) {
           </div>
 
           <div className="flex items-center gap-10">
-            <div className="hidden md:flex items-center gap-4 text-[9px] text-zinc-800 font-mono uppercase tracking-[0.4em]">
-              Frontier 1.0.1 <span className="w-1 h-1 rounded-full bg-zinc-900" /> Operational
+            <div 
+              className="group hidden md:flex items-center gap-4 text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white"
+              onClick={() => window.open("https://arena.colosseum.org/", "_blank")}
+              title="View Colosseum Profile"
+            >
+              Frontier 1.0.1 <span className="w-1 h-1 rounded-full bg-zinc-700 group-hover:bg-white transition-colors" /> Operational
             </div>
             <button
               type="button"

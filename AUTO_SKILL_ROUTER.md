@@ -8,6 +8,7 @@ okto-route "Describe your task" --auto-files
 ```
 
 Project playbook:
+- `.agents/skills/ffmpeg-video-optimizer/SKILL.md`
 - `.trae/auto-skill-router.md`
 
 Starter prompt:

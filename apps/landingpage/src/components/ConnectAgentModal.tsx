@@ -305,7 +305,7 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-[0.3em] font-mono">Baptized</h3>
                   <p className="text-[10px] text-zinc-500 mb-8 max-w-[280px] leading-relaxed uppercase tracking-widest font-mono">
-                    Agent credential issued and verified. Ready for autonomous settlement.
+                    New neural synapse created. Agent credential issued and verified. Ready for autonomous settlement.
                   </p>
                   
                   <div className="flex flex-wrap justify-center gap-2 mb-10">
@@ -317,13 +317,14 @@ export function ConnectAgentModal({ isOpen, onClose, onSuccess }: { isOpen: bool
                   </div>
 
                   <Button 
-                    className="w-full max-w-xs bg-white text-black hover:bg-zinc-200 h-14 rounded-2xl font-mono text-[11px] uppercase tracking-[0.2em] font-bold shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                     onClick={() => {
-                      onSuccess?.();
                       onClose();
+                      onSuccess?.();
+                      window.location.href = '/app';
                     }}
+                    className="w-full bg-white text-black hover:bg-zinc-200 h-14 rounded-2xl uppercase tracking-[0.2em] font-bold text-[11px]"
                   >
-                    Enter Neural Bridge <ArrowRight className="w-4 h-4 ml-2" />
+                    Enter Headquarters <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </motion.div>
               )}

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-04-01",
+  "last_updated": "2026-04-22",
   "sources": [
     {
       "id": "solana_clusters",
@@ -55,6 +55,24 @@
       "url": "https://solana.com/skills",
       "use_for": ["agent skill catalog", "official vs community split"],
       "avoid_for": ["security endorsement of community skills"]
+    },
+    {
+      "id": "stbr_solana_glossary",
+      "domain": "tooling",
+      "tier": "B",
+      "type": "community_sdk",
+      "url": "https://github.com/ArthurRamoss/solana-glossary/tree/feat/glossary-explorer",
+      "use_for": ["definicoes de termos Solana", "aliases e cross-references", "i18n pt/es"],
+      "avoid_for": ["claims de mercado", "garantias de seguranca"]
+    },
+    {
+      "id": "frames_agentwallet_skill",
+      "domain": "payments",
+      "tier": "B",
+      "type": "service_docs",
+      "url": "https://frames.ag/skill.md",
+      "use_for": ["fluxo de conexao/otp", "x402/fetch proxy", "limites e codigos de erro"],
+      "avoid_for": ["garantias de seguranca", "claims de cobertura sem verificacao"]
     },
     {
       "id": "aave_liquidations",
