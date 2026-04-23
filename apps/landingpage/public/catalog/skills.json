@@ -175,7 +175,9 @@
       "category": "education",
       "license": "MIT",
       "tags": ["solana", "glossary", "terminology", "i18n", "pt"],
-      "install": ["npm i @stbr/solana-glossary"]
+      "install": ["npm i @stbr/solana-glossary"],
+      "origin": "The Garage - Superteam BR",
+      "badges": ["Genesis Builder", "Colosseum Frontier"]
     },
     {
       "id": "skill_agentwallet",
