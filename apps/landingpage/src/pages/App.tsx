@@ -224,6 +224,8 @@ type CatalogItem = {
   tags: string[];
   install?: string[];
   pricing?: CatalogPricing;
+  origin?: string;
+  badges?: string[];
 };
 
 type CatalogPayload = {
@@ -875,6 +877,16 @@ export function AppPage() {
                           {item.pricing.model}
                         </Badge>
                       ) : null}
+                      {item.origin && (
+                        <div className="px-2 py-0.5 rounded text-[8px] font-mono uppercase tracking-[0.2em] bg-zinc-800 text-zinc-300 border border-zinc-700">
+                          ORIGIN: {item.origin}
+                        </div>
+                      )}
+                      {item.badges?.map(badge => (
+                        <div key={badge} className="px-2 py-0.5 rounded text-[8px] font-mono uppercase tracking-[0.2em] bg-zinc-800 text-amber-500/80 border border-amber-900/50">
+                          🎖 {badge}
+                        </div>
+                      ))}
                     </div>
                     <div className="text-lg font-bold text-white tracking-tight font-mono">{item.name}</div>
                     <div className="text-sm text-zinc-500 font-light leading-relaxed">{item.description}</div>

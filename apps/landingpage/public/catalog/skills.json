@@ -143,6 +143,18 @@
       "tags": ["solana", "defi", "intel", "firecrawl", "signals"]
     },
     {
+      "id": "skill_colosseum_copilot",
+      "kind": "skill",
+      "name": "colosseum-copilot",
+      "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
+      "source": "mind",
+      "category": "ecosystem-intelligence",
+      "license": "Proprietary",
+      "tags": ["solana", "agent-skill", "mind", "colosseum-copilot"],
+      "origin": "The Garage - Superteam BR",
+      "badges": ["Genesis Builder", "Colosseum Frontier"]
+    },
+    {
       "id": "skill_solana_glossary",
       "kind": "skill",
       "name": "solana-glossary",
