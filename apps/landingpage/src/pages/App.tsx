@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Lock, Terminal, Loader2, KeyRound, ArrowRightLeft, History, Coins, Activity, TrendingUp, ShieldCheck, Bot } from "lucide-react";
+import { Lock, Terminal, Loader2, KeyRound, ArrowRightLeft, History, Coins, Activity, TrendingUp, ShieldCheck, Bot, ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
@@ -254,6 +254,40 @@ function NeuralActivityHeatmap() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeTransfer, setActiveTransfer] = useState(P2P_MOCK_DATA[0]);
   const [isHovering, setIsHovering] = useState(false);
+  const [liveStreamData, setLiveStreamData] = useState<any[]>(P2P_MOCK_DATA);
+
+  useEffect(() => {
+    const eventSource = new EventSource("https://payments.org/api/transactions");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const parsed = JSON.parse(event.data);
+        if (parsed.type === "transfer" && parsed.data) {
+          const { transaction_hash, transferred_amount_raw, token_decimals, from_owner, to_owner } = parsed.data;
+          
+          const amount = (transferred_amount_raw || 0) / Math.pow(10, token_decimals || 6);
+          const newTransfer = {
+            hash: (transaction_hash || "").slice(0, 16) + "...",
+            fullHash: transaction_hash || "",
+            amount: amount,
+            from: (from_owner || "Unknown").slice(0, 10) + "...",
+            to: (to_owner || "Unknown").slice(0, 10) + "..."
+          };
+
+          setLiveStreamData(prev => {
+            const next = [newTransfer, ...prev].slice(0, 50); // Keep last 50
+            return next;
+          });
+        }
+      } catch (e) {
+        // ignore parsing errors
+      }
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isHovering) return; // Freeze data if hovering over the data panel
@@ -263,8 +297,8 @@ function NeuralActivityHeatmap() {
     const y = e.clientY - rect.top;
     setMousePos({ x, y });
     
-    if (Math.random() > 0.8) {
-      setActiveTransfer(P2P_MOCK_DATA[Math.floor(Math.random() * P2P_MOCK_DATA.length)]);
+    if (Math.random() > 0.8 && liveStreamData.length > 0) {
+      setActiveTransfer(liveStreamData[Math.floor(Math.random() * liveStreamData.length)]);
     }
   };
 

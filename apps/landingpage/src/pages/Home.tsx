@@ -5,7 +5,7 @@ import { ConnectAgentModal } from "../components/ConnectAgentModal";
 import { Badge } from "../components/ui/badge";
 import { motion, useMotionValue, useTransform, MotionValue, AnimatePresence, useInView, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { Zap, Loader2, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Zap, Loader2, ArrowRight, CheckCircle2, ShieldCheck, Activity } from "lucide-react";
 import { VerticalsMarketplaceSlider } from "../components/VerticalsMarketplaceSlider";
 
 // Component for Metallic Reflective Text synced with Scroll
