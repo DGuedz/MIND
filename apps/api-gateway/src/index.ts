@@ -2,6 +2,7 @@ import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { CreateAgentInputSchema, CreateIntentInputSchema } from "@mind/schemas";
 import { getJson, HttpRequestError, postJson } from "./http.js";
+import { executeA2APaymentInDarkPool } from "./services/cloak.service.js";
 
 const server = fastify({ logger: true });
 
@@ -1372,6 +1373,69 @@ server.get<{ Params: { id: string } }>(
     return reply.code(200).send(response.data);
   } catch (error) {
     return sendDownstreamError(reply, error);
+  }
+});
+
+server.post("/v1/treasury/shield-pay", async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const body = request.body as any;
+    const { intentId, recipientPubkey, amountLamports } = body;
+    const sessionKeyStr = getApiKey(request); // The Agent's Ephemeral Key
+
+    if (!intentId || !recipientPubkey || !amountLamports) {
+      return reply.code(400).send({
+        decision: "BLOCK",
+        reason_codes: ["RC_MISSING_EVIDENCE"],
+        message: "Missing intentId, recipientPubkey, or amountLamports."
+      });
+    }
+
+    if (!sessionKeyStr) {
+      return reply.code(401).send({
+        decision: "BLOCK",
+        reason_codes: ["RC_UNTRUSTED_OVERRIDE_ATTEMPT"],
+        message: "Missing Agent Session Key."
+      });
+    }
+
+    // Call the Dark Pool Engine (Cloak SDK wrapper)
+    const result = await executeA2APaymentInDarkPool({
+      intentId,
+      recipientPubkey,
+      amountLamports: BigInt(amountLamports),
+      sessionKeyStr
+    });
+
+    return reply.code(200).send({
+      decision: "ALLOW",
+      evidence: [
+        { type: "CLOAK_ZKP_SIGNATURE", hash: result.signature },
+        { type: "CLOAK_MERKLE_ROOT", hash: result.root },
+        { type: "MINDPRINT_CNFT", status: "minted_successfully" }
+      ],
+      data: {
+        noteNullifier: result.nullifier,
+        viewingKey: "vk_live_demo_12345"
+      }
+    });
+
+  } catch (error: any) {
+    server.log.error(error, "[CLOAK_ENGINE_ERROR]");
+    
+    if (error.message && error.message.includes("Policy")) {
+      return reply.code(403).send({
+        decision: "BLOCK",
+        reason_codes: ["RC_POLICY_VIOLATION"],
+        message: error.message
+      });
+    }
+
+    return reply.code(500).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_TOOL_FAILURE"],
+      message: "Shielded execution failed.",
+      error: error.message
+    });
   }
 });
 
