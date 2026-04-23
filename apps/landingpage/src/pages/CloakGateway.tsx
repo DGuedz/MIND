@@ -98,24 +98,72 @@ export function CloakGatewayPage() {
           )}
 
           {status === "success" ? (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8 text-center py-8">
-               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 mb-2">
-                 <CheckCircle2 className="w-10 h-10" />
-               </div>
-               <div className="space-y-2">
-                 <h2 className="text-xl font-mono uppercase text-green-400">Settlement Verified</h2>
-                 <p className="text-zinc-500 text-sm">Mindprint cNFT successfully minted.</p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+               <div className="text-center space-y-2 mb-4">
+                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 mb-2">
+                   <CheckCircle2 className="w-6 h-6" />
+                 </div>
+                 <h2 className="text-sm font-mono uppercase text-green-400">Settlement Verified</h2>
                </div>
                
-               <div className="bg-black/60 rounded-xl p-6 text-left space-y-4 border border-white/5">
-                 <div className="space-y-1">
-                   <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">Decision Engine</div>
-                   <div className="text-sm font-mono text-zinc-300">{receipt?.decision}</div>
+               {/* Terminal Receipt (NFC-e / Mindprint cNFT Style) */}
+               <div className="bg-[#050505] border border-white/10 rounded-lg p-6 font-mono text-[10px] md:text-xs text-zinc-400 shadow-2xl relative">
+                 <div className="text-center space-y-1 mb-4">
+                   <div className="text-white tracking-widest text-sm">MIND PROTOCOL</div>
+                   <div className="text-zinc-500 tracking-widest">A2A SERVER (NFC-e)</div>
+                   <div className="text-white">================================</div>
                  </div>
-                 <div className="space-y-1">
-                   <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">Zero-Knowledge Nullifier</div>
-                   <div className="text-xs font-mono text-zinc-400 break-all">{receipt?.nullifier}</div>
+                 
+                 <div className="space-y-1 mb-4">
+                   <div className="flex justify-between"><span>ID:</span><span className="text-white">ON-CHAIN AGENT NODE</span></div>
+                   <div className="flex justify-between"><span>NETWORK:</span><span className="text-white">SOLANA MAINNET-BETA</span></div>
+                   <div className="flex justify-between"><span>DATE:</span><span className="text-white">{new Date().toISOString().replace('T', ' ').substring(0, 19)} UTC</span></div>
                  </div>
+
+                 <div className="text-center text-white mb-2">--------------------------------</div>
+                 <div className="text-center text-white tracking-widest mb-2">SALE DETAILS</div>
+                 
+                 <div className="flex justify-between text-zinc-500 mb-1">
+                   <span>ITEM</span>
+                   <div className="flex gap-6 w-24 justify-end"><span>QTY</span><span>TOTAL</span></div>
+                 </div>
+                 
+                 <div className="flex justify-between text-white mb-1">
+                   <span className="truncate uppercase max-w-[140px]">{intentId.replace('purchase_card_', '')} LICENSE</span>
+                   <div className="flex gap-6 w-24 justify-end"><span>1</span><span>{amountSol}</span></div>
+                 </div>
+                 
+                 <div className="flex justify-between text-zinc-500 mb-4">
+                   <span>Execution Fee</span>
+                   <div className="flex gap-6 w-24 justify-end"><span>1</span><span>{(Number(amountSol) * 0.08).toFixed(5)}</span></div>
+                 </div>
+
+                 <div className="text-center text-white mb-2">--------------------------------</div>
+                 
+                 <div className="flex justify-between text-white text-sm mb-2">
+                   <span>TOTAL (SOL)</span>
+                   <span>{amountSol}</span>
+                 </div>
+
+                 <div className="text-center text-white mb-4">--------------------------------</div>
+                 
+                 <div className="space-y-1 mb-4">
+                   <div className="flex justify-between">
+                     <span className="text-zinc-500">SIGNATURE:</span>
+                     <span className="text-white">TURNKEY KMS</span>
+                   </div>
+                   <div className="flex flex-col mt-2">
+                     <span className="text-zinc-500">ZK NULLIFIER:</span>
+                     <span className="text-white break-all leading-tight mt-1">{receipt?.nullifier}</span>
+                   </div>
+                 </div>
+
+                 <div className="text-center text-white mb-1">--------------------------------</div>
+                 <div className="text-center space-y-1 mt-4">
+                   <div className="text-zinc-500 tracking-widest">CRYPTOGRAPHIC RECEIPT</div>
+                   <div className="text-white tracking-widest">VERIFIABLE ON-CHAIN</div>
+                 </div>
+                 <div className="text-center text-white mt-4">================================</div>
                </div>
 
                <button 
