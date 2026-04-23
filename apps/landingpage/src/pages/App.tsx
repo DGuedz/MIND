@@ -431,20 +431,8 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
       {/* Decorative Neural Head Placeholder (Left Side) */}
       <div className="hidden md:flex flex-col items-center justify-center w-64 shrink-0 relative">
         <div className="w-full h-full absolute inset-0 border border-white/5 rounded-2xl bg-black/50 flex items-center justify-center overflow-hidden p-4">
-           {/* PFP Image from User Input */}
-           <img 
-             src="https://raw.githubusercontent.com/DGuedz/MIND/main/apps/landingpage/public/mind-pfp.jpg" 
-             alt="Agent Neural Profile" 
-             className="w-full h-full object-contain opacity-80"
-             onError={(e) => {
-               // Fallback to SVG if image fails to load
-               const target = e.target as HTMLImageElement;
-               target.style.display = 'none';
-               target.nextElementSibling?.classList.remove('hidden');
-             }}
-           />
-           {/* Fallback SVG if image is missing */}
-           <svg width="100%" height="100%" viewBox="0 0 100 100" className="opacity-20 hidden">
+           {/* Fallback SVG always used as background or fallback */}
+           <svg width="100%" height="100%" viewBox="0 0 100 100" className="opacity-20">
              {Array.from({length: 10}).map((_, i) => (
                <ellipse key={i} cx="50" cy="50" rx={20 + i*3} ry={30 + i*4} fill="none" stroke="#fff" strokeWidth="0.2" transform={`rotate(${i * 15} 50 50)`} />
              ))}
@@ -458,11 +446,30 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
       {/* Main Info Section */}
       <div className="flex-1 flex flex-col justify-between relative z-10 space-y-6">
         
-        {/* Header */}
+        {/* Header with PFP */}
         <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <h2 className="text-3xl md:text-5xl font-medium tracking-tight text-white">AgenticID</h2>
-            <div className="text-[10px] font-mono text-green-500/80 uppercase tracking-[0.2em]">ON-CHAIN AGENT IDENTITY</div>
+          <div className="flex items-center gap-6">
+            {/* PFP Image Moved to Header */}
+            <div className="w-20 h-20 rounded-xl overflow-hidden border border-white/10 bg-black shrink-0 relative">
+              <img 
+                src="https://raw.githubusercontent.com/DGuedz/MIND/main/apps/landingpage/public/mind-pfp.jpg" 
+                alt="Agent Profile" 
+                className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <div className="hidden absolute inset-0 flex items-center justify-center bg-zinc-900">
+                <Bot className="w-8 h-8 text-zinc-600" />
+              </div>
+            </div>
+            
+            <div className="space-y-1">
+              <h2 className="text-3xl md:text-5xl font-medium tracking-tight text-white">AgenticID</h2>
+              <div className="text-[10px] font-mono text-green-500/80 uppercase tracking-[0.2em]">ON-CHAIN AGENT IDENTITY</div>
+            </div>
           </div>
           <div className="text-right space-y-1">
              <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">POWERED BY</div>
@@ -883,7 +890,7 @@ export function AppPage() {
       void hydrateProtocolMetrics();
     }, METRICS_REFRESH_INTERVAL_MS);
 
-    let eventSource: EventSource | null = null;
+    // let eventSource: EventSource | null = null;
     // try {
     //   eventSource = new EventSource(sseEndpointUrl);
     //   eventSource.addEventListener("payment_success", () => {
@@ -899,9 +906,9 @@ export function AppPage() {
       active = false;
       window.clearInterval(intervalId);
       window.clearInterval(metricsIntervalId);
-      if (eventSource) {
-        eventSource.close();
-      }
+      // if (eventSource) {
+      //   eventSource.close();
+      // }
     };
   }, []);
 
