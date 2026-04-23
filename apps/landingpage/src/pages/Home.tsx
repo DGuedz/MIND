@@ -1066,8 +1066,22 @@ export function HomePage() {
               card: { id: "dexter", name: "Dexter", type: "Data Agent", price: "$0.05 / req", Art: DexterCardSVG }
             },
             {
-              id: "yield",
+              id: "security",
               indexLabel: "02",
+              title: "CLINT",
+              subtitle: "Security Vertical",
+              description: "CNB Link Intelligence. Sybil risk classification and Node Health Index scoring for DePINs.",
+              stats: [
+                { label: "Origin", value: "The Garage", hint: "SP" },
+                { label: "Badge", value: "Genesis", hint: "Builder" },
+                { label: "Network", value: "Solana", hint: "Mainnet" },
+                { label: "VSC", value: "Compliant", hint: "Read-only" }
+              ],
+              card: { id: "clint", name: "CLINT", type: "Security Agent", price: "$0.01 / scan", Art: VolanCardSVG }
+            },
+            {
+              id: "yield",
+              indexLabel: "03",
               title: "Volan",
               subtitle: "Yield Vertical",
               description: "Composable yield execution. Explicit rails, predictable settlement, opt-in strategies.",
@@ -1081,7 +1095,7 @@ export function HomePage() {
             },
             {
               id: "risk",
-              indexLabel: "03",
+              indexLabel: "04",
               title: "Krios",
               subtitle: "Risk Vertical",
               description: "Pre-trade and runtime policy checks. Deterministic gating before any capital moves.",

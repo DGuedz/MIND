@@ -143,6 +143,18 @@
       "tags": ["solana", "defi", "intel", "firecrawl", "signals"]
     },
     {
+      "id": "skill_clint",
+      "kind": "skill",
+      "name": "clint",
+      "description": "CNB Link Intelligence: Ingests Memo transactions to return a Node Health Index (NHI) with Sybil risk classification for DePINs.",
+      "source": "stbr",
+      "category": "security",
+      "license": "Proprietary",
+      "tags": ["solana", "depin", "sybil", "cnb", "node-health"],
+      "origin": "The Garage - Superteam BR",
+      "badges": ["Genesis Builder", "Colosseum Frontier"]
+    },
+    {
       "id": "skill_colosseum_copilot",
       "kind": "skill",
       "name": "colosseum-copilot",
