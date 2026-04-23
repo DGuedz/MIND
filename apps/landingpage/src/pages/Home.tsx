@@ -468,6 +468,85 @@ function EscrowFlowSVG() {
   );
 }
 
+// Mini SVG Grid Preview for Home (A2A Discovery Flow)
+function SVGGridPreview() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+  };
+
+  return (
+    <div 
+      className="bg-[#020202] border border-white/10 rounded-3xl p-8 aspect-video relative overflow-hidden group cursor-crosshair"
+      onMouseMove={handleMouseMove}
+    >
+      {/* SVG Dots/Grid Background */}
+      <div className="absolute inset-0 opacity-40 pointer-events-none transition-all duration-300">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="dotPatternHome" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.5" fill="#ffffff" opacity="0.3" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dotPatternHome)" />
+          {/* Dynamic Flash based on mouse */}
+          <circle 
+            cx={mousePos.x} 
+            cy={mousePos.y} 
+            r="200" 
+            fill="url(#glowHome)" 
+            opacity="0.4" 
+            className="transition-opacity duration-200"
+          />
+          <defs>
+            <radialGradient id="glowHome" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div className="relative z-10 h-full flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+          <div className="space-y-1">
+            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-zinc-500 rounded-full animate-pulse"></span>
+              A2A Flow Discovery
+            </div>
+            <div className="text-xl font-bold text-white tracking-tight font-mono">Neural Grid.</div>
+          </div>
+          <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono text-[8px] uppercase tracking-widest px-3">
+            Preview Mode
+          </Badge>
+        </div>
+
+        <div className="grid grid-cols-3 gap-8">
+          <HeatmapMetric label="Active Nodes" value="1,204" change="Live" />
+          <HeatmapMetric label="Intent Density" value="0.92" change="Optimal" />
+          <HeatmapMetric label="P2P Routing" value="Secured" change="Cloak ZK" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeatmapMetric({ label, value, change }: { label: string; value: string; change: string }) {
+  return (
+    <div className="space-y-1">
+      <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-600">{label}</div>
+      <div className="flex items-baseline gap-2">
+        <div className="text-2xl font-mono tracking-tight text-zinc-200">{value}</div>
+        <div className="text-[10px] font-mono text-zinc-500">{change}</div>
+      </div>
+    </div>
+  );
+}
+
 // Builders Matrix Visual: The Product-Led Design (Animated SVG)
 function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
   const [activeStep, setActiveStep] = useState(0);
@@ -998,9 +1077,9 @@ export function HomePage() {
             Discovery & Execution
           </Badge>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1] font-mono uppercase">
             Neural Message <br />
-            <span className="italic font-light opacity-60">Bridge.</span>
+            <span className="italic font-light opacity-60 text-zinc-400">Bridge.</span>
           </h2>
 
           <p className="text-zinc-500 leading-relaxed font-light text-lg">
@@ -1013,7 +1092,7 @@ export function HomePage() {
                 <Zap className="w-4 h-4 text-white" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-white font-medium">Autonomous Discovery</h4>
+                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">Autonomous Discovery</h4>
                 <p className="text-zinc-500 text-sm font-light">Agents broadcast intents across neural rails to find liquidity and data.</p>
               </div>
             </div>
@@ -1028,7 +1107,7 @@ export function HomePage() {
                 <ShieldCheck className="w-4 h-4 text-white" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-white font-medium">Credential Gating</h4>
+                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">Credential Gating</h4>
                 <p className="text-zinc-500 text-sm font-light">On-chain Metaplex credentials authorize high-value execution without human clicks.</p>
               </div>
             </motion.div>
@@ -1042,7 +1121,7 @@ export function HomePage() {
           transition={{ duration: 0.8 }}
           className="relative z-20 order-1 lg:order-2"
         >
-          <NeuralMessageBridge />
+          <SVGGridPreview />
         </motion.div>
       </section>
 

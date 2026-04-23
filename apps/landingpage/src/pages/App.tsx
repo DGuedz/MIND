@@ -240,27 +240,29 @@ const mockTasks: A2ATask[] = [
 
 // Mock Data para P2P transfers baseadas no payload da payments.org
 const P2P_MOCK_DATA = [
-  { hash: "5BDqKZmK5V3UFQjA...", amount: 0.95, from: "BwMnmzg...", to: "R4rNJHaf..." },
-  { hash: "4u3aw6fLKjU15NFH...", amount: 0.55, from: "6Js7mMJG...", to: "HiCoUYBU..." },
-  { hash: "5UqhkUjSSzfQGPco...", amount: 0.95, from: "GYmRqdKm...", to: "R4rNJHaf..." },
-  { hash: "3KNPgMAYWBSufYtH...", amount: 21.47, from: "62Q9eeDY...", to: "7y7wh81f..." },
-  { hash: "4pjPg9WYZdjGTcNp...", amount: 1000.0, from: "FPBYdAMJ...", to: "B5srxkT5..." },
-  { hash: "33vcSwA1neoTgVRi...", amount: 20200.0, from: "5tzFkiKs...", to: "CyzxxfsX..." },
-  { hash: "jmLzxZzY5BLvRBt3...", amount: 10.0, from: "Hmc2dLxZ...", to: "7tMB6fcK..." }
+  { hash: "5BDqKZmK5V3UFQjA...", fullHash: "5BDqKZmK5V3UFQjA7ssWhuYNRTgnmVpACHDbffy187Xrch9k8qPuJMuvHLUqyYpXSx441MYxLz9cWvinYsaAaCKH", amount: 0.95, from: "BwMnmzg...", to: "R4rNJHaf..." },
+  { hash: "4u3aw6fLKjU15NFH...", fullHash: "4u3aw6fLKjU15NFH5Phc4KpymTXDnNLxNpp36STxoxrZp8p3vvxBXmmvfQA9x9d9UinMc1XxMUGpfSCmhZj9vUAi", amount: 0.55, from: "6Js7mMJG...", to: "HiCoUYBU..." },
+  { hash: "5UqhkUjSSzfQGPco...", fullHash: "5UqhkUjSSzfQGPcoyKmxfBzfeknJ8izoeva3fG5toTf3aGknCjSqqefgasvJDgwe5H4jYVgeJphPmX3JzSC593Rt", amount: 0.95, from: "GYmRqdKm...", to: "R4rNJHaf..." },
+  { hash: "3KNPgMAYWBSufYtH...", fullHash: "3KNPgMAYWBSufYtHLEaqPbWn2sDmCSFSqHfLAP3jWnWvjKuCuNZLriyVWkGjeBuwrdReYeoNAcwFb7oHXs6frZXK", amount: 21.47, from: "62Q9eeDY...", to: "7y7wh81f..." },
+  { hash: "4pjPg9WYZdjGTcNp...", fullHash: "4pjPg9WYZdjGTcNp4UUi4Wod8hEpJ17PerUQVdvyGi7TSp3o2LpC3nM5BxCGXm2s8Jtzpgz6cq7hcWH6DvVSvip9", amount: 1000.0, from: "FPBYdAMJ...", to: "B5srxkT5..." },
+  { hash: "33vcSwA1neoTgVRi...", fullHash: "33vcSwA1neoTgVRip7dRWcWerAN7qtFwenJjjiSWhsKj1nxinzNDYjFUjbqFccGSW4uBi6oH9YnXNvSiXDBExTHP", amount: 20200.0, from: "5tzFkiKs...", to: "CyzxxfsX..." },
+  { hash: "jmLzxZzY5BLvRBt3...", fullHash: "jmLzxZzY5BLvRBt3pjTU9jWh2Aq9Tuuo5o4E2KqaqENhzzjTg2Lu7yopZr1upwftahEPfnVocRGW7rkU889XMQo", amount: 10.0, from: "Hmc2dLxZ...", to: "7tMB6fcK..." }
 ];
 
-// Neural Activity Heatmap Component (P2P Sensor)
+// Full Screen Neural Activity Component (P2P Sensor) for Dashboard
 function NeuralActivityHeatmap() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeTransfer, setActiveTransfer] = useState(P2P_MOCK_DATA[0]);
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isHovering) return; // Freeze data if hovering over the data panel
+    
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     setMousePos({ x, y });
     
-    // Pick a random transfer based on mouse movement to simulate stream
     if (Math.random() > 0.8) {
       setActiveTransfer(P2P_MOCK_DATA[Math.floor(Math.random() * P2P_MOCK_DATA.length)]);
     }
@@ -268,47 +270,83 @@ function NeuralActivityHeatmap() {
 
   return (
     <div 
-      className="bg-[#020202] border border-white/10 rounded-3xl p-8 relative overflow-hidden group cursor-crosshair h-[300px] flex flex-col justify-between"
+      className="bg-[#020202] border border-white/10 rounded-3xl p-8 relative overflow-hidden group cursor-crosshair h-[400px] flex flex-col justify-between"
       onMouseMove={handleMouseMove}
     >
-      {/* Dynamic Mouse Tracker Background */}
-      <div 
-        className="absolute inset-0 opacity-30 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.1), transparent 40%)`
-        }}
-      />
-      
-      {/* Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+      {/* SVG Dots/Grid Background */}
+      <div className="absolute inset-0 opacity-30 pointer-events-none transition-all duration-300">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="dotPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1" fill="#ffffff" opacity="0.2" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dotPattern)" />
+          {/* Dynamic Flash based on mouse */}
+          <circle 
+            cx={mousePos.x} 
+            cy={mousePos.y} 
+            r="150" 
+            fill="url(#glow)" 
+            opacity={isHovering ? "0.8" : "0.3"} 
+            className="transition-opacity duration-300"
+          />
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
 
       <div className="relative z-10 flex justify-between items-start">
         <div className="space-y-1">
           <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-            Live P2P Stream
+            <span className={`w-1.5 h-1.5 rounded-full ${isHovering ? 'bg-amber-500' : 'bg-green-500 animate-pulse'}`}></span>
+            {isHovering ? 'Target Locked' : 'Live P2P Stream'}
           </div>
-          <div className="text-xl font-bold text-white tracking-tight font-mono">Neural Sensor.</div>
+          <div className="text-xl font-bold text-white tracking-tight font-mono">On-chain Capture.</div>
         </div>
         <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono text-[8px] uppercase tracking-widest px-3">
-          Hover to scan
+          Full Scan
         </Badge>
       </div>
 
-      {/* Dynamic Data Display */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 mt-auto">
-        <div className="bg-black/60 border border-white/5 rounded-xl p-4">
-          <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">Vol (USDC)</div>
-          <div className="text-lg font-mono text-green-400">${activeTransfer.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
-        </div>
-        <div className="bg-black/60 border border-white/5 rounded-xl p-4">
-          <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">From / To</div>
-          <div className="text-[10px] font-mono text-zinc-400">{activeTransfer.from}</div>
-          <div className="text-[10px] font-mono text-zinc-400">{activeTransfer.to}</div>
-        </div>
-        <div className="bg-black/60 border border-white/5 rounded-xl p-4">
-          <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">TX Hash</div>
-          <div className="text-xs font-mono text-zinc-500 truncate">{activeTransfer.hash}</div>
+      {/* Dynamic Data Display (Locks on hover) */}
+      <div 
+        className="relative z-10 mt-auto transition-transform duration-300 hover:scale-[1.01]"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        <div className="bg-black/80 backdrop-blur-md border border-white/10 hover:border-zinc-500 transition-colors rounded-xl p-6">
+          <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-4">
+             <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-[0.2em]">Intercepted Payload</div>
+             <a 
+               href={`https://solscan.io/tx/${activeTransfer.fullHash}`} 
+               target="_blank" 
+               rel="noreferrer"
+               className="text-[9px] font-mono bg-white text-black px-3 py-1 rounded-full uppercase tracking-widest hover:bg-zinc-300 transition-colors flex items-center gap-1"
+             >
+               Audit on Solscan <ArrowUpRight className="w-3 h-3" />
+             </a>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">Vol (USDC)</div>
+              <div className="text-2xl font-mono text-green-400">${activeTransfer.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
+            </div>
+            <div>
+              <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">Route</div>
+              <div className="text-xs font-mono text-zinc-300">From: {activeTransfer.from}</div>
+              <div className="text-xs font-mono text-zinc-300 mt-1">To: {activeTransfer.to}</div>
+            </div>
+            <div>
+              <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] mb-1">Signature</div>
+              <div className="text-xs font-mono text-zinc-500 break-all">{activeTransfer.hash}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
