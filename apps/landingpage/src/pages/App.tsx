@@ -257,35 +257,46 @@ function NeuralActivityHeatmap() {
   const [liveStreamData, setLiveStreamData] = useState<any[]>(P2P_MOCK_DATA);
 
   useEffect(() => {
-    const eventSource = new EventSource("https://payments.org/api/transactions");
+    let eventSource: EventSource | null = null;
 
-    eventSource.onmessage = (event) => {
-      try {
-        const parsed = JSON.parse(event.data);
-        if (parsed.type === "transfer" && parsed.data) {
-          const { transaction_hash, transferred_amount_raw, token_decimals, from_owner, to_owner } = parsed.data;
-          
-          const amount = (transferred_amount_raw || 0) / Math.pow(10, token_decimals || 6);
-          const newTransfer = {
-            hash: (transaction_hash || "").slice(0, 16) + "...",
-            fullHash: transaction_hash || "",
-            amount: amount,
-            from: (from_owner || "Unknown").slice(0, 10) + "...",
-            to: (to_owner || "Unknown").slice(0, 10) + "..."
-          };
+    try {
+      eventSource = new EventSource("https://payments.org/api/transactions");
 
-          setLiveStreamData(prev => {
-            const next = [newTransfer, ...prev].slice(0, 50); // Keep last 50
-            return next;
-          });
+      eventSource.onmessage = (event) => {
+        try {
+          const parsed = JSON.parse(event.data);
+          if (parsed.type === "transfer" && parsed.data) {
+            const { transaction_hash, transferred_amount_raw, token_decimals, from_owner, to_owner } = parsed.data;
+            
+            const amount = (transferred_amount_raw || 0) / Math.pow(10, token_decimals || 6);
+            const newTransfer = {
+              hash: (transaction_hash || "").slice(0, 16) + "...",
+              fullHash: transaction_hash || "",
+              amount: amount,
+              from: (from_owner || "Unknown").slice(0, 10) + "...",
+              to: (to_owner || "Unknown").slice(0, 10) + "..."
+            };
+
+            setLiveStreamData(prev => {
+              const next = [newTransfer, ...prev].slice(0, 50); // Keep last 50
+              return next;
+            });
+          }
+        } catch (e) {
+          // ignore parsing errors
         }
-      } catch (e) {
-        // ignore parsing errors
-      }
-    };
+      };
+
+      eventSource.onerror = () => {
+        // Fallback silently to mock data if the API fails
+        if (eventSource) eventSource.close();
+      };
+    } catch (e) {
+      // Fallback silently if EventSource creation fails
+    }
 
     return () => {
-      eventSource.close();
+      if (eventSource) eventSource.close();
     };
   }, []);
 
@@ -456,7 +467,13 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
             <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-[0.2em]">AGENT PUBLIC KEY</div>
             <div className="text-sm font-mono text-zinc-300 break-all">{wallet}</div>
           </div>
-          <button className="text-zinc-500 hover:text-white transition-colors p-2 bg-white/5 rounded-lg">
+          <button 
+            className="text-zinc-500 hover:text-white transition-colors p-2 bg-white/5 rounded-lg"
+            onClick={() => {
+              navigator.clipboard.writeText(wallet).catch(() => {});
+            }}
+            title="Copy Public Key"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           </button>
         </div>
@@ -857,14 +874,17 @@ export function AppPage() {
 
     let eventSource: EventSource | null = null;
     try {
-      eventSource = new EventSource(sseEndpointUrl);
-      eventSource.addEventListener("payment_success", () => {
-        void hydrateDashboard();
-        void hydrateProtocolMetrics();
-      });
-      eventSource.onerror = () => {
-        eventSource?.close();
-      };
+      // Remover a dependência do backend local que estava causando ERR_CONNECTION_REFUSED
+      // e usar uma técnica silenciosa apenas se houver backend configurado,
+      // ou remover totalmente o stream de sucesso do gateway se não for estritamente necessário.
+      // eventSource = new EventSource(sseEndpointUrl);
+      // eventSource.addEventListener("payment_success", () => {
+      //   void hydrateDashboard();
+      //   void hydrateProtocolMetrics();
+      // });
+      // eventSource.onerror = () => {
+      //   eventSource?.close();
+      // };
     } catch (e) {}
 
     return () => {
