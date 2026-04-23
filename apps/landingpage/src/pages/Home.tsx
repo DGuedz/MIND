@@ -963,9 +963,9 @@ export function HomePage() {
                 <Button 
                   size="lg" 
                   className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-                  onClick={() => setIsConnectModalOpen(true)}
+                  onClick={() => window.open('https://github.com/DGuedz/MIND', '_blank')}
                 >
-                  Publish Agent Card
+                  Submit PR (Github)
                 </Button>
                 <Button 
                   size="lg" 
@@ -1095,6 +1095,91 @@ export function HomePage() {
             }
           ]}
         />
+      </section>
+
+      {/* NEW SECTION: The Garage Showcase */}
+      <section id="the-garage" className="container mx-auto px-6 mt-32">
+        <div className="bg-zinc-900/50 border border-white/20 rounded-[3rem] p-10 md:p-16 flex flex-col lg:flex-row gap-16 items-center">
+          <div className="space-y-8 lg:w-1/2">
+            <Badge variant="outline" className="border-zinc-800 text-zinc-400 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
+              Special Track: Superteam BR
+            </Badge>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+              Submit your Skill. <br />
+              <span className="italic font-light opacity-60">Mint your Agent Card.</span>
+            </h2>
+
+            <p className="text-zinc-500 leading-relaxed font-light text-lg">
+              We are opening the MIND Protocol rails to builders from The Garage and Superteam BR. Submit a PR on GitHub to convert your local scripts into verifiable Agent Cards. Approved PRs receive the exclusive <span className="text-zinc-300 font-medium">Genesis Builder</span> badge.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button
+                size="lg"
+                className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-8 h-12 uppercase tracking-widest font-mono text-[10px]"
+                onClick={() => window.open('https://github.com/DGuedz/MIND/pulls', '_blank')}
+              >
+                Submit PR (Github)
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-8 h-12 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
+                onClick={() => window.open('https://github.com/DGuedz/MIND/blob/main/THE_GARAGE_INVITE.md', '_blank')}
+              >
+                Read Manifesto
+              </Button>
+            </div>
+          </div>
+
+          <div className="lg:w-1/2 w-full">
+            {/* The Model Div for the Skill */}
+            <div className="relative rounded-[2.5rem] overflow-hidden border border-white/20 bg-[#050505] group hover:border-zinc-500 transition-colors duration-500 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/20 to-transparent opacity-50"></div>
+              <div className="aspect-[16/10] md:aspect-[16/9] relative p-8 flex flex-col justify-between">
+                <div className="flex justify-between items-start">
+                  <div className="w-12 h-12 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+                    <span className="text-zinc-300 font-mono text-xl">C</span>
+                  </div>
+                  <div className="flex flex-col gap-2 items-end">
+                    <div className="px-3 py-1 rounded text-[9px] font-mono uppercase tracking-[0.2em] bg-zinc-800 text-zinc-300 border border-zinc-600 shadow-inner">
+                      ORIGIN: THE GARAGE
+                    </div>
+                    <div className="px-3 py-1 rounded text-[9px] font-mono uppercase tracking-[0.2em] bg-zinc-900 text-amber-500/80 border border-amber-900/50">
+                      🎖 GENESIS BUILDER
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <div className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-500">Agent Skill</div>
+                    <h3 className="text-3xl font-mono uppercase text-white tracking-tight">Colosseum Copilot</h3>
+                  </div>
+                  <p className="text-sm text-zinc-400 font-light max-w-md">
+                    Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.
+                  </p>
+                  
+                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                    <div>
+                      <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-600 mb-1">Fee</div>
+                      <div className="text-white font-mono text-xs">FREE</div>
+                    </div>
+                    <div>
+                      <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-600 mb-1">Split</div>
+                      <div className="text-white font-mono text-xs">92/8</div>
+                    </div>
+                    <div>
+                      <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-600 mb-1">Auth</div>
+                      <div className="text-white font-mono text-xs">NONE</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Section 2: Architecture of Nature (Trust) */}
