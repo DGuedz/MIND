@@ -452,7 +452,7 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
             {/* PFP Image Moved to Header */}
             <div className="w-20 h-20 rounded-xl overflow-hidden border border-white/10 bg-black shrink-0 relative">
               <img 
-                src="https://raw.githubusercontent.com/DGuedz/MIND/main/apps/landingpage/src/assets/mind-pfp.jpg" 
+                src="/ag-green.jpg" 
                 alt="Agent Profile" 
                 className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                 onError={(e) => {
