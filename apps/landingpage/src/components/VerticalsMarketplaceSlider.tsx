@@ -214,28 +214,8 @@ export function VerticalsMarketplaceSlider({
                     className="bg-white text-black hover:bg-zinc-200 text-[9px] font-mono uppercase tracking-[0.25em] px-6 py-2 rounded-full transition-colors"
                     onClick={async () => {
                       if (v.card.id === "clint" || v.card.id === "volan" || v.card.id === "dexter" || v.card.id === "krios") {
-                        try {
-                          const res = await fetch("http://127.0.0.1:3000/v1/treasury/shield-pay", {
-                            method: "POST",
-                            headers: { 
-                              "Content-Type": "application/json",
-                              "x-api-key": "EPHEMERAL_SESSION_KEY_MOCK"
-                            },
-                            body: JSON.stringify({
-                              intentId: "purchase_card_" + v.card.id,
-                              amountLamports: 10000000,
-                              recipientPubkey: "FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah"
-                            })
-                          });
-                          if (res.ok) {
-                            const data = await res.json();
-                            alert(`Atomic Execution Successful!\nDecision: ${data.decision}\nCloak Nullifier: ${data.data?.noteNullifier}`);
-                          } else {
-                            alert("Atomic Execution Failed. Ensure API Gateway is running on port 3000.");
-                          }
-                        } catch (e) {
-                          alert("Connection to API Gateway failed. Ensure the Fastify server is running on port 3000.");
-                        }
+                        // Manda para a nova rota do Gateway, passando os dados via query params
+                        window.location.href = `/gateway?intentId=purchase_card_${v.card.id}&amountLamports=10000000&recipient=FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah`;
                       } else {
                         onExploreRegistry();
                       }
