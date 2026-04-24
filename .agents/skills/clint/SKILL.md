@@ -186,7 +186,7 @@ function calcNHI(sessions: SessionProof[], pda: UserAccount): number {
   "agent": "clint",
   "version": "1.0.0",
   "input": {
-    "wallet": "8Zrt5KwcFzmH1NemHNnFgiqXMP6HCThNxCNchHisQsg8",
+    "wallet": "PENDING_REAL_WALLET_FROM_MARIANO",
     "window_hours": 168,
     "mode": "full"
   }

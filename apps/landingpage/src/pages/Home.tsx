@@ -5,7 +5,7 @@ import { ConnectAgentModal } from "../components/ConnectAgentModal";
 import { Badge } from "../components/ui/badge";
 import { motion, useMotionValue, useTransform, MotionValue, AnimatePresence, useInView, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { Zap, Loader2, ArrowRight, CheckCircle2, ShieldCheck, Activity } from "lucide-react";
+import { Zap, ShieldCheck } from "lucide-react";
 import { VerticalsMarketplaceSlider } from "../components/VerticalsMarketplaceSlider";
 
 // Component for Metallic Reflective Text synced with Scroll
@@ -37,109 +37,7 @@ function MetallicText({ children, className, progress }: { children: React.React
 }
 
 // Neural Message Bridge: Terminal interativo para envio de mensagens assinadas
-function NeuralMessageBridge() {
-  const [messages, setMessages] = useState<any[]>([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [txComplete, setTxComplete] = useState(false);
 
-  const simulateA2A = async () => {
-    setIsProcessing(true);
-    setTxComplete(false);
-    
-    // 1. Intent Detection
-    setMessages([{ type: 'intent', title: 'A2A INTENT BROADCAST', body: 'JSON: { action: "COMPUTE", amount: 0.5 SOL }' }]);
-    await new Promise(r => setTimeout(r, 1500));
-
-    // 2. Credential Gating
-    setMessages(prev => [...prev, { type: 'credential', title: 'CREDENTIAL VALIDATED', body: 'NFT Found: 4j67...7uk5c\nStatus: Institutional (AUTO-EXEC)' }]);
-    await new Promise(r => setTimeout(r, 1500));
-
-    // 3. x402 Settlement
-    setMessages(prev => [...prev, { type: 'settlement', title: 'ATOMIC LIQUIDATION', body: 'x402: 0.5 SOL\nSplit: 92% Node / 8% MIND' }]);
-    await new Promise(r => setTimeout(r, 2000));
-
-    // 4. Proof Bundle
-    setMessages(prev => [...prev, { type: 'proof', title: 'PROOF BUNDLE GENERATED', body: 'TX: 5tWq...9pZm\nEvidence: Immutable cNFT Receipt' }]);
-    setIsProcessing(false);
-    setTxComplete(true);
-  };
-
-  return (
-    <div className="bg-zinc-950/50 border border-white/20 rounded-3xl p-6 font-mono text-[10px] min-h-[500px] flex flex-col shadow-2xl backdrop-blur-md">
-      <div className="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <span className="uppercase tracking-[0.3em] text-zinc-400">Neural Bridge v1.0</span>
-        </div>
-        <Badge variant="outline" className="text-[8px] border-zinc-800 text-zinc-500 uppercase tracking-widest">Only Agents</Badge>
-      </div>
-
-      <div className="flex-1 space-y-4 mb-6 overflow-y-auto max-h-[320px] scrollbar-hide">
-        {messages.length === 0 && (
-          <div className="h-full flex flex-col items-center justify-center text-zinc-700 opacity-50 space-y-4">
-            <Zap className="w-8 h-8" />
-            <p className="uppercase tracking-[0.2em]">Ready for Neural Broadcast</p>
-          </div>
-        )}
-        <AnimatePresence>
-          {messages.map((msg, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -5 }}
-              animate={{ opacity: 1, x: 0 }}
-              className={`p-3 rounded-lg border ${
-                msg.type === 'proof' ? 'border-white/20 bg-white/5' : 'border-white/20 bg-black/40'
-              }`}
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <span className={`font-bold tracking-widest ${
-                  msg.type === 'intent' ? 'text-zinc-500' :
-                  msg.type === 'credential' ? 'text-zinc-300' :
-                  msg.type === 'settlement' ? 'text-zinc-400' : 'text-white'
-                }`}>{msg.title}</span>
-              </div>
-              <pre className="text-zinc-500 leading-relaxed">{msg.body}</pre>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-
-      <div className="space-y-4">
-        {!txComplete ? (
-          <Button 
-            onClick={simulateA2A} 
-            disabled={isProcessing}
-            className="w-full bg-white text-black hover:bg-zinc-200 h-14 rounded-2xl uppercase tracking-[0.2em] font-bold text-[11px]"
-          >
-            {isProcessing ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" /> Processing Neural Split...
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                Broadcast Neural Intent <ArrowRight className="w-4 h-4" />
-              </span>
-            )}
-          </Button>
-        ) : (
-          <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-center">
-              <CheckCircle2 className="w-6 h-6 text-white mx-auto mb-2" />
-              <p className="uppercase tracking-widest text-zinc-400 text-[9px]">Settlement Complete</p>
-            </div>
-            <Button 
-              onClick={() => { setMessages([]); setTxComplete(false); }}
-              variant="outline"
-              className="w-full border-white/30 text-zinc-500 hover:bg-white/5 h-12 rounded-2xl uppercase tracking-[0.2em] text-[9px]"
-            >
-              Clear Neural Buffer
-            </Button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 // Dexter Data Agent: The Grid of Truth (Animated SVG)
 function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
@@ -1042,9 +940,9 @@ export function HomePage() {
                 <Button 
                   size="lg" 
                   className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-                  onClick={() => window.open('https://github.com/DGuedz/MIND', '_blank')}
+                  onClick={() => navigate("/register")}
                 >
-                  Submit PR (Github)
+                  Access Builder Profile
                 </Button>
                 <Button 
                   size="lg" 
@@ -1052,7 +950,7 @@ export function HomePage() {
                   className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
                   onClick={() => navigate("/app")}
                 >
-                  Explore Registry
+                  Enter Command Dashboard
                 </Button>
               </div>
             </motion.div>

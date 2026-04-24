@@ -1,6 +1,6 @@
 import { Zap, Database, Key, Shield, Network, ShieldCheck } from "lucide-react";
 import { Badge } from "../components/ui/badge";
-import { motion, useMotionValue, useTransform, MotionValue } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 
 // Component for Metallic Reflective Text synced with Mouse
 function MetallicText({ children, className }: { children: React.ReactNode, className?: string }) {

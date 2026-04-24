@@ -22,7 +22,7 @@ export function MainLayout({ children }: MainLayoutProps) {
 
   const navItems = [
     { id: "home", label: "Home", icon: HomeIcon, path: "/" },
-    { id: "discover", label: "Marketplace", icon: Search, path: "/app" },
+    { id: "discover", label: "Marketplace", icon: Search, path: "/marketplace" },
     { id: "infrastructure", label: "Infrastructure", icon: Globe, path: "/infrastructure" },
     { id: "features", label: "Features", icon: Shield, path: "/features" },
     { id: "terminal", label: "Builders", icon: Terminal, path: "/register" },
@@ -62,13 +62,13 @@ export function MainLayout({ children }: MainLayoutProps) {
             </nav>
           </div>
 
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-8">
             <div 
               className="group hidden md:flex items-center gap-4 text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white"
-              onClick={() => window.open("https://arena.colosseum.org/", "_blank")}
-              title="View Colosseum Profile"
+              onClick={() => window.open("https://arena.colosseum.org/refresh-session?redirectBack=%2Fhackathon%2Fsocial-card%2Ffrontier%2Fdoublegreen", "_blank")}
+              title="View DGUEDZ Colosseum Profile"
             >
-              Frontier 1.0.1 <span className="w-1 h-1 rounded-full bg-zinc-700 group-hover:bg-white transition-colors" /> Operational
+              System <span className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors" /> Operational
             </div>
             <button
               type="button"
@@ -134,10 +134,18 @@ export function MainLayout({ children }: MainLayoutProps) {
 
           </div>
 
-          <div className="flex items-center justify-center pt-8 border-t border-white/20">
-            <span className="text-zinc-600 text-xs font-mono tracking-widest uppercase">
+          <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/20 gap-4">
+            <span className="text-zinc-600 text-[10px] font-mono tracking-[0.3em] uppercase">
               © 2026 MIND Protocol. All rights reserved.
             </span>
+            <a 
+              href="https://arena.colosseum.org/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-zinc-600 hover:text-white text-[10px] font-mono uppercase tracking-[0.3em] transition-colors"
+            >
+              Built for Colosseum Frontier
+            </a>
           </div>
         </div>
       </footer>

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "./layouts/MainLayout";
 import { HomePage } from "./pages/Home";
 import { AppPage } from "./pages/App";
+import { MarketplacePage } from "./pages/Marketplace";
 import { FeaturesPage } from "./pages/Features";
 import { InfrastructurePage } from "./pages/Infrastructure";
 import { RegisterPage } from "./pages/Register";
@@ -19,7 +20,7 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path="app" element={<AppPage />} />
-            <Route path="marketplace" element={<Navigate to="/app" replace />} />
+            <Route path="marketplace" element={<MarketplacePage />} />
             <Route path="features" element={<FeaturesPage />} />
             <Route path="infrastructure" element={<InfrastructurePage />} />
             <Route path="register" element={<RegisterPage />} />

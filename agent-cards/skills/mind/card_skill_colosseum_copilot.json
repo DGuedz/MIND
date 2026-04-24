@@ -4,11 +4,6 @@
     "name": "colosseum-copilot (Skill)",
     "version": "1.0.0",
     "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
-    "origin": "The Garage - Superteam BR",
-    "badges": [
-      "Genesis Builder",
-      "Colosseum Frontier"
-    ],
     "tags": [
       "solana",
       "agent-skill",
@@ -83,8 +78,8 @@
   },
   "provenance": {
     "source": "MIND/.agents/skills",
-    "createdAt": "2026-04-22T19:29:42.305Z",
-    "updatedAt": "2026-04-22T19:29:42.305Z",
+    "createdAt": "2026-04-24T02:11:05.337Z",
+    "updatedAt": "2026-04-24T02:11:05.337Z",
     "signature": "unsigned"
   },
   "skill": {
