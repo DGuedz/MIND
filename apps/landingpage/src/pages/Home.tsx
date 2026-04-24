@@ -827,7 +827,7 @@ export function HomePage() {
     offset: ["start start", "end end"]
   });
 
-  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0], { clamp: true });
+  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0], { clamp: true });
 
   useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
     if (videoRef.current && videoRef.current.duration) {
@@ -908,7 +908,7 @@ export function HomePage() {
 
           {/* Camada de Segurança Visual (Overlay Dinâmico) */}
           <motion.div 
-            className="absolute inset-0 bg-black/60 z-10 pointer-events-none"
+            className="absolute inset-0 bg-black/80 z-10 pointer-events-none"
             style={{ opacity: heroCopyOpacity }}
           />
 
