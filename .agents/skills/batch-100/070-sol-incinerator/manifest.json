@@ -1,0 +1,24 @@
+{
+  "id": "mind-skill-sol-incinerator",
+  "name": "Limpeza automatizada de carteiras com queima de tokens/NFTs de scam",
+  "category": "Infra",
+  "description": "Limpeza automatizada de carteiras com queima de tokens/NFTs de scam (SOL Incinerator).",
+  "price_model": {
+    "execution_fee": "0.05",
+    "payment_asset": "USDC"
+  },
+  "execution_mode": "atomic_cpi",
+  "policy_requirements": {
+    "credential_gated": true,
+    "required_tier": "Tier 1 Micro",
+    "max_spend_limit": "100.00"
+  },
+  "settlement": {
+    "type": "atomic_split",
+    "treasury_split": {
+      "creator": 92,
+      "protocol": 8
+    }
+  },
+  "proof_schema": "mindprint_v1"
+}

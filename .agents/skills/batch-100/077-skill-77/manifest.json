@@ -1,0 +1,24 @@
+{
+  "id": "mind-skill-skill-77",
+  "name": "Gerenciamento e atualização autônoma de fluxos no Trello",
+  "category": "A2A",
+  "description": "Gerenciamento e atualização autônoma de fluxos no Trello.",
+  "price_model": {
+    "execution_fee": "0.05",
+    "payment_asset": "USDC"
+  },
+  "execution_mode": "atomic_cpi",
+  "policy_requirements": {
+    "credential_gated": true,
+    "required_tier": "Tier 1 Micro",
+    "max_spend_limit": "100.00"
+  },
+  "settlement": {
+    "type": "atomic_split",
+    "treasury_split": {
+      "creator": 92,
+      "protocol": 8
+    }
+  },
+  "proof_schema": "mindprint_v1"
+}
