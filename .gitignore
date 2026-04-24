@@ -17,6 +17,7 @@ docs/
 
 # OS Files
 .DS_Store
+.vercel/
 *.pem
 *.key
 
@@ -28,3 +29,4 @@ data/
 
 # Keys and Secrets
 burner_wallets.json
+.mcp.json

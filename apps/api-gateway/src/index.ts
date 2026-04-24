@@ -245,6 +245,11 @@ server.get("/health", async () => ({
   service: "api-gateway"
 }));
 
+server.get("/v1/health", async () => ({
+  status: "ok",
+  service: "api-gateway"
+}));
+
 server.get("/health/db", async (_request: FastifyRequest, reply: FastifyReply) => {
   return reply.send({ status: "ok" });
 });
