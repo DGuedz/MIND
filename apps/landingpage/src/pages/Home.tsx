@@ -377,12 +377,30 @@ function SVGGridPreview() {
     setMousePos({ x, y });
   };
 
+  const handleMouseLeave = () => {
+    setMousePos({ x: 300, y: 150 });
+  };
+
   return (
-    <div 
-      className="bg-[#020202] border border-white/10 rounded-3xl p-8 aspect-video relative overflow-hidden group cursor-crosshair"
-      onMouseMove={handleMouseMove}
-    >
-      {/* SVG Dots/Grid Background */}
+    <div className="relative group" style={{ perspective: "1000px" }}>
+      <div 
+        className="bg-[#020202] border border-white/10 rounded-3xl p-8 aspect-video relative overflow-hidden cursor-crosshair transition-all duration-500 group-hover:scale-[1.02]"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ 
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(${(mousePos.y - 150) * -0.05}deg) rotateY(${(mousePos.x - 300) * 0.05}deg)`
+        }}
+      >
+        {/* Glow de reflexo 3D (Hover) */}
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-700 mix-blend-overlay z-0" 
+          style={{
+            background: `radial-gradient(circle 300px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.15), transparent)`
+          }}
+        />
+
+        {/* SVG Dots/Grid Background */}
       <div className="absolute inset-0 opacity-40 pointer-events-none transition-all duration-300">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -409,7 +427,10 @@ function SVGGridPreview() {
         </svg>
       </div>
 
-      <div className="relative z-10 h-full flex flex-col justify-between">
+      <div 
+        className="relative z-10 h-full flex flex-col justify-between transition-transform duration-200"
+        style={{ transform: `translateZ(30px)` }}
+      >
         <div className="flex justify-between items-start">
           <div className="space-y-1">
             <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2">
@@ -428,6 +449,7 @@ function SVGGridPreview() {
           <HeatmapMetric label="Intent Density" value="0.92" change="Optimal" />
           <HeatmapMetric label="P2P Routing" value="Secured" change="Cloak ZK" />
         </div>
+      </div>
       </div>
     </div>
   );
