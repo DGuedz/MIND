@@ -46,6 +46,8 @@ Do not use this skill for:
 
 ## Source Taxonomy
 
+- `indexer_api` (DefiLlama, Helius)
+- `onchain_oracle` (Pyth)
 - `blog`
 - `docs`
 - `changelog`
@@ -65,18 +67,19 @@ Do not use this skill for:
 - `incentive_program`
 - `compliance_update`
 - `company_claim`
+- `onchain_volume` (Must be verified by indexer)
+- `onchain_tvl` (Must be verified by indexer)
 
 ## Priority Source Map (Initial)
 
 Use `references/source-priority.md` as canonical source map for:
-- Jupiter
-- Meteora
-- Kamino
-- Drift
-- Marginfi
-- Marinade
-- Ondo (Solana footprint)
-- Solana Foundation ecosystem roundups
+- **Helius / RPC Nodes:** Onchain verified transactions and block metrics.
+- **DefiLlama / CoinGecko APIs:** Market volume, circulating supply, and historical prices.
+- **Pyth Network:** Real-time onchain price feeds and oracles.
+- **Jupiter API:** Swap volume and liquidity depth.
+- **Meteora / Kamino:** Yield, TVL, and pool state.
+- **Solana Foundation:** Ecosystem roundups and official network health.
+- **Marginfi / Drift:** Margin limits, perp volume, and borrowing rates.
 
 ## Operational Pipeline
 
