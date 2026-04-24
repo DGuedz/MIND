@@ -1,0 +1,30 @@
+{
+  "id": "metaplex-core-minter",
+  "kind": "skill",
+  "name": "Metaplex Core Minter",
+  "source": "mind",
+  "category": "utility",
+  "license": "MIT",
+  "tags": [
+    "metaplex",
+    "cnft",
+    "core"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "METAPLEX",
+    "CORE"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.005
+  },
+  "performance": {
+    "successRate": 98.4,
+    "totalExecutions": 3282,
+    "totalVolumeUSDC": 957.8
+  }
+}

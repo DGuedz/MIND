@@ -1,0 +1,34 @@
+{
+  "name": "MIND Execution Agent",
+  "version": "1.0",
+  "description": "Execution Infrastructure as an Agent. Integrates Neural Memory, Policy-gated execution, and x402 Atomic Settlement.",
+  "capabilities": [
+    "A2A negotiation",
+    "private execution",
+    "market intelligence",
+    "proof generation"
+  ],
+  "skills": [
+    "orchestrator",
+    "a2a-orchestrator",
+    "x402-monetization",
+    "truth-checker",
+    "neural-memory"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402"
+  },
+  "proof": {
+    "type": "append-only + onchain anchor"
+  },
+  "memory": {
+    "type": "neural append-only"
+  },
+  "policies": [
+    "no absolute claims",
+    "execution gated",
+    "evidence required",
+    "zero emojis"
+  ]
+}

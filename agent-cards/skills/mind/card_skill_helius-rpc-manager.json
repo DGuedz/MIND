@@ -1,0 +1,30 @@
+{
+  "id": "helius-rpc-manager",
+  "kind": "skill",
+  "name": "Helius RPC & Webhooks",
+  "source": "mind",
+  "category": "infrastructure",
+  "license": "MIT",
+  "tags": [
+    "helius",
+    "rpc",
+    "webhooks"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "INFRASTRUCTURE",
+    "HELIUS"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.007
+  },
+  "performance": {
+    "successRate": 99.6,
+    "totalExecutions": 42808,
+    "totalVolumeUSDC": 553.2
+  }
+}

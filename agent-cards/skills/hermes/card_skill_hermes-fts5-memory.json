@@ -1,0 +1,23 @@
+{
+  "id": "hermes-fts5-memory",
+  "kind": "skill",
+  "name": "Hermes FTS5 Memory Retrieval",
+  "description": "Skill para busca e compressão semântica cross-session baseada em FTS5. Permite que o agente acesse histórico de conversas anteriores e extraia padrões recorrentes sem estourar a janela de contexto.",
+  "source": "nous",
+  "category": "cognition",
+  "license": "MIT",
+  "tags": [
+    "fts5-session-search",
+    "llm-summarization",
+    "cross-session-recall",
+    "context-bloat-prevention"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402"
+  },
+  "badges": [
+    "HERMES-AWARE",
+    "A2A-READY"
+  ]
+}

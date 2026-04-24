@@ -17,8 +17,22 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const [activeTab, setActiveTab] = useState("home");
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const navItems = [
     { id: "home", label: "Home", icon: HomeIcon, path: "/" },
@@ -42,19 +56,57 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="landing-container subtle-noise min-h-screen flex flex-col bg-zinc-950">
       {/* Top Navigation Overlay - Floria Style */}
-      <header className="absolute top-0 left-0 right-0 z-50">
-        <div className="container mx-auto px-6 h-32 flex items-center justify-between">
-          <div className="flex items-center gap-16">
-            <div className="cursor-pointer" onClick={() => navigate("/")}>
-              <Logo />
+      <header 
+        className="absolute top-0 left-0 right-0 z-50 flex justify-center"
+        style={{ perspective: "2000px" }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseMove={handleMouseMove}
+      >
+        {/* Glow de fundo seguindo o mouse */}
+        <div 
+          className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-0"
+          style={{
+            opacity: isHovered ? 1 : 0,
+            background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.02), transparent 40%)`
+          }}
+        />
+
+        {/* Borda inferior glow que ilumina com o mouse */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-[1px] pointer-events-none transition-opacity duration-500 z-10"
+          style={{
+            opacity: isHovered ? 1 : 0,
+            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.25), transparent 100%)`
+          }}
+        />
+
+        <div 
+          className="container mx-auto px-6 h-32 flex items-center justify-between relative z-20 transition-transform duration-500 ease-out"
+          style={{
+            transformStyle: 'preserve-3d',
+            transform: isHovered 
+              ? `rotateX(${(mousePos.y - 64) * -0.05}deg) rotateY(${(mousePos.x - (typeof window !== 'undefined' ? window.innerWidth : 1200) / 2) * 0.01}deg)` 
+              : 'rotateX(0deg) rotateY(0deg)'
+          }}
+        >
+          <div 
+            className="flex items-center gap-16 transition-transform duration-300"
+            style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
+          >
+            <div className="cursor-pointer group" onClick={() => navigate("/")}>
+              <div className="transition-transform duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                <Logo />
+              </div>
             </div>
 
             <nav className="hidden lg:flex items-center gap-10">
               {navItems.map((item) => (
                 <div 
                   key={item.id}
-                  className={`flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.3em] transition-all duration-500 cursor-pointer ${activeTab === item.id ? "text-white opacity-100" : "text-zinc-600 hover:text-zinc-400 opacity-60 hover:opacity-100"}`}
+                  className={`flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.3em] transition-all duration-500 cursor-pointer ${activeTab === item.id ? "text-white opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" : "text-zinc-600 hover:text-zinc-300 opacity-60 hover:opacity-100"}`}
                   onClick={() => navigate(item.path)}
+                  style={{ transform: isHovered && activeTab === item.id ? `translateZ(30px)` : `translateZ(10px)` }}
                 >
                   {item.label}
                 </div>
@@ -62,23 +114,26 @@ export function MainLayout({ children }: MainLayoutProps) {
             </nav>
           </div>
 
-          <div className="flex items-center gap-8">
+          <div 
+            className="flex items-center gap-8 transition-transform duration-300"
+            style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
+          >
             <div 
-              className="group hidden md:flex items-center gap-4 text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white"
+              className="group hidden md:flex items-center gap-4 text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
               onClick={() => window.open("https://arena.colosseum.org/refresh-session?redirectBack=%2Fhackathon%2Fsocial-card%2Ffrontier%2Fdoublegreen", "_blank")}
               title="View DGUEDZ Colosseum Profile"
             >
-              System <span className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors" /> Operational
+              System <span className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-white group-hover:shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all" /> Operational
             </div>
             <button
               type="button"
-              className="hidden md:inline text-[9px] text-zinc-600 hover:text-white transition-all duration-500 font-mono uppercase tracking-[0.4em]"
+              className="hidden md:inline text-[9px] text-zinc-600 hover:text-white transition-all duration-500 font-mono uppercase tracking-[0.4em] hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
               onClick={() => navigate("/#github")}
             >
               Repository
             </button>
             <div 
-              className="text-zinc-600 hover:text-white transition-all duration-500 cursor-pointer"
+              className="text-zinc-600 hover:text-white transition-all duration-500 cursor-pointer hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]"
               onClick={() => navigate("/register")}
             >
               <Settings className="w-3.5 h-3.5" />

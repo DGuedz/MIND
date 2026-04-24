@@ -1,0 +1,30 @@
+{
+  "id": "solana-intel-oracle",
+  "kind": "product",
+  "name": "Solana Ecosystem Intelligence Feed",
+  "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e deduplicados. Não contém claims absolutos sem prova.",
+  "source": "mind",
+  "category": "oracle",
+  "license": "Proprietary",
+  "tags": [
+    "real-time-ecosystem-parsing",
+    "institutional-post-validation",
+    "anti-hallucination-signal-extraction",
+    "onchain-metric-disambiguation"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.005
+  },
+  "performance": {
+    "successRate": 99.2,
+    "totalExecutions": 0,
+    "totalVolumeUSDC": 0
+  },
+  "badges": [
+    "A2A-DATA-FEED",
+    "VERIFIED-SOURCE"
+  ]
+}

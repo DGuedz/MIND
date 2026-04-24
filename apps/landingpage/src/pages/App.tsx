@@ -5,6 +5,7 @@ import { Badge } from "../components/ui/badge";
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useDecryptText } from "../hooks/useDecryptText";
 import { motion } from "framer-motion";
+import { MindprintVisual } from "../components/MindprintVisual";
 
 type IntentItem = {
   action: string;
@@ -472,44 +473,9 @@ function AgenticIDCard({ wallet }: { wallet: string }) {
         {/* Header with PFP */}
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-6">
-            {/* Agent Profile Image (Minimalist Line Art) */}
-            <div className="w-20 h-20 rounded-[1.25rem] overflow-hidden border border-white/10 bg-[#0a0a0a] shrink-0 relative flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
-              <svg viewBox="0 0 100 100" className="w-full h-full opacity-90 p-2">
-                <defs>
-                  <linearGradient id="pfpGlow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9"/>
-                    <stop offset="100%" stopColor="#555555" stopOpacity="0.2"/>
-                  </linearGradient>
-                </defs>
-                <g stroke="#a1a1aa" fill="none" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round">
-                  {/* Shoulders */}
-                  <path d="M15 95 C30 85 38 80 42 80 M85 95 C70 85 62 80 58 80" strokeWidth="1" stroke="url(#pfpGlow)" opacity="0.8" />
-                  <path d="M42 80 C47 82 53 82 58 80" stroke="url(#pfpGlow)" opacity="0.8" />
-                  
-                  {/* Neck */}
-                  <path d="M42 80 L42 68 M58 80 L58 68" opacity="0.4" />
-
-                  {/* Head Dome */}
-                  <path d="M32 60 L32 35 C32 20 40 15 50 15 C60 15 68 20 68 35 L68 60" strokeWidth="1.2" stroke="url(#pfpGlow)" />
-                  
-                  {/* Jaw */}
-                  <path d="M32 60 C32 68 40 75 50 75 C60 75 68 68 68 60" strokeWidth="1.2" stroke="url(#pfpGlow)" opacity="0.8" />
-
-                  {/* Central Symmetry Line (Dashed) */}
-                  <line x1="50" y1="15" x2="50" y2="95" stroke="#ffffff" strokeWidth="0.8" strokeDasharray="1.5 3" opacity="0.8" />
-
-                  {/* Visor Lines */}
-                  <path d="M32 40 L68 40" strokeWidth="0.6" opacity="0.5" />
-                  <path d="M32 55 L68 55" strokeWidth="0.6" opacity="0.5" />
-                  
-                  {/* Horizontal Forehead Line */}
-                  <path d="M34 25 C42 27 58 27 66 25" strokeWidth="0.4" opacity="0.3" />
-
-                  {/* Glowing Eyes/Dots */}
-                  <circle cx="43" cy="47.5" r="1.5" fill="#ffffff" stroke="none" opacity="1" />
-                  <circle cx="57" cy="47.5" r="1.5" fill="#ffffff" stroke="none" opacity="1" />
-                </g>
-              </svg>
+            {/* Agent Profile Image (Mindprint PFP) */}
+            <div className="w-24 h-24 rounded-[1.25rem] overflow-hidden border border-white/10 bg-[#050505] shrink-0 relative flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] p-2">
+              <MindprintVisual seed={wallet} />
             </div>
             
             <div className="space-y-1">

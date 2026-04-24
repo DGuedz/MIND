@@ -1,0 +1,30 @@
+{
+  "id": "jito-mev-searcher",
+  "kind": "skill",
+  "name": "Jito MEV Searcher",
+  "source": "mind",
+  "category": "execution",
+  "license": "MIT",
+  "tags": [
+    "jito",
+    "mev",
+    "searcher"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "MEV",
+    "JITO"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.002
+  },
+  "performance": {
+    "successRate": 95.1,
+    "totalExecutions": 40623,
+    "totalVolumeUSDC": 391.7
+  }
+}

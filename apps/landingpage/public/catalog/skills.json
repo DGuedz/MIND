@@ -1,13 +1,43 @@
 {
-  "as_of": "2026-04-24T19:43:04.384Z",
+  "as_of": "2026-04-24T23:16:33.597Z",
   "items": [
     {
-      "id": "skill_colosseum_copilot",
+      "id": "solana-intel-oracle",
+      "kind": "product",
+      "name": "Solana Ecosystem Intelligence Feed",
+      "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e deduplicados. Não contém claims absolutos sem prova.",
+      "source": "mind",
+      "category": "oracle",
+      "license": "Proprietary",
+      "tags": [
+        "real-time-ecosystem-parsing",
+        "institutional-post-validation",
+        "anti-hallucination-signal-extraction",
+        "onchain-metric-disambiguation"
+      ],
+      "badges": [
+        "A2A-DATA-FEED",
+        "VERIFIED-SOURCE"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005
+      },
+      "performance": {
+        "successRate": 99.2,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      }
+    },
+    {
+      "id": "colosseum_copilot",
       "kind": "skill",
       "name": "colosseum-copilot",
       "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
       "source": "mind",
-      "category": "finance",
+      "category": "uncategorized",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -16,24 +46,111 @@
         "ecosystem-intelligence",
         "colosseum-copilot"
       ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "free"
       }
     },
     {
-      "id": "skill_kuka",
+      "id": "drift-perp-trader",
+      "kind": "skill",
+      "name": "Drift Algorithmic Trader",
+      "description": "",
+      "source": "mind",
+      "category": "trading",
+      "license": "MIT",
+      "tags": [
+        "drift",
+        "perps",
+        "trading"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "TRADING",
+        "DRIFT"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.009000000000000001
+      },
+      "performance": {
+        "successRate": 95.8,
+        "totalExecutions": 40784,
+        "totalVolumeUSDC": 403.6
+      }
+    },
+    {
+      "id": "helius-rpc-manager",
+      "kind": "skill",
+      "name": "Helius RPC & Webhooks",
+      "description": "",
+      "source": "mind",
+      "category": "infrastructure",
+      "license": "MIT",
+      "tags": [
+        "helius",
+        "rpc",
+        "webhooks"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "INFRASTRUCTURE",
+        "HELIUS"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.007
+      },
+      "performance": {
+        "successRate": 99.6,
+        "totalExecutions": 42808,
+        "totalVolumeUSDC": 553.2
+      }
+    },
+    {
+      "id": "jito-mev-searcher",
+      "kind": "skill",
+      "name": "Jito MEV Searcher",
+      "description": "",
+      "source": "mind",
+      "category": "execution",
+      "license": "MIT",
+      "tags": [
+        "jito",
+        "mev",
+        "searcher"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "MEV",
+        "JITO"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.002
+      },
+      "performance": {
+        "successRate": 95.1,
+        "totalExecutions": 40623,
+        "totalVolumeUSDC": 391.7
+      }
+    },
+    {
+      "id": "kuka",
       "kind": "skill",
       "name": "kuka",
       "description": "Mentor Solana com analogias TradFi e didatica direta (termos, quiz, learning path, walkthrough).",
       "source": "mind",
-      "category": "education",
+      "category": "uncategorized",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -42,24 +159,143 @@
         "education",
         "kuka"
       ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "free"
       }
     },
     {
-      "id": "skill_render_validation_expert",
+      "id": "marginfi-liquidator",
+      "kind": "skill",
+      "name": "Marginfi Liquidator Bot",
+      "description": "",
+      "source": "mind",
+      "category": "execution",
+      "license": "MIT",
+      "tags": [
+        "marginfi",
+        "liquidation",
+        "defi"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "DEFI",
+        "LIQUIDATION"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.007
+      },
+      "performance": {
+        "successRate": 97.6,
+        "totalExecutions": 1948,
+        "totalVolumeUSDC": 859.2
+      }
+    },
+    {
+      "id": "metaplex-core-minter",
+      "kind": "skill",
+      "name": "Metaplex Core Minter",
+      "description": "",
+      "source": "mind",
+      "category": "utility",
+      "license": "MIT",
+      "tags": [
+        "metaplex",
+        "cnft",
+        "core"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "METAPLEX",
+        "CORE"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005
+      },
+      "performance": {
+        "successRate": 98.4,
+        "totalExecutions": 3282,
+        "totalVolumeUSDC": 957.8
+      }
+    },
+    {
+      "id": "pyth-oracle-fetcher",
+      "kind": "skill",
+      "name": "Pyth Real-Time Oracle",
+      "description": "",
+      "source": "mind",
+      "category": "oracle",
+      "license": "MIT",
+      "tags": [
+        "pyth",
+        "price",
+        "oracle",
+        "defi"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "ORACLE",
+        "PYTH"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.001
+      },
+      "performance": {
+        "successRate": 96,
+        "totalExecutions": 45430,
+        "totalVolumeUSDC": 747
+      }
+    },
+    {
+      "id": "raydium-lp-manager",
+      "kind": "skill",
+      "name": "Raydium LP Optimizer",
+      "description": "",
+      "source": "mind",
+      "category": "execution",
+      "license": "MIT",
+      "tags": [
+        "raydium",
+        "amm",
+        "liquidity"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "DEFI",
+        "RAYDIUM"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005
+      },
+      "performance": {
+        "successRate": 95.4,
+        "totalExecutions": 42992,
+        "totalVolumeUSDC": 566.8
+      }
+    },
+    {
+      "id": "render_validation_expert",
       "kind": "skill",
       "name": "render-validation-expert",
       "description": "Auditoria visual e correcoes de bugs de renderizacao no localhost (Vite/React e Next.js).",
       "source": "mind",
-      "category": "general",
+      "category": "uncategorized",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -68,24 +304,49 @@
         "qa-design",
         "render-validation-expert"
       ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "free"
       }
     },
     {
-      "id": "skill_solana_defi_ecosystem_intel",
+      "id": "sanctum-lst-router",
+      "kind": "skill",
+      "name": "Sanctum LST Arbitrage",
+      "description": "",
+      "source": "mind",
+      "category": "trading",
+      "license": "MIT",
+      "tags": [
+        "sanctum",
+        "lst",
+        "arbitrage"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "DEFI",
+        "SANCTUM"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.006
+      },
+      "performance": {
+        "successRate": 96.5,
+        "totalExecutions": 44395,
+        "totalVolumeUSDC": 670.5
+      }
+    },
+    {
+      "id": "solana_defi_ecosystem_intel",
       "kind": "skill",
       "name": "solana-defi-ecosystem-intel",
       "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
       "source": "mind",
-      "category": "finance",
+      "category": "uncategorized",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -94,25 +355,81 @@
         "ecosystem-intelligence",
         "solana-defi-ecosystem-intel"
       ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "free"
       }
     },
     {
-      "id": "skill_unicorn_vps",
+      "id": "squads-multisig",
       "kind": "skill",
+      "name": "Squads V4 Proposer",
+      "description": "",
+      "source": "mind",
+      "category": "governance",
+      "license": "MIT",
+      "tags": [
+        "squads",
+        "multisig",
+        "treasury"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "GOVERNANCE",
+        "SQUADS"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.001
+      },
+      "performance": {
+        "successRate": 98,
+        "totalExecutions": 37840,
+        "totalVolumeUSDC": 186
+      }
+    },
+    {
+      "id": "tensor-nft-sweeper",
+      "kind": "skill",
+      "name": "Tensor Floor Sweeper",
+      "description": "",
+      "source": "mind",
+      "category": "trading",
+      "license": "MIT",
+      "tags": [
+        "tensor",
+        "nft",
+        "sweeper"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "NFT",
+        "TENSOR"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.009000000000000001
+      },
+      "performance": {
+        "successRate": 99.8,
+        "totalExecutions": 44004,
+        "totalVolumeUSDC": 641.6
+      }
+    },
+    {
+      "id": "unicorn_vps",
+      "kind": "product",
       "name": "unicorn-vps",
       "description": "Bootstrap seguro e educativo de VPS Ubuntu via Claude Code para ecossistema One Person Unicorn / Startup Factory.",
       "source": "mind",
-      "category": "devops",
-      "license": "MIT",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "vps",
         "infrastructure",
@@ -121,25 +438,19 @@
         "ubuntu",
         "the-garage"
       ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "subscription"
       }
     },
     {
-      "id": "skill_arcium",
+      "id": "arcium",
       "kind": "skill",
       "name": "arcium",
       "description": "Encrypted computation via MPC — dark pools, sealed-bid auctions, encrypted voting, confidential DeFi",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -147,25 +458,19 @@
         "infrastructure",
         "arcium"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install arcium",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_code_recon",
+      "id": "code_recon",
       "kind": "skill",
       "name": "code-recon",
       "description": "Deep architectural context building for security audits",
       "source": "sendaifun",
-      "category": "security",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -173,25 +478,19 @@
         "security",
         "code-recon"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install code-recon",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_coingecko",
+      "id": "coingecko",
       "kind": "skill",
       "name": "coingecko",
       "description": "Token prices, DEX pool data, OHLCV charts, trades",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -199,25 +498,19 @@
         "data-analytics",
         "coingecko"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install coingecko",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_debridge",
+      "id": "debridge",
       "kind": "skill",
       "name": "debridge",
       "description": "Cross-chain bridges, message passing, Solana ↔ EVM transfers",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -225,25 +518,19 @@
         "cross-chain",
         "debridge"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install debridge",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_dflow",
+      "id": "dflow",
       "kind": "skill",
       "name": "dflow",
       "description": "Spot trading, prediction markets, Swap API, WebSocket streaming",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -251,25 +538,19 @@
         "trading",
         "dflow"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install dflow",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_glam",
+      "id": "glam",
       "kind": "skill",
       "name": "glam",
       "description": "Tokenized vaults, DeFi integrations (Jupiter, Kamino), staking, asset management",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -277,25 +558,19 @@
         "defi",
         "glam"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install glam",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_helius",
+      "id": "helius",
       "kind": "skill",
       "name": "helius",
       "description": "RPC, DAS API, webhooks, priority fees, LaserStream gRPC",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -303,25 +578,19 @@
         "infrastructure",
         "helius"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install helius",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_jupiter",
+      "id": "jupiter",
       "kind": "skill",
       "name": "jupiter",
       "description": "Ultra swaps, limit orders, DCA, perpetuals, lending, and token APIs",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -329,25 +598,19 @@
         "defi",
         "jupiter"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install jupiter",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_kamino",
+      "id": "kamino",
       "kind": "skill",
       "name": "kamino",
       "description": "Lending, borrowing, liquidity management, leverage trading",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -355,25 +618,19 @@
         "defi",
         "kamino"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install kamino",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_light_protocol",
+      "id": "light_protocol",
       "kind": "skill",
       "name": "light-protocol",
       "description": "ZK Compression, rent-free compressed tokens",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -381,25 +638,19 @@
         "infrastructure",
         "light-protocol"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install light-protocol",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_lulo",
+      "id": "lulo",
       "kind": "skill",
       "name": "lulo",
       "description": "Lending aggregator across Kamino, Drift, MarginFi, Jupiter",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -407,25 +658,19 @@
         "defi",
         "lulo"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install lulo",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_magicblock",
+      "id": "magicblock",
       "kind": "skill",
       "name": "magicblock",
       "description": "Ephemeral Rollups, sub-10ms latency, gasless transactions",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -433,25 +678,19 @@
         "infrastructure",
         "magicblock"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install magicblock",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_manifest",
+      "id": "manifest",
       "kind": "skill",
       "name": "manifest",
       "description": "CLOB, limit orders, reverse orders, global orders, Destiny vaults",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -459,25 +698,19 @@
         "defi",
         "manifest"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install manifest",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_marginfi",
+      "id": "marginfi",
       "kind": "skill",
       "name": "marginfi",
       "description": "Lending, borrowing, leveraged positions (looping) and flash loans",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -485,25 +718,19 @@
         "defi",
         "marginfi"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install marginfi",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_metaplex",
+      "id": "metaplex",
       "kind": "skill",
       "name": "metaplex",
       "description": "Core, Token Metadata, Bubblegum, Candy Machine, Umi framework",
       "source": "sendaifun",
-      "category": "nft",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -511,25 +738,19 @@
         "nft-tokens",
         "metaplex"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install metaplex",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_metengine",
+      "id": "metengine",
       "kind": "skill",
       "name": "metengine",
       "description": "Smart money analytics (wallet scoring, insider detection, capital flow tracking), x402 pay-per-request",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -537,25 +758,19 @@
         "data-analytics",
         "metengine"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install metengine",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_meteora",
+      "id": "meteora",
       "kind": "skill",
       "name": "meteora",
       "description": "DLMM, DAMM pools, bonding curves, Alpha Vaults",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -563,25 +778,19 @@
         "defi",
         "meteora"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install meteora",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_orca",
+      "id": "orca",
       "kind": "skill",
       "name": "orca",
       "description": "Whirlpools concentrated liquidity AMM, swaps, positions",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -589,25 +798,19 @@
         "defi",
         "orca"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install orca",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_pinocchio_development",
+      "id": "pinocchio_development",
       "kind": "skill",
       "name": "pinocchio-development",
       "description": "Zero-copy framework for high-performance programs (88-95% CU reduction)",
       "source": "sendaifun",
-      "category": "developer-tools",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -615,25 +818,19 @@
         "program-development",
         "pinocchio-development"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install pinocchio-development",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_pumpfun",
+      "id": "pumpfun",
       "kind": "skill",
       "name": "pumpfun",
       "description": "Token launches, bonding curves, PumpSwap AMM",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -641,25 +838,19 @@
         "defi",
         "pumpfun"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install pumpfun",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_pyth",
+      "id": "pyth",
       "kind": "skill",
       "name": "pyth",
       "description": "Real-time price feeds, confidence intervals, EMA prices",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -667,25 +858,19 @@
         "oracles",
         "pyth"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install pyth",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_quicknode",
+      "id": "quicknode",
       "kind": "skill",
       "name": "quicknode",
       "description": "RPC (80+ chains), DAS API, Yellowstone gRPC, Streams, webhooks, priority fees, Metis Jupiter",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -693,25 +878,19 @@
         "infrastructure",
         "quicknode"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install quicknode",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_ranger_finance",
+      "id": "ranger_finance",
       "kind": "skill",
       "name": "ranger-finance",
       "description": "Perps aggregator across Drift, Flash, Adrena, Jupiter",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -719,25 +898,19 @@
         "trading",
         "ranger-finance"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install ranger-finance",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_raydium",
+      "id": "raydium",
       "kind": "skill",
       "name": "raydium",
       "description": "AMM pools, CLMM, CPMM, LaunchLab token launches",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -745,25 +918,19 @@
         "defi",
         "raydium"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install raydium",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_sanctum",
+      "id": "sanctum",
       "kind": "skill",
       "name": "sanctum",
       "description": "Liquid staking, LST swaps, Infinity pool",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -771,25 +938,19 @@
         "defi",
         "sanctum"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install sanctum",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_sol_incinerator",
+      "id": "sol_incinerator",
       "kind": "skill",
       "name": "sol-incinerator",
       "description": "Burn tokens, burn NFTs, close token accounts",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -797,25 +958,19 @@
         "infrastructure",
         "sol-incinerator"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install sol-incinerator",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_solana_agent_kit",
+      "id": "solana_agent_kit",
       "kind": "skill",
       "name": "solana-agent-kit",
       "description": "60+ Solana operations with LangChain, Vercel AI, MCP support",
       "source": "sendaifun",
-      "category": "automation",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -823,25 +978,19 @@
         "ai-agents",
         "solana-agent-kit"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install solana-agent-kit",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_solana_kit",
+      "id": "solana_kit",
       "kind": "skill",
       "name": "solana-kit",
       "description": "Modern tree-shakeable SDK from Anza, zero dependencies",
       "source": "sendaifun",
-      "category": "developer-tools",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -849,25 +998,19 @@
         "client-development",
         "solana-kit"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install solana-kit",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_solana_kit_migration",
+      "id": "solana_kit_migration",
       "kind": "skill",
       "name": "solana-kit-migration",
       "description": "Migration guide from @solana/web3.js v1.x to @solana/kit",
       "source": "sendaifun",
-      "category": "developer-tools",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -875,25 +1018,19 @@
         "client-development",
         "solana-kit-migration"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install solana-kit-migration",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_squads",
+      "id": "squads",
       "kind": "skill",
       "name": "squads",
       "description": "Multisig wallets, smart accounts, account abstraction",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -901,25 +1038,19 @@
         "infrastructure",
         "squads"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install squads",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_surfpool",
+      "id": "surfpool",
       "kind": "skill",
       "name": "surfpool",
       "description": "Development environment with mainnet forking, cheatcodes",
       "source": "sendaifun",
-      "category": "infrastructure",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -927,25 +1058,19 @@
         "devops",
         "surfpool"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install surfpool",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_switchboard",
+      "id": "switchboard",
       "kind": "skill",
       "name": "switchboard",
       "description": "Price feeds, on-demand data, VRF randomness, Surge streaming",
       "source": "sendaifun",
-      "category": "finance",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -953,25 +1078,19 @@
         "oracles",
         "switchboard"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install switchboard",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_vulnhunter",
+      "id": "vulnhunter",
       "kind": "skill",
       "name": "vulnhunter",
       "description": "Vulnerability detection, dangerous API hunting, variant analysis",
       "source": "sendaifun",
-      "category": "security",
-      "license": "Apache-2.0",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -979,25 +1098,19 @@
         "security",
         "vulnhunter"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "/plugin marketplace add sendaifun/skills",
-        "/plugin install vulnhunter",
-        "npx skills add sendaifun/skills"
-      ]
+        "model": "free"
+      }
     },
     {
-      "id": "skill_clint",
+      "id": "clint",
       "kind": "skill",
       "name": "clint",
       "description": "CLINT — CNB Link Intelligence. DePIN proof verifier for the CNB Mobile network on Solana. Ingests on-chain Memo transactions and Anchor PDA data to compute a Node Health Index (NHI, 0–100) with Sybil-risk classification. Trust primitive for A2A DePIN transactions in the attention economy.",
       "source": "stbr",
-      "category": "depin-analytics",
-      "license": "MIT",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "depin",
         "solana",
@@ -1011,25 +1124,19 @@
         "the-garage",
         "agent-skill"
       ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Colosseum Frontier"
-      ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "free"
       }
     },
     {
-      "id": "skill_solana_glossary",
+      "id": "solana_glossary",
       "kind": "skill",
       "name": "solana-glossary",
       "description": "Glossary explorer: consulta termos do ecossistema Solana (getTerm/searchTerms/getTermsByCategory) com suporte a i18n (pt/es).",
       "source": "stbr",
-      "category": "education",
-      "license": "MIT",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -1037,20 +1144,19 @@
         "education",
         "solana-glossary"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "free"
       }
     },
     {
-      "id": "skill_agentwallet",
+      "id": "agentwallet",
       "kind": "skill",
       "name": "agentwallet",
       "description": "Wallets para agentes com signing server-side e policies. Inclui x402/fetch (one-step payment proxy) para pagar e chamar APIs com retry e dedupe.",
       "source": "frames",
-      "category": "infrastructure",
-      "license": "UNSPECIFIED",
+      "category": "uncategorized",
+      "license": "Proprietary",
       "tags": [
         "solana",
         "agent-skill",
@@ -1058,235 +1164,10 @@
         "infrastructure",
         "agentwallet"
       ],
+      "badges": [],
       "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
+        "model": "free"
       }
-    },
-    {
-      "id": "skill_hostinger_billing_catalog",
-      "kind": "skill",
-      "name": "Hostinger Billing & Catalog",
-      "description": "Access service plans, subscription options, and manage payment methods.",
-      "source": "hostinger",
-      "category": "finance",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "finance"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-billing-catalog"
-      ]
-    },
-    {
-      "id": "skill_hostinger_dns_manager",
-      "kind": "skill",
-      "name": "Hostinger DNS Manager",
-      "description": "Manage DNS zones, records, snapshots, and domain forwarding.",
-      "source": "hostinger",
-      "category": "infra",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "infra"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-dns-manager"
-      ]
-    },
-    {
-      "id": "skill_hostinger_domain_availability",
-      "kind": "skill",
-      "name": "Hostinger Domain Availability",
-      "description": "Check the availability of domain names across multiple TLDs.",
-      "source": "hostinger",
-      "category": "utility",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "utility"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-domain-availability"
-      ]
-    },
-    {
-      "id": "skill_hostinger_reach_email_marketing_",
-      "kind": "skill",
-      "name": "Hostinger Reach (Email Marketing)",
-      "description": "List and manage email contacts, profiles, and segments for email marketing.",
-      "source": "hostinger",
-      "category": "marketing",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "marketing"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-email-marketing"
-      ]
-    },
-    {
-      "id": "skill_hostinger_firewall_manager",
-      "kind": "skill",
-      "name": "Hostinger Firewall Manager",
-      "description": "Manage Hostinger VPS firewalls, attach/detach, and configure security rules.",
-      "source": "hostinger",
-      "category": "security",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "security"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-firewall-manager"
-      ]
-    },
-    {
-      "id": "skill_hostinger_malware_scanner",
-      "kind": "skill",
-      "name": "Hostinger Malware Scanner",
-      "description": "Install, uninstall, and run malware scans on Hostinger VPS instances.",
-      "source": "hostinger",
-      "category": "security",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "security"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-malware-scanner"
-      ]
-    },
-    {
-      "id": "skill_hostinger_vps_manager",
-      "kind": "skill",
-      "name": "Hostinger VPS Manager",
-      "description": "Provision, start, stop, restart, and monitor Hostinger Virtual Private Servers (VPS).",
-      "source": "hostinger",
-      "category": "infra",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "infra"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-vps-manager"
-      ]
-    },
-    {
-      "id": "skill_hostinger_wordpress_deploy",
-      "kind": "skill",
-      "name": "Hostinger WordPress Deploy",
-      "description": "Import and deploy complete WordPress websites, plugins, and themes automatically.",
-      "source": "hostinger",
-      "category": "web2",
-      "license": "Proprietary",
-      "tags": [
-        "hostinger",
-        "api",
-        "mcp",
-        "web2"
-      ],
-      "origin": "The Garage - Superteam BR",
-      "badges": [
-        "The Garage Premium",
-        "Superteam BR"
-      ],
-      "pricing": {
-        "model": "free",
-        "currency": "USDC",
-        "price": 0
-      },
-      "install": [
-        "npx skills add hostinger/hostinger-wordpress-deploy"
-      ]
     }
   ]
 }

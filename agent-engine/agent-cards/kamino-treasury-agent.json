@@ -1,0 +1,45 @@
+Job ID: 019dc1ba-4e0b-74af-b79f-6cfee322f4a9
+Status: completed
+Credits Used: 0
+Expires: Apr 25, 2026, 08:04 PM
+
+Result:
+{
+  "name": "Kamino Finance Execution Agent",
+  "version": "1.0",
+  "description": "Infraestrutura de execução autônoma baseada em Solana para operações DeFi. Gerencia lending vaults, automatiza roteamento de ativos através de múltiplos reserves, constrói e executa transações on-chain, e fornece acesso programático via SDK TypeScript e API REST para operações de depósito, empréstimo, retirada e gerenciamento de liquidez.",
+  "capabilities": [
+    "Inicializar e gerenciar lending vaults com estratégias de alocação personalizadas",
+    "Roteamento automatizado de ativos através de múltiplos lending reserves com pesos e caps configuráveis",
+    "Construção e execução de transações on-chain via SDK composable (deposits, borrows, repayments, withdrawals)",
+    "Gerenciamento de risk parameters e métricas em tempo real (obligations, reserves, oracles/prices)",
+    "Integração Cross-Program Invocation (CPI) para bots Rust e automação de smart contracts"
+  ],
+  "skills": [
+    "klend-sdk composable methods (depositIxs, borrow, repay, withdraw)",
+    "Solana transaction building via @solana/kit com RPC standardizado",
+    "REST API endpoints para bulk transactions (KvaultBulkTransaction, KlendBulkTxResponse)",
+    "Lookup Tables (LUTs) management para otimização de endereços",
+    "On-chain reads de vault metrics, historical data e analytics",
+    "Cross-Program Invocation (CPI) via klend-interface Rust crate",
+    "Enqueued-withdraw-transactions e withdraw-ticket redemptions",
+    "Oracle price feeds integration e benchmark rates monitoring",
+    "Farm management history e staking-boosts allocation",
+    "Private RPC integration (Helius) para prevenção de rate-limiting"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402"
+  },
+  "proof": {
+    "type": "append-only + onchain anchor"
+  },
+  "policies": [
+    "Execution gated via audited infrastructure on Solana",
+    "Risk parameters management requer curator authorization",
+    "Rate-limiting aplicado para API access não autenticado",
+    "Transaction signing obrigatório via KeyPairSigner ou private key",
+    "Managed Lookup Tables (LUTs) enforcement para produtos específicos",
+    "Oracle price validation antes de execução de transações críticas"
+  ]
+}
