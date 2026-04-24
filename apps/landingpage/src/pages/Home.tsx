@@ -827,7 +827,7 @@ export function HomePage() {
     offset: ["start start", "end end"]
   });
 
-  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const heroCopyOpacity = useTransform(scrollYProgress, [0, 1], [1, 0], { clamp: true });
 
   useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
     if (videoRef.current && videoRef.current.duration) {
