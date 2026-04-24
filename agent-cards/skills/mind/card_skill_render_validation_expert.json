@@ -80,7 +80,12 @@
     "source": "MIND/.agents/skills",
     "createdAt": "2026-04-24T02:11:05.337Z",
     "updatedAt": "2026-04-24T02:11:05.337Z",
-    "signature": "unsigned"
+    "signature": "unsigned",
+    "origin": "The Garage - Superteam BR",
+    "badges": [
+      "The Garage Premium",
+      "Superteam BR"
+    ]
   },
   "skill": {
     "source_url": "https://github.com/DGuedz/MIND",

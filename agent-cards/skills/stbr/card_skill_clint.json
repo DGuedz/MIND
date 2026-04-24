@@ -112,14 +112,9 @@
     }
   },
   "pricing": {
-    "model": "per_call",
+    "model": "free",
     "currency": "USDC",
-    "price": 0.05,
-    "split": {
-      "builder_pct": 92,
-      "protocol_pct": 8
-    },
-    "escrow_logic": "Standard"
+    "price": 0
   },
   "provenance": {
     "source": "CNB Mobile DePIN — Colosseum Frontier 2026",

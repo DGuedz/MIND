@@ -1,31 +1,33 @@
 {
   "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
   "metadata": {
-    "name": "solana-defi-ecosystem-intel (Skill)",
+    "name": "unicorn-vps (Skill)",
     "version": "1.0.0",
-    "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
+    "description": "Bootstrap seguro e educativo de VPS Ubuntu via Claude Code para ecossistema One Person Unicorn / Startup Factory.",
     "tags": [
-      "solana",
-      "agent-skill",
-      "mind",
-      "ecosystem-intelligence",
-      "solana-defi-ecosystem-intel"
+      "vps",
+      "infrastructure",
+      "devops",
+      "security",
+      "ubuntu",
+      "the-garage"
     ],
-    "license": "Proprietary",
+    "license": "MIT",
     "author": {
-      "name": "MIND",
-      "contact": "https://github.com/DGuedz/MIND"
+      "name": "Frederico Santana",
+      "contact": "https://github.com/fredericosanntana"
     }
   },
   "discovery": {
-    "intent": "data_analysis",
-    "category": "finance",
+    "intent": "infrastructure",
+    "category": "devops",
     "keywords": [
-      "solana",
-      "agent-skill",
-      "mind",
-      "ecosystem-intelligence",
-      "solana-defi-ecosystem-intel"
+      "vps",
+      "ubuntu",
+      "security",
+      "docker",
+      "traefik",
+      "the-garage"
     ],
     "compatibleFrameworks": [
       "claude-code",
@@ -57,14 +59,14 @@
       ]
     },
     "samples": [],
-    "qualityScore": 0.75
+    "qualityScore": 0.85
   },
   "access": {
     "authentication": "none",
     "endpoints": {
-      "discovery": "https://github.com/DGuedz/MIND",
-      "metadata": "https://github.com/DGuedz/MIND",
-      "data": "https://github.com/DGuedz/MIND"
+      "discovery": "https://github.com/fredericosanntana/unicorn-vps",
+      "metadata": "https://github.com/fredericosanntana/unicorn-vps",
+      "data": "https://github.com/fredericosanntana/unicorn-vps"
     },
     "rateLimit": {
       "requests": 60,
@@ -77,9 +79,9 @@
     "price": 0
   },
   "provenance": {
-    "source": "MIND/.agents/skills",
-    "createdAt": "2026-04-24T02:11:05.337Z",
-    "updatedAt": "2026-04-24T02:11:05.337Z",
+    "source": "MIND/agent-cards/skills/mind",
+    "createdAt": "2026-04-24T13:30:00.000Z",
+    "updatedAt": "2026-04-24T13:30:00.000Z",
     "signature": "unsigned",
     "origin": "The Garage - Superteam BR",
     "badges": [
@@ -88,7 +90,7 @@
     ]
   },
   "skill": {
-    "source_url": "https://github.com/DGuedz/MIND",
-    "repo_path": ".agents/skills/solana-defi-ecosystem-intel/SKILL.md"
+    "source_url": "https://github.com/fredericosanntana/unicorn-vps",
+    "repo_path": ".agents/skills/unicorn-vps/SKILL.md"
   }
 }
