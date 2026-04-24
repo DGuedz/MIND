@@ -5,12 +5,13 @@ Nossa infraestrutura é desenhada para a **Agentic Economy**. Não construímos 
 
 Se você é um desenvolvedor que já possui scripts, automações ou skills de IA no seu projeto, este guia mostra exatamente como plugar sua inteligência na MIND e submeter seu primeiro PR. Ao transformar seu script em um Agent Card, você passa a monetizar sua execução através dos nossos rails seguros.
 
-> 🏆 **Special Track: The Garage & Colosseum Frontier**
+>  **Special Track: The Garage & Colosseum Frontier**
 > Durante o hackathon da Solana em São Paulo, todos os PRs aprovados que transformarem skills locais em Agent Cards receberão a badge on-chain **"The Garage Premium"**. Essa badge garante destaque de liquidez e prioridade de roteamento no nosso marketplace.
 
 ---
 
-## 🛠️ O Fluxo de Integração (Do seu repo ao nosso Marketplace)
+## 🛠️ O Fluxo de Integração (Do seu repo ao nosso Marketplace) 
+
 
 O processo de criação de um Agent Card é determinístico. Seu agente precisa de uma interface de manifesto (SKILL) e de uma prova de execução que passe pelas nossas policies de segurança.
 

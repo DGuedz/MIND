@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-04-24T19:12:06.935Z",
+  "as_of": "2026-04-24T19:43:04.384Z",
   "items": [
     {
       "id": "skill_colosseum_copilot",
@@ -1063,6 +1063,230 @@
         "currency": "USDC",
         "price": 0
       }
+    },
+    {
+      "id": "skill_hostinger_billing_catalog",
+      "kind": "skill",
+      "name": "Hostinger Billing & Catalog",
+      "description": "Access service plans, subscription options, and manage payment methods.",
+      "source": "hostinger",
+      "category": "finance",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "finance"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-billing-catalog"
+      ]
+    },
+    {
+      "id": "skill_hostinger_dns_manager",
+      "kind": "skill",
+      "name": "Hostinger DNS Manager",
+      "description": "Manage DNS zones, records, snapshots, and domain forwarding.",
+      "source": "hostinger",
+      "category": "infra",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "infra"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-dns-manager"
+      ]
+    },
+    {
+      "id": "skill_hostinger_domain_availability",
+      "kind": "skill",
+      "name": "Hostinger Domain Availability",
+      "description": "Check the availability of domain names across multiple TLDs.",
+      "source": "hostinger",
+      "category": "utility",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "utility"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-domain-availability"
+      ]
+    },
+    {
+      "id": "skill_hostinger_reach_email_marketing_",
+      "kind": "skill",
+      "name": "Hostinger Reach (Email Marketing)",
+      "description": "List and manage email contacts, profiles, and segments for email marketing.",
+      "source": "hostinger",
+      "category": "marketing",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "marketing"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-email-marketing"
+      ]
+    },
+    {
+      "id": "skill_hostinger_firewall_manager",
+      "kind": "skill",
+      "name": "Hostinger Firewall Manager",
+      "description": "Manage Hostinger VPS firewalls, attach/detach, and configure security rules.",
+      "source": "hostinger",
+      "category": "security",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "security"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-firewall-manager"
+      ]
+    },
+    {
+      "id": "skill_hostinger_malware_scanner",
+      "kind": "skill",
+      "name": "Hostinger Malware Scanner",
+      "description": "Install, uninstall, and run malware scans on Hostinger VPS instances.",
+      "source": "hostinger",
+      "category": "security",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "security"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-malware-scanner"
+      ]
+    },
+    {
+      "id": "skill_hostinger_vps_manager",
+      "kind": "skill",
+      "name": "Hostinger VPS Manager",
+      "description": "Provision, start, stop, restart, and monitor Hostinger Virtual Private Servers (VPS).",
+      "source": "hostinger",
+      "category": "infra",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "infra"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-vps-manager"
+      ]
+    },
+    {
+      "id": "skill_hostinger_wordpress_deploy",
+      "kind": "skill",
+      "name": "Hostinger WordPress Deploy",
+      "description": "Import and deploy complete WordPress websites, plugins, and themes automatically.",
+      "source": "hostinger",
+      "category": "web2",
+      "license": "Proprietary",
+      "tags": [
+        "hostinger",
+        "api",
+        "mcp",
+        "web2"
+      ],
+      "origin": "The Garage - Superteam BR",
+      "badges": [
+        "The Garage Premium",
+        "Superteam BR"
+      ],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      },
+      "install": [
+        "npx skills add hostinger/hostinger-wordpress-deploy"
+      ]
     }
   ]
 }

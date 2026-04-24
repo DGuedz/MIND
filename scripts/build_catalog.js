@@ -5,7 +5,7 @@ const ROOT_DIR = path.join(__dirname, '..');
 const SKILLS_DIR = path.join(ROOT_DIR, 'agent-cards', 'skills');
 const OUT_FILE = path.join(ROOT_DIR, 'apps', 'landingpage', 'public', 'catalog', 'skills.json');
 
-const sources = ['mind', 'sendaifun', 'stbr', 'frames'];
+const sources = ['mind', 'sendaifun', 'stbr', 'frames', 'hostinger'];
 const items = [];
 
 for (const source of sources) {

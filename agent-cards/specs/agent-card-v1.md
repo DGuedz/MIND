@@ -1,16 +1,16 @@
 # Agent Card Specification v1.0
 
-## 📋 Visão Geral
+##  Visão Geral
 Agent Cards são documentos JSON que permitem que agentes autônomos descubram, entendam e consumam dados e serviços hospedados no GitHub como um marketplace A2A (Agent-to-Agent).
 
-## 🎯 Propósito
+##  Propósito
 Transformar repositórios GitHub em vitrines descobertáveis por:
 - Agentes LangChain/CrewAI buscando dados
 - Sistemas AutoGPT procurando APIs
 - Tesourarias corporativas monetizando dados
 - Pesquisadores compartilhando datasets
 
-## 📦 Estrutura do JSON
+##  Estrutura do JSON
 
 ```json
 {
@@ -95,7 +95,7 @@ Transformar repositórios GitHub em vitrines descobertáveis por:
 - `format`: Formato dos dados (JSON, CSV, Parquet, etc)
 - `schema`: Estrutura dos dados (opcional para APIs)
 
-## 🔐 Modelos de Acesso
+##  Modelos de Acesso
 
 ### 1. Acesso Livre (Free)
 ```json
@@ -130,7 +130,7 @@ Transformar repositórios GitHub em vitrines descobertáveis por:
 }
 ```
 
-## 🎯 Categorias de Intent
+##  Categorias de Intent
 
 | Categoria | Descrição | Exemplo |
 |-----------|-----------|---------|
@@ -140,7 +140,7 @@ Transformar repositórios GitHub em vitrines descobertáveis por:
 | `orchestration` | Serviços de orquestração | Workflow automation |
 | `knowledge_base` | Bases de conhecimento | Research papers |
 
-## 🔍 Discovery Mechanism
+##  Discovery Mechanism
 
 Agentes descobrem Agent Cards através de:
 
@@ -157,7 +157,7 @@ Agentes descobrem Agent Cards através de:
    - Plugins nativos para LangChain/CrewAI
    - Auto-discovery durante agent initialization
 
-## 💰 Payment Flow (x402)
+##  Payment Flow (x402)
 
 ```mermaid
 sequenceDiagram
@@ -183,20 +183,20 @@ sequenceDiagram
 - **Data Provenance**: Rastreabilidade completa da origem dos dados
 - **Payment Security**: Transações atômicas via Solana
 
-## 📊 Quality Metrics
+##  Quality Metrics
 
 - `qualityScore`: Score de qualidade (0.0-1.0)
 - `updateFrequency`: Frequência de atualização
 - `completeness`: Completeza dos dados (%)
 - `accuracy`: Precisão medida
 
-## 🔄 Versioning
+##  Versioning
 
 - Versões seguem Semantic Versioning (MAJOR.MINOR.PATCH)
 - Breaking changes requerem major version update
 - Agentes devem validar compatibilidade de versão
 
-## 📈 Adoption Guidelines
+##  Adoption Guidelines
 
 1. **Para Data Providers**:
    - Crie `agent-card.json` na raiz do repositório
@@ -208,7 +208,7 @@ sequenceDiagram
    - Adicione x402 payment handling
    - Valide Agent Cards antes do uso
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Create Agent Card
 ```bash
@@ -229,6 +229,6 @@ const card = await mindClient.discover('financial data');
 const data = await mindClient.consume(card, { payment: 'x402' });
 ```
 
-## 📝 License
+##  License
 
 Este specification é licenciado sob Apache License 2.0. Agent Cards individuais podem ter suas próprias licenças especificadas no campo `metadata.license`.

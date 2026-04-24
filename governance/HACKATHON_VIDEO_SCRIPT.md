@@ -36,7 +36,7 @@ Demonstrar, em poucos minutos, que MIND é:
 "Aqui entra o nosso 'Intent Firewall'. O agente levanta a intenção de pagar 0.001 SOL pelo relatório de risco. O usuário recebe a notificação no Telegram com contexto total. Ao clicar em 'Aprovar x402', o MIND executa uma transação atômica na Mainnet da Solana. Sem intermediários, liquidação determinística."
 **Ação:**
 - Mostrar a mensagem chegando no Telegram.
-- Clicar em "✅ Aprovar x402".
+- Clicar em " Aprovar x402".
 - Mostrar o bot processando e retornando o `txHash` da Solana Mainnet.
 - Mostrar a confirmação visual da transação (pode ser o link do Solscan).
 
