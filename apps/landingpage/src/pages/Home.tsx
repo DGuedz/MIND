@@ -827,7 +827,7 @@ export function HomePage() {
     offset: ["start start", "end end"]
   });
 
-  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
     if (videoRef.current && videoRef.current.duration) {
@@ -913,13 +913,15 @@ export function HomePage() {
           />
 
           {/* Copy - Centered and Relative */}
-          <div className="relative z-20 flex flex-col items-center justify-center h-full px-6 text-center">
+          <motion.div 
+            className="relative z-20 flex flex-col items-center justify-center h-full px-6 text-center"
+            style={{ opacity: heroCopyOpacity }}
+          >
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="max-w-4xl space-y-10 flex flex-col items-center"
-              style={{ opacity: heroCopyOpacity }}
             >
               <div className="space-y-4 flex flex-col items-center">
                 <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm w-fit">
@@ -932,7 +934,7 @@ export function HomePage() {
                 </h1>
               </div>
 
-              <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-2xl font-light text-center">
+              <p className="text-lg md:text-xl text-zinc-300 leading-relaxed max-w-2xl font-light text-center drop-shadow-[0_0_12px_rgba(255,255,255,0.25)] transition-all duration-700 hover:text-white hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
                 Builders publish Agent Cards with policy-gated execution and proof-native delivery. Agents discover skills, consume market signals, and settle atomically with a 92/8 split.
               </p>
 
@@ -954,7 +956,7 @@ export function HomePage() {
                 </Button>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
 
           <motion.div 
             className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
