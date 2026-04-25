@@ -1,0 +1,41 @@
+name: Deploy MIND Landing & Marketplace to Vercel
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/landingpage/**'
+      - 'agent-cards/**'
+      - 'scripts/**'
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Build Agent Cards Catalog
+        run: |
+          echo "[MIND:WORKFLOW] Compiling the Agent Cards Catalog..."
+          node scripts/build_catalog.js
+
+      - name: Deploy to Vercel
+        run: |
+          echo "[MIND:WORKFLOW] Initiating Production Deployment..."
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
