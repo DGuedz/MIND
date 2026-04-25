@@ -19,7 +19,6 @@ function MetallicText({ children, className, progress }: { children: React.React
     mouseY.set(e.clientY - rect.top);
   };
 
-  // Se progress for fornecido, o brilho reage ao scroll. Caso contrário, reage ao mouse.
   const backgroundPosition = useTransform(
     progress || mouseX,
     (v: any) => progress ? `${Number(v) * 200}% 50%` : `${Number(mouseX.get()) / 10}% ${Number(mouseY.get()) / 10}%`
@@ -29,6 +28,33 @@ function MetallicText({ children, className, progress }: { children: React.React
     <motion.span
       onMouseMove={handleMouseMove}
       className={`relative inline-block bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-500 to-white bg-[length:200%_200%] transition-all duration-300 cursor-default ${className || ''}`}
+      style={{ backgroundPosition }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+// Component for Solana Metallic Reflective Text
+function SolanaMetallicText({ children, className, progress }: { children: React.ReactNode, className?: string, progress?: MotionValue<number> }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  };
+
+  const backgroundPosition = useTransform(
+    progress || mouseX,
+    (v: any) => progress ? `${Number(v) * 200}% 50%` : `${Number(mouseX.get()) / 10}% ${Number(mouseY.get()) / 10}%`
+  );
+
+  return (
+    <motion.span
+      onMouseMove={handleMouseMove}
+      className={`relative inline-block bg-clip-text text-transparent bg-[linear-gradient(110deg,#ffffff,45%,#c4f5de,50%,#a1a1aa,55%,#dcbdfa,80%,#ffffff)] bg-[length:200%_200%] transition-all duration-300 cursor-default drop-shadow-[0_0_10px_rgba(255,255,255,0.1)] ${className || ''}`}
       style={{ backgroundPosition }}
     >
       {children}
@@ -51,7 +77,7 @@ function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
   }, []);
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="dexterGrad" cx="50%" cy="50%" r="50%">
           <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.15 }} />
@@ -121,55 +147,136 @@ function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
   );
 }
 
-// Volan Yield Agent: The Multi-Layered Growth (Animated SVG)
+// Volan Yield Agent: The High Voltage Network (Animated SVG)
 function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
-      <g transform="translate(250, 300)">
-        {/* Yield Stacking Visual */}
-        {Array.from({ length: 5 }).map((_, i) => (
-          <motion.rect
-            key={`bar-${i}`}
-            x={-100 + i * 45}
-            y={20}
-            width="30"
-            height={-40 - (i * 20)}
-            fill="none"
-            stroke="#ffffff"
-            strokeWidth="0.5"
-            opacity={isHovered ? 0.6 : 0.1}
-            animate={{ height: isHovered ? [-40 - (i * 20), -80 - (i * 20), -40 - (i * 20)] : -40 - (i * 20) }}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-          />
-        ))}
+    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+      <defs>
+        <radialGradient id="volanGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#050505" stopOpacity="0" />
+        </radialGradient>
+        <filter id="electricGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      
+      <rect width="500" height="667" fill="url(#volanGrad)" />
 
-        {Array.from({ length: 12 }).map((_, i) => (
-          <motion.circle
-            key={i}
-            r={20 + i * 20}
-            fill="none"
-            stroke="#ffffff"
-            strokeWidth="0.5"
-            strokeDasharray={10 + i * 5}
-            animate={{ 
-              rotate: i % 2 === 0 ? 360 : -360,
-              opacity: isHovered ? (0.8 - i * 0.05) : (0.2 - i * 0.02)
-            }}
-            transition={{ 
-              rotate: { duration: 10 + i * 2, repeat: Infinity, ease: "linear" },
-              opacity: { duration: 0.5 }
-            }}
-          />
-        ))}
+      {/* Central Power Core */}
+      <g transform="translate(250, 300)">
+        <motion.circle 
+          r="15" fill="#ffffff" opacity={isHovered ? 0.9 : 0.3}
+          animate={{ scale: isHovered ? [1, 1.2, 0.9, 1.3, 1] : 1 }}
+          transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+          filter="url(#electricGlow)"
+        />
+        <motion.circle 
+          r="30" fill="none" stroke="#ffffff" strokeWidth="1" strokeDasharray="4 12"
+          opacity={isHovered ? 0.5 : 0.1}
+          animate={{ rotate: 360, scale: isHovered ? [1, 1.5, 1] : 1 }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        />
+
+        {/* High Voltage Arcs (Electricity) */}
+        {Array.from({ length: 6 }).map((_, i) => {
+          const angle = (i * 60) * (Math.PI / 180);
+          
+          // Generate a jagged electric path
+          const generateArc = () => {
+            let path = `M 0 0`;
+            let currentX = 0;
+            let currentY = 0;
+            const segments = 5;
+            const length = 150 + Math.random() * 100; // random length for arc
+            
+            for (let j = 1; j <= segments; j++) {
+              const segmentLength = length / segments;
+              const jitterX = (Math.random() - 0.5) * 40;
+              const jitterY = (Math.random() - 0.5) * 40;
+              
+              currentX += Math.cos(angle) * segmentLength + jitterX;
+              currentY += Math.sin(angle) * segmentLength + jitterY;
+              
+              path += ` L ${currentX} ${currentY}`;
+            }
+            return path;
+          };
+
+          return (
+            <motion.path
+              key={`arc-${i}`}
+              d={generateArc()}
+              fill="none"
+              stroke="#ffffff"
+              strokeWidth={isHovered ? 1.5 : 0.5}
+              filter={isHovered ? "url(#electricGlow)" : "none"}
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ 
+                pathLength: isHovered ? [0, 1, 0] : 0,
+                opacity: isHovered ? [0, 1, 0] : 0.1,
+                d: isHovered ? [generateArc(), generateArc()] : generateArc() // Jitter the path itself
+              }}
+              transition={{ 
+                duration: 0.15 + Math.random() * 0.2, 
+                repeat: Infinity, 
+                repeatType: "mirror",
+                delay: Math.random() * 2 
+              }}
+            />
+          );
+        })}
+
+        {/* Static Background Circuit Lines */}
+        {Array.from({ length: 8 }).map((_, i) => {
+          const angle = (i * 45 + 22.5) * (Math.PI / 180);
+          const x2 = Math.cos(angle) * 300;
+          const y2 = Math.sin(angle) * 300;
+          return (
+            <motion.line
+              key={`circuit-${i}`}
+              x1="0" y1="0" x2={x2} y2={y2}
+              stroke="#ffffff" strokeWidth="0.5" strokeDasharray="10 20"
+              opacity="0.1"
+              animate={{ strokeDashoffset: isHovered ? [0, -30] : 0 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+          );
+        })}
       </g>
 
-      {/* Yield Info */}
+      {/* Energy Metrics */}
       {isHovered && (
-        <g className="font-mono text-[8px]" fill="#ffffff" opacity="0.4">
-          <text x="350" y="50">APY: +14.2%</text>
-          <text x="350" y="70">TVL: $42.5M</text>
-          <text x="350" y="90">STRAT: KAMINO_JIT</text>
-        </g>
+        <motion.g 
+          className="font-mono text-[10px]" 
+          fill="#ffffff" 
+          opacity="0.8"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 0.8, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <g transform="translate(320, 40)">
+            <rect width="12" height="12" rx="2" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.5" />
+            <path d="M 3,6 L 6,9 L 9,3" fill="none" stroke="#ffffff" strokeWidth="1" />
+            <text x="20" y="10">APY: +14.2%</text>
+          </g>
+          
+          <g transform="translate(320, 60)">
+            <rect width="12" height="12" rx="2" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.5" />
+            <path d="M 6,3 L 6,9 M 4,4 L 8,4 M 4,8 L 8,8" fill="none" stroke="#ffffff" strokeWidth="1" />
+            <text x="20" y="10">TVL: $42.5M</text>
+          </g>
+
+          <g transform="translate(320, 80)">
+            <rect width="12" height="12" rx="2" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.5" />
+            <path d="M 4,6 L 8,6 M 6,4 L 8,6 L 6,8" fill="none" stroke="#ffffff" strokeWidth="1" />
+            <text x="20" y="10">STRAT: KAMINO_JIT</text>
+          </g>
+        </motion.g>
       )}
 
       <text x="50" y="600" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">VOLAN // YIELD_STACK</text>
@@ -180,39 +287,40 @@ function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
 // Krios Risk Agent: The Intent Firewall (Animated SVG)
 function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
-      <g opacity={isHovered ? 0.9 : 0.5}>
-        {/* Security Shield Elements */}
-        <motion.path
-          d="M 250,150 L 300,180 L 300,250 L 250,280 L 200,250 L 200,180 Z"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth="0.5"
-          animate={{ 
-            opacity: isHovered ? [0.2, 0.8, 0.2] : 0.1,
-            scale: isHovered ? [1, 1.05, 1] : 1
-          }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
+    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+      <defs>
+        <linearGradient id="kriosGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.08" />
+          <stop offset="50%" stopColor="#ffffff" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05" />
+        </linearGradient>
+      </defs>
+      <rect width="500" height="667" fill="url(#kriosGrad)" />
 
-        {Array.from({ length: 10 }).map((_, i) => {
-          const y = 80 + i * 50;
+      {/* Vertical Firewall Pillars */}
+      <g opacity={isHovered ? 0.8 : 0.3}>
+        {Array.from({ length: 14 }).map((_, i) => {
+          const x = 40 + i * 32.3;
+          const isGated = i % 3 === 0;
           return (
-            <g key={i}>
-              <motion.line 
-                x1="50" y1={y} x2="450" y2={y} 
-                stroke="#ffffff" strokeWidth="0.5" 
-                animate={{ opacity: isHovered ? 0.3 : 0.1 }}
+            <g key={`pillar-${i}`}>
+              <line x1={x} y1="0" x2={x} y2="667" stroke="#ffffff" strokeWidth="0.5" opacity="0.15" />
+              {/* Data stream going down */}
+              <motion.line
+                x1={x} y1="0" x2={x} y2="150"
+                stroke="#ffffff" strokeWidth={isGated ? 1.5 : 0.5}
+                opacity={isHovered ? 0.6 : 0.2}
+                animate={{ y1: [-150, 667], y2: [0, 817] }}
+                transition={{ duration: 3 + (i % 4), repeat: Infinity, ease: "linear", delay: i * 0.15 }}
               />
-              {i % 2 === 0 && (
-                <motion.rect 
-                  x={100 + i * 20} y={y - 10} width="15" height="15" 
-                  fill="none" stroke="#ffffff" strokeWidth="0.5"
-                  animate={{ 
-                    x: isHovered ? [100 + i * 20, 350, 100 + i * 20] : 100 + i * 20,
-                    rotate: 45 
-                  }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              {/* Intersecting Policy Gate */}
+              {isHovered && isGated && (
+                <motion.rect
+                  x={x - 12} y={333 + (i % 2 === 0 ? 50 : -50)} width="24" height="2"
+                  fill="#ffffff"
+                  initial={{ opacity: 0, scaleX: 0 }}
+                  animate={{ opacity: [0, 1, 0], scaleX: [0, 1, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                 />
               )}
             </g>
@@ -220,16 +328,61 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
         })}
       </g>
 
-      {/* Risk Metrics */}
+      {/* Central Hexagon Shield Core */}
+      <g transform="translate(250, 333)">
+        {Array.from({ length: 5 }).map((_, i) => {
+          const size = 50 + i * 35;
+          return (
+            <motion.polygon
+              key={`hex-${i}`}
+              points={`0,-${size} ${size*0.866},-${size*0.5} ${size*0.866},${size*0.5} 0,${size} -${size*0.866},${size*0.5} -${size*0.866},-${size*0.5}`}
+              fill="none"
+              stroke="#ffffff"
+              strokeWidth={i === 0 ? 1.5 : 0.5}
+              strokeDasharray={i % 2 !== 0 ? "4 8" : "none"}
+              opacity={isHovered ? 0.7 - i * 0.1 : 0.15}
+              animate={{ 
+                rotate: i % 2 === 0 ? 360 : -360,
+                scale: isHovered ? [1, 1.05, 1] : 1
+              }}
+              transition={{ 
+                rotate: { duration: 40 + i * 10, repeat: Infinity, ease: "linear" },
+                scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+              }}
+            />
+          );
+        })}
+        {/* Core Locking Mechanism */}
+        <motion.circle cx="0" cy="0" r="12" fill="#ffffff" opacity={isHovered ? 0.9 : 0.2} 
+          animate={{ scale: isHovered ? [1, 1.3, 1] : 1 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {isHovered && (
+          <motion.circle cx="0" cy="0" r="12" fill="none" stroke="#ffffff" strokeWidth="0.5"
+            animate={{ scale: [1, 3.5], opacity: [0.8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+          />
+        )}
+      </g>
+
+      {/* Metrics */}
       {isHovered && (
-        <g className="font-mono text-[8px]" fill="#ffffff" opacity="0.4">
-          <text x="50" y="50">STATUS: PROTECTED</text>
-          <text x="50" y="70">THREAT_LEVEL: LOW</text>
-          <text x="50" y="90">GATE: POLICY_ENFORCED</text>
-        </g>
+        <motion.g 
+          className="font-mono text-[10px]" 
+          fill="#ffffff" 
+          opacity="0.8"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 0.8, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <text x="40" y="60">STATUS: PROTECTED</text>
+          <text x="40" y="80">THREAT_LEVEL: LOW</text>
+          <text x="40" y="100">GATE: POLICY_ENFORCED</text>
+          <text x="40" y="120">LATENCY: 95ms</text>
+        </motion.g>
       )}
 
-      <text x="50" y="600" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">KRIOS // RISK_FIREWALL</text>
+      <text x="40" y="620" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">KRIOS // RISK_FIREWALL</text>
     </svg>
   );
 }
@@ -384,7 +537,7 @@ function SVGGridPreview() {
   return (
     <div className="relative group" style={{ perspective: "1000px" }}>
       <div 
-        className="bg-[#020202] border border-white/10 rounded-3xl p-8 aspect-video relative overflow-hidden cursor-crosshair transition-all duration-500 group-hover:scale-[1.02]"
+        className="bg-[#020202] border border-white/5 rounded-3xl p-8 aspect-video relative cursor-crosshair transition-all duration-500 group-hover:scale-[1.02]"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ 
@@ -392,45 +545,142 @@ function SVGGridPreview() {
           transform: `rotateX(${(mousePos.y - 150) * -0.05}deg) rotateY(${(mousePos.x - 300) * 0.05}deg)`
         }}
       >
-        {/* Glow de reflexo 3D (Hover) */}
+        {/* Borda 3D que salta no hover */}
         <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-700 mix-blend-overlay z-0" 
-          style={{
-            background: `radial-gradient(circle 300px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.15), transparent)`
-          }}
+          className="absolute inset-0 rounded-3xl border border-white/20 pointer-events-none transition-transform duration-500 ease-out"
+          style={{ transform: "translateZ(0px)" }}
         />
-
-        {/* SVG Dots/Grid Background */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none transition-all duration-300">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="dotPatternHome" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.5" fill="#ffffff" opacity="0.3" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#dotPatternHome)" />
-          {/* Dynamic Flash based on mouse */}
-          <circle 
-            cx={mousePos.x} 
-            cy={mousePos.y} 
-            r="200" 
-            fill="url(#glowHome)" 
-            opacity="0.4" 
-            className="transition-opacity duration-200"
+        <div 
+          className="absolute inset-0 rounded-3xl border border-white/10 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[15px]"
+          style={{ transform: "translateZ(15px)" }}
+        />
+        <div 
+          className="absolute inset-0 rounded-3xl border border-white/20 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[30px]"
+          style={{ transform: "translateZ(30px)", boxShadow: "0 0 20px rgba(255,255,255,0.05)" }}
+        />
+        
+        {/* Camada de Fundo (Clipped) */}
+        <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+          {/* Glow de reflexo 3D (Hover) */}
+          <div 
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-700 mix-blend-overlay z-0" 
+            style={{
+              background: `radial-gradient(circle 300px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.15), transparent)`
+            }}
           />
-          <defs>
-            <radialGradient id="glowHome" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
-      </div>
 
-      <div 
-        className="relative z-10 h-full flex flex-col justify-between transition-transform duration-200"
-        style={{ transform: `translateZ(30px)` }}
-      >
+          {/* Generative Neural Grid Background */}
+          <div className="absolute inset-0 opacity-50 pointer-events-none transition-all duration-700 group-hover:opacity-80">
+            <svg width="100%" height="100%" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="glowHome" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                </radialGradient>
+                <linearGradient id="fadeGrid" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
+                  <stop offset="20%" stopColor="#ffffff" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                </linearGradient>
+                <mask id="gridMask">
+                  <rect width="600" height="300" fill="url(#fadeGrid)" />
+                </mask>
+              </defs>
+
+              {/* Dynamic Flash based on mouse */}
+              <circle 
+                cx={mousePos.x * 1.5} 
+                cy={mousePos.y * 1.5} 
+                r="250" 
+                fill="url(#glowHome)" 
+                className="transition-all duration-200 ease-out"
+              />
+
+              <g mask="url(#gridMask)">
+                {/* Deep Perspective Matrix */}
+                <motion.g
+                  animate={{ scale: [1, 1.05, 1], y: [0, 5, 0] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ transformOrigin: "300px 150px" }}
+                >
+                  {/* Vanishing Lines */}
+                  {Array.from({ length: 40 }).map((_, i) => {
+                    const x = i * 15;
+                    const distFromCenter = x - 300;
+                    return (
+                      <line 
+                        key={`v-${i}`}
+                        x1={300 + distFromCenter * 0.1} y1="0" 
+                        x2={300 + distFromCenter * 2.5} y2="300" 
+                        stroke="#ffffff" strokeWidth="0.5" opacity="0.15"
+                      />
+                    );
+                  })}
+                  {/* Depth Lines */}
+                  {Array.from({ length: 20 }).map((_, i) => {
+                    const progress = i / 20;
+                    const y = Math.pow(progress, 2) * 300;
+                    return (
+                      <line 
+                        key={`h-${i}`}
+                        x1="0" y1={y} x2="600" y2={y} 
+                        stroke="#ffffff" strokeWidth="0.5" opacity={0.1 + progress * 0.3}
+                      />
+                    );
+                  })}
+                </motion.g>
+
+                {/* Smooth Neural Paths */}
+                <g>
+                  {Array.from({ length: 15 }).map((_, i) => {
+                    const startX = 50 + (i * 47) % 500;
+                    const startY = 20 + (i * 31) % 260;
+                    const endX = 100 + (i * 83) % 400;
+                    const endY = 250 - (i * 19) % 150;
+                    
+                    const cp1X = startX + (i % 2 === 0 ? 50 : -50);
+                    const cp1Y = startY + 100;
+                    const cp2X = endX + (i % 2 === 0 ? -50 : 50);
+                    const cp2Y = endY - 100;
+
+                    const d = `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
+                    const duration = 3 + (i % 5);
+                    const delay = i * 0.2;
+
+                    return (
+                      <g key={`path-${i}`}>
+                        <path d={d} fill="none" stroke="#ffffff" strokeWidth="0.3" opacity="0.15" />
+                        <motion.path
+                          d={d}
+                          fill="none"
+                          stroke="#ffffff"
+                          strokeWidth="1.2"
+                          strokeDasharray="10 300"
+                          initial={{ strokeDashoffset: 300 }}
+                          animate={{ strokeDashoffset: -300 }}
+                          transition={{ duration, repeat: Infinity, ease: "linear", delay }}
+                          opacity="0.9"
+                        />
+                        <circle cx={endX} cy={endY} r="2" fill="#ffffff" opacity="0.2" />
+                        <motion.circle
+                          cx={endX} cy={endY} r="4" fill="#ffffff"
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{ opacity: [0, 0.8, 0], scale: [0.5, 1.5, 0.5] }}
+                          transition={{ duration, repeat: Infinity, ease: "easeInOut", delay: delay + (duration * 0.8) }}
+                        />
+                      </g>
+                    );
+                  })}
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div 
+          className="relative z-10 h-full flex flex-col justify-between transition-transform duration-200"
+          style={{ transform: `translateZ(40px)` }}
+        >
         <div className="flex justify-between items-start">
           <div className="space-y-1">
             <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2">
@@ -849,7 +1099,7 @@ export function HomePage() {
     offset: ["start start", "end end"]
   });
 
-  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0], { clamp: true });
+  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0], { clamp: true });
 
   useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
     if (videoRef.current && videoRef.current.duration) {
@@ -951,8 +1201,9 @@ export function HomePage() {
                 </Badge>
 
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] text-white font-mono uppercase">
-                  <MetallicText progress={scrollYProgress}>Solana is now</MetallicText> <br />
-                  <MetallicText progress={scrollYProgress} className="italic font-medium text-zinc-300 text-4xl md:text-6xl lg:text-7xl drop-shadow-2xl">the A2A Settlement Layer.</MetallicText>
+                  <SolanaMetallicText progress={scrollYProgress} className="tracking-[0.02em]">Solana</SolanaMetallicText>
+                  <MetallicText progress={scrollYProgress} className="tracking-[0.02em] ml-4">is now</MetallicText> <br />
+                  <MetallicText progress={scrollYProgress} className="italic font-medium text-zinc-300 text-4xl md:text-6xl lg:text-7xl drop-shadow-2xl tracking-[0.01em] mt-2 inline-block">the A2A Settlement Layer.</MetallicText>
                 </h1>
               </div>
 
@@ -982,6 +1233,7 @@ export function HomePage() {
 
           <motion.div 
             className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
+            style={{ opacity: heroCopyOpacity }}
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             onClick={scrollToHeroEnd}

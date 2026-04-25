@@ -200,21 +200,37 @@ const fetchKaminoSolVaultMetrics = async () => {
   };
 };
 
-type A2ATask = {
-  id: string;
-  contextId: string;
-  status: "scanning" | "routing" | "risk_check" | "approval_required" | "approved" | "executing" | "settling" | "completed" | "failed";
-  executor: string;
-  payload: any;
-};
 
-// Removed unused CatalogItem
 
-// Removed unused CatalogPayload
-
-const mockTasks: A2ATask[] = [
-  { id: "tsk_1", contextId: "ctx_1", status: "approval_required", executor: "Risk Agent", payload: { amount: 250000, asset: "USDC" } },
-  { id: "tsk_2", contextId: "ctx_2", status: "completed", executor: "Execution Agent", payload: { txHash: "5xt...9aZ" } },
+// Mock Data para Neural Memory Events
+const neuralMemoryEvents = [
+  {
+    id: "mem_9f2a",
+    type: "execution",
+    skill: "solana-defi-ecosystem-intel",
+    contextHash: "8a4f...2b1c",
+    status: "completed",
+    evidence: "sig_8jK2p...x402",
+    timestamp: "2 mins ago"
+  },
+  {
+    id: "mem_7b1c",
+    type: "insight",
+    skill: "hermes-fts5-memory",
+    contextHash: "1c9d...5a4f",
+    status: "stored",
+    evidence: "vector_db_sync",
+    timestamp: "15 mins ago"
+  },
+  {
+    id: "mem_4d8e",
+    type: "intent",
+    skill: "x402-monetization",
+    contextHash: "3f2a...9d8e",
+    status: "approval_required",
+    evidence: "awaiting_kms_sig",
+    timestamp: "Just now"
+  }
 ];
 
 // Mock Data para P2P transfers baseadas no payload da payments.org
@@ -947,52 +963,56 @@ export function AppPage() {
           <section className="space-y-8">
             <div className="flex items-center justify-between border-b border-white/20 pb-6">
               <h2 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3">
-                <ShieldCheck className="w-3.5 h-3.5" /> Approval Queue
+                <ShieldCheck className="w-3.5 h-3.5" /> Neural Memory Log
               </h2>
-              <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-widest">Action Required</span>
+              <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-widest">Append-Only Proofs</span>
             </div>
 
             <div className="space-y-4">
-              {mockTasks.filter(t => t.status === 'approval_required').map(task => (
-                <div key={task.id} className="bg-white/[0.02] border border-white/20 rounded-2xl p-6 flex justify-between items-center hover:border-white/30 transition-all duration-500">
-                  <div className="space-y-6">
+              {neuralMemoryEvents.map(event => (
+                <div key={event.id} className="bg-white/[0.02] border border-white/20 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center hover:border-white/30 transition-all duration-500 gap-6">
+                  <div className="space-y-4 w-full md:w-auto flex-1">
                     <div className="flex items-center gap-4">
-                      <Badge variant="outline" className="bg-white/5 text-zinc-400 border-white/30 text-[9px] font-mono uppercase tracking-widest">
-                        {task.status}
+                      <Badge variant="outline" className={`${event.status === 'completed' || event.status === 'stored' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30'} text-[9px] font-mono uppercase tracking-widest`}>
+                        {event.status}
                       </Badge>
-                      <span className="text-[9px] text-zinc-700 font-mono tracking-widest uppercase">{task.id}</span>
+                      <span className="text-[9px] text-zinc-700 font-mono tracking-widest uppercase">{event.id}</span>
+                      <span className="text-[9px] text-zinc-600 font-mono tracking-widest uppercase ml-auto md:ml-0">{event.timestamp}</span>
                     </div>
-                    <p className="text-sm text-zinc-500 font-light">
-                      <strong className="text-zinc-300 uppercase font-mono text-[10px] tracking-widest mr-2">Intent:</strong> 
-                      Swap {task.payload.amount.toLocaleString()} {task.payload.asset}
+                    <p className="text-sm text-zinc-400 font-light">
+                      <strong className="text-zinc-500 uppercase font-mono text-[10px] tracking-widest mr-2">Skill:</strong> 
+                      <span className="text-white">{event.skill}</span>
                     </p>
                     
-                    {/* Governance Logic Integration */}
+                    {/* Memory Structure */}
                     <div className="bg-black/40 border border-white/[0.02] rounded-xl p-4 space-y-3">
-                      <div className="flex justify-between items-center text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-600">
-                        <span>Decision Engine</span>
-                        <span className="text-zinc-400">RC_POLICY_OK</span>
+                      <div className="flex justify-between items-center text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-600 border-b border-white/5 pb-2">
+                        <span>Event Type</span>
+                        <span className="text-zinc-400">{event.type.toUpperCase()}</span>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-4 pt-1">
                         <div className="space-y-1">
-                          <div className="text-[8px] text-zinc-700 uppercase tracking-widest">Confidence</div>
-                          <div className="text-[10px] text-zinc-400 font-mono">0.9982</div>
+                          <div className="text-[8px] text-zinc-700 uppercase tracking-widest">Context Hash</div>
+                          <div className="text-[10px] text-zinc-400 font-mono">{event.contextHash}</div>
                         </div>
                         <div className="space-y-1">
-                          <div className="text-[8px] text-zinc-700 uppercase tracking-widest">Decision</div>
-                          <div className="text-[10px] text-zinc-300 font-mono uppercase">Needs_Approval</div>
+                          <div className="text-[8px] text-zinc-700 uppercase tracking-widest">Evidence</div>
+                          <div className="text-[10px] text-zinc-300 font-mono uppercase truncate">{event.evidence}</div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <button className="text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-600 hover:text-white transition-colors px-4 py-2">
-                      Reject
-                    </button>
-                    <button className="bg-white text-black hover:bg-zinc-200 text-[9px] font-mono uppercase tracking-[0.2em] px-6 py-2 rounded-full transition-all duration-500">
-                      Approve via KMS
-                    </button>
-                  </div>
+                  
+                  {event.status === 'approval_required' && (
+                    <div className="flex gap-4 w-full md:w-auto justify-end">
+                      <button className="text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-600 hover:text-white transition-colors px-4 py-2">
+                        Reject
+                      </button>
+                      <button className="bg-white text-black hover:bg-zinc-200 text-[9px] font-mono uppercase tracking-[0.2em] px-6 py-2 rounded-full transition-all duration-500 shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                        Sign KMS
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
