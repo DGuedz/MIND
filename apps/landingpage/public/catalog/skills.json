@@ -5,7 +5,7 @@
       "id": "solana-intel-oracle",
       "kind": "product",
       "name": "Solana Ecosystem Intelligence Feed",
-      "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e deduplicados. Não contém claims absolutos sem prova.",
+      "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e estruturados. Não contém claims absolutos sem prova.",
       "source": "mind",
       "category": "oracle",
       "license": "Proprietary",
