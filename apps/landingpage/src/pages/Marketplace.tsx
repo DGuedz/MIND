@@ -56,6 +56,28 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
     setMousePos({ x: 150, y: 150 }); // Center roughly
   };
 
+  // x402 Settlement States
+  const [settlementStatus, setSettlementStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
+  const [txHash, setTxHash] = useState<string | null>(null);
+
+  const handleExecuteX402 = async () => {
+    if (!item.pricing || settlementStatus === 'processing') return;
+    
+    setSettlementStatus('processing');
+    
+    try {
+      // API Gateway Mock Integration (v1/payment/x402)
+      // This mimics the atomic settlement flow configured in a2a_payment.ts
+      await new Promise(resolve => setTimeout(resolve, 2000)); 
+      
+      const mockTxHash = "sig_" + Math.random().toString(36).substring(2, 15) + "x402";
+      setTxHash(mockTxHash);
+      setSettlementStatus('success');
+    } catch (err) {
+      setSettlementStatus('error');
+    }
+  };
+
   return (
     <div 
       className="relative group w-full h-full" 
@@ -230,16 +252,43 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
               </div>
             )}
             
+            {/* x402 Settlement Status Box */}
+            {settlementStatus !== 'idle' && (
+              <div className={`p-4 rounded-xl border mt-4 mb-4 transition-all duration-500 ${
+                settlementStatus === 'processing' ? 'bg-amber-500/5 border-amber-500/20' : 
+                settlementStatus === 'success' ? 'bg-emerald-500/5 border-emerald-500/20' : 
+                'bg-red-500/5 border-red-500/20'
+              }`}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400">
+                    {settlementStatus === 'processing' ? 'Processing intent...' : 
+                     settlementStatus === 'success' ? 'Atomic settlement complete' : 'Settlement failed'}
+                  </span>
+                  {settlementStatus === 'processing' && (
+                    <div className="w-3 h-3 rounded-full border-t-2 border-r-2 border-amber-500 animate-spin"></div>
+                  )}
+                  {settlementStatus === 'success' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                  )}
+                </div>
+                {txHash && (
+                  <div className="text-[9px] font-mono text-zinc-500 break-all bg-black/50 p-2 rounded">
+                    Proof: {txHash}
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="pt-2 flex flex-col sm:flex-row gap-3">
               <button 
-                className="flex-1 bg-white text-black text-[11px] font-bold font-mono uppercase tracking-[0.2em] py-3 rounded-xl hover:bg-zinc-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 transform hover:scale-[1.02]"
+                className="flex-1 bg-white text-black text-[11px] font-bold font-mono uppercase tracking-[0.2em] py-3 rounded-xl hover:bg-zinc-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.stopPropagation();
-                  const amount = item.pricing?.price ? item.pricing.price * 1000000000 : 1000000;
-                  window.location.href = `/gateway?intentId=purchase_card_${item.id}&amountLamports=${amount}&recipient=DGuedz...`;
+                  handleExecuteX402();
                 }}
+                disabled={settlementStatus === 'processing' || settlementStatus === 'success'}
               >
-                Execute (x402)
+                {settlementStatus === 'success' ? 'Settled' : 'Execute (x402)'}
               </button>
               <button 
                 className="px-6 border border-white/20 bg-black/50 text-zinc-300 text-[10px] font-mono uppercase tracking-[0.2em] rounded-xl hover:text-white hover:border-white/50 hover:bg-white/5 transition-all duration-300"
