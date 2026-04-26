@@ -1,0 +1,96 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "unicorn-vps (Skill)",
+    "version": "1.0.0",
+    "description": "Bootstrap seguro e educativo de VPS Ubuntu via Claude Code para ecossistema One Person Unicorn / Startup Factory.",
+    "tags": [
+      "vps",
+      "infrastructure",
+      "devops",
+      "security",
+      "ubuntu",
+      "the-garage"
+    ],
+    "license": "MIT",
+    "author": {
+      "name": "Frederico Santana",
+      "contact": "https://github.com/fredericosanntana"
+    }
+  },
+  "discovery": {
+    "intent": "infrastructure",
+    "category": "devops",
+    "keywords": [
+      "vps",
+      "ubuntu",
+      "security",
+      "docker",
+      "traefik",
+      "the-garage"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "skill_name",
+          "type": "string",
+          "description": "Nome da skill"
+        },
+        {
+          "name": "installation",
+          "type": "string",
+          "description": "Instrucoes de instalacao/ativacao"
+        },
+        {
+          "name": "usage",
+          "type": "string",
+          "description": "Como acionar a skill no agente"
+        }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.85
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/fredericosanntana/unicorn-vps",
+      "metadata": "https://github.com/fredericosanntana/unicorn-vps",
+      "data": "https://github.com/fredericosanntana/unicorn-vps"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "MIND/agent-cards/skills/mind",
+    "createdAt": "2026-04-24T13:30:00.000Z",
+    "updatedAt": "2026-04-24T13:30:00.000Z",
+    "signature": "unsigned",
+    "origin": "The Garage - Superteam BR",
+    "badges": [
+      "The Garage Premium",
+      "Superteam BR"
+    ]
+  },
+  "skill": {
+    "source_url": "https://github.com/fredericosanntana/unicorn-vps",
+    "repo_path": ".agents/skills/unicorn-vps/SKILL.md"
+  }
+}

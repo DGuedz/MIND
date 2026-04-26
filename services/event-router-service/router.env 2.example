@@ -1,0 +1,18 @@
+# Event Router Service - Production Hardening Env Example
+
+# Service bind
+EVENT_ROUTER_SERVICE_HOST=0.0.0.0
+EVENT_ROUTER_SERVICE_PORT=3016
+
+# Required auth token used by header x-event-router-token (or custom guardrails header)
+EVENT_ROUTER_SERVICE_TOKEN=change-me
+
+# Optional runtime paths
+# If omitted, defaults to governance/spec_runtime in repo root.
+EVENT_ROUTER_SPEC_DIR=/absolute/path/to/MIND/governance/spec_runtime
+EVENT_ROUTER_LOG_DIR=/absolute/path/to/MIND/governance/spec_runtime
+EVENT_ROUTER_GUARDRAILS_FILE=/absolute/path/to/MIND/governance/spec_runtime/runtime_guardrails.yaml
+EVENT_ROUTER_REVIEW_QUEUE_FILE=/absolute/path/to/MIND/governance/spec_runtime/review_queue.json
+
+# Optional behavior
+# EVENT_ROUTER_SERVICE_TRUST_PROXY=true

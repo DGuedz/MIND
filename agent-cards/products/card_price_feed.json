@@ -1,0 +1,26 @@
+{
+  "id": "card_price_feed_sol",
+  "name": "High-Freq Price Feed Oracle",
+  "description": "Agente oráculo que fornece cotações de alta frequência (sub-second) para pares Solana DeFi (SOL/USDC, JUP/USDC, etc). Ideal para MEV bots e arbitrageurs.",
+  "tags": ["oracle", "price-feed", "mev", "defi"],
+  "pricing": {
+    "model": "per_request",
+    "currency": "USDC",
+    "price": 0.005
+  },
+  "endpoints": {
+    "discovery": "/v1/agents/card_price_feed_sol",
+    "metadata": "/v1/agents/card_price_feed_sol/onchain",
+    "data": "https://api.mindprotocol.ai/x402/card_price_feed_sol/data",
+    "payment": "/v1/payment/x402"
+  },
+  "economicMetrics": {
+    "monthlyRevenue": 1500,
+    "profitMargin": 0.85
+  },
+  "provenance": {
+    "source": "MIND Registry",
+    "createdAt": "2026-04-10T10:00:00Z",
+    "signature": "0xabc123..."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "MIND Proof of Intent #0001",
+  "symbol": "MINDPRINT",
+  "description": "Immutable cryptographic receipt of an A2A intent executed via MIND Protocol. The machine negotiated, programmatic guardrails validated, Solana settled, and the protocol proved.",
+  "image": "https://mindprotocol.io/assets/receipt_nft.png",
+  "external_url": "https://explorer.mindprotocol.io/tx/xyz",
+  "attributes": [
+    {
+      "trait_type": "Intent Hash",
+      "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "trait_type": "Risk Score",
+      "value": "A+"
+    },
+    {
+      "trait_type": "Data Oracle",
+      "value": "Covalent"
+    },
+    {
+      "trait_type": "OpenClaw Audit ID",
+      "value": "oc_12345"
+    },
+    {
+      "trait_type": "Solana Tx Hash",
+      "value": "5Kxyz123..."
+    },
+    {
+      "trait_type": "KMS Provider",
+      "value": "Turnkey"
+    },
+    {
+      "trait_type": "Execution Mode",
+      "value": "Autonomous (Programmatic)"
+    }
+  ],
+  "properties": {
+    "category": "receipt",
+    "creators": [
+      {
+        "address": "MIND_PROTOCOL_TREASURY",
+        "share": 100
+      }
+    ],
+    "files": [
+      {
+        "uri": "https://mindprotocol.io/assets/receipt_nft.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

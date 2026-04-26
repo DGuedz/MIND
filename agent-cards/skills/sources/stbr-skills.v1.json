@@ -1,0 +1,17 @@
+{
+  "source": {
+    "name": "@stbr/solana-glossary",
+    "url": "https://github.com/ArthurRamoss/solana-glossary/tree/feat/glossary-explorer",
+    "license": "MIT",
+    "description": "Solana glossary SDK (1001 termos, 14 categorias, cross-references e i18n).",
+    "ingestedAt": "2026-04-22T00:00:00Z"
+  },
+  "skills": [
+    {
+      "name": "solana-glossary",
+      "category": "education",
+      "description": "Glossary explorer: consulta termos do ecossistema Solana (getTerm/searchTerms/getTermsByCategory) com suporte a i18n (pt/es).",
+      "repoPath": ".agents/skills/solana-glossary/SKILL.md"
+    }
+  ]
+}

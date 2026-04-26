@@ -1,0 +1,23 @@
+routine:
+  name: "MIND_CORE_EXECUTION_LOOP"
+  version: "1.0"
+  trigger:
+    type: "A2A | cron | manual"
+  preconditions:
+    - rule: "contexto_valido"
+      check: "neural_memory_ping"
+    - rule: "policy_ok"
+      check: "vsc_economy_check"
+  flow:
+    - action: "load_context"
+      skill: "neural-memory"
+    - action: "call_orchestrator"
+      skill: "orchestrator"
+    - action: "execute_skill"
+      target: "{{orchestrator.selected_skill}}"
+    - action: "store_memory"
+      skill: "neural-memory"
+      payload: "{{execute_skill.result}}"
+    - action: "emit_proof"
+      skill: "x402-monetization"
+      payload: "{{store_memory.hash}}"

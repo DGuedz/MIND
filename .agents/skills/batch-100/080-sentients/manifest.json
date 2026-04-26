@@ -1,0 +1,24 @@
+{
+  "id": "mind-skill-sentients",
+  "name": "Inscrições digitais criadas a partir de entropia on-chain nativa",
+  "category": "A2A",
+  "description": "Inscrições digitais criadas a partir de entropia on-chain nativa (Sentients).",
+  "price_model": {
+    "execution_fee": "0.05",
+    "payment_asset": "USDC"
+  },
+  "execution_mode": "atomic_cpi",
+  "policy_requirements": {
+    "credential_gated": true,
+    "required_tier": "Tier 1 Micro",
+    "max_spend_limit": "100.00"
+  },
+  "settlement": {
+    "type": "atomic_split",
+    "treasury_split": {
+      "creator": 92,
+      "protocol": 8
+    }
+  },
+  "proof_schema": "mindprint_v1"
+}

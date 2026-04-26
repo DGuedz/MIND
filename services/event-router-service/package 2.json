@@ -1,0 +1,13 @@
+{
+  "name": "@mind/event-router-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "fastify": "^4.28.1"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "test:e2e-live-flow": "tsx e2e_live_flow_test.ts"
+  }
+}

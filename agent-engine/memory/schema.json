@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MIND Neural Memory Event",
+  "type": "object",
+  "properties": {
+    "memory_event": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "type": {
+          "type": "string",
+          "enum": ["intent", "execution", "error", "insight"]
+        },
+        "source": { "type": "string" },
+        "context_hash": { "type": "string" },
+        "payload": { "type": "object" },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "required": ["id", "timestamp", "type", "source", "context_hash", "payload", "evidence", "confidence"]
+    }
+  }
+}

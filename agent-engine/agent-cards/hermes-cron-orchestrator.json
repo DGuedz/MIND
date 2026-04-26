@@ -1,0 +1,28 @@
+{
+  "name": "Hermes Cron Orchestrator",
+  "version": "1.0",
+  "description": "Skill para orquestrar rotinas agendadas (cron jobs) de forma autônoma. Permite que o agente execute auditorias, extraia relatórios ou dispare ações em intervalos definidos sem supervisão.",
+  "capabilities": [
+    "scheduled automations",
+    "unattended execution",
+    "daily reporting",
+    "nightly audits"
+  ],
+  "skills": [
+    "orchestrator",
+    "a2a-orchestrator",
+    "x402-monetization"
+  ],
+  "pricing": {
+    "model": "subscription",
+    "protocol": "x402"
+  },
+  "proof": {
+    "type": "append-only + onchain anchor"
+  },
+  "policies": [
+    "execution gated",
+    "budget limit enforcement",
+    "zero emojis"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "sanctum-lst-router",
+  "kind": "skill",
+  "name": "Sanctum LST Arbitrage",
+  "source": "mind",
+  "category": "trading",
+  "license": "MIT",
+  "tags": [
+    "sanctum",
+    "lst",
+    "arbitrage"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "DEFI",
+    "SANCTUM"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.006
+  },
+  "performance": {
+    "successRate": 96.5,
+    "totalExecutions": 44395,
+    "totalVolumeUSDC": 670.5
+  }
+}

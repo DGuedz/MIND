@@ -1,0 +1,43 @@
+name: Landing Page CI (MIND Protocol)
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'apps/landingpage/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/landing-ci.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/landingpage/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/landing-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build landing page
+        run: pnpm --filter landingpage-temp run build
+        env:
+          VITE_API_GATEWAY_URL: "https://mock-gateway.mind"
+          VITE_HELIUS_RPC_URL: "https://mock-rpc.mind"

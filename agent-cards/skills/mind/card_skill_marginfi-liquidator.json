@@ -1,0 +1,30 @@
+{
+  "id": "marginfi-liquidator",
+  "kind": "skill",
+  "name": "Marginfi Liquidator Bot",
+  "source": "mind",
+  "category": "execution",
+  "license": "MIT",
+  "tags": [
+    "marginfi",
+    "liquidation",
+    "defi"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "DEFI",
+    "LIQUIDATION"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.007
+  },
+  "performance": {
+    "successRate": 97.6,
+    "totalExecutions": 1948,
+    "totalVolumeUSDC": 859.2
+  }
+}

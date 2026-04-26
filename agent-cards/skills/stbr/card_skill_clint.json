@@ -1,0 +1,148 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "clint (Skill)",
+    "version": "1.0.0",
+    "description": "CLINT — CNB Link Intelligence. DePIN proof verifier for the CNB Mobile network on Solana. Ingests on-chain Memo transactions and Anchor PDA data to compute a Node Health Index (NHI, 0–100) with Sybil-risk classification. Trust primitive for A2A DePIN transactions in the attention economy.",
+    "tags": [
+      "depin",
+      "solana",
+      "cnb-mobile",
+      "proof-of-activity",
+      "sybil-detection",
+      "node-health",
+      "latam",
+      "brazil",
+      "stbr",
+      "the-garage",
+      "agent-skill"
+    ],
+    "license": "MIT",
+    "author": {
+      "name": "CriptonoBolso (Rafael Mariano)",
+      "contact": "https://github.com/marianoangra/CNBMobile",
+      "wallet": "PENDING_REAL_WALLET_FROM_MARIANO"
+    }
+  },
+  "discovery": {
+    "intent": "verification",
+    "category": "depin-analytics",
+    "keywords": [
+      "depin",
+      "proof-of-activity",
+      "node-health",
+      "sybil-check",
+      "solana",
+      "cnb-mobile",
+      "latam",
+      "attention-economy",
+      "anchor",
+      "memo-parsing"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae",
+      "langchain",
+      "openai"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "wallet",
+          "type": "string",
+          "description": "Solana wallet address (base58). Provide wallet OR uid_hash."
+        },
+        {
+          "name": "uid_hash",
+          "type": "string",
+          "description": "SHA-256 of Firebase UID, hex-encoded (64 chars). First 16 bytes are the Anchor PDA seed."
+        },
+        {
+          "name": "window_hours",
+          "type": "number",
+          "description": "Analysis window in hours (1–720). Default: 24."
+        },
+        {
+          "name": "mode",
+          "type": "string",
+          "description": "quick | full | sybil_check. Default: full."
+        }
+      ]
+    },
+    "samples": [
+      {
+        "input": {
+          "wallet": "8Zrt5KwcFzmH1NemHNnFgiqXMP6HCThNxCNchHisQsg8",
+          "window_hours": 168,
+          "mode": "full"
+        },
+        "output": {
+          "node_health_index": 84,
+          "verified_minutes": 2340,
+          "total_sessions": 31,
+          "sybil_risk": "low",
+          "verdict": "Nó ativo com 39h verificadas em 7 dias. Padrão humano confirmado. NHI 84/100 — elegível para multiplicador de staking tier-2."
+        }
+      }
+    ],
+    "qualityScore": 0.92
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/marianoangra/CNBMobile",
+      "metadata": "https://github.com/marianoangra/CNBMobile/tree/main/.agents/skills/clint",
+      "data": "https://github.com/marianoangra/CNBMobile/tree/main/.agents/skills/clint/index.js"
+    },
+    "rateLimit": {
+      "requests": 200,
+      "per": "minute"
+    },
+    "sla": {
+      "uptime": "99.5%",
+      "latency_quick_p95": "400ms",
+      "latency_full_p95": "1200ms",
+      "latency_sybil_p95": "900ms"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "CNB Mobile DePIN — Colosseum Frontier 2026",
+    "origin": "The Garage - Superteam BR",
+    "campaign": "the_garage_frontier_sp",
+    "badges": [
+      "The Garage Premium",
+      "Colosseum Frontier"
+    ],
+    "program_id": "BoVj5VrUx4zzE9JWFrneGWyePNt4DYGP2AHb9ZUxXZmo",
+    "network": "solana",
+    "createdAt": "2026-04-23T17:30:00.000Z",
+    "updatedAt": "2026-04-23T17:30:00.000Z",
+    "signature": "unsigned"
+  },
+  "skill": {
+    "source_url": "https://github.com/marianoangra/CNBMobile",
+    "repo_path": ".agents/skills/clint/SKILL.md",
+    "implementation": ".agents/skills/clint/index.js",
+    "manifest": ".agents/skills/clint/manifest.json",
+    "entry_function": "execute(input)",
+    "requires_private_key": false,
+    "rpc_reads_only": true
+  },
+  "security": {
+    "secrets_committed": false,
+    "kms_compatible": true,
+    "payload_type": "json",
+    "audit_note": "Read-only. All data sourced from public Solana RPC. Deterministic — reproducible by any node with full history. No private key required."
+  }
+}

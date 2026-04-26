@@ -1,0 +1,37 @@
+{
+  "name": "Solana Ecosystem Intelligence Feed",
+  "version": "1.0",
+  "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e deduplicados. Não contém claims absolutos sem prova.",
+  "capabilities": [
+    "real-time ecosystem parsing",
+    "institutional post validation",
+    "anti-hallucination signal extraction",
+    "onchain metric disambiguation"
+  ],
+  "skills": [
+    "solana-defi-ecosystem-intel",
+    "truth-checker",
+    "x402-monetization"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.005
+  },
+  "performance": {
+    "successRate": 99.2,
+    "totalExecutions": 0,
+    "totalVolumeUSDC": 0
+  },
+  "proof": {
+    "type": "append-only + onchain anchor"
+  },
+  "policies": [
+    "no absolute claims",
+    "execution gated",
+    "evidence required",
+    "company_claim tagging mandatory",
+    "zero emojis"
+  ]
+}

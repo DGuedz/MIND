@@ -1,0 +1,28 @@
+{
+  "name": "Hermes Subagent Delegator",
+  "version": "1.0",
+  "description": "Skill para paralelização de tarefas. O agente avalia uma pipeline complexa e invoca sub-agentes via RPC (Remote Procedure Call) para dividir o trabalho sem incorrer em custos de contexto.",
+  "capabilities": [
+    "parallel workstreams",
+    "subagent spawning",
+    "zero-context-cost delegation",
+    "RPC tool calling"
+  ],
+  "skills": [
+    "a2a-orchestrator",
+    "orchestrator",
+    "x402-monetization"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402"
+  },
+  "proof": {
+    "type": "append-only + onchain anchor"
+  },
+  "policies": [
+    "execution gated",
+    "budget limit enforcement",
+    "zero emojis"
+  ]
+}

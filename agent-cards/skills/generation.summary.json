@@ -1,0 +1,163 @@
+{
+  "generatedAt": "2026-04-24T02:11:05.337Z",
+  "writeMode": true,
+  "outputCount": 39,
+  "outputs": [
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_jupiter.json",
+      "cardName": "jupiter (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_glam.json",
+      "cardName": "glam (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_kamino.json",
+      "cardName": "kamino (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_lulo.json",
+      "cardName": "lulo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_manifest.json",
+      "cardName": "manifest (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_marginfi.json",
+      "cardName": "marginfi (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_meteora.json",
+      "cardName": "meteora (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_orca.json",
+      "cardName": "orca (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_pumpfun.json",
+      "cardName": "pumpfun (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_raydium.json",
+      "cardName": "raydium (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_sanctum.json",
+      "cardName": "sanctum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_arcium.json",
+      "cardName": "arcium (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_helius.json",
+      "cardName": "helius (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_quicknode.json",
+      "cardName": "quicknode (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_light_protocol.json",
+      "cardName": "light-protocol (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_magicblock.json",
+      "cardName": "magicblock (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_sol_incinerator.json",
+      "cardName": "sol-incinerator (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_squads.json",
+      "cardName": "squads (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_dflow.json",
+      "cardName": "dflow (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_ranger_finance.json",
+      "cardName": "ranger-finance (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_pyth.json",
+      "cardName": "pyth (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_switchboard.json",
+      "cardName": "switchboard (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_coingecko.json",
+      "cardName": "coingecko (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_metengine.json",
+      "cardName": "metengine (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_debridge.json",
+      "cardName": "debridge (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_metaplex.json",
+      "cardName": "metaplex (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_solana_kit.json",
+      "cardName": "solana-kit (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_solana_kit_migration.json",
+      "cardName": "solana-kit-migration (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_pinocchio_development.json",
+      "cardName": "pinocchio-development (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_solana_agent_kit.json",
+      "cardName": "solana-agent-kit (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_vulnhunter.json",
+      "cardName": "vulnhunter (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_code_recon.json",
+      "cardName": "code-recon (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_surfpool.json",
+      "cardName": "surfpool (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_kuka.json",
+      "cardName": "kuka (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_solana_defi_ecosystem_intel.json",
+      "cardName": "solana-defi-ecosystem-intel (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_colosseum_copilot.json",
+      "cardName": "colosseum-copilot (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_render_validation_expert.json",
+      "cardName": "render-validation-expert (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/stbr/card_skill_solana_glossary.json",
+      "cardName": "solana-glossary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/frames/card_skill_agentwallet.json",
+      "cardName": "agentwallet (Skill)"
+    }
+  ]
+}

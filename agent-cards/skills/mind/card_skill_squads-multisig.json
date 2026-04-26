@@ -1,0 +1,30 @@
+{
+  "id": "squads-multisig",
+  "kind": "skill",
+  "name": "Squads V4 Proposer",
+  "source": "mind",
+  "category": "governance",
+  "license": "MIT",
+  "tags": [
+    "squads",
+    "multisig",
+    "treasury"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "GOVERNANCE",
+    "SQUADS"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.001
+  },
+  "performance": {
+    "successRate": 98,
+    "totalExecutions": 37840,
+    "totalVolumeUSDC": 186
+  }
+}

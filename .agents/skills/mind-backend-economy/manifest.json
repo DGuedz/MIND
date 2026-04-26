@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+
+  "id": "mind-backend-economy",
+  "name": "MIND Backend Economy Optimizer",
+  "version": "1.0.0",
+  "description": "Backend optimization skill for MIND protocol with strict VSC token economy compliance. Implements zero decorative emojis, minimal formatting, and essential content focus.",
+
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+
+  "origin": "MIND Protocol Internal",
+  "badges": [
+    "VSC-Compliant",
+    "Token-Optimized"
+  ],
+
+  "category": ["backend", "optimization", "token-economy"],
+  "tags": ["vsc-compliance", "minimal-formatting", "backend-optimization", "token-savings"],
+
+  "pricing": {
+    "execution_fee": 0.01,
+    "currency": "USDC", 
+    "fee_unit": "per_megabyte_processed",
+    "free_tier": "100_mb_monthly"
+  },
+
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0",
+    "vsc": ">= 1.8.0"
+  },
+
+  "quality_gates": [
+    "token_reduction_verified",
+    "vsc_policy_compliant", 
+    "no_decorative_elements",
+    "essential_content_only"
+  ],
+
+  "activation_prompt": "Apply VSC economy mode to backend operations with strict token optimization policies."
+}

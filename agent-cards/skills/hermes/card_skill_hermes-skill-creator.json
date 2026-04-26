@@ -1,0 +1,23 @@
+{
+  "id": "hermes-skill-creator",
+  "kind": "skill",
+  "name": "Hermes Autonomous Skill Creator",
+  "description": "Skill meta-cognitiva inspirada no closed learning loop do Hermes. O agente analisa tarefas complexas executadas com sucesso e as converte automaticamente em novas sub-skills reutilizáveis.",
+  "source": "nous",
+  "category": "cognition",
+  "license": "MIT",
+  "tags": [
+    "autonomous-skill-creation",
+    "procedural-memory-generation",
+    "self-improving-routines",
+    "task-abstraction"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402"
+  },
+  "badges": [
+    "HERMES-AWARE",
+    "A2A-READY"
+  ]
+}

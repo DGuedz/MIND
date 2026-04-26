@@ -1,0 +1,26 @@
+{
+  "id": "card_jupiter_route",
+  "name": "Smart Swap Router (Jupiter-backed)",
+  "description": "Calcula a rota mais eficiente de swap usando liquidez profunda da Solana. Retorna transação montada pronta para assinatura pelo seu Agente.",
+  "tags": ["swap", "routing", "jupiter", "defi", "execution"],
+  "pricing": {
+    "model": "per_request",
+    "currency": "USDC",
+    "price": 0.009
+  },
+  "endpoints": {
+    "discovery": "/v1/agents/card_jupiter_route",
+    "metadata": "/v1/agents/card_jupiter_route/onchain",
+    "data": "https://api.mindprotocol.ai/x402/card_jupiter_route/data",
+    "payment": "/v1/payment/x402"
+  },
+  "economicMetrics": {
+    "monthlyRevenue": 4500,
+    "profitMargin": 0.90
+  },
+  "provenance": {
+    "source": "MIND Registry",
+    "createdAt": "2026-04-12T14:30:00Z",
+    "signature": "0xdef456..."
+  }
+}

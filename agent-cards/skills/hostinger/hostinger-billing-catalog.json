@@ -1,0 +1,79 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "Hostinger Billing & Catalog",
+    "version": "1.0.0",
+    "description": "Access service plans, subscription options, and manage payment methods.",
+    "tags": [
+      "hostinger",
+      "api",
+      "mcp",
+      "finance"
+    ],
+    "license": "Proprietary",
+    "author": {
+      "name": "MIND",
+      "contact": "https://github.com/DGuedz/MIND"
+    }
+  },
+  "discovery": {
+    "intent": "infrastructure_management",
+    "category": "finance",
+    "keywords": [
+      "hostinger",
+      "vps",
+      "domain",
+      "dns",
+      "infrastructure"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": []
+    },
+    "samples": [],
+    "qualityScore": 0.9
+  },
+  "access": {
+    "authentication": "mcp_token",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "MIND/agent-cards/skills/hostinger",
+    "createdAt": "2026-04-24T19:43:04.341Z",
+    "updatedAt": "2026-04-24T19:43:04.341Z",
+    "signature": "unsigned",
+    "origin": "The Garage - Superteam BR",
+    "badges": [
+      "The Garage Premium",
+      "Superteam BR"
+    ]
+  },
+  "skill": {
+    "source_url": "https://github.com/DGuedz/MIND",
+    "repo_path": "agent-cards/skills/hostinger/hostinger-billing-catalog.json",
+    "install": [
+      "npx skills add hostinger/hostinger-billing-catalog"
+    ]
+  }
+}

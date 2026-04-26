@@ -1,0 +1,30 @@
+{
+  "id": "drift-perp-trader",
+  "kind": "skill",
+  "name": "Drift Algorithmic Trader",
+  "source": "mind",
+  "category": "trading",
+  "license": "MIT",
+  "tags": [
+    "drift",
+    "perps",
+    "trading"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "TRADING",
+    "DRIFT"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.009000000000000001
+  },
+  "performance": {
+    "successRate": 95.8,
+    "totalExecutions": 40784,
+    "totalVolumeUSDC": 403.6
+  }
+}

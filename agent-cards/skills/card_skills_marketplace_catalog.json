@@ -1,0 +1,60 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "MIND Skills Marketplace Catalog",
+    "version": "1.0.0",
+    "description": "Catalogo de Agent Cards para skills (externas e internas) usadas no marketplace de skills do ecossistema Solana.",
+    "tags": ["skills", "marketplace", "solana", "agent-cards", "catalog"],
+    "license": "Apache-2.0",
+    "author": {
+      "name": "MIND Protocol",
+      "contact": "https://github.com/DGuedz/MIND"
+    }
+  },
+  "discovery": {
+    "intent": "knowledge_base",
+    "category": "developer-tools",
+    "keywords": ["skills", "catalog", "solana", "agents", "marketplace"],
+    "compatibleFrameworks": ["langchain", "crewai", "claude-code", "cursor", "codex", "trae"]
+  },
+  "data": {
+    "type": "dataset",
+    "format": "json",
+    "schema": {
+      "fields": [
+        { "name": "card_path", "type": "string", "description": "Caminho do arquivo JSON do Agent Card" },
+        { "name": "source", "type": "string", "description": "Fonte do card (ex: sendaifun, mind)" },
+        { "name": "skill_name", "type": "string", "description": "Nome da skill" }
+      ]
+    },
+    "samples": [
+      "agent-cards/skills/generation.summary.json",
+      "agent-cards/skills/sources/sendaifun-skills.v1.json",
+      "agent-cards/skills/sources/mind-skills.v1.json"
+    ],
+    "qualityScore": 0.8
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND/tree/main/agent-cards/skills",
+      "metadata": "https://github.com/DGuedz/MIND/tree/main/agent-cards/skills",
+      "data": "https://github.com/DGuedz/MIND/tree/main/agent-cards/skills"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "MIND Repository",
+    "createdAt": "2026-04-21T00:00:00Z",
+    "updatedAt": "2026-04-21T00:00:00Z",
+    "signature": "unsigned"
+  }
+}

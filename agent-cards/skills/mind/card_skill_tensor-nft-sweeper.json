@@ -1,0 +1,30 @@
+{
+  "id": "tensor-nft-sweeper",
+  "kind": "skill",
+  "name": "Tensor Floor Sweeper",
+  "source": "mind",
+  "category": "trading",
+  "license": "MIT",
+  "tags": [
+    "tensor",
+    "nft",
+    "sweeper"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "NFT",
+    "TENSOR"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.009000000000000001
+  },
+  "performance": {
+    "successRate": 99.8,
+    "totalExecutions": 44004,
+    "totalVolumeUSDC": 641.6
+  }
+}

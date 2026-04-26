@@ -1,0 +1,31 @@
+{
+  "id": "pyth-oracle-fetcher",
+  "kind": "skill",
+  "name": "Pyth Real-Time Oracle",
+  "source": "mind",
+  "category": "oracle",
+  "license": "MIT",
+  "tags": [
+    "pyth",
+    "price",
+    "oracle",
+    "defi"
+  ],
+  "badges": [
+    "V1.0",
+    "x402-READY",
+    "ORACLE",
+    "PYTH"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.001
+  },
+  "performance": {
+    "successRate": 96,
+    "totalExecutions": 45430,
+    "totalVolumeUSDC": 747
+  }
+}

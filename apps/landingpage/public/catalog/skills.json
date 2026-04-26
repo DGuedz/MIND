@@ -1,0 +1,1173 @@
+{
+  "as_of": "2026-04-24T23:16:33.597Z",
+  "items": [
+    {
+      "id": "solana-intel-oracle",
+      "kind": "product",
+      "name": "Solana Ecosystem Intelligence Feed",
+      "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e estruturados. Não contém claims absolutos sem prova.",
+      "source": "mind",
+      "category": "oracle",
+      "license": "Proprietary",
+      "tags": [
+        "real-time-ecosystem-parsing",
+        "institutional-post-validation",
+        "anti-hallucination-signal-extraction",
+        "onchain-metric-disambiguation"
+      ],
+      "badges": [
+        "A2A-DATA-FEED",
+        "VERIFIED-SOURCE"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005
+      },
+      "performance": {
+        "successRate": 99.2,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      }
+    },
+    {
+      "id": "colosseum_copilot",
+      "kind": "skill",
+      "name": "colosseum-copilot",
+      "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
+      "source": "mind",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "ecosystem-intelligence",
+        "colosseum-copilot"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "drift-perp-trader",
+      "kind": "skill",
+      "name": "Drift Algorithmic Trader",
+      "description": "",
+      "source": "mind",
+      "category": "trading",
+      "license": "MIT",
+      "tags": [
+        "drift",
+        "perps",
+        "trading"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "TRADING",
+        "DRIFT"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.009000000000000001
+      },
+      "performance": {
+        "successRate": 95.8,
+        "totalExecutions": 40784,
+        "totalVolumeUSDC": 403.6
+      }
+    },
+    {
+      "id": "helius-rpc-manager",
+      "kind": "skill",
+      "name": "Helius RPC & Webhooks",
+      "description": "",
+      "source": "mind",
+      "category": "infrastructure",
+      "license": "MIT",
+      "tags": [
+        "helius",
+        "rpc",
+        "webhooks"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "INFRASTRUCTURE",
+        "HELIUS"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.007
+      },
+      "performance": {
+        "successRate": 99.6,
+        "totalExecutions": 42808,
+        "totalVolumeUSDC": 553.2
+      }
+    },
+    {
+      "id": "jito-mev-searcher",
+      "kind": "skill",
+      "name": "Jito MEV Searcher",
+      "description": "",
+      "source": "mind",
+      "category": "execution",
+      "license": "MIT",
+      "tags": [
+        "jito",
+        "mev",
+        "searcher"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "MEV",
+        "JITO"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.002
+      },
+      "performance": {
+        "successRate": 95.1,
+        "totalExecutions": 40623,
+        "totalVolumeUSDC": 391.7
+      }
+    },
+    {
+      "id": "kuka",
+      "kind": "skill",
+      "name": "kuka",
+      "description": "Mentor Solana com analogias TradFi e didatica direta (termos, quiz, learning path, walkthrough).",
+      "source": "mind",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "education",
+        "kuka"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "marginfi-liquidator",
+      "kind": "skill",
+      "name": "Marginfi Liquidator Bot",
+      "description": "",
+      "source": "mind",
+      "category": "execution",
+      "license": "MIT",
+      "tags": [
+        "marginfi",
+        "liquidation",
+        "defi"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "DEFI",
+        "LIQUIDATION"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.007
+      },
+      "performance": {
+        "successRate": 97.6,
+        "totalExecutions": 1948,
+        "totalVolumeUSDC": 859.2
+      }
+    },
+    {
+      "id": "metaplex-core-minter",
+      "kind": "skill",
+      "name": "Metaplex Core Minter",
+      "description": "",
+      "source": "mind",
+      "category": "utility",
+      "license": "MIT",
+      "tags": [
+        "metaplex",
+        "cnft",
+        "core"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "METAPLEX",
+        "CORE"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005
+      },
+      "performance": {
+        "successRate": 98.4,
+        "totalExecutions": 3282,
+        "totalVolumeUSDC": 957.8
+      }
+    },
+    {
+      "id": "pyth-oracle-fetcher",
+      "kind": "skill",
+      "name": "Pyth Real-Time Oracle",
+      "description": "",
+      "source": "mind",
+      "category": "oracle",
+      "license": "MIT",
+      "tags": [
+        "pyth",
+        "price",
+        "oracle",
+        "defi"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "ORACLE",
+        "PYTH"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.001
+      },
+      "performance": {
+        "successRate": 96,
+        "totalExecutions": 45430,
+        "totalVolumeUSDC": 747
+      }
+    },
+    {
+      "id": "raydium-lp-manager",
+      "kind": "skill",
+      "name": "Raydium LP Optimizer",
+      "description": "",
+      "source": "mind",
+      "category": "execution",
+      "license": "MIT",
+      "tags": [
+        "raydium",
+        "amm",
+        "liquidity"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "DEFI",
+        "RAYDIUM"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005
+      },
+      "performance": {
+        "successRate": 95.4,
+        "totalExecutions": 42992,
+        "totalVolumeUSDC": 566.8
+      }
+    },
+    {
+      "id": "render_validation_expert",
+      "kind": "skill",
+      "name": "render-validation-expert",
+      "description": "Auditoria visual e correcoes de bugs de renderizacao no localhost (Vite/React e Next.js).",
+      "source": "mind",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "qa-design",
+        "render-validation-expert"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "sanctum-lst-router",
+      "kind": "skill",
+      "name": "Sanctum LST Arbitrage",
+      "description": "",
+      "source": "mind",
+      "category": "trading",
+      "license": "MIT",
+      "tags": [
+        "sanctum",
+        "lst",
+        "arbitrage"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "DEFI",
+        "SANCTUM"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.006
+      },
+      "performance": {
+        "successRate": 96.5,
+        "totalExecutions": 44395,
+        "totalVolumeUSDC": 670.5
+      }
+    },
+    {
+      "id": "solana_defi_ecosystem_intel",
+      "kind": "skill",
+      "name": "solana-defi-ecosystem-intel",
+      "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
+      "source": "mind",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "ecosystem-intelligence",
+        "solana-defi-ecosystem-intel"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "squads-multisig",
+      "kind": "skill",
+      "name": "Squads V4 Proposer",
+      "description": "",
+      "source": "mind",
+      "category": "governance",
+      "license": "MIT",
+      "tags": [
+        "squads",
+        "multisig",
+        "treasury"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "GOVERNANCE",
+        "SQUADS"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.001
+      },
+      "performance": {
+        "successRate": 98,
+        "totalExecutions": 37840,
+        "totalVolumeUSDC": 186
+      }
+    },
+    {
+      "id": "tensor-nft-sweeper",
+      "kind": "skill",
+      "name": "Tensor Floor Sweeper",
+      "description": "",
+      "source": "mind",
+      "category": "trading",
+      "license": "MIT",
+      "tags": [
+        "tensor",
+        "nft",
+        "sweeper"
+      ],
+      "badges": [
+        "V1.0",
+        "x402-READY",
+        "NFT",
+        "TENSOR"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.009000000000000001
+      },
+      "performance": {
+        "successRate": 99.8,
+        "totalExecutions": 44004,
+        "totalVolumeUSDC": 641.6
+      }
+    },
+    {
+      "id": "unicorn_vps",
+      "kind": "product",
+      "name": "unicorn-vps",
+      "description": "Bootstrap seguro e educativo de VPS Ubuntu via Claude Code para ecossistema One Person Unicorn / Startup Factory.",
+      "source": "mind",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "vps",
+        "infrastructure",
+        "devops",
+        "security",
+        "ubuntu",
+        "the-garage"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "subscription"
+      }
+    },
+    {
+      "id": "arcium",
+      "kind": "skill",
+      "name": "arcium",
+      "description": "Encrypted computation via MPC — dark pools, sealed-bid auctions, encrypted voting, confidential DeFi",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "infrastructure",
+        "arcium"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "code_recon",
+      "kind": "skill",
+      "name": "code-recon",
+      "description": "Deep architectural context building for security audits",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "security",
+        "code-recon"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "coingecko",
+      "kind": "skill",
+      "name": "coingecko",
+      "description": "Token prices, DEX pool data, OHLCV charts, trades",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "data-analytics",
+        "coingecko"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "debridge",
+      "kind": "skill",
+      "name": "debridge",
+      "description": "Cross-chain bridges, message passing, Solana ↔ EVM transfers",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "cross-chain",
+        "debridge"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "dflow",
+      "kind": "skill",
+      "name": "dflow",
+      "description": "Spot trading, prediction markets, Swap API, WebSocket streaming",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "trading",
+        "dflow"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "glam",
+      "kind": "skill",
+      "name": "glam",
+      "description": "Tokenized vaults, DeFi integrations (Jupiter, Kamino), staking, asset management",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "glam"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "helius",
+      "kind": "skill",
+      "name": "helius",
+      "description": "RPC, DAS API, webhooks, priority fees, LaserStream gRPC",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "infrastructure",
+        "helius"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "jupiter",
+      "kind": "skill",
+      "name": "jupiter",
+      "description": "Ultra swaps, limit orders, DCA, perpetuals, lending, and token APIs",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "jupiter"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "kamino",
+      "kind": "skill",
+      "name": "kamino",
+      "description": "Lending, borrowing, liquidity management, leverage trading",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "kamino"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "light_protocol",
+      "kind": "skill",
+      "name": "light-protocol",
+      "description": "ZK Compression, rent-free compressed tokens",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "infrastructure",
+        "light-protocol"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "lulo",
+      "kind": "skill",
+      "name": "lulo",
+      "description": "Lending aggregator across Kamino, Drift, MarginFi, Jupiter",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "lulo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "magicblock",
+      "kind": "skill",
+      "name": "magicblock",
+      "description": "Ephemeral Rollups, sub-10ms latency, gasless transactions",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "infrastructure",
+        "magicblock"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "manifest",
+      "kind": "skill",
+      "name": "manifest",
+      "description": "CLOB, limit orders, reverse orders, global orders, Destiny vaults",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "manifest"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "marginfi",
+      "kind": "skill",
+      "name": "marginfi",
+      "description": "Lending, borrowing, leveraged positions (looping) and flash loans",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "marginfi"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "metaplex",
+      "kind": "skill",
+      "name": "metaplex",
+      "description": "Core, Token Metadata, Bubblegum, Candy Machine, Umi framework",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "nft-tokens",
+        "metaplex"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "metengine",
+      "kind": "skill",
+      "name": "metengine",
+      "description": "Smart money analytics (wallet scoring, insider detection, capital flow tracking), x402 pay-per-request",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "data-analytics",
+        "metengine"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "meteora",
+      "kind": "skill",
+      "name": "meteora",
+      "description": "DLMM, DAMM pools, bonding curves, Alpha Vaults",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "meteora"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "orca",
+      "kind": "skill",
+      "name": "orca",
+      "description": "Whirlpools concentrated liquidity AMM, swaps, positions",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "orca"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "pinocchio_development",
+      "kind": "skill",
+      "name": "pinocchio-development",
+      "description": "Zero-copy framework for high-performance programs (88-95% CU reduction)",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "program-development",
+        "pinocchio-development"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "pumpfun",
+      "kind": "skill",
+      "name": "pumpfun",
+      "description": "Token launches, bonding curves, PumpSwap AMM",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "pumpfun"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "pyth",
+      "kind": "skill",
+      "name": "pyth",
+      "description": "Real-time price feeds, confidence intervals, EMA prices",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "oracles",
+        "pyth"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "quicknode",
+      "kind": "skill",
+      "name": "quicknode",
+      "description": "RPC (80+ chains), DAS API, Yellowstone gRPC, Streams, webhooks, priority fees, Metis Jupiter",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "infrastructure",
+        "quicknode"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "ranger_finance",
+      "kind": "skill",
+      "name": "ranger-finance",
+      "description": "Perps aggregator across Drift, Flash, Adrena, Jupiter",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "trading",
+        "ranger-finance"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "raydium",
+      "kind": "skill",
+      "name": "raydium",
+      "description": "AMM pools, CLMM, CPMM, LaunchLab token launches",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "raydium"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "sanctum",
+      "kind": "skill",
+      "name": "sanctum",
+      "description": "Liquid staking, LST swaps, Infinity pool",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "defi",
+        "sanctum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "sol_incinerator",
+      "kind": "skill",
+      "name": "sol-incinerator",
+      "description": "Burn tokens, burn NFTs, close token accounts",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "infrastructure",
+        "sol-incinerator"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "solana_agent_kit",
+      "kind": "skill",
+      "name": "solana-agent-kit",
+      "description": "60+ Solana operations with LangChain, Vercel AI, MCP support",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "ai-agents",
+        "solana-agent-kit"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "solana_kit",
+      "kind": "skill",
+      "name": "solana-kit",
+      "description": "Modern tree-shakeable SDK from Anza, zero dependencies",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "client-development",
+        "solana-kit"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "solana_kit_migration",
+      "kind": "skill",
+      "name": "solana-kit-migration",
+      "description": "Migration guide from @solana/web3.js v1.x to @solana/kit",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "client-development",
+        "solana-kit-migration"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "squads",
+      "kind": "skill",
+      "name": "squads",
+      "description": "Multisig wallets, smart accounts, account abstraction",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "infrastructure",
+        "squads"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "surfpool",
+      "kind": "skill",
+      "name": "surfpool",
+      "description": "Development environment with mainnet forking, cheatcodes",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "devops",
+        "surfpool"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "switchboard",
+      "kind": "skill",
+      "name": "switchboard",
+      "description": "Price feeds, on-demand data, VRF randomness, Surge streaming",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "oracles",
+        "switchboard"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "vulnhunter",
+      "kind": "skill",
+      "name": "vulnhunter",
+      "description": "Vulnerability detection, dangerous API hunting, variant analysis",
+      "source": "sendaifun",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "sendaifun",
+        "security",
+        "vulnhunter"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "clint",
+      "kind": "skill",
+      "name": "clint",
+      "description": "CLINT — CNB Link Intelligence. DePIN proof verifier for the CNB Mobile network on Solana. Ingests on-chain Memo transactions and Anchor PDA data to compute a Node Health Index (NHI, 0–100) with Sybil-risk classification. Trust primitive for A2A DePIN transactions in the attention economy.",
+      "source": "stbr",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "depin",
+        "solana",
+        "cnb-mobile",
+        "proof-of-activity",
+        "sybil-detection",
+        "node-health",
+        "latam",
+        "brazil",
+        "stbr",
+        "the-garage",
+        "agent-skill"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "solana_glossary",
+      "kind": "skill",
+      "name": "solana-glossary",
+      "description": "Glossary explorer: consulta termos do ecossistema Solana (getTerm/searchTerms/getTermsByCategory) com suporte a i18n (pt/es).",
+      "source": "stbr",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "stbr",
+        "education",
+        "solana-glossary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "agentwallet",
+      "kind": "skill",
+      "name": "agentwallet",
+      "description": "Wallets para agentes com signing server-side e policies. Inclui x402/fetch (one-step payment proxy) para pagar e chamar APIs com retry e dedupe.",
+      "source": "frames",
+      "category": "uncategorized",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "frames",
+        "infrastructure",
+        "agentwallet"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+
+  "id": "clint",
+  "name": "CLINT — CNB Link Intelligence",
+  "version": "1.0.0",
+  "description": "DePIN proof verifier for the CNB Mobile network on Solana. Computes a Node Health Index (0–100) and Sybil-risk classification from on-chain Memo transactions and Anchor PDA data. Trust primitive for A2A DePIN transactions in the attention economy.",
+
+  "author": {
+    "handle": "CriptonoBolso",
+    "wallet": "PENDING_REAL_WALLET_FROM_MARIANO"
+  },
+
+  "origin": "The Garage - Superteam BR",
+  "badges": [
+    "The Garage Premium",
+    "Colosseum Frontier"
+  ],
+  "campaign": "the_garage_frontier_sp",
+
+  "category": ["depin", "analytics", "sybil-detection", "on-chain-verification"],
+  "tags": ["cnb-mobile", "depin", "solana", "proof-of-activity", "node-health", "latam"],
+
+  "network": "solana",
+  "program_id": "BoVj5VrUx4zzE9JWFrneGWyePNt4DYGP2AHb9ZUxXZmo",
+
+  "pricing": {
+    "execution_fee": 0.05,
+    "currency": "USDC",
+    "fee_unit": "per_call",
+    "split": {
+      "builder_pct": 92,
+      "protocol_pct": 8
+    }
+  },
+
+  "latency_power": {
+    "quick":       { "p95_ms": 400  },
+    "full":        { "p95_ms": 1200 },
+    "sybil_check": { "p95_ms": 900  }
+  },
+
+  "escrow_logic": "Standard",
+
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "wallet": {
+        "type": "string",
+        "description": "Solana wallet address (base58). Provide wallet OR uid_hash."
+      },
+      "uid_hash": {
+        "type": "string",
+        "description": "SHA-256 of Firebase UID, hex-encoded (64 chars). First 16 bytes are the PDA seed."
+      },
+      "window_hours": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 720,
+        "default": 24
+      },
+      "mode": {
+        "type": "string",
+        "enum": ["quick", "full", "sybil_check"],
+        "default": "full"
+      }
+    },
+    "oneOf": [
+      { "required": ["wallet"] },
+      { "required": ["uid_hash"] }
+    ]
+  },
+
+  "output_schema": {
+    "type": "object",
+    "required": ["node_health_index", "sybil_risk", "verdict", "verified_minutes", "proof_hashes"],
+    "properties": {
+      "node_health_index":     { "type": "number", "minimum": 0, "maximum": 100 },
+      "verified_minutes":      { "type": "number" },
+      "total_sessions":        { "type": "number" },
+      "longest_streak_hours":  { "type": "number" },
+      "points_accumulated":    { "type": "number" },
+      "tokens_redeemed":       { "type": "number" },
+      "sybil_risk":            { "type": "string", "enum": ["low", "medium", "high"] },
+      "proof_hashes":          { "type": "array", "items": { "type": "string" } },
+      "anchor_pda":            { "type": "string" },
+      "analysis_window": {
+        "type": "object",
+        "properties": {
+          "from": { "type": "string", "format": "date-time" },
+          "to":   { "type": "string", "format": "date-time" }
+        }
+      },
+      "verdict": { "type": "string" }
+    }
+  },
+
+  "capabilities": {
+    "rpc_reads":       true,
+    "writes_on_chain": false,
+    "uses_anchor_idl": true,
+    "memo_parsing":    true,
+    "batch_supported": true,
+    "max_batch_size":  50
+  },
+
+  "sla": {
+    "availability_target": 0.995
+  },
+
+  "security": {
+    "requires_private_key": false,
+    "payload_type":         "json",
+    "kms_compatible":       true,
+    "secrets_committed":    false,
+    "audit_note":           "Read-only. All data sourced from public Solana RPC. Deterministic output — reproducible by any RPC with full history."
+  },
+
+  "mindprint": {
+    "mint_on_approval": true,
+    "attributes": {
+      "origin":        "The Garage - Superteam BR",
+      "genesis_block": true,
+      "event":         "Colosseum Frontier 2026 — São Paulo",
+      "protocol":      "CNB Mobile DePIN",
+      "network":       "Solana"
+    }
+  },
+
+  "links": {
+    "skill_doc":        "./.agents/skills/clint/SKILL.md",
+    "protocol_repo":    "https://github.com/CriptonoBolso/CNBMobile",
+    "program_explorer": "https://explorer.solana.com/address/BoVj5VrUx4zzE9JWFrneGWyePNt4DYGP2AHb9ZUxXZmo?cluster=devnet"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "source": {
+    "name": "sendaifun/skills",
+    "url": "https://github.com/sendaifun/skills",
+    "license": "Apache-2.0",
+    "description": "Public marketplace of Solana-related AI agent skills for DeFi, infrastructure, security, and more.",
+    "ingestedAt": "2026-04-21T00:00:00Z"
+  },
+  "skills": [
+    { "name": "jupiter", "category": "defi", "description": "Ultra swaps, limit orders, DCA, perpetuals, lending, and token APIs" },
+    { "name": "glam", "category": "defi", "description": "Tokenized vaults, DeFi integrations (Jupiter, Kamino), staking, asset management" },
+    { "name": "kamino", "category": "defi", "description": "Lending, borrowing, liquidity management, leverage trading" },
+    { "name": "lulo", "category": "defi", "description": "Lending aggregator across Kamino, Drift, MarginFi, Jupiter" },
+    { "name": "manifest", "category": "defi", "description": "CLOB, limit orders, reverse orders, global orders, Destiny vaults" },
+    { "name": "marginfi", "category": "defi", "description": "Lending, borrowing, leveraged positions (looping) and flash loans" },
+    { "name": "meteora", "category": "defi", "description": "DLMM, DAMM pools, bonding curves, Alpha Vaults" },
+    { "name": "orca", "category": "defi", "description": "Whirlpools concentrated liquidity AMM, swaps, positions" },
+    { "name": "pumpfun", "category": "defi", "description": "Token launches, bonding curves, PumpSwap AMM" },
+    { "name": "raydium", "category": "defi", "description": "AMM pools, CLMM, CPMM, LaunchLab token launches" },
+    { "name": "sanctum", "category": "defi", "description": "Liquid staking, LST swaps, Infinity pool" },
+
+    { "name": "arcium", "category": "infrastructure", "description": "Encrypted computation via MPC — dark pools, sealed-bid auctions, encrypted voting, confidential DeFi" },
+    { "name": "helius", "category": "infrastructure", "description": "RPC, DAS API, webhooks, priority fees, LaserStream gRPC" },
+    { "name": "quicknode", "category": "infrastructure", "description": "RPC (80+ chains), DAS API, Yellowstone gRPC, Streams, webhooks, priority fees, Metis Jupiter" },
+    { "name": "light-protocol", "category": "infrastructure", "description": "ZK Compression, rent-free compressed tokens" },
+    { "name": "magicblock", "category": "infrastructure", "description": "Ephemeral Rollups, sub-10ms latency, gasless transactions" },
+    { "name": "sol-incinerator", "category": "infrastructure", "description": "Burn tokens, burn NFTs, close token accounts" },
+    { "name": "squads", "category": "infrastructure", "description": "Multisig wallets, smart accounts, account abstraction" },
+
+    { "name": "dflow", "category": "trading", "description": "Spot trading, prediction markets, Swap API, WebSocket streaming" },
+    { "name": "ranger-finance", "category": "trading", "description": "Perps aggregator across Drift, Flash, Adrena, Jupiter" },
+
+    { "name": "pyth", "category": "oracles", "description": "Real-time price feeds, confidence intervals, EMA prices" },
+    { "name": "switchboard", "category": "oracles", "description": "Price feeds, on-demand data, VRF randomness, Surge streaming" },
+
+    { "name": "coingecko", "category": "data-analytics", "description": "Token prices, DEX pool data, OHLCV charts, trades" },
+    { "name": "metengine", "category": "data-analytics", "description": "Smart money analytics (wallet scoring, insider detection, capital flow tracking), x402 pay-per-request" },
+
+    { "name": "debridge", "category": "cross-chain", "description": "Cross-chain bridges, message passing, Solana ↔ EVM transfers" },
+
+    { "name": "metaplex", "category": "nft-tokens", "description": "Core, Token Metadata, Bubblegum, Candy Machine, Umi framework" },
+
+    { "name": "solana-kit", "category": "client-development", "description": "Modern tree-shakeable SDK from Anza, zero dependencies" },
+    { "name": "solana-kit-migration", "category": "client-development", "description": "Migration guide from @solana/web3.js v1.x to @solana/kit" },
+
+    { "name": "pinocchio-development", "category": "program-development", "description": "Zero-copy framework for high-performance programs (88-95% CU reduction)" },
+
+    { "name": "solana-agent-kit", "category": "ai-agents", "description": "60+ Solana operations with LangChain, Vercel AI, MCP support" },
+
+    { "name": "vulnhunter", "category": "security", "description": "Vulnerability detection, dangerous API hunting, variant analysis" },
+    { "name": "code-recon", "category": "security", "description": "Deep architectural context building for security audits" },
+
+    { "name": "surfpool", "category": "devops", "description": "Development environment with mainnet forking, cheatcodes" }
+  ]
+}

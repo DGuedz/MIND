@@ -1,0 +1,94 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "solana-defi-ecosystem-intel (Skill)",
+    "version": "1.0.0",
+    "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
+    "tags": [
+      "solana",
+      "agent-skill",
+      "mind",
+      "ecosystem-intelligence",
+      "solana-defi-ecosystem-intel"
+    ],
+    "license": "Proprietary",
+    "author": {
+      "name": "MIND",
+      "contact": "https://github.com/DGuedz/MIND"
+    }
+  },
+  "discovery": {
+    "intent": "data_analysis",
+    "category": "finance",
+    "keywords": [
+      "solana",
+      "agent-skill",
+      "mind",
+      "ecosystem-intelligence",
+      "solana-defi-ecosystem-intel"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "skill_name",
+          "type": "string",
+          "description": "Nome da skill"
+        },
+        {
+          "name": "installation",
+          "type": "string",
+          "description": "Instrucoes de instalacao/ativacao"
+        },
+        {
+          "name": "usage",
+          "type": "string",
+          "description": "Como acionar a skill no agente"
+        }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.75
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "MIND/.agents/skills",
+    "createdAt": "2026-04-24T02:11:05.337Z",
+    "updatedAt": "2026-04-24T02:11:05.337Z",
+    "signature": "unsigned",
+    "origin": "The Garage - Superteam BR",
+    "badges": [
+      "The Garage Premium",
+      "Superteam BR"
+    ]
+  },
+  "skill": {
+    "source_url": "https://github.com/DGuedz/MIND",
+    "repo_path": ".agents/skills/solana-defi-ecosystem-intel/SKILL.md"
+  }
+}

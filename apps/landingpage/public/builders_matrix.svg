@@ -1,0 +1,63 @@
+<svg width="1600" height="2000" viewBox="0 0 1600 2000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="2000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050505"/>
+      <stop offset="0.6" stop-color="#0B0B0B"/>
+      <stop offset="1" stop-color="#020202"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(720 760) rotate(90) scale(980 860)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="0.62" stop-color="#FFFFFF" stop-opacity="0.03"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stroke" x1="260" y1="320" x2="1340" y2="1680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E5E7EB" stop-opacity="0.02"/>
+      <stop offset="0.5" stop-color="#E5E7EB" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#E5E7EB" stop-opacity="0.02"/>
+    </linearGradient>
+    <filter id="blur" x="-140" y="-140" width="1880" height="2280" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="44"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="2000" rx="96" fill="url(#bg)"/>
+  <rect x="2" y="2" width="1596" height="1996" rx="94" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="4"/>
+  <rect width="1600" height="2000" rx="96" fill="url(#halo)"/>
+
+  <g opacity="0.85">
+    <path d="M280 420H1320" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M280 580H1320" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M280 740H1320" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M280 900H1320" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M280 1060H1320" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M280 1220H1320" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M280 1380H1320" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M280 1540H1320" stroke="url(#stroke)" stroke-width="3"/>
+
+    <path d="M420 360V1680" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M620 360V1680" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M820 360V1680" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M1020 360V1680" stroke="url(#stroke)" stroke-width="3"/>
+    <path d="M1220 360V1680" stroke="url(#stroke)" stroke-width="3"/>
+  </g>
+
+  <g opacity="0.75">
+    <rect x="360" y="500" width="260" height="180" rx="28" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>
+    <rect x="680" y="660" width="260" height="180" rx="28" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>
+    <rect x="1000" y="820" width="260" height="180" rx="28" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>
+    <rect x="520" y="980" width="260" height="180" rx="28" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>
+    <rect x="840" y="1140" width="260" height="180" rx="28" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>
+  </g>
+
+  <g opacity="0.65">
+    <path d="M490 680C640 680 700 660 820 740C940 820 960 880 1130 910" stroke="#E5E7EB" stroke-opacity="0.18" stroke-width="5"/>
+    <path d="M810 840C760 930 740 990 650 1070" stroke="#E5E7EB" stroke-opacity="0.14" stroke-width="5"/>
+    <path d="M780 1160C880 1200 960 1240 1040 1320" stroke="#E5E7EB" stroke-opacity="0.14" stroke-width="5"/>
+  </g>
+
+  <g filter="url(#blur)" opacity="0.20">
+    <circle cx="760" cy="760" r="260" fill="#FFFFFF"/>
+    <circle cx="1040" cy="1220" r="240" fill="#FFFFFF"/>
+  </g>
+</svg>
+
