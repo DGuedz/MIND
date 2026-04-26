@@ -1,5 +1,0 @@
-{"at":"2026-04-06T12:20:01.250Z","kind":"auth_rejected","ip":"127.0.0.1","source":"intent_service"}
-{"at":"2026-04-06T12:20:03.272Z","kind":"replay_rejected","event_id":"evt_e2e_block_1_1775478001241","source":"intent_service"}
-{"at":"2026-04-06T12:20:03.276Z","kind":"duplicate_suppressed","event_id":"evt_e2e_dup_1775478003274","dedupe_key":"intent.policy.checked:int_e2e_block_1_1775478001241::BLOCK","source":"intent_service"}
-{"at":"2026-04-06T12:20:03.285Z","kind":"circuit_open","source":"intent_service","failures_in_window":2,"open_until":"2026-04-06T12:20:33.285Z"}
-{"at":"2026-04-06T12:20:04.903Z","kind":"circuit_open_reject","ip":"127.0.0.1","source":"intent_service"}

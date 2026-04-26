@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+node_modules 2/
 dist/
 
 # Environment Variables (CRITICAL: DO NOT COMMIT REAL KEYS)
@@ -14,6 +15,20 @@ dist/
 # Documentation (Internal only, not for public repo)
 docs/
 *.txt
+backup/
+artifacts/
+logs*/
+jsons/
+.trae/
+.vscode/
+supabase/.temp/
+failed_event_spool/
+assets/credentials/
+assets/mind-agent-key-new.meta
+governance/*THESIS*.md
+governance/*PITCH*.md
+governance/*TOKENOMICS*.md
+governance/LEAN_CANVAS.md
 
 # OS Files
 .DS_Store
