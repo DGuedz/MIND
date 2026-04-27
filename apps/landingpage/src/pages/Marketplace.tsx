@@ -283,6 +283,11 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
   const navigate = useNavigate();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0, rotX: 0, rotY: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [voucherCode, setVoucherCode] = useState("");
+  const [voucherStatus, setVoucherStatus] = useState<"idle" | "valid" | "invalid">("idle");
+
+  const isOriginallyFree = item.pricing?.model.toLowerCase() === 'free' || item.pricing?.price === 0;
+  const isFree = isOriginallyFree || voucherStatus === "valid";
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -309,9 +314,22 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
   const [txHash, setTxHash] = useState<string | null>(null);
 
   const handleExecuteX402 = async () => {
-    if (!item.pricing || settlementStatus === 'processing') return;
-    
+    if (settlementStatus === 'processing') return;
+
     setSettlementStatus('processing');
+
+    if (isFree) {
+      setSettlementStep('Applying Voucher & Validating Access...');
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setSettlementStep('Access Granted. Generating Instructions...');
+      await new Promise(resolve => setTimeout(resolve, 600));
+      setTxHash(`mindprint_free_${item.id.substring(0, 8)}`);
+      setSettlementStatus('success');
+      return;
+    }
+
+    if (!item.pricing) return;
+    
     setSettlementStep('Initiating Intent & Policy Check...');
     setTxHash(null);
     
@@ -502,15 +520,28 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
               ))}
             </div>
             <div className="flex gap-2 items-center">
-              <button
-                className="shrink-0 text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-300 px-4 py-2 rounded-lg backdrop-blur-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.15)]"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/gateway?intentId=purchase_card_${item.id}&amountLamports=${Math.floor((item.pricing?.price || 0.005) * 1e9)}&recipient=DGuedzXbK8fN8eRqyTqzTXZyX4wY4rU2B1mD4W8L7jH`);
-                }}
-              >
-                Pay (Gateway)
-              </button>
+              {!isFree && (
+                <button
+                  className="shrink-0 text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-300 px-4 py-2 rounded-lg backdrop-blur-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.15)]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/gateway?intentId=purchase_card_${item.id}&amountLamports=${Math.floor((item.pricing?.price || 0.005) * 1e9)}&recipient=DGuedzXbK8fN8eRqyTqzTXZyX4wY4rU2B1mD4W8L7jH`);
+                  }}
+                >
+                  Pay (Gateway)
+                </button>
+              )}
+              {isFree && (
+                <button
+                  className="shrink-0 text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-300 px-4 py-2 rounded-lg backdrop-blur-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.15)]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggle();
+                  }}
+                >
+                  Free (Get)
+                </button>
+              )}
               <button
                 className={`shrink-0 text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-300 px-4 py-2 rounded-lg backdrop-blur-md ${
                   isSelected 
@@ -574,6 +605,41 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                 </div>
               </div>
             )}
+
+            {/* Voucher Section */}
+            {!isOriginallyFree && settlementStatus === 'idle' && (
+              <div className="pt-4 border-t border-white/5 mt-4 space-y-2">
+                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Sponsor / Voucher Code</div>
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="text" 
+                    placeholder="ENTER CODE" 
+                    value={voucherCode}
+                    onChange={(e) => {
+                      setVoucherCode(e.target.value);
+                      setVoucherStatus("idle");
+                    }}
+                    className="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-[10px] font-mono text-white uppercase placeholder:text-zinc-600 focus:outline-none focus:border-white/30 flex-1"
+                  />
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const code = voucherCode.trim().toUpperCase();
+                      if (code === "THEGARAGE" || code === "SUPERTEAMBR" || code === "COLOSSEUM") {
+                        setVoucherStatus("valid");
+                      } else if (code.length > 0) {
+                        setVoucherStatus("invalid");
+                      }
+                    }}
+                    className="px-4 py-2 bg-white/10 text-[10px] font-mono uppercase text-zinc-300 rounded-lg hover:bg-white/20 transition-colors border border-white/10"
+                  >
+                    Apply
+                  </button>
+                </div>
+                {voucherStatus === "invalid" && <div className="text-[9px] text-red-400 mt-1 font-mono">Invalid or expired code</div>}
+                {voucherStatus === "valid" && <div className="text-[9px] text-emerald-400 mt-1 font-mono">Code applied! 100% protocol subsidy.</div>}
+              </div>
+            )}
             
             {/* x402 Settlement Status Box */}
             {settlementStatus !== 'idle' && (
@@ -595,8 +661,16 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                   )}
                 </div>
                 {txHash && (
-                  <div className="text-[9px] font-mono text-zinc-500 break-all bg-black/50 p-2 rounded">
-                    Proof: {txHash}
+                  <div className="text-[9px] font-mono text-zinc-500 break-all bg-black/50 p-3 rounded mt-2 space-y-2">
+                    <div>Proof: {txHash}</div>
+                    {isFree && settlementStatus === 'success' && (
+                      <div className="border-t border-white/10 pt-2 mt-2">
+                        <div className="text-emerald-400 mb-2">Access Granted! Use the CLI to install:</div>
+                        <code className="text-white bg-black px-3 py-2 rounded border border-white/10 select-all block font-bold">
+                          npx @mindprotocol/cli install {item.name.toLowerCase().replace(/\s+/g, '-')}
+                        </code>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -604,14 +678,14 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
 
             <div className="pt-2 flex flex-col sm:flex-row gap-3">
               <button 
-                className="flex-1 bg-white text-black text-[11px] font-bold font-mono uppercase tracking-[0.2em] py-3 rounded-xl hover:bg-zinc-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex-1 text-[11px] font-bold font-mono uppercase tracking-[0.2em] py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed ${isFree ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500/30" : "bg-white text-black hover:bg-zinc-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleExecuteX402();
                 }}
                 disabled={settlementStatus === 'processing' || settlementStatus === 'success'}
               >
-                {settlementStatus === 'success' ? 'Settled' : 'Execute (x402)'}
+                {settlementStatus === 'success' ? 'Settled' : (isFree ? 'Claim Access (Free)' : 'Execute (x402)')}
               </button>
               <button 
                 className="px-6 border border-white/20 bg-black/50 text-zinc-300 text-[10px] font-mono uppercase tracking-[0.2em] rounded-xl hover:text-white hover:border-white/50 hover:bg-white/5 transition-all duration-300"
