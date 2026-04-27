@@ -1,22 +1,32 @@
-# Contribuindo com a MIND Protocol (Agent Cards)
+# Contribuindo com o MIND Protocol (Builder Pass)
 
-Bem-vindo ao repositório oficial da **MIND Protocol**. 
-Nossa infraestrutura é desenhada para a **Agentic Economy**. Não construímos bots finais; construímos os trilhos de liquidação atômica (x402) e Zero-Trust KMS para que **você** traga suas estratégias e agentes para o nosso Marketplace na forma de **Agent Cards**.
+Bem-vindo ao repositório oficial do **MIND Protocol**.
 
-Se você é um desenvolvedor que já possui scripts, automações ou skills de IA no seu projeto, este guia mostra exatamente como plugar sua inteligência na MIND e submeter seu primeiro PR. Ao transformar seu script em um Agent Card, você passa a monetizar sua execução através dos nossos rails seguros.
+Se você está aqui pelo **The Garage / Superteam BR**, você já entendeu a visão: o futuro da Solana não é sobre quem cria o melhor bot isolado, mas sobre como agentes autônomos se comunicam, colaboram e pagam uns aos outros com fluidez e segurança.
 
->  **Special Track: The Garage & Colosseum Frontier**
-> Durante o hackathon da Solana em São Paulo, todos os PRs aprovados que transformarem skills locais em Agent Cards receberão a badge on-chain **"The Garage Premium"**. Essa badge garante destaque de liquidez e prioridade de roteamento no nosso marketplace.
+O MIND constrói os trilhos (liquidação atômica x402 e Zero-Trust KMS). **Você** traz a inteligência.
+
+Menos teoria, mais código rodando. Seu trabalho tem valor, e o MIND garante que ele seja precificado, descoberto e liquidado on-chain. Aqui, suas skills se transformam em **Agent Cards** — ativos inteligentes que outros agentes e usuários podem consumir no nosso Marketplace.
 
 ---
 
-## 🛠️ O Fluxo de Integração (Do seu repo ao nosso Marketplace) 
+## Como Consumir Agent Cards (Marketplace)
 
+Não quer construir agora, mas precisa de inteligência pro seu projeto? Perfeito.
+O MIND expõe um ecossistema de skills prontas para uso.
 
-O processo de criação de um Agent Card é determinístico. Seu agente precisa de uma interface de manifesto (SKILL) e de uma prova de execução que passe pelas nossas policies de segurança.
+1. **Descubra**: Acesse o [MIND Marketplace](https://mind-protocol.vercel.app/marketplace) e explore os Agent Cards disponíveis (ex: Análise de Risco, Oráculos de DeFi, Copilotos de Código).
+2. **Integre**: Cada Card possui uma interface clara e determinística detalhada em seu `SKILL.md`.
+3. **Pague pelo Uso (x402)**: Esqueça assinaturas mensais. Seus agentes pagam apenas pelos ciclos de inteligência que consumirem, via micro-transações atômicas roteadas pelo protocolo.
 
-### 1. Inicialize seu ambiente local
-Faça um fork deste repositório e clone para a sua máquina:
+---
+
+## Como Construir e Monetizar (The Garage Track)
+
+Você tem um script de trading, um analisador de dados, ou um agente de IA útil? Transforme isso em um Agent Card e passe a monetizar sua execução. O processo é determinístico e focado na experiência do builder.
+
+### 1. Prepare o Terreno
+Faça um fork deste repositório e instale as dependências:
 
 ```bash
 git clone https://github.com/SEU_USUARIO/MIND.git
@@ -24,47 +34,65 @@ cd MIND
 pnpm install
 ```
 
-### 2. Transforme sua Skill em um Agent Card
-Se você já tem um script de trading, um analisador de dados ou um bot no seu projeto, você só precisa encapsulá-lo no nosso formato (Brutalist Schema).
+### 2. Gere o Scaffold do seu Agent Card
+Crie a estrutura base da sua skill usando nosso CLI interno. Isso garante que todos os metadados de proveniência (tracking) sejam preenchidos automaticamente.
 
 ```bash
-# Use nossa CLI para gerar a estrutura base do seu Card
-pnpm run create-skill --name "nome-da-sua-skill"
+pnpm run create-skill --name "nome-da-sua-skill" --builder "Seu Nome" --github "seu-github" --wallet "SUA_WALLET_SOLANA"
 ```
-Isso criará uma pasta em `.agents/skills/nome-da-sua-skill/` contendo:
-- `SKILL.md` (A documentação formal do seu agente e instruções para LLMs)
-- `manifest.json` (A configuração técnica, precificação e metadados)
 
-### 3. Defina seus Atributos de Serviço e Preço
-No arquivo `manifest.json`, você definirá as "cilindradas" do seu Card (como se fosse um Cypher Car). Estes são os atributos que outros agentes e humanos usarão para descobrir e pagar pelo seu serviço:
+Isso vai gerar uma pasta em `agent-cards/skills/community/nome-da-sua-skill/` contendo:
+- `SKILL.md`: A alma do seu agente. Instruções em linguagem natural, restrições e guias de uso para LLMs.
+- `manifest.json`: O "motor" do seu card. Aqui você define preço, atributos técnicos e regras de liquidação.
 
-- **Execution Fee**: Seu preço por chamada (ex: `$0.005`). Você fica com 92%, a rede MIND com 8%.
+### 3. Defina seu Preço e Regras (manifest.json)
+Você está no controle. O MIND retém apenas 8% da taxa de roteamento; **92% da receita vai direto para a wallet que você definiu**.
+
+- **Execution Fee**: Seu preço por chamada (ex: `$0.005`).
 - **Latency Power**: Seu SLA de tempo de resposta esperado (ex: `400ms`).
-- **Escrow Logic**: A policy requerida (ex: `Strict` ou `Standard`).
+- **Escrow Logic**: O nível de segurança exigido pela sua skill.
 
-### 4. Valide a Badge "The Garage Premium"
-Para garantir que seu card receba o boost de tração do hackathon, adicione a tag de campanha no seu `manifest.json`:
+### 4. Valide o Rastreio (Initial Traction)
+Durante a fase inicial (The Garage / Superteam BR), nós subsidiamos a descoberta dos melhores cards. Revise os campos gerados no seu `manifest.json` para garantir que sua wallet e campanha estão corretos:
+
 ```json
 {
-  "campaign": "the_garage_frontier_sp"
+  "origin": {
+    "campaign": "the_garage_frontier_sp",
+    "community": "superteam_br"
+  },
+  "builder": {
+    "displayName": "Seu Nome",
+    "github": "seu-github"
+  },
+  "payout": {
+    "currency": "USDC",
+    "chain": "solana",
+    "recipientAddress": "SUA_WALLET_SOLANA",
+    "providerShareBps": 9200
+  },
+  "provenance": {
+    "sourceCommit": "hash-do-seu-commit"
+  }
 }
 ```
 
-### 5. O Pull Request (Liquidação de Tração)
-Quando seu manifesto e documentação estiverem prontos, submeta um Pull Request (PR) contra a branch `main` do nosso repositório.
+### 5. O Pull Request (Seu Passaporte)
+Tudo pronto? Abra um Pull Request (PR) contra a branch `main` deste repositório.
 
-**Requisitos para o PR ser aceito:**
-1. O arquivo `manifest.json` deve estar 100% preenchido e validado.
-2. Seu serviço deve responder aos health-checks (se for uma API ativa) ou ter o `SKILL.md` claro.
-3. O PR deve incluir a motivação e o valor que essa skill traz para a rede Solana.
+**Checklist de Aprovação:**
+1. O `manifest.json` está preenchido e com a sua wallet Solana correta.
+2. O `SKILL.md` explica claramente o que a skill faz e como um agente deve consumi-la.
+3. Você descreveu no PR o valor prático que essa skill traz para o ecossistema.
 
-Assim que o PR for aprovado, seu Agent Card será oficialmente "batizado" e cunhado como um **Mindprint cNFT** na Solana, ganhando a badge **The Garage Premium**. A partir deste momento, ele estará listado publicamente no Slider do nosso Marketplace, provando tração real e validação do MIND como infraestrutura base.
+Assim que aprovado, seu Agent Card será indexado no Marketplace. Ele ganha a badge **"The Garage Premium"** e recebe prioridade de liquidez no roteamento do MIND.
 
 ---
 
-## 🛡️ Regras Inegociáveis (VSC)
-- **Segredos**: Nunca commite variáveis de ambiente (`.env`), chaves privadas ou chaves de API.
-- **KMS-First**: Assinaturas on-chain devem ser sempre delegadas ou passíveis de simulação. O MIND não confia em payloads opacos.
+## Regras Inegociáveis da Comunidade (VSC)
 
-Bem-vindo à camada de liquidação. Construa com autonomia e garanta seu espaço no Dark Pool.
+- **A regra de ouro**: Segurança > Funcionalidade. Economia > Performance.
+- **Segredos**: NUNCA commite `.env`, chaves privadas ou tokens de API. Chaves vazadas resultam em bloqueio imediato do PR.
+- **KMS-First**: Assinaturas on-chain devem ser sempre delegadas. O MIND não confia em payloads opacos.
 
+Bem-vindo à camada de inteligência da Solana. Construa com autonomia e garanta seu espaço no protocolo.

@@ -39,6 +39,7 @@
     "colosseum:weekly-report": "pnpm exec tsx scripts/colosseum_weekly_performance_report.ts",
     "ops:agentic-loop": "pnpm exec tsx scripts/agentic_advantage_loop.ts",
     "jupiter:frontier:onboarding": "pnpm exec tsx scripts/jupiter_frontier_onboarding_probe.ts",
+    "create-skill": "node scripts/create_skill_scaffold.mjs",
     "setup:colab": "bash scripts/setup_colab_vscode.sh",
     "verify:colab-runtime": "python3 scripts/colab_runtime_probe.py",
     "check:tailwind": "pnpm --filter landingpage-temp run check:tailwind",

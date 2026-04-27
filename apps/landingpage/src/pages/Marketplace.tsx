@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Badge } from "../components/ui/badge";
+import {
+  getBuilderRegistration,
+  getInitialVoucherCode,
+  getVoucherEligibility,
+  normalizeVoucherCode,
+  saveVoucherClaim
+} from "../lib/builderAccess";
+import type { BuilderRegistration } from "../lib/builderAccess";
 
 type CatalogItem = {
   id: string;
@@ -279,15 +287,41 @@ function CardDataArt({ id, isHovered }: { id: string, isHovered: boolean }) {
   );
 }
 
-function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSelected: boolean, onToggle: () => void }) {
+function CatalogCard({
+  item,
+  isSelected,
+  onToggle,
+  builderRegistration,
+  initialVoucherCode,
+  autoApplyVoucher
+}: {
+  item: CatalogItem,
+  isSelected: boolean,
+  onToggle: () => void,
+  builderRegistration: BuilderRegistration | null,
+  initialVoucherCode?: string,
+  autoApplyVoucher?: boolean
+}) {
   const navigate = useNavigate();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0, rotX: 0, rotY: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherStatus, setVoucherStatus] = useState<"idle" | "valid" | "invalid">("idle");
+  const [voucherMessage, setVoucherMessage] = useState<string | null>(null);
 
-  const isOriginallyFree = item.pricing?.model.toLowerCase() === 'free' || item.pricing?.price === 0;
+  const pricingModel = item.pricing?.model?.toLowerCase() ?? "";
+  const isOriginallyFree = pricingModel === 'free' || item.pricing?.price === 0;
   const isFree = isOriginallyFree || voucherStatus === "valid";
+
+  useEffect(() => {
+    if (!autoApplyVoucher || !initialVoucherCode || voucherStatus !== "idle" || isOriginallyFree) return;
+
+    const code = normalizeVoucherCode(initialVoucherCode);
+    const eligibility = getVoucherEligibility(builderRegistration, code);
+    setVoucherCode(code);
+    setVoucherMessage(eligibility.reason);
+    setVoucherStatus(eligibility.eligible ? "valid" : "invalid");
+  }, [autoApplyVoucher, builderRegistration, initialVoucherCode, isOriginallyFree, voucherStatus]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -312,18 +346,29 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
   const [settlementStatus, setSettlementStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [settlementStep, setSettlementStep] = useState<string>('');
   const [txHash, setTxHash] = useState<string | null>(null);
+  const [isMockSettlement, setIsMockSettlement] = useState(false);
 
   const handleExecuteX402 = async () => {
     if (settlementStatus === 'processing') return;
 
     setSettlementStatus('processing');
+    setIsMockSettlement(false);
+    let mockSettlement = false;
 
     if (isFree) {
-      setSettlementStep('Applying Voucher & Validating Access...');
+      setSettlementStep(voucherStatus === "valid" ? 'Applying builder voucher...' : 'Validating free access...');
       await new Promise(resolve => setTimeout(resolve, 800));
-      setSettlementStep('Access Granted. Generating Instructions...');
+      setSettlementStep(voucherStatus === "valid" ? 'Registration matched. Generating repo flow...' : 'Generating repo flow...');
       await new Promise(resolve => setTimeout(resolve, 600));
-      setTxHash(`mindprint_free_${item.id.substring(0, 8)}`);
+      setTxHash(voucherStatus === "valid" && builderRegistration ? `voucher_${builderRegistration.referralCode}_${builderRegistration.githubHandle}_${item.id.substring(0, 8)}` : `mindprint_free_${item.id.substring(0, 8)}`);
+      if (voucherStatus === "valid" && builderRegistration) {
+        saveVoucherClaim({
+          registration: builderRegistration,
+          voucherCode: voucherCode || builderRegistration.referralCode,
+          marketplaceItemId: item.id,
+          claimReason: `Sponsored claim for ${item.name}`
+        });
+      }
       setSettlementStatus('success');
       return;
     }
@@ -337,7 +382,8 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
       // Integração com o API Gateway (x402 Atomic Settlement)
       let receiptData;
       try {
-        const res = await fetch("http://127.0.0.1:3000/v1/payment/x402", {
+        const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+        const res = await fetch(`${gatewayBaseUrl}/v1/payment/x402`, {
           method: "POST",
           headers: { 
             "Content-Type": "application/json"
@@ -360,8 +406,8 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
         
         receiptData = await res.json();
       } catch (e) {
-        console.warn("[MOCK MODE] Backend fetch failed, falling back to mock UI flow for demonstration.", e);
-        // Fallback to MOCK DEMO FLOW for validation/hackathon judges
+        mockSettlement = true;
+        setIsMockSettlement(true);
         
         await new Promise(resolve => setTimeout(resolve, 800));
         setSettlementStep('Awaiting KMS Signature...');
@@ -380,7 +426,7 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
       }
       
       setTxHash(receiptData.paymentId || receiptData.transactionHash || "sig_confirmed");
-      setSettlementStep('Atomic Settlement Complete');
+      setSettlementStep(mockSettlement ? 'Demo Receipt Generated (Offline)' : 'Atomic Settlement Complete');
       setSettlementStatus('success');
     } catch (err) {
       setSettlementStatus('error');
@@ -454,12 +500,12 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                 <Badge 
                   variant="outline" 
                   className={`text-[9px] font-mono uppercase tracking-widest backdrop-blur-sm ${
-                    item.pricing.model.toLowerCase() === 'free' 
+                    pricingModel === 'free'
                       ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
                       : 'bg-zinc-800/80 text-zinc-300 border-zinc-700/50 shadow-sm'
                   }`}
                 >
-                  {item.pricing.model}
+                  {item.pricing.model ?? "priced"}
                 </Badge>
               ) : null}
             </div>
@@ -539,7 +585,7 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                     onToggle();
                   }}
                 >
-                  Free (Get)
+                  {voucherStatus === "valid" ? "Claim Free" : "Free (Get)"}
                 </button>
               )}
               <button
@@ -553,8 +599,8 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                   onToggle();
                 }}
               >
-                {isSelected ? "Close" : "Details"}
-              </button>
+                  {isSelected ? "Close" : "Details"}
+                </button>
             </div>
           </div>
         </div>
@@ -618,16 +664,20 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                     onChange={(e) => {
                       setVoucherCode(e.target.value);
                       setVoucherStatus("idle");
+                      setVoucherMessage(null);
                     }}
                     className="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-[10px] font-mono text-white uppercase placeholder:text-zinc-600 focus:outline-none focus:border-white/30 flex-1"
                   />
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
-                      const code = voucherCode.trim().toUpperCase();
-                      if (code === "THEGARAGE" || code === "SUPERTEAMBR" || code === "COLOSSEUM") {
+                      const code = normalizeVoucherCode(voucherCode);
+                      const eligibility = getVoucherEligibility(builderRegistration, code);
+                      setVoucherMessage(eligibility.reason);
+                      if (eligibility.eligible) {
+                        setVoucherCode(code);
                         setVoucherStatus("valid");
-                      } else if (code.length > 0) {
+                      } else {
                         setVoucherStatus("invalid");
                       }
                     }}
@@ -636,8 +686,20 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                     Apply
                   </button>
                 </div>
-                {voucherStatus === "invalid" && <div className="text-[9px] text-red-400 mt-1 font-mono">Invalid or expired code</div>}
-                {voucherStatus === "valid" && <div className="text-[9px] text-emerald-400 mt-1 font-mono">Code applied! 100% protocol subsidy.</div>}
+                {!builderRegistration && (
+                  <button
+                    type="button"
+                    className="text-[9px] text-zinc-500 mt-1 font-mono uppercase tracking-[0.18em] hover:text-emerald-300 transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/contribute");
+                    }}
+                  >
+                    Register builder before claim
+                  </button>
+                )}
+                {voucherStatus === "invalid" && <div className="text-[9px] text-red-400 mt-1 font-mono">{voucherMessage ?? "Invalid or expired code"}</div>}
+                {voucherStatus === "valid" && <div className="text-[9px] text-emerald-400 mt-1 font-mono">{voucherMessage ?? "Code applied. 100% protocol subsidy."}</div>}
               </div>
             )}
             
@@ -662,13 +724,18 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
                 </div>
                 {txHash && (
                   <div className="text-[9px] font-mono text-zinc-500 break-all bg-black/50 p-3 rounded mt-2 space-y-2">
-                    <div>Proof: {txHash}</div>
+                    <div>{isMockSettlement ? "Receipt:" : "Proof:"} {txHash}</div>
                     {isFree && settlementStatus === 'success' && (
                       <div className="border-t border-white/10 pt-2 mt-2">
-                        <div className="text-emerald-400 mb-2">Access Granted! Use the CLI to install:</div>
+                        <div className="text-emerald-400 mb-2">Access granted by sponsored flow. Repo command:</div>
                         <code className="text-white bg-black px-3 py-2 rounded border border-white/10 select-all block font-bold">
-                          npx @mindprotocol/cli install {item.name.toLowerCase().replace(/\s+/g, '-')}
+                          {`git clone https://github.com/DGuedz/MIND.git && cd MIND && pnpm install && pnpm run create-skill -- --name "sua-skill"${builderRegistration ? ` --builder "${builderRegistration.githubHandle}" --github "${builderRegistration.githubHandle}" --wallet "${builderRegistration.solanaReceiveWallet}"` : ""}`}
                         </code>
+                        {builderRegistration ? (
+                          <div className="mt-2 text-zinc-500">
+                            Builder @{builderRegistration.githubHandle} registered from {builderRegistration.campaignSource} with {builderRegistration.referralCode}.
+                          </div>
+                        ) : null}
                       </div>
                     )}
                   </div>
@@ -705,10 +772,14 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
 }
 
 export function MarketplacePage() {
+  const pageNavigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const initialVoucherCode = searchParams.get("voucher") ? getInitialVoucherCode(searchParams.get("voucher")) : "";
+  const shouldAutoClaim = searchParams.get("claim") === "1";
   const [catalogTab, setCatalogTab] = useState<"skills" | "products">("skills");
   const [catalogSkills, setCatalogSkills] = useState<CatalogItem[]>([]);
   const [catalogProducts, setCatalogProducts] = useState<CatalogItem[]>([]);
-  const [catalogSourceFilter, setCatalogSourceFilter] = useState<"all" | "internal" | "external" | "vendor" | "sponsor" | "mind" | "sendaifun" | "stbr" | "frames" | "nous">("all");
+  const [catalogSourceFilter, setCatalogSourceFilter] = useState<"all" | "internal" | "external" | "vendor" | "sponsor" | "mind" | "sendaifun" | "stbr" | "frames" | "nous" | "tamkaize">("all");
   const [catalogCategoryFilter, setCatalogCategoryFilter] = useState<string>("all");
   const [catalogFormatFilter, setCatalogFormatFilter] = useState<"all" | ".json" | ".md">("all");
   const [catalogQuery, setCatalogQuery] = useState<string>("");
@@ -716,6 +787,23 @@ export function MarketplacePage() {
   const [catalogStatus, setCatalogStatus] = useState<"loading" | "live" | "fallback">("loading");
   const [catalogAsOf, setCatalogAsOf] = useState<string | null>(null);
   const [selectedCatalogItemId, setSelectedCatalogItemId] = useState<string | null>(null);
+  const [builderRegistration, setBuilderRegistration] = useState<BuilderRegistration | null>(() => getBuilderRegistration());
+
+  useEffect(() => {
+    const refreshBuilderRegistration = () => {
+      setBuilderRegistration(getBuilderRegistration());
+    };
+
+    window.addEventListener("storage", refreshBuilderRegistration);
+    window.addEventListener("focus", refreshBuilderRegistration);
+    window.addEventListener("mind:builder-registration", refreshBuilderRegistration as EventListener);
+
+    return () => {
+      window.removeEventListener("storage", refreshBuilderRegistration);
+      window.removeEventListener("focus", refreshBuilderRegistration);
+      window.removeEventListener("mind:builder-registration", refreshBuilderRegistration as EventListener);
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -816,7 +904,7 @@ export function MarketplacePage() {
     if (catalogFormatFilter !== "all" && getItemFormat(item) !== catalogFormatFilter) return false;
     const q = catalogQuery.trim().toLowerCase();
     if (!q) return true;
-    const haystack = `${item.name} ${item.description} ${item.tags.join(" ")}`.toLowerCase();
+    const haystack = `${item.name} ${item.description} ${item.source} ${item.category} ${(item.tags || []).join(" ")}`.toLowerCase();
     return haystack.includes(q);
   }).sort((a, b) => {
     if (catalogSort === "executions") {
@@ -832,6 +920,19 @@ export function MarketplacePage() {
     // newest (fallback to alphabetical or original order)
     return 0;
   });
+
+  useEffect(() => {
+    if (!shouldAutoClaim || !initialVoucherCode || selectedCatalogItemId || filteredCatalogItems.length === 0) return;
+
+    const firstPricedItem = filteredCatalogItems.find((item) => {
+      const model = item.pricing?.model?.toLowerCase() ?? "";
+      return item.pricing && model !== "free" && item.pricing.price !== 0;
+    });
+
+    if (firstPricedItem) {
+      setSelectedCatalogItemId(firstPricedItem.id);
+    }
+  }, [filteredCatalogItems, initialVoucherCode, selectedCatalogItemId, shouldAutoClaim]);
 
   return (
     <div className="container mx-auto px-6 space-y-8 pt-32 pb-32">
@@ -852,6 +953,9 @@ export function MarketplacePage() {
             <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest">
               Discovery {String(filteredCatalogItems.length).padStart(2, "0")} • Source {catalogStatus.toUpperCase()}
               {catalogAsOf ? ` • as_of ${catalogAsOf}` : ""}
+            </div>
+            <div className={`inline-flex rounded-full border px-3 py-1 text-[9px] font-mono uppercase tracking-[0.2em] ${builderRegistration ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" : "border-white/10 bg-white/[0.03] text-zinc-500"}`}>
+              {builderRegistration ? `Registered @${builderRegistration.githubHandle} • ${builderRegistration.referralCode}` : "Register builder to unlock vouchers"}
             </div>
           </div>
           <div className="flex flex-wrap gap-3 items-center">
@@ -888,9 +992,9 @@ export function MarketplacePage() {
             </button>
             <button
               className="px-4 py-2 rounded-full text-[9px] font-mono uppercase tracking-[0.2em] border bg-white/5 text-zinc-500 border-white/20 hover:border-white/30 hover:text-white transition-colors"
-              onClick={() => window.open("https://github.com/DGuedz/MIND/tree/main/agent-cards", "_blank")}
+              onClick={() => pageNavigate("/contribute")}
             >
-              Contribute
+              Register Builder
             </button>
           </div>
         </div>
@@ -932,6 +1036,7 @@ export function MarketplacePage() {
                 <option value="stbr">STBR</option>
                 <option value="frames">Frames</option>
                 <option value="nous">Nous</option>
+                <option value="tamkaize">Kai Ze Tam</option>
               </select>
             </div>
             <div className="col-span-1 lg:col-span-1">
@@ -971,6 +1076,9 @@ export function MarketplacePage() {
               item={item} 
               isSelected={selectedCatalogItemId === item.id}
               onToggle={() => setSelectedCatalogItemId(current => current === item.id ? null : item.id)}
+              builderRegistration={builderRegistration}
+              initialVoucherCode={initialVoucherCode}
+              autoApplyVoucher={shouldAutoClaim && selectedCatalogItemId === item.id}
             />
           ))}
         </div>

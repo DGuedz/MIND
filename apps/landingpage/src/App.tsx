@@ -9,6 +9,7 @@ import { RegisterPage } from "./pages/Register";
 import { CloakGatewayPage } from "./pages/CloakGateway";
 import { PitchdeckPage } from "./pages/Pitchdeck";
 import { TheGaragePage } from "./pages/TheGarage";
+import { ContributePage } from "./pages/Contribute";
 import { TooltipProvider } from "./components/ui/tooltip";
 // Dialog components are now in DialogComponents.tsx
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="links" element={<LinksPage />} />
             <Route path="gateway" element={<CloakGatewayPage />} />
             <Route path="pitchdeck" element={<PitchdeckPage />} />
+            <Route path="contribute" element={<ContributePage />} />
             <Route path="the-garage" element={<TheGaragePage />} />
             <Route path="builders" element={<Navigate to="/register" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
