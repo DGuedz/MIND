@@ -1,25 +1,71 @@
-import React from 'react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
-// Removido import do QRCode para evitar problemas de build, substituído por um placeholder SVG estilizado
-import { Link } from 'react-router-dom';
+import React from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
+import { RealQrCode } from "../components/RealQrCode";
+
+const builderSteps = [
+  { id: "01", title: "Claim", body: "Use THEGARAGE or SUPERTEAMBR to validate the sponsored Marketplace path." },
+  { id: "02", title: "Scaffold", body: "Generate SKILL.md and manifest.json with origin, payout and provenance fields." },
+  { id: "03", title: "Submit", body: "Open a PR under agent-cards/skills/community with your builder data filled." },
+  { id: "04", title: "Route", body: "Approved skills become discoverable Agent Cards with explicit settlement terms." }
+];
+
+const traceFields = ["origin", "builder", "payout", "provenance"];
+
+function GaragePass() {
+  return (
+    <div className="relative w-full max-w-[360px] mx-auto">
+      <div className="absolute inset-0 translate-y-8 scale-90 border border-white/10 rounded-[2rem] opacity-40" />
+      <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white text-black p-6 shadow-[0_30px_90px_rgba(255,255,255,0.08)]">
+        <div className="flex items-center justify-between pb-5 border-b border-black/10">
+          <div>
+            <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-black/45">Builder Pass</div>
+            <div className="text-2xl font-semibold tracking-tight">MIND</div>
+          </div>
+          <div className="text-[10px] font-mono uppercase tracking-[0.24em] text-black/45">SP</div>
+        </div>
+
+        <div className="my-8 mx-auto max-w-[220px]">
+          <RealQrCode
+            path="https://mindprotocol.xyz/contribute"
+            label="Open The Garage builder registration"
+            className="block"
+          />
+          <a
+            href="https://mindprotocol.xyz/contribute"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 flex w-full items-center justify-center rounded-xl bg-black py-3.5 text-[11px] font-bold font-mono uppercase tracking-[0.24em] text-white hover:bg-black/80 transition-colors shadow-sm"
+          >
+            Mint Builder Pass
+          </a>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 border-t border-black/10 pt-5">
+          <div>
+            <div className="text-[9px] font-mono uppercase tracking-[0.24em] text-black/40">Voucher</div>
+            <div className="text-sm font-mono">THEGARAGE</div>
+          </div>
+          <div>
+            <div className="text-[9px] font-mono uppercase tracking-[0.24em] text-black/40">Subsidy</div>
+            <div className="text-sm font-mono">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export const TheGaragePage: React.FC = () => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-0.5, 0.5], [4, -4]);
+  const rotateY = useTransform(x, [-0.5, 0.5], [-4, 4]);
 
-  const rotateX = useTransform(y, [-0.5, 0.5], [10, -10]);
-  const rotateY = useTransform(x, [-0.5, 0.5], [-10, 10]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    x.set((event.clientX - rect.left) / rect.width - 0.5);
+    y.set((event.clientY - rect.top) / rect.height - 0.5);
   };
 
   const handleMouseLeave = () => {
@@ -28,97 +74,103 @@ export const TheGaragePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans flex items-center justify-center p-4 pt-20">
-      <motion.div
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className="relative max-w-4xl w-full"
-      >
-        {/* Ambient Glow */}
-        <div className="absolute inset-0 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none -z-10" />
+    <div className="min-h-screen overflow-hidden bg-[#050505] text-zinc-300">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:80px_80px] opacity-25" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.12),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.04),transparent_30%)]" />
 
-        <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-12 shadow-[0_0_40px_rgba(0,0,0,0.8)] relative overflow-hidden">
-          {/* Noise overlay */}
-          <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-          
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            
-            {/* Left: Message */}
-            <div className="space-y-6 transform-gpu" style={{ transform: "translateZ(30px)" }}>
-              <div className="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">
-                Exclusive Alpha
+      <section className="relative container mx-auto px-6 pt-32 md:pt-36 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-12 xl:gap-20 items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-9"
+          >
+            <div className="space-y-6">
+              <div className="inline-flex border border-emerald-500/25 bg-emerald-500/5 px-4 py-1.5 text-[10px] font-mono uppercase tracking-[0.32em] text-emerald-300">
+                The Garage / Superteam BR
               </div>
-              
-              <h1 className="text-3xl md:text-5xl font-light text-white tracking-tight">
-                Fala galera da Superteam BR!
+              <h1 className="max-w-5xl text-5xl md:text-7xl xl:text-8xl font-bold tracking-tight leading-[0.9] text-white">
+                Build the intelligence layer.
               </h1>
-              <p className="text-emerald-500/80 font-mono text-sm tracking-widest uppercase">
-                Direto do The Garage (Solana House, SP)
+              <p className="max-w-3xl text-lg md:text-xl text-zinc-500 leading-relaxed font-light">
+                MIND builds the rails for the Agent Economy on Solana. Builders bring the skills, strategies and copilots that turn those rails into a live marketplace.
               </p>
+            </div>
 
-              <div className="space-y-4 text-sm leading-relaxed text-zinc-400 font-light border-l border-white/10 pl-4 mt-6">
-                <p>
-                  Aqui é o DGuedz. Passando pra liberar um alpha exclusivo pra nossa comunidade local.
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_0.74fr] gap-4">
+              <div className="border border-white/10 bg-white/[0.025] p-6 rounded-2xl">
+                <h2 className="text-white text-lg font-semibold mb-3">Community alpha</h2>
+                <p className="text-sm leading-relaxed text-zinc-500">
+                  Choose a premium skill in the Marketplace and apply <span className="font-mono text-emerald-300">THEGARAGE</span> or <span className="font-mono text-emerald-300">SUPERTEAMBR</span>. The protocol sponsors access so builders can validate MIND before opening a PR.
                 </p>
-                <p>
-                  Nós do <strong className="text-white font-medium">MIND Protocol</strong> criamos a infraestrutura (estradas) para a Agent Economy na Solana (Zero-Trust, x402). Mas quem constrói a inteligência (os carros) são VOCÊS.
+              </div>
+              <div className="border border-white/10 bg-black/40 p-6 rounded-2xl">
+                <h2 className="text-white text-lg font-semibold mb-3">Builder proof</h2>
+                <p className="text-sm leading-relaxed text-zinc-500">
+                  Every contributed skill carries origin, payout and source commit data in both MD and JSON templates.
                 </p>
-                <p>
-                  Pra provar nosso PMF e inicializar o ecossistema com os melhores builders, acabamos de plugar um sistema de Voucher no nosso Marketplace global.
-                </p>
-                <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-                  <h3 className="text-white font-medium mb-2">🎁 O QUE TEM PRA VOCÊS:</h3>
-                  <p className="text-xs">
-                    Acessem o Marketplace, escolham qualquer Skill Premium e no checkout digitem <strong className="text-emerald-400 font-mono">THEGARAGE</strong> ou <strong className="text-emerald-400 font-mono">SUPERTEAMBR</strong>. 100% de subsídio do protocolo. O botão muda de "Pay" pra "Claim Free" e entrega o comando CLI na hora.
-                  </p>
-                </div>
               </div>
             </div>
 
-            {/* Right: QR Code & Actions */}
-            <div className="flex flex-col items-center justify-center space-y-8 transform-gpu" style={{ transform: "translateZ(50px)" }}>
-              
-              <div className="relative p-6 bg-white rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.1)] flex items-center justify-center w-[240px] h-[240px]">
-                {/* Stylized QR Code Placeholder - Representing the marketplace link */}
-                <div className="grid grid-cols-5 grid-rows-5 gap-1 w-full h-full">
-                  {Array.from({ length: 25 }).map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={`bg-black rounded-sm ${[0, 4, 20, 24].includes(i) ? 'scale-150 rounded-md' : Math.random() > 0.4 ? 'opacity-100' : 'opacity-0'}`}
-                    />
-                  ))}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {builderSteps.map((step) => (
+                <div key={step.id} className="min-h-[160px] border border-white/10 bg-black/35 p-5 rounded-2xl">
+                  <div className="text-[10px] font-mono text-zinc-600 tracking-[0.28em] mb-5">{step.id}</div>
+                  <h3 className="text-white text-lg font-semibold mb-3">{step.title}</h3>
+                  <p className="text-xs leading-relaxed text-zinc-500">{step.body}</p>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-white p-2 rounded-lg">
-                    <div className="w-8 h-8 bg-black rounded-sm flex items-center justify-center">
-                      <span className="text-white text-[10px] font-bold">MIND</span>
-                    </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link to="/marketplace" className="inline-flex justify-center border border-emerald-500/35 bg-emerald-500/10 px-6 py-4 text-[11px] font-mono uppercase tracking-[0.24em] text-emerald-300 hover:bg-emerald-500/20 transition-colors rounded-xl">
+                Go to Marketplace
+              </Link>
+              <a href="https://mindprotocol.xyz/contribute" target="_blank" rel="noopener noreferrer" className="inline-flex justify-center border border-white/10 bg-white/5 px-6 py-4 text-[11px] font-mono uppercase tracking-[0.24em] text-zinc-300 hover:bg-white/10 hover:text-white transition-colors rounded-xl">
+                Read Contributing
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.aside
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            initial={{ opacity: 0, x: 28 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.08 }}
+            className="lg:sticky lg:top-28 space-y-5"
+          >
+            <GaragePass />
+
+            <div className="rounded-2xl border border-white/10 bg-black/45 p-5">
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <span className="text-[10px] font-mono uppercase tracking-[0.28em] text-zinc-500">Trace Pack</span>
+                <span className="text-[10px] font-mono uppercase tracking-[0.24em] text-emerald-400">Required</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {traceFields.map((field) => (
+                  <div key={field} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+                    {field}
                   </div>
-                </div>
-                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-1 rounded-full text-[10px] font-mono tracking-widest border border-white/20 whitespace-nowrap">
-                  SCAN TO CLAIM
-                </div>
+                ))}
               </div>
-
-              <div className="w-full space-y-3 mt-8">
-                <Link to="/marketplace" className="block w-full">
-                  <button className="w-full py-4 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-mono text-xs uppercase tracking-[0.2em] rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.2)]">
-                    Go to Marketplace
-                  </button>
-                </Link>
-                <a href="https://github.com/DGuedz/MIND/tree/main/agent-cards" target="_blank" rel="noreferrer" className="block w-full">
-                  <button className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 font-mono text-xs uppercase tracking-[0.2em] rounded-xl transition-all duration-300">
-                    Tokenize Your Skill
-                  </button>
-                </a>
-              </div>
-
             </div>
 
-          </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-5">
+              <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-zinc-500 mb-3">Start command</div>
+              <code className="block rounded-xl border border-white/10 bg-black/70 p-4 text-[10px] leading-relaxed font-mono text-emerald-300">
+                <span className="block">pnpm run create-skill --</span>
+                <span className="block pl-3">--name "sua-skill"</span>
+                <span className="block pl-3">--builder "Seu Nome"</span>
+                <span className="block pl-3">--github "seu-github"</span>
+                <span className="block pl-3 break-all">--wallet "SUA_WALLET_SOLANA"</span>
+              </code>
+            </div>
+          </motion.aside>
         </div>
-      </motion.div>
+      </section>
     </div>
   );
 };

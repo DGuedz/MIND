@@ -19,6 +19,11 @@
       "source": "/docs/superteam",
       "destination": "https://github.com/DGuedz/MIND/tree/main/agent-cards",
       "permanent": false
+    },
+    {
+      "source": "/mint-pass",
+      "destination": "https://github.com/DGuedz/MIND/blob/main/CONTRIBUTING.md",
+      "permanent": false
     }
   ],
   "rewrites": [
