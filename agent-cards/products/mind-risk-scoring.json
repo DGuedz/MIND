@@ -14,6 +14,8 @@
   "discovery": {
     "intent": "data_analysis",
     "category": "finance",
+    "docExt": ".json",
+    "docKind": "agent-card-v1",
     "keywords": ["risk", "scoring", "machinelearning", "defi", "security", "compliance", "prediction"],
     "compatibleFrameworks": ["langchain", "crewai", "autogpt", "babyagi"]
   },
@@ -77,6 +79,7 @@
   },
   "provenance": {
     "source": "MIND Risk Engine + Historical Market Data",
+    "sourceType": "internal",
     "createdAt": "2024-01-20T00:00:00Z",
     "updatedAt": "2024-03-28T00:00:00Z",
     "signature": "mindv2_risk_scoring_verified",

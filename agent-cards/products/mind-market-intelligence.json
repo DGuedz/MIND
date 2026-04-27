@@ -14,6 +14,8 @@
   "discovery": {
     "intent": "data_analysis",
     "category": "finance",
+    "docExt": ".json",
+    "docKind": "agent-card-v1",
     "keywords": ["market", "research", "intelligence", "solana", "defi", "analytics", "colosseum"],
     "compatibleFrameworks": ["langchain", "crewai", "autogpt", "babyagi"]
   },
@@ -77,6 +79,7 @@
   },
   "provenance": {
     "source": "Colosseum Copilot + 5.400+ projetos Solana",
+    "sourceType": "internal",
     "createdAt": "2024-02-10T00:00:00Z",
     "updatedAt": "2024-03-25T00:00:00Z",
     "signature": "mindv2_market_intel_verified",

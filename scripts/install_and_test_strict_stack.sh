@@ -36,9 +36,67 @@ negative_gate_report=""
 positive_gate_report=""
 demo_output_json="${ARTIFACT_DIR}/demo_output.json"
 openclaw_doctor_log="${ARTIFACT_DIR}/00_openclaw_doctor.log"
+preflight_json="${ARTIFACT_DIR}/00_preflight.json"
 
 log() {
   printf "[install-test][%s] %s\n" "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" "$*"
+}
+
+write_report_and_exit() {
+  local overall="$1"
+  local failures="$2"
+  REPORT_PATH="${ARTIFACT_DIR}/install_and_test_report.json"
+  cat > "${REPORT_PATH}" <<JSON
+{
+  "reportType": "strict_stack_install_and_test",
+  "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "overall": "${overall}",
+  "rootDir": "${ROOT_DIR}",
+  "artifactsDir": "${ARTIFACT_DIR}",
+  "services": {
+    "apiGatewayUrl": "${API_GATEWAY_URL}",
+    "proofServiceUrl": "${PROOF_SERVICE_URL}",
+    "signerServiceUrl": "${SIGNER_SERVICE_URL}",
+    "strictRuntimeEnabled": true
+  },
+  "metaplex": {
+    "mockEndpoint": "${MOCK_ENDPOINT}",
+    "mockAuthConfigured": true
+  },
+  "steps": [
+    { "id": "microtask-00", "name": "openclaw_doctor_fix", "status": "${status_openclaw_doctor}" },
+    { "id": "microtask-01", "name": "install_dependencies", "status": "${status_install}" },
+    { "id": "microtask-01b", "name": "openclaw_upgrade_validation", "status": "${status_openclaw_upgrade_validation}" },
+    { "id": "microtask-02", "name": "services_health", "status": "${status_health}" },
+    { "id": "microtask-03", "name": "mock_auth_guard", "status": "${status_mock_auth_guard}" },
+    { "id": "microtask-04", "name": "gate_negative_no_endpoint_auth", "status": "${status_gate_negative}" },
+    { "id": "microtask-05", "name": "gate_positive_with_mock", "status": "${status_gate_positive}" },
+    { "id": "microtask-06", "name": "demo_positive_external_confirmed", "status": "${status_demo_positive}" },
+    { "id": "microtask-07", "name": "bundle_internal_external_schema", "status": "${status_bundle_schema}" },
+    { "id": "microtask-08a", "name": "smoke_health_db", "status": "${status_smoke_health_db}" },
+    { "id": "microtask-08b", "name": "smoke_a2a", "status": "${status_smoke_a2a}" },
+    { "id": "microtask-08c", "name": "smoke_proof_bundle", "status": "${status_smoke_proof_bundle}" }
+  ],
+  "evidence": {
+    "preflight": "${preflight_json}",
+    "openclawDoctorLog": "${openclaw_doctor_log}",
+    "openclawUpgradeValidationLog": "${ARTIFACT_DIR}/01b_openclaw_upgrade_validation.log",
+    "negativeGateReport": "${negative_gate_report}",
+    "positiveGateReport": "${positive_gate_report}",
+    "demoOutputJson": "${demo_output_json}",
+    "bundleSnapshot": "${ARTIFACT_DIR}/07_bundle.json",
+    "logsDir": "${ARTIFACT_DIR}"
+  },
+  "failures": ${failures}
+}
+JSON
+
+  log "report=${REPORT_PATH}"
+  cat "${REPORT_PATH}"
+  if [ "${overall}" != "PASS" ]; then
+    exit 1
+  fi
+  exit 0
 }
 
 cleanup() {
@@ -46,6 +104,58 @@ cleanup() {
   bash scripts/performance_mode.sh > "${ARTIFACT_DIR}/cleanup.log" 2>&1 || true
 }
 trap cleanup EXIT
+
+NODE_VERSION="$(node -v 2>/dev/null || echo unknown)"
+PNPM_VERSION="$(pnpm -v 2>/dev/null || echo unknown)"
+PNPM_STORE_PATH="$(pnpm store path 2>/dev/null || echo unknown)"
+
+ICLOUD_DETECTED=false
+case "${ROOT_DIR}" in
+  *"Mobile Documents"*|*"com~apple~CloudDocs"*) ICLOUD_DETECTED=true ;;
+esac
+
+cat > "${preflight_json}" <<JSON
+{
+  "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "rootDir": "${ROOT_DIR}",
+  "node": "${NODE_VERSION}",
+  "pnpm": "${PNPM_VERSION}",
+  "pnpmStorePath": "${PNPM_STORE_PATH}",
+  "iCloudWorktreeDetected": ${ICLOUD_DETECTED},
+  "blocked": false,
+  "blockReason": null
+}
+JSON
+
+if [ "${ICLOUD_DETECTED}" = "true" ] && [ "${ALLOW_ICLOUD_WORKTREE:-false}" != "true" ]; then
+  status_openclaw_doctor="blocked"
+  status_install="blocked"
+  status_openclaw_upgrade_validation="blocked"
+  status_health="blocked"
+  status_mock_auth_guard="blocked"
+  status_gate_negative="blocked"
+  status_gate_positive="blocked"
+  status_demo_positive="blocked"
+  status_bundle_schema="blocked"
+  status_smoke_health_db="blocked"
+  status_smoke_a2a="blocked"
+  status_smoke_proof_bundle="blocked"
+  FAILURES=1
+  cat > "${preflight_json}" <<JSON
+{
+  "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "rootDir": "${ROOT_DIR}",
+  "node": "${NODE_VERSION}",
+  "pnpm": "${PNPM_VERSION}",
+  "pnpmStorePath": "${PNPM_STORE_PATH}",
+  "iCloudWorktreeDetected": ${ICLOUD_DETECTED},
+  "blocked": true,
+  "blockReason": "iCloud worktree detected; refuse to run pnpm install due to hang/non-deterministic filesystem risk. Move repo to a non-synced path or set ALLOW_ICLOUD_WORKTREE=true to override."
+}
+JSON
+  log "preflight: blocked (iCloud worktree). Set ALLOW_ICLOUD_WORKTREE=true to override." 
+  write_report_and_exit "FAIL" "${FAILURES}"
+fi
 
 mark_fail() {
   FAILURES=$((FAILURES + 1))
@@ -131,7 +241,7 @@ else
 fi
 
 log "microtask-01: install dependencies"
-if run_expect_success "install_dependencies" "${ARTIFACT_DIR}/01_install.log" pnpm install; then
+if run_expect_success "install_dependencies" "${ARTIFACT_DIR}/01_install.log" env CI=true pnpm install --frozen-lockfile --reporter=append-only; then
   status_install="pass"
 else
   status_install="fail"
@@ -294,54 +404,4 @@ if [ "${FAILURES}" -gt 0 ]; then
   overall="FAIL"
 fi
 
-REPORT_PATH="${ARTIFACT_DIR}/install_and_test_report.json"
-cat > "${REPORT_PATH}" <<JSON
-{
-  "reportType": "strict_stack_install_and_test",
-  "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
-  "overall": "${overall}",
-  "rootDir": "${ROOT_DIR}",
-  "artifactsDir": "${ARTIFACT_DIR}",
-  "services": {
-    "apiGatewayUrl": "${API_GATEWAY_URL}",
-    "proofServiceUrl": "${PROOF_SERVICE_URL}",
-    "signerServiceUrl": "${SIGNER_SERVICE_URL}",
-    "strictRuntimeEnabled": true
-  },
-  "metaplex": {
-    "mockEndpoint": "${MOCK_ENDPOINT}",
-    "mockAuthConfigured": true
-  },
-  "steps": [
-    { "id": "microtask-00", "name": "openclaw_doctor_fix", "status": "${status_openclaw_doctor}" },
-    { "id": "microtask-01", "name": "install_dependencies", "status": "${status_install}" },
-    { "id": "microtask-01b", "name": "openclaw_upgrade_validation", "status": "${status_openclaw_upgrade_validation}" },
-    { "id": "microtask-02", "name": "services_health", "status": "${status_health}" },
-    { "id": "microtask-03", "name": "mock_auth_guard", "status": "${status_mock_auth_guard}" },
-    { "id": "microtask-04", "name": "gate_negative_no_endpoint_auth", "status": "${status_gate_negative}" },
-    { "id": "microtask-05", "name": "gate_positive_with_mock", "status": "${status_gate_positive}" },
-    { "id": "microtask-06", "name": "demo_positive_external_confirmed", "status": "${status_demo_positive}" },
-    { "id": "microtask-07", "name": "bundle_internal_external_schema", "status": "${status_bundle_schema}" },
-    { "id": "microtask-08a", "name": "smoke_health_db", "status": "${status_smoke_health_db}" },
-    { "id": "microtask-08b", "name": "smoke_a2a", "status": "${status_smoke_a2a}" },
-    { "id": "microtask-08c", "name": "smoke_proof_bundle", "status": "${status_smoke_proof_bundle}" }
-  ],
-  "evidence": {
-    "openclawDoctorLog": "${openclaw_doctor_log}",
-    "openclawUpgradeValidationLog": "${ARTIFACT_DIR}/01b_openclaw_upgrade_validation.log",
-    "negativeGateReport": "${negative_gate_report}",
-    "positiveGateReport": "${positive_gate_report}",
-    "demoOutputJson": "${demo_output_json}",
-    "bundleSnapshot": "${ARTIFACT_DIR}/07_bundle.json",
-    "logsDir": "${ARTIFACT_DIR}"
-  },
-  "failures": ${FAILURES}
-}
-JSON
-
-log "report=${REPORT_PATH}"
-cat "${REPORT_PATH}"
-
-if [ "${overall}" != "PASS" ]; then
-  exit 1
-fi
+write_report_and_exit "${overall}" "${FAILURES}"

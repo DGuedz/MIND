@@ -1,8 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "declaration": true
-  },
-  "include": ["src", "e2e_live_flow_test.ts"]
-}

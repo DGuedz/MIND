@@ -678,6 +678,19 @@ server.get("/v1/market/signals", async (_request: FastifyRequest, reply: Fastify
   return reply.code(200).send(payload);
 });
 
+server.post("/v1/market/signals/update", async (request: FastifyRequest, reply: FastifyReply) => {
+  const marketContextServiceUrl = process.env.MARKET_CONTEXT_SERVICE_URL ?? "http://localhost:3002";
+  try {
+    const response = await postJson<Record<string, unknown>>(
+      `${marketContextServiceUrl}/v1/market/signals/update`,
+      request.body as any
+    );
+    return reply.code(response.statusCode ?? 200).send(response.data);
+  } catch (error) {
+    return sendDownstreamError(reply, error);
+  }
+});
+
 // Analytics
 server.post("/v1/analytics/track", async (request: FastifyRequest, reply: FastifyReply) => {
   // Por enquanto, apenas logamos os eventos de analytics no console ou event-router

@@ -14,6 +14,8 @@
   "discovery": {
     "intent": "orchestration",
     "category": "finance",
+    "docExt": ".json",
+    "docKind": "agent-card-v1",
     "keywords": ["autonomous", "trading", "execution", "solana", "defi", "liquidation"],
     "compatibleFrameworks": ["langchain", "crewai", "autogpt", "babyagi"]
   },
@@ -72,6 +74,7 @@
   },
   "provenance": {
     "source": "MIND Protocol Treasury",
+    "sourceType": "internal",
     "createdAt": "2024-01-15T00:00:00Z",
     "updatedAt": "2024-03-20T00:00:00Z",
     "signature": "mindv2_autonomous_execution_verified",

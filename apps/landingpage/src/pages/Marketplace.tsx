@@ -9,7 +9,11 @@ type CatalogItem = {
   name: string;
   description: string;
   source: string;
+  providerType?: "internal" | "external" | "vendor";
+  sourceType?: "internal" | "external" | "vendor";
   category: string;
+  docExt?: ".json" | ".md";
+  docKind?: "skill-md" | "manifest-json" | "agent-card-v1";
   license: string;
   tags: string[];
   pricing?: {
@@ -31,13 +35,20 @@ type CatalogPayload = {
   items: CatalogItem[];
 };
 
-// Deterministic mock generator for demonstration of Proof-Based Ranking
+// Deterministic mock generator for demonstration of Proof-Based Ranking & Smart Asset Valuation
 const getMockPerformance = (id: string) => {
   const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return {
     successRate: 95 + (hash % 50) / 10,
     totalExecutions: 100 + (hash * 13 % 9000),
-    totalVolumeUSDC: (hash * 7 % 5000) / 10
+    totalVolumeUSDC: (hash * 7 % 5000) / 10,
+    ranking: (hash % 100) + 1,
+    demandScore: 70 + (hash % 30),
+    impactPotential: (hash % 5) === 0 ? 'HIGH' : (hash % 3) === 0 ? 'MEDIUM' : 'STABLE',
+    holders: 15 + (hash % 850),
+    marketCap: 15000 + (hash * 1000 % 850000),
+    tokenSymbol: `$${id.split('_').pop()?.toUpperCase() || 'MIND'}`,
+    mintAddress: `mint${hash.toString(16)}...${(hash * 3).toString(16)}`
   };
 };
 
@@ -270,20 +281,26 @@ function CardDataArt({ id, isHovered }: { id: string, isHovered: boolean }) {
 
 function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSelected: boolean, onToggle: () => void }) {
   const navigate = useNavigate();
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0, rotX: 0, rotY: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    setMousePos({ x, y });
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotX = ((x - centerX) / centerX) * 12; // 12 deg max rotation
+    const rotY = ((y - centerY) / centerY) * -12;
+    
+    setMousePos({ x, y, rotX, rotY });
   };
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setMousePos({ x: 150, y: 150 }); // Center roughly
+    setMousePos({ x: 150, y: 150, rotX: 0, rotY: 0 }); // Center roughly
   };
 
   // x402 Settlement States
@@ -362,12 +379,13 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
       onMouseMove={handleMouseMove}
     >
       <div
-        className={`relative w-full h-full bg-black/40 backdrop-blur-md rounded-2xl transition-all duration-500 cursor-crosshair overflow-hidden
-          ${isHovered ? "-translate-y-2 shadow-[0_20px_50px_-15px_rgba(255,255,255,0.1)] scale-[1.02]" : "shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]"} 
+        className={`relative w-full h-full bg-black/40 backdrop-blur-md rounded-2xl cursor-crosshair overflow-hidden
+          ${isHovered ? "shadow-[0_20px_50px_-15px_rgba(255,255,255,0.1)]" : "shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]"} 
           ${isSelected ? "ring-1 ring-white/40 shadow-[0_0_30px_rgba(255,255,255,0.1)]" : "ring-1 ring-white/10 hover:ring-white/20"}`}
         style={{ 
           transformStyle: 'preserve-3d',
-          transform: isHovered ? `rotateX(${(mousePos.y - 150) * -0.06}deg) rotateY(${(mousePos.x - 150) * 0.06}deg)` : 'rotateX(0deg) rotateY(0deg)'
+          transform: isHovered ? `translateY(-8px) scale(1.02) rotateX(${mousePos.rotY}deg) rotateY(${mousePos.rotX}deg)` : 'translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)',
+          transition: isHovered ? 'transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease-out' : 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
         }}
       >
         {/* Glow de reflexo 3D (Hover) seguindo o mouse */}
@@ -410,6 +428,9 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
               <Badge variant="outline" className="bg-indigo-500/10 text-indigo-300 border-indigo-500/30 text-[9px] font-mono uppercase tracking-widest backdrop-blur-sm shadow-[0_0_10px_rgba(99,102,241,0.2)]">
                 {item.category}
               </Badge>
+              <Badge variant="outline" className="bg-purple-500/10 text-purple-300 border-purple-500/30 text-[9px] font-mono uppercase tracking-widest backdrop-blur-sm shadow-sm">
+                {item.docExt ?? (item.kind === 'skill' ? '.md' : '.json')}
+              </Badge>
               {item.pricing?.model ? (
                 <Badge 
                   variant="outline" 
@@ -439,24 +460,24 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
               </div>
             </div>
 
-            {/* Performance Metrics (Proof-based) */}
+            {/* Asset Valuation Metrics (Proof-based) */}
             <div 
               className="grid grid-cols-3 gap-2 mt-4 transition-transform duration-300"
               style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
             >
               <div className="bg-white/[0.03] border border-white/5 rounded-lg p-2 flex flex-col justify-center relative overflow-hidden group/metric">
-                <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
                 <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest flex items-center gap-1">
-                  Success <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                  Rank / Demand
                 </span>
-                <span className="text-xs font-mono text-emerald-400">{(item.performance?.successRate || getMockPerformance(item.id).successRate).toFixed(1)}%</span>
+                <span className="text-xs font-mono text-blue-400">#{getMockPerformance(item.id).ranking} / {getMockPerformance(item.id).demandScore}</span>
               </div>
               <div className="bg-white/[0.03] border border-white/5 rounded-lg p-2 flex flex-col justify-center relative overflow-hidden group/metric">
-                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
                 <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest flex items-center gap-1">
-                  Execs <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-400"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  Success / Impact
                 </span>
-                <span className="text-xs font-mono text-white">{(item.performance?.totalExecutions || getMockPerformance(item.id).totalExecutions).toLocaleString()}</span>
+                <span className="text-[10px] font-mono text-emerald-400">{(item.performance?.successRate || getMockPerformance(item.id).successRate).toFixed(1)}% / {getMockPerformance(item.id).impactPotential}</span>
               </div>
               <div className="bg-white/[0.03] border border-white/5 rounded-lg p-2 flex flex-col justify-center relative overflow-hidden group/metric">
                 <div className="absolute inset-0 bg-white/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
@@ -475,7 +496,7 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
             <div className="flex gap-2">
               {item.badges?.map(badge => (
                 <div key={badge} className="px-2 py-1 rounded text-[8px] font-mono uppercase tracking-[0.2em] bg-amber-500/10 text-amber-400 border border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.15)]">
-                  🎖 {badge}
+                  {badge}
                 </div>
               ))}
             </div>
@@ -513,12 +534,24 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
           >
             <div className="grid grid-cols-2 gap-4 p-4 bg-black/40 rounded-xl border border-white/5">
               <div className="space-y-1">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">ID</div>
-                <div className="text-[11px] font-mono text-zinc-200">{item.id}</div>
+                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Token Symbol</div>
+                <div className="text-[11px] font-mono text-indigo-400 font-bold">{getMockPerformance(item.id).tokenSymbol}</div>
               </div>
               <div className="space-y-1">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">License</div>
-                <div className="text-[11px] font-mono text-zinc-200">{item.license}</div>
+                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Contract (PDA)</div>
+                <div className="text-[11px] font-mono text-zinc-300">{getMockPerformance(item.id).mintAddress}</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Market Cap (TVL)</div>
+                <div className="text-[11px] font-mono text-emerald-400">${getMockPerformance(item.id).marketCap.toLocaleString()}</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Active Holders</div>
+                <div className="text-[11px] font-mono text-zinc-300">{getMockPerformance(item.id).holders.toLocaleString()} Agents</div>
+              </div>
+              <div className="space-y-1 col-span-2 mt-1">
+                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Smart Asset Class</div>
+                <div className="text-[10px] font-mono text-indigo-400">MEV-Resistant Tokenized Skill (Cloak/x402)</div>
               </div>
               <div className="col-span-2 pt-2 mt-2 border-t border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -599,8 +632,9 @@ export function MarketplacePage() {
   const [catalogTab, setCatalogTab] = useState<"skills" | "products">("skills");
   const [catalogSkills, setCatalogSkills] = useState<CatalogItem[]>([]);
   const [catalogProducts, setCatalogProducts] = useState<CatalogItem[]>([]);
-  const [catalogSourceFilter, setCatalogSourceFilter] = useState<"all" | "mind" | "sendaifun" | "stbr" | "frames" | "nous">("all");
+  const [catalogSourceFilter, setCatalogSourceFilter] = useState<"all" | "internal" | "external" | "vendor" | "sponsor" | "mind" | "sendaifun" | "stbr" | "frames" | "nous">("all");
   const [catalogCategoryFilter, setCatalogCategoryFilter] = useState<string>("all");
+  const [catalogFormatFilter, setCatalogFormatFilter] = useState<"all" | ".json" | ".md">("all");
   const [catalogQuery, setCatalogQuery] = useState<string>("");
   const [catalogSort, setCatalogSort] = useState<"newest" | "executions" | "success">("newest");
   const [catalogStatus, setCatalogStatus] = useState<"loading" | "live" | "fallback">("loading");
@@ -686,9 +720,24 @@ export function MarketplacePage() {
 
   const catalogItems = catalogTab === "skills" ? catalogSkills : catalogProducts;
   const catalogCategories = Array.from(new Set(catalogItems.map(i => i.category))).sort((a, b) => a.localeCompare(b));
+  const getItemFormat = (item: CatalogItem) => item.docExt ?? (item.kind === "skill" ? ".md" : ".json");
+  const getItemProviderType = (item: CatalogItem) => {
+    if (item.providerType) return item.providerType;
+    if (item.sourceType) return item.sourceType;
+    if (item.source === "mind") return "internal";
+    return "external";
+  };
+
   const filteredCatalogItems = catalogItems.filter((item) => {
-    if (catalogSourceFilter !== "all" && item.source !== catalogSourceFilter) return false;
+    if (catalogSourceFilter !== "all") {
+      if (catalogSourceFilter === "internal" || catalogSourceFilter === "external" || catalogSourceFilter === "vendor" || catalogSourceFilter === "sponsor") {
+        if (getItemProviderType(item) !== catalogSourceFilter) return false;
+      } else {
+        if (item.source !== catalogSourceFilter) return false;
+      }
+    }
     if (catalogCategoryFilter !== "all" && item.category !== catalogCategoryFilter) return false;
+    if (catalogFormatFilter !== "all" && getItemFormat(item) !== catalogFormatFilter) return false;
     const q = catalogQuery.trim().toLowerCase();
     if (!q) return true;
     const haystack = `${item.name} ${item.description} ${item.tags.join(" ")}`.toLowerCase();
@@ -751,6 +800,17 @@ export function MarketplacePage() {
               Products
             </button>
             <button
+              className={`px-4 py-2 rounded-full text-[9px] font-bold font-mono uppercase tracking-[0.2em] border transition-colors shadow-[0_0_15px_rgba(245,158,11,0.2)] ${catalogSourceFilter === "sponsor" ? "bg-amber-500/20 text-amber-300 border-amber-500/50" : "bg-white/5 text-amber-500/70 border-amber-500/30 hover:border-amber-500/50 hover:text-amber-400"}`}
+              onClick={() => {
+                setCatalogTab("skills");
+                setCatalogSourceFilter("sponsor");
+                setSelectedCatalogItemId(null);
+                setCatalogCategoryFilter("all");
+              }}
+            >
+              Bounties
+            </button>
+            <button
               className="px-4 py-2 rounded-full text-[9px] font-mono uppercase tracking-[0.2em] border bg-white/5 text-zinc-500 border-white/20 hover:border-white/30 hover:text-white transition-colors"
               onClick={() => window.open("https://github.com/DGuedz/MIND/tree/main/agent-cards", "_blank")}
             >
@@ -768,42 +828,59 @@ export function MarketplacePage() {
               className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-5 py-3 text-sm text-zinc-300 placeholder:text-zinc-700 outline-none focus:border-white/40 transition-colors"
             />
           </div>
-          <div className="lg:col-span-2">
-            <select
-              value={catalogSourceFilter}
-              onChange={(e) => setCatalogSourceFilter(e.target.value as "all" | "mind" | "sendaifun" | "stbr" | "frames" | "nous")}
-              className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-4 py-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest outline-none focus:border-white/40 transition-colors"
-            >
-              <option value="all">All Sources</option>
-              <option value="mind">MIND</option>
-              <option value="sendaifun">SendAI</option>
-              <option value="stbr">STBR</option>
-              <option value="frames">Frames</option>
-              <option value="nous">Nous (Hermes)</option>
-            </select>
-          </div>
-          <div className="lg:col-span-3">
-            <select
-              value={catalogCategoryFilter}
-              onChange={(e) => setCatalogCategoryFilter(e.target.value)}
-              className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-4 py-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest outline-none focus:border-white/40 transition-colors"
-            >
-              <option value="all">All Categories</option>
-              {catalogCategories.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-          </div>
-          <div className="lg:col-span-3">
-            <select
-              value={catalogSort}
-              onChange={(e) => setCatalogSort(e.target.value as "newest" | "executions" | "success")}
-              className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-4 py-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest outline-none focus:border-white/40 transition-colors"
-            >
-              <option value="newest">Sort: Newest</option>
-              <option value="executions">Sort: Highest Volume</option>
-              <option value="success">Sort: Best Success Rate</option>
-            </select>
+          <div className="grid grid-cols-2 lg:grid-cols-4 lg:col-span-8 gap-4">
+            <div className="col-span-1 lg:col-span-1">
+              <select
+                value={catalogFormatFilter}
+                onChange={(e) => setCatalogFormatFilter(e.target.value as "all" | ".json" | ".md")}
+                className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-4 py-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest outline-none focus:border-white/40 transition-colors"
+              >
+                <option value="all">Formats</option>
+                <option value=".md">SKILL.md</option>
+                <option value=".json">Manifest.json</option>
+              </select>
+            </div>
+            <div className="col-span-1 lg:col-span-1">
+              <select
+                value={catalogSourceFilter}
+                onChange={(e) => setCatalogSourceFilter(e.target.value as any)}
+                className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-4 py-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest outline-none focus:border-white/40 transition-colors"
+              >
+                <option value="all">Providers</option>
+                <option value="sponsor">Colosseum Sponsor</option>
+                <option value="internal">Internal</option>
+                <option value="external">External</option>
+                <option value="vendor">Vendor</option>
+                <option value="mind">MIND</option>
+                <option value="sendaifun">SendAI</option>
+                <option value="stbr">STBR</option>
+                <option value="frames">Frames</option>
+                <option value="nous">Nous</option>
+              </select>
+            </div>
+            <div className="col-span-1 lg:col-span-1">
+              <select
+                value={catalogCategoryFilter}
+                onChange={(e) => setCatalogCategoryFilter(e.target.value)}
+                className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-4 py-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest outline-none focus:border-white/40 transition-colors"
+              >
+                <option value="all">Categories</option>
+                {catalogCategories.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+            <div className="col-span-1 lg:col-span-1">
+              <select
+                value={catalogSort}
+                onChange={(e) => setCatalogSort(e.target.value as "newest" | "executions" | "success")}
+                className="w-full bg-white/[0.02] border border-white/20 rounded-2xl px-4 py-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest outline-none focus:border-white/40 transition-colors"
+              >
+                <option value="newest">Sort: Newest</option>
+                <option value="executions">Sort: Volume</option>
+                <option value="success">Sort: Success</option>
+              </select>
+            </div>
           </div>
         </div>
 

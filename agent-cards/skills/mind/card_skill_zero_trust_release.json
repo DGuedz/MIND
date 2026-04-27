@@ -1,0 +1,30 @@
+{
+  "id": "skill_mind_zero_trust_release",
+  "kind": "skill",
+  "name": "Zero-Trust Release Ops",
+  "publisher": "MIND Protocol",
+  "category": "devops",
+  "pricing": {
+    "type": "pay_per_execution",
+    "amount": 0.15,
+    "currency": "USDC"
+  },
+  "description": "Automatiza a criação de repositórios 'Clean Room' (SPV) em branches órfãs. Isola o ativo final do passivo histórico (commits, credenciais vazadas) para auditoria pública.",
+  "execution_engine": "shell_script",
+  "capabilities": [
+    "Zero-Trust Versioning",
+    "Orphan Branch Generation",
+    "Release Candidate Audit Prep",
+    "Credential Leak Prevention"
+  ],
+  "requirements": [
+    "git"
+  ],
+  "instructions": {
+    "usage": "Invoque esta skill quando precisar gerar um repositório seguro para hackathons ou auditores, livre do histórico de R&D interno."
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "tags": ["zero-trust", "devops", "security", "git", "clean-room", "audit"]
+}

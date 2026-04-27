@@ -219,6 +219,7 @@ pnpm spec:resolve-trigger --event-file=governance/spec_runtime/samples/intent_bl
 pnpm spec:test-triggers
 pnpm spec:runtime-metrics
 pnpm spec:context-feedback
+pnpm spec:spec-health
 pnpm spec:runtime-health
 pnpm ops:agentic-loop --phase="Phase 2 - Live Reliability Loop" --status=in_progress
 pnpm colosseum:update --phase="Phase 1 - Live Service Wiring" --status=in_progress --summary="Update summary"

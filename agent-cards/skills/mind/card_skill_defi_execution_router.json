@@ -1,0 +1,31 @@
+{
+  "id": "skill_mind_defi_execution_router",
+  "kind": "skill",
+  "name": "DeFi Execution Router",
+  "publisher": "MIND Protocol",
+  "category": "finance",
+  "pricing": {
+    "type": "pay_per_execution",
+    "amount": 0.10,
+    "currency": "USDC"
+  },
+  "description": "Skill de Cloud/On-chain computing para execução atômica. Roteia transações DeFi (swaps, staking, yield) minimizando slippage e evitando MEV sanduiche.",
+  "execution_engine": "x402_rpc_gateway",
+  "capabilities": [
+    "Cloud Computing Integration",
+    "MEV Protection",
+    "Atomic Settlement Routing",
+    "Yield Optimization"
+  ],
+  "requirements": [
+    "x402-protocol",
+    "jupiter-api"
+  ],
+  "instructions": {
+    "usage": "Invoque esta skill para delegar a execução de trades e gestão de tesouraria de forma autônoma e segura."
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "tags": ["defi", "execution", "mev-protection", "cloud", "yield", "x402"]
+}

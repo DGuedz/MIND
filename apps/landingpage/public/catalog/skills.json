@@ -1,13 +1,16 @@
 {
-  "as_of": "2026-04-24T23:16:33.597Z",
+  "as_of": "2026-04-27T02:44:07.897Z",
   "items": [
     {
       "id": "solana-intel-oracle",
       "kind": "product",
       "name": "Solana Ecosystem Intelligence Feed",
-      "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e estruturados. Não contém claims absolutos sem prova.",
+      "description": "Oráculo de sinais de mercado A2A. Consome feeds públicos da Fundação Solana, Jupiter, Kamino, Meteora, etc., validados por IA e deduplicados. Não contém claims absolutos sem prova.",
       "source": "mind",
+      "providerType": "internal",
       "category": "oracle",
+      "docExt": ".json",
+      "docKind": "manifest-json",
       "license": "Proprietary",
       "tags": [
         "real-time-ecosystem-parsing",
@@ -35,9 +38,12 @@
       "id": "colosseum_copilot",
       "kind": "skill",
       "name": "colosseum-copilot",
-      "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
+      "description": "Pesquisa oportunidades e teses em Solana/crypto via Colosseum Copilot. Requer COLOSSEUM_COPILOT_PAT (env) para consultas autenticadas.",
       "source": "mind",
-      "category": "uncategorized",
+      "providerType": "internal",
+      "category": "ecosystem-intelligence",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -52,12 +58,41 @@
       }
     },
     {
+      "id": "skill_mind_defi_execution_router",
+      "kind": "skill",
+      "name": "DeFi Execution Router",
+      "description": "Skill de Cloud/On-chain computing para execução atômica. Roteia transações DeFi (swaps, staking, yield) minimizando slippage e evitando MEV sanduiche.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "defi",
+        "execution",
+        "mev-protection",
+        "cloud",
+        "yield",
+        "x402"
+      ],
+      "badges": [],
+      "pricing": {
+        "type": "pay_per_execution",
+        "amount": 0.1,
+        "currency": "USDC"
+      }
+    },
+    {
       "id": "drift-perp-trader",
       "kind": "skill",
       "name": "Drift Algorithmic Trader",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "trading",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "drift",
@@ -88,7 +123,10 @@
       "name": "Helius RPC & Webhooks",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "helius",
@@ -119,7 +157,10 @@
       "name": "Jito MEV Searcher",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "execution",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "jito",
@@ -150,7 +191,10 @@
       "name": "kuka",
       "description": "Mentor Solana com analogias TradFi e didatica direta (termos, quiz, learning path, walkthrough).",
       "source": "mind",
-      "category": "uncategorized",
+      "providerType": "internal",
+      "category": "education",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -170,7 +214,10 @@
       "name": "Marginfi Liquidator Bot",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "execution",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "marginfi",
@@ -201,7 +248,10 @@
       "name": "Metaplex Core Minter",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "utility",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "metaplex",
@@ -227,12 +277,40 @@
       }
     },
     {
+      "id": "skill_mind_onchain_profiler",
+      "kind": "skill",
+      "name": "On-Chain Data Profiler",
+      "description": "Skill de Data Analysis e Indexação on-chain. Analisa carteiras, fluxos UTXO e extrai métricas comportamentais (TVL, win rate) para qualificação de risco de crédito.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "data_analysis",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "data-science",
+        "on-chain",
+        "credit-risk",
+        "profiling",
+        "analytics"
+      ],
+      "badges": [],
+      "pricing": {
+        "type": "pay_per_execution",
+        "amount": 0.05,
+        "currency": "USDC"
+      }
+    },
+    {
       "id": "pyth-oracle-fetcher",
       "kind": "skill",
       "name": "Pyth Real-Time Oracle",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "oracle",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "pyth",
@@ -264,7 +342,10 @@
       "name": "Raydium LP Optimizer",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "execution",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "raydium",
@@ -295,7 +376,10 @@
       "name": "render-validation-expert",
       "description": "Auditoria visual e correcoes de bugs de renderizacao no localhost (Vite/React e Next.js).",
       "source": "mind",
-      "category": "uncategorized",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -315,7 +399,10 @@
       "name": "Sanctum LST Arbitrage",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "trading",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "sanctum",
@@ -341,12 +428,41 @@
       }
     },
     {
+      "id": "skill_mind_smart_contract_auditor",
+      "kind": "skill",
+      "name": "Smart Contract Security Auditor",
+      "description": "Skill de Cybersecurity e Zero-Trust. Inspeciona binários Rust/Solana (e código-fonte) em busca de vulnerabilidades conhecidas (reentrancy, overflow, missing signer checks).",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "cybersecurity",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "cybersecurity",
+        "rust",
+        "solana",
+        "audit",
+        "zero-trust",
+        "devsecops"
+      ],
+      "badges": [],
+      "pricing": {
+        "type": "pay_per_execution",
+        "amount": 1.5,
+        "currency": "USDC"
+      }
+    },
+    {
       "id": "solana_defi_ecosystem_intel",
       "kind": "skill",
       "name": "solana-defi-ecosystem-intel",
       "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
       "source": "mind",
-      "category": "uncategorized",
+      "providerType": "internal",
+      "category": "ecosystem-intelligence",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -366,7 +482,10 @@
       "name": "Squads V4 Proposer",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "governance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "squads",
@@ -397,7 +516,10 @@
       "name": "Tensor Floor Sweeper",
       "description": "",
       "source": "mind",
+      "providerType": "internal",
       "category": "trading",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "MIT",
       "tags": [
         "tensor",
@@ -428,7 +550,10 @@
       "name": "unicorn-vps",
       "description": "Bootstrap seguro e educativo de VPS Ubuntu via Claude Code para ecossistema One Person Unicorn / Startup Factory.",
       "source": "mind",
-      "category": "uncategorized",
+      "providerType": "internal",
+      "category": "devops",
+      "docExt": ".json",
+      "docKind": "manifest-json",
       "license": "Proprietary",
       "tags": [
         "vps",
@@ -444,12 +569,41 @@
       }
     },
     {
+      "id": "skill_mind_zero_trust_release",
+      "kind": "skill",
+      "name": "Zero-Trust Release Ops",
+      "description": "Automatiza a criação de repositórios 'Clean Room' (SPV) em branches órfãs. Isola o ativo final do passivo histórico (commits, credenciais vazadas) para auditoria pública.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "devops",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "zero-trust",
+        "devops",
+        "security",
+        "git",
+        "clean-room",
+        "audit"
+      ],
+      "badges": [],
+      "pricing": {
+        "type": "pay_per_execution",
+        "amount": 0.15,
+        "currency": "USDC"
+      }
+    },
+    {
       "id": "arcium",
       "kind": "skill",
       "name": "arcium",
       "description": "Encrypted computation via MPC — dark pools, sealed-bid auctions, encrypted voting, confidential DeFi",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -469,7 +623,10 @@
       "name": "code-recon",
       "description": "Deep architectural context building for security audits",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "security",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -489,7 +646,10 @@
       "name": "coingecko",
       "description": "Token prices, DEX pool data, OHLCV charts, trades",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -509,7 +669,10 @@
       "name": "debridge",
       "description": "Cross-chain bridges, message passing, Solana ↔ EVM transfers",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -529,7 +692,10 @@
       "name": "dflow",
       "description": "Spot trading, prediction markets, Swap API, WebSocket streaming",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -549,7 +715,10 @@
       "name": "glam",
       "description": "Tokenized vaults, DeFi integrations (Jupiter, Kamino), staking, asset management",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -569,7 +738,10 @@
       "name": "helius",
       "description": "RPC, DAS API, webhooks, priority fees, LaserStream gRPC",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -589,7 +761,10 @@
       "name": "jupiter",
       "description": "Ultra swaps, limit orders, DCA, perpetuals, lending, and token APIs",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -609,7 +784,10 @@
       "name": "kamino",
       "description": "Lending, borrowing, liquidity management, leverage trading",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -629,7 +807,10 @@
       "name": "light-protocol",
       "description": "ZK Compression, rent-free compressed tokens",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -649,7 +830,10 @@
       "name": "lulo",
       "description": "Lending aggregator across Kamino, Drift, MarginFi, Jupiter",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -669,7 +853,10 @@
       "name": "magicblock",
       "description": "Ephemeral Rollups, sub-10ms latency, gasless transactions",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -689,7 +876,10 @@
       "name": "manifest",
       "description": "CLOB, limit orders, reverse orders, global orders, Destiny vaults",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -709,7 +899,10 @@
       "name": "marginfi",
       "description": "Lending, borrowing, leveraged positions (looping) and flash loans",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -729,7 +922,10 @@
       "name": "metaplex",
       "description": "Core, Token Metadata, Bubblegum, Candy Machine, Umi framework",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "nft",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -749,7 +945,10 @@
       "name": "metengine",
       "description": "Smart money analytics (wallet scoring, insider detection, capital flow tracking), x402 pay-per-request",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -769,7 +968,10 @@
       "name": "meteora",
       "description": "DLMM, DAMM pools, bonding curves, Alpha Vaults",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -789,7 +991,10 @@
       "name": "orca",
       "description": "Whirlpools concentrated liquidity AMM, swaps, positions",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -809,7 +1014,10 @@
       "name": "pinocchio-development",
       "description": "Zero-copy framework for high-performance programs (88-95% CU reduction)",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -829,7 +1037,10 @@
       "name": "pumpfun",
       "description": "Token launches, bonding curves, PumpSwap AMM",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -849,7 +1060,10 @@
       "name": "pyth",
       "description": "Real-time price feeds, confidence intervals, EMA prices",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -869,7 +1083,10 @@
       "name": "quicknode",
       "description": "RPC (80+ chains), DAS API, Yellowstone gRPC, Streams, webhooks, priority fees, Metis Jupiter",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -889,7 +1106,10 @@
       "name": "ranger-finance",
       "description": "Perps aggregator across Drift, Flash, Adrena, Jupiter",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -909,7 +1129,10 @@
       "name": "raydium",
       "description": "AMM pools, CLMM, CPMM, LaunchLab token launches",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -929,7 +1152,10 @@
       "name": "sanctum",
       "description": "Liquid staking, LST swaps, Infinity pool",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -949,7 +1175,10 @@
       "name": "sol-incinerator",
       "description": "Burn tokens, burn NFTs, close token accounts",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -969,7 +1198,10 @@
       "name": "solana-agent-kit",
       "description": "60+ Solana operations with LangChain, Vercel AI, MCP support",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -989,7 +1221,10 @@
       "name": "solana-kit",
       "description": "Modern tree-shakeable SDK from Anza, zero dependencies",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1009,7 +1244,10 @@
       "name": "solana-kit-migration",
       "description": "Migration guide from @solana/web3.js v1.x to @solana/kit",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1029,7 +1267,10 @@
       "name": "squads",
       "description": "Multisig wallets, smart accounts, account abstraction",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1049,7 +1290,10 @@
       "name": "surfpool",
       "description": "Development environment with mainnet forking, cheatcodes",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1069,7 +1313,10 @@
       "name": "switchboard",
       "description": "Price feeds, on-demand data, VRF randomness, Surge streaming",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1089,7 +1336,10 @@
       "name": "vulnhunter",
       "description": "Vulnerability detection, dangerous API hunting, variant analysis",
       "source": "sendaifun",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "security",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1109,7 +1359,10 @@
       "name": "clint",
       "description": "CLINT — CNB Link Intelligence. DePIN proof verifier for the CNB Mobile network on Solana. Ingests on-chain Memo transactions and Anchor PDA data to compute a Node Health Index (NHI, 0–100) with Sybil-risk classification. Trust primitive for A2A DePIN transactions in the attention economy.",
       "source": "stbr",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "depin-analytics",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "depin",
@@ -1135,7 +1388,10 @@
       "name": "solana-glossary",
       "description": "Glossary explorer: consulta termos do ecossistema Solana (getTerm/searchTerms/getTermsByCategory) com suporte a i18n (pt/es).",
       "source": "stbr",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "education",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1155,7 +1411,10 @@
       "name": "agentwallet",
       "description": "Wallets para agentes com signing server-side e policies. Inclui x402/fetch (one-step payment proxy) para pagar e chamar APIs com retry e dedupe.",
       "source": "frames",
-      "category": "uncategorized",
+      "providerType": "external",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
       "license": "Proprietary",
       "tags": [
         "solana",
@@ -1163,6 +1422,1176 @@
         "frames",
         "infrastructure",
         "agentwallet"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_100xdevs",
+      "kind": "skill",
+      "name": "100xDevs Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Developer Tooling patrocinado por 100xDevs. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "100xdevs",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_adevar_labs_inc",
+      "kind": "skill",
+      "name": "Adevar Labs Inc. Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Security Audit patrocinado por Adevar Labs Inc.. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de $50,000 in Security Audit Credits via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "adevar_labs_inc",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_cloak",
+      "kind": "skill",
+      "name": "Cloak Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Privacy & Payments patrocinado por Cloak. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 5,010 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "cloak",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_covalent",
+      "kind": "skill",
+      "name": "Covalent Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Data Infrastructure patrocinado por Covalent. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 3,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "covalent",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_dum_fun",
+      "kind": "skill",
+      "name": "Dum.fun Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Token Launch patrocinado por Dum.fun. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 500 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "dum_fun",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_dune",
+      "kind": "skill",
+      "name": "Dune Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Data Analytics patrocinado por Dune. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 6,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "dune",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_eitherway",
+      "kind": "skill",
+      "name": "Eitherway Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Live dApp patrocinado por Eitherway. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 20,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "eitherway",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_encrypt",
+      "kind": "skill",
+      "name": "Encrypt Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Capital Markets patrocinado por Encrypt. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 15,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "encrypt",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_jet_europa",
+      "kind": "skill",
+      "name": "JET Europa Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Jito Infrastructure patrocinado por JET Europa. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 2,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "jet_europa",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_jupiter",
+      "kind": "skill",
+      "name": "Jupiter Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de DeFi patrocinado por Jupiter. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 3,000 jupUSD via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "jupiter",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_kirapay",
+      "kind": "skill",
+      "name": "KIRAPAY Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Payments patrocinado por KIRAPAY. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 1,505 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "kirapay",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_la_familia",
+      "kind": "skill",
+      "name": "La Familia Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por La Familia. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "la_familia",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_li_fi",
+      "kind": "skill",
+      "name": "LI.FI Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Cross-chain patrocinado por LI.FI. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 2,500 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "li_fi",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_magicblock",
+      "kind": "skill",
+      "name": "MagicBlock Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Privacy patrocinado por MagicBlock. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 5,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "magicblock",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_nimbus_data_labs",
+      "kind": "skill",
+      "name": "Nimbus Data Labs Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de API Integration patrocinado por Nimbus Data Labs. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 900 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "nimbus_data_labs",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_palm_usd",
+      "kind": "skill",
+      "name": "Palm USD Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Stablecoin patrocinado por Palm USD. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 PUSD via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "palm_usd",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_rpc_fast",
+      "kind": "skill",
+      "name": "RPC Fast Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de RPC Infrastructure patrocinado por RPC Fast. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "rpc_fast",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_sagapad",
+      "kind": "skill",
+      "name": "SagaPad Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Agentic Skills patrocinado por SagaPad. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 1,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "sagapad",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_sns",
+      "kind": "skill",
+      "name": "SNS Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Identity patrocinado por SNS. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 5,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "sns",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_australia",
+      "kind": "skill",
+      "name": "Superteam Australia Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Australia. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 8,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_australia",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_balkan",
+      "kind": "skill",
+      "name": "Superteam Balkan Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Balkan. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_balkan",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_brasil",
+      "kind": "skill",
+      "name": "Superteam Brasil Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Brasil. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_brasil",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_canada",
+      "kind": "skill",
+      "name": "Superteam Canada Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Canada. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_canada",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_georgia",
+      "kind": "skill",
+      "name": "Superteam Georgia Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Georgia. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_georgia",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_germany",
+      "kind": "skill",
+      "name": "Superteam Germany Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Germany. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_germany",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_india",
+      "kind": "skill",
+      "name": "Superteam India Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam India. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_india",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_indonesia",
+      "kind": "skill",
+      "name": "Superteam Indonesia Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Indonesia. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_indonesia",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_ireland",
+      "kind": "skill",
+      "name": "Superteam Ireland Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Ireland. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_ireland",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_japan",
+      "kind": "skill",
+      "name": "Superteam Japan Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Japan. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_japan",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_kazakhstan",
+      "kind": "skill",
+      "name": "Superteam Kazakhstan Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Kazakhstan. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 4,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_kazakhstan",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_korea",
+      "kind": "skill",
+      "name": "Superteam Korea Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Korea. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_korea",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_malaysia",
+      "kind": "skill",
+      "name": "Superteam Malaysia Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Malaysia. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_malaysia",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_nepal",
+      "kind": "skill",
+      "name": "Superteam Nepal Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Nepal. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_nepal",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_netherlands",
+      "kind": "skill",
+      "name": "Superteam Netherlands Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Netherlands. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 8,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_netherlands",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_nigeria",
+      "kind": "skill",
+      "name": "Superteam Nigeria Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Nigeria. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_nigeria",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_pakistan",
+      "kind": "skill",
+      "name": "Superteam Pakistan Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Pakistan. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 5,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_pakistan",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_poland",
+      "kind": "skill",
+      "name": "Superteam Poland Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Poland. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_poland",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_singapore",
+      "kind": "skill",
+      "name": "Superteam Singapore Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Singapore. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_singapore",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_turkey",
+      "kind": "skill",
+      "name": "Superteam Turkey Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Turkey. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_turkey",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_uae",
+      "kind": "skill",
+      "name": "Superteam UAE Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam UAE. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_uae",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_superteam_ukraine",
+      "kind": "skill",
+      "name": "Superteam Ukraine Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Ukraine. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "superteam_ukraine",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_tether",
+      "kind": "skill",
+      "name": "Tether Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Stablecoin Integration patrocinado por Tether. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDT via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "tether",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_torque",
+      "kind": "skill",
+      "name": "Torque Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de MCP Integration patrocinado por Torque. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 3,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "torque",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_umbra",
+      "kind": "skill",
+      "name": "Umbra Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Privacy patrocinado por Umbra. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "umbra",
+        "smart-contract",
+        "x402-settlement"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free"
+      }
+    },
+    {
+      "id": "validator_zerion",
+      "kind": "skill",
+      "name": "Zerion Bounty Copilot",
+      "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Autonomous Agents patrocinado por Zerion. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 5,000 USDC via liquidação atômica (x402).",
+      "source": "colosseum-sponsors",
+      "providerType": "sponsor",
+      "category": "hackathon",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "colosseum-hackathon",
+        "bounty-copilot",
+        "pmf-matchmaker",
+        "bounty-validator",
+        "zerion",
+        "smart-contract",
+        "x402-settlement"
       ],
       "badges": [],
       "pricing": {

@@ -387,8 +387,8 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
   );
 }
 
-// Escrow Settlement Flow: The Atomic Lifecycle (Animated SVG)
-function EscrowFlowSVG() {
+// Private Agent Checkout Flow (Animated SVG)
+function CheckoutFlowSVG() {
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
@@ -400,9 +400,9 @@ function EscrowFlowSVG() {
 
   const steps = [
     { x: 50, y: 50, label: "REQUEST", info: "INTENT: SIGNED", detail: "0.5 SOL // x402" },
-    { x: 150, y: 150, label: "LOCK", info: "ESCROW: ACTIVE", detail: "PROGRAM_ID: MIND...v1" },
-    { x: 250, y: 250, label: "PROVE", info: "PROOF: BUNDLED", detail: "METAPLEX_CORE // cNFT" },
-    { x: 350, y: 350, label: "RELEASE", info: "SETTLEMENT: 92/8", detail: "TX: 5tWq...9pZm" }
+    { x: 150, y: 150, label: "POLICY", info: "CHECKOUT: GATED", detail: "AUTHZ: OK // RULES" },
+    { x: 250, y: 250, label: "SETTLE", info: "CLOAK: x402", detail: "TX: 5tWq...9pZm" },
+    { x: 350, y: 350, label: "PROVE", info: "PROOF: MINTED", detail: "METAPLEX_CORE // cNFT" }
   ];
 
   return (
@@ -736,11 +736,11 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
     },
     { 
       title: "Attach evidence requirements", 
-      desc: "Specify the proof bundle that must exist before any release can occur." 
+      desc: "Define the proof bundle that must be minted after execution to finalize delivery." 
     },
     { 
-      title: "Deliver under escrow", 
-      desc: "Requester funds escrow, execution runs, proof is anchored, and release is automatic." 
+      title: "Atomic private checkout", 
+      desc: "Policy before spend, Cloak/x402 settlement, then proof minted as a receipt. No escrow." 
     }
   ];
 
@@ -1084,12 +1084,33 @@ export function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave
 // Home Page Component
 export function HomePage() {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
+  const [videoSrc, setVideoSrc] = useState("/sanduiche_rev_mind_solana_core.mp4");
   const navigate = useNavigate();
   const location = useLocation();
   
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const buildersRef = useRef<HTMLDivElement>(null);
+
+  // Pre-fetch the video as a Blob to prevent net::ERR_ABORTED on Vercel/Vite
+  // due to excessive HTTP Range requests during scroll scrubbing.
+  useEffect(() => {
+    let objectUrl = "";
+    fetch("/sanduiche_rev_mind_solana_core.mp4")
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch video");
+        return res.blob();
+      })
+      .then(blob => {
+        objectUrl = URL.createObjectURL(blob);
+        setVideoSrc(objectUrl);
+      })
+      .catch(err => console.error("Error pre-fetching video:", err));
+
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, []);
 
   // Builders Scroll Activation
   const isBuildersInView = useInView(buildersRef, { amount: 0.4 });
@@ -1171,7 +1192,7 @@ export function HomePage() {
           {/* Scroll-Scrubbed Video */}
           <video
             ref={videoRef}
-            src="/sanduiche_rev_mind_solana_core.mp4"
+            src={videoSrc}
             muted
             playsInline
             preload="auto"
@@ -1314,7 +1335,7 @@ export function HomePage() {
                 { label: "Latency Power", value: "180ms", hint: "p50 quote" },
                 { label: "Throughput", value: "42 req/s", hint: "burst" },
                 { label: "Compute Units", value: "8.2k", hint: "sim depth" },
-                { label: "Escrow Logic", value: "Strict", hint: "policy" }
+                { label: "Settlement", value: "Atomic x402", hint: "no escrow" }
               ],
               card: { id: "dexter", name: "Dexter", type: "Data Agent", price: "$0.05 / req", Art: DexterCardSVG }
             },
@@ -1342,7 +1363,7 @@ export function HomePage() {
                 { label: "Latency Power", value: "240ms", hint: "p50 route" },
                 { label: "Throughput", value: "18 exec/s", hint: "safe" },
                 { label: "Compute Units", value: "12.6k", hint: "route sim" },
-                { label: "Escrow Logic", value: "Vaulted", hint: "escrow" }
+                { label: "Settlement", value: "Atomic", hint: "opt-in" }
               ],
               card: { id: "volan", name: "Volan", type: "Yield Agent", price: "$0.005 / exec", Art: VolanCardSVG }
             },
@@ -1356,7 +1377,7 @@ export function HomePage() {
                 { label: "Latency Power", value: "95ms", hint: "p50 scan" },
                 { label: "Throughput", value: "120 scans/s", hint: "batch" },
                 { label: "Compute Units", value: "4.1k", hint: "rules" },
-                { label: "Escrow Logic", value: "Guarded", hint: "deny" }
+                { label: "Settlement", value: "Gated", hint: "policy" }
               ],
               card: { id: "krios", name: "Krios", type: "Risk Agent", price: "$0.02 / scan", Art: KriosCardSVG }
             }
@@ -1367,7 +1388,7 @@ export function HomePage() {
       {/* Section 2: Architecture of Nature (Trust) */}
       <section id="process" className="container mx-auto px-6 mt-16 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <div className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative">
-          <EscrowFlowSVG />
+          <CheckoutFlowSVG />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
           <div className="absolute bottom-10 left-10 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
             Atomic Settlement Flow
@@ -1416,7 +1437,7 @@ export function HomePage() {
           </h2>
 
           <p className="text-zinc-500 leading-relaxed font-light text-lg">
-            Publish reusable Agent Cards with explicit pricing, evidence requirements, and payout splits. Settlement is escrow-based and verifiable on Solana.
+            Publish reusable Agent Cards with explicit pricing, evidence requirements, and payout splits. Settlement is policy-first and atomic via Cloak/x402, with proof minted after execution.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 pt-2">
@@ -1455,6 +1476,7 @@ export function HomePage() {
           </h3>
           <p className="text-zinc-500 leading-relaxed font-light">
             Builders: Access the MIND Protocol repository to explore our Agent Cards, atomic settlement rails, and Zero-Trust implementation. Submit your PRs and join the Agentic Economy.
+            Current status: pre-testnet validation is enforced by strict gates; no claim of testnet or revenue without fresh tx/proof evidence.
           </p>
         </div>
 

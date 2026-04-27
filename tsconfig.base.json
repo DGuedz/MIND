@@ -12,5 +12,6 @@
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["**/* 2.ts", "**/* 2.tsx", "**/* 2.d.ts"]
 }

@@ -46,6 +46,7 @@ This directory turns strategic conversation into reusable operational knowledge.
 - `pnpm spec:validate-deployment-pack`
 - `pnpm spec:runtime-metrics`
 - `pnpm spec:context-feedback`
+- `pnpm spec:spec-health`
 - `pnpm spec:runtime-health`
 
 ## Recommended operating cycle

@@ -23,6 +23,7 @@ Padronizar o uso de fontes confiaveis em todo o projeto para reduzir alucinacao,
 5. Micropagamentos maquina-a-maquina (x402/HTTP 402).
 6. Dados e identidade on-chain (Covalent/Metaplex).
 7. Mercado de credito tokenizado (RWA).
+8. DevSecOps Institucional (Zero-Trust Release / Clean Room / SPV).
 
 ## Contrato de Resposta Grounded
 Quando responder sobre tese, produto ou risco:

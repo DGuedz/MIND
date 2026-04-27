@@ -1,0 +1,31 @@
+{
+  "id": "skill_mind_smart_contract_auditor",
+  "kind": "skill",
+  "name": "Smart Contract Security Auditor",
+  "publisher": "MIND Protocol",
+  "category": "cybersecurity",
+  "pricing": {
+    "type": "pay_per_execution",
+    "amount": 1.50,
+    "currency": "USDC"
+  },
+  "description": "Skill de Cybersecurity e Zero-Trust. Inspeciona binários Rust/Solana (e código-fonte) em busca de vulnerabilidades conhecidas (reentrancy, overflow, missing signer checks).",
+  "execution_engine": "static_analyzer",
+  "capabilities": [
+    "Cybersecurity Threat Modeling",
+    "Static Code Analysis",
+    "Exploit Simulation",
+    "Vulnerability Patch Generation"
+  ],
+  "requirements": [
+    "rust-toolchain",
+    "solana-cli"
+  ],
+  "instructions": {
+    "usage": "Invoque esta skill em pipelines de CI/CD para bloquear deploys que violem políticas de segurança do protocolo."
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "tags": ["cybersecurity", "rust", "solana", "audit", "zero-trust", "devsecops"]
+}

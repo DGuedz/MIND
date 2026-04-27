@@ -27,8 +27,6 @@ export class EcosystemIntelAdapter {
    * Em produção, isso faria chamadas reais para o Firecrawl API.
    */
   async fetchLatestSignals(query: string = "Solana DeFi"): Promise<EcosystemSignal[]> {
-    console.log(`\n🔍 [${this.name}] Iniciando crawling de sinais para: "${query}"...`);
-    
     // Simulação de dados coletados e normalizados seguindo a skill solana-defi-ecosystem-intel
     const mockSignals: EcosystemSignal[] = [
       {

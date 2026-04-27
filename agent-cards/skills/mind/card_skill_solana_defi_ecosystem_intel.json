@@ -4,6 +4,7 @@
     "name": "solana-defi-ecosystem-intel (Skill)",
     "version": "1.0.0",
     "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
+    "category": "ecosystem-intelligence",
     "tags": [
       "solana",
       "agent-skill",
@@ -20,6 +21,8 @@
   "discovery": {
     "intent": "data_analysis",
     "category": "finance",
+    "docExt": ".md",
+    "docKind": "skill-md",
     "keywords": [
       "solana",
       "agent-skill",
@@ -78,6 +81,7 @@
   },
   "provenance": {
     "source": "MIND/.agents/skills",
+    "sourceType": "internal",
     "createdAt": "2026-04-24T02:11:05.337Z",
     "updatedAt": "2026-04-24T02:11:05.337Z",
     "signature": "unsigned",

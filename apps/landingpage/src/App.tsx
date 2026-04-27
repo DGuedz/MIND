@@ -7,6 +7,7 @@ import { FeaturesPage } from "./pages/Features";
 import { InfrastructurePage } from "./pages/Infrastructure";
 import { RegisterPage } from "./pages/Register";
 import { CloakGatewayPage } from "./pages/CloakGateway";
+import { PitchdeckPage } from "./pages/Pitchdeck";
 import { TooltipProvider } from "./components/ui/tooltip";
 // Dialog components are now in DialogComponents.tsx
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="register" element={<RegisterPage />} />
             <Route path="links" element={<LinksPage />} />
             <Route path="gateway" element={<CloakGatewayPage />} />
+            <Route path="pitchdeck" element={<PitchdeckPage />} />
             <Route path="builders" element={<Navigate to="/register" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

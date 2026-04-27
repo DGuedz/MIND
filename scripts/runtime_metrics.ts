@@ -114,6 +114,10 @@ async function main() {
         block: blockCount,
         total_policy_decisions: totalPolicyDecisions
       },
+      proof_counts: {
+        proof_verified: proofVerifiedCount,
+        proof_checked: proofCheckedCount
+      },
       proof_verified_rate: proofCheckedCount > 0 ? proofVerifiedCount / proofCheckedCount : 0,
       policy_breach_count: policyBreachCount,
       mean_response_time_ms: meanResponseTimeMs,

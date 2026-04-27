@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-04-21T00:00:00Z",
+  "as_of": "2026-04-27T02:44:07.909Z",
   "items": [
     {
       "id": "card_price_feed_sol",
@@ -7,10 +7,22 @@
       "name": "High-Freq Price Feed Oracle",
       "description": "Agente oráculo que fornece cotações de alta frequência (sub-second) para pares Solana DeFi (SOL/USDC, JUP/USDC, etc). Ideal para MEV bots e arbitrageurs.",
       "source": "mind",
+      "providerType": "internal",
       "category": "oracle",
+      "docExt": ".json",
+      "docKind": "manifest-json",
       "license": "Proprietary",
-      "tags": ["oracle", "price-feed", "defi"],
-      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.005 }
+      "tags": [
+        "oracle",
+        "price-feed",
+        "mev",
+        "defi"
+      ],
+      "pricing": {
+        "model": "per_request",
+        "currency": "USDC",
+        "price": 0.005
+      }
     },
     {
       "id": "card_signal_premium",
@@ -18,10 +30,22 @@
       "name": "Whale Movement Signal",
       "description": "Detecta movimentos >$500k em DEXes e CEXes depositando/retirando SPL Tokens. Sinal premium para fundos autônomos. Acesso restrito a chamadas pagas.",
       "source": "mind",
+      "providerType": "internal",
       "category": "signals",
+      "docExt": ".json",
+      "docKind": "manifest-json",
       "license": "Proprietary",
-      "tags": ["alpha", "signals", "whales"],
-      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.05 }
+      "tags": [
+        "alpha",
+        "signals",
+        "whales",
+        "onchain-analysis"
+      ],
+      "pricing": {
+        "model": "per_request",
+        "currency": "USDC",
+        "price": 0.05
+      }
     },
     {
       "id": "card_jupiter_route",
@@ -29,43 +53,157 @@
       "name": "Smart Swap Router (Jupiter-backed)",
       "description": "Calcula a rota mais eficiente de swap usando liquidez profunda da Solana. Retorna transação montada pronta para assinatura pelo seu Agente.",
       "source": "mind",
+      "providerType": "internal",
       "category": "execution",
+      "docExt": ".json",
+      "docKind": "manifest-json",
       "license": "Proprietary",
-      "tags": ["swap", "routing", "jupiter", "defi"],
-      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.009 }
+      "tags": [
+        "swap",
+        "routing",
+        "jupiter",
+        "defi",
+        "execution"
+      ],
+      "pricing": {
+        "model": "per_request",
+        "currency": "USDC",
+        "price": 0.009
+      }
     },
     {
-      "id": "mind_autonomous_execution_engine",
+      "id": "mind-autonomous-execution",
       "kind": "product",
       "name": "MIND Autonomous Execution Engine",
       "description": "Motor de execução autônoma com zero latência para trades algorítmicos e liquidações atômicas em Solana",
       "source": "mind",
+      "providerType": "internal",
       "category": "orchestration",
+      "docExt": ".json",
+      "docKind": "agent-card-v1",
       "license": "Apache-2.0",
-      "tags": ["autonomous", "trading", "execution", "solana", "defi"],
-      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.05 }
+      "tags": [
+        "autonomous",
+        "trading",
+        "defi",
+        "solana",
+        "execution"
+      ],
+      "pricing": {
+        "model": "per_request",
+        "currency": "USDC",
+        "price": 0.05,
+        "x402Endpoint": "https://api.mindprotocol.ai/x402/payment",
+        "profitPotential": "high",
+        "roiMetrics": {
+          "avgReturnPerTrade": "2.5%",
+          "successRate": "92%",
+          "maxDrawdown": "-8%"
+        }
+      }
     },
     {
-      "id": "mind_market_intelligence_api",
+      "id": "mind-market-intelligence",
       "kind": "product",
       "name": "MIND Market Intelligence API",
       "description": "Inteligência de mercado em tempo real com dados de 5.400+ projetos Solana e pesquisa Colosseum Copilot",
       "source": "mind",
+      "providerType": "internal",
       "category": "data-analysis",
+      "docExt": ".json",
+      "docKind": "agent-card-v1",
       "license": "Apache-2.0",
-      "tags": ["market", "intelligence", "research", "solana", "analytics"],
-      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.02 }
+      "tags": [
+        "market",
+        "intelligence",
+        "research",
+        "solana",
+        "data",
+        "analytics"
+      ],
+      "pricing": {
+        "model": "per_request",
+        "currency": "USDC",
+        "price": 0.02,
+        "x402Endpoint": "https://api.mindprotocol.ai/x402/payment",
+        "profitPotential": "very_high",
+        "roiMetrics": {
+          "valuePerQuery": "$50",
+          "costAvoidance": "$200",
+          "opportunityIdentification": "$1000+"
+        },
+        "tieredPricing": {
+          "basic": {
+            "price": 0.02,
+            "requests": 100
+          },
+          "pro": {
+            "price": 0.015,
+            "requests": 1000,
+            "minCommit": 10000
+          },
+          "enterprise": {
+            "price": 0.01,
+            "requests": 10000,
+            "minCommit": 100000
+          }
+        }
+      }
     },
     {
-      "id": "mind_autonomous_risk_scoring_engine",
+      "id": "mind-risk-scoring",
       "kind": "product",
       "name": "MIND Autonomous Risk Scoring Engine",
       "description": "Sistema de scoring de risco em tempo real para operações autônomas com machine learning e análise preditiva",
       "source": "mind",
-      "category": "risk",
+      "providerType": "internal",
+      "category": "data-analysis",
+      "docExt": ".json",
+      "docKind": "agent-card-v1",
       "license": "Apache-2.0",
-      "tags": ["risk", "scoring", "defi", "security", "compliance"],
-      "pricing": { "model": "per_request", "currency": "USDC", "price": 0.03 }
+      "tags": [
+        "risk",
+        "scoring",
+        "machinelearning",
+        "defi",
+        "security",
+        "compliance"
+      ],
+      "pricing": {
+        "model": "per_request",
+        "currency": "USDC",
+        "price": 0.03,
+        "x402Endpoint": "https://api.mindprotocol.ai/x402/payment",
+        "profitPotential": "extremely_high",
+        "roiMetrics": {
+          "lossPrevention": "$10,000+ per incident",
+          "complianceCostSavings": "$5,000 monthly",
+          "insurancePremiumReduction": "15-30%"
+        },
+        "valueBasedPricing": {
+          "basic": {
+            "price": 0.03,
+            "features": [
+              "basic scoring"
+            ]
+          },
+          "professional": {
+            "price": 0.08,
+            "features": [
+              "advanced ml",
+              "real-time monitoring"
+            ]
+          },
+          "enterprise": {
+            "price": 0.15,
+            "features": [
+              "custom models",
+              "sla guarantee",
+              "audit trail"
+            ]
+          }
+        }
+      }
     }
   ]
 }

@@ -7,7 +7,8 @@ import {
   Home as HomeIcon,
   Search,
   Globe,
-  Shield
+  Shield,
+  Presentation
 } from "lucide-react"
 import { Logo } from "../components/Logo"
 
@@ -39,6 +40,7 @@ export function MainLayout({ children }: MainLayoutProps) {
     { id: "discover", label: "Marketplace", icon: Search, path: "/marketplace" },
     { id: "infrastructure", label: "Infrastructure", icon: Globe, path: "/infrastructure" },
     { id: "features", label: "Features", icon: Shield, path: "/features" },
+    { id: "pitchdeck", label: "Pitchdeck", icon: Presentation, path: "/pitchdeck" },
     { id: "terminal", label: "Builders", icon: Terminal, path: "/register" },
   ];
 
@@ -120,10 +122,10 @@ export function MainLayout({ children }: MainLayoutProps) {
           >
             <div 
               className="group hidden md:flex items-center gap-4 text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-              onClick={() => window.open("https://arena.colosseum.org/refresh-session?redirectBack=%2Fhackathon%2Fsocial-card%2Ffrontier%2Fdoublegreen", "_blank")}
-              title="View DGUEDZ Colosseum Profile"
+              onClick={() => navigate("/pitchdeck")}
+              title="View MIND Pitchdeck"
             >
-              System <span className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-white group-hover:shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all" /> Operational
+              Pitchdeck <span className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-white group-hover:shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all" /> Lean Canvas
             </div>
             <button
               type="button"

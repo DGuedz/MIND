@@ -11,6 +11,19 @@ dist/
 # Firecrawl outputs (local only)
 .firecrawl/
 
+# Local artifacts (generated)
+artifacts/
+
+# Local scratch
+backup/
+deep-research-report*.md
+Gemini_Generated_Image*.png
+logo_hero.svg
+logo_land.png
+
+# Finder duplicates
+**/* 2.*
+
 # Documentation (Internal only, not for public repo)
 docs/
 *.txt

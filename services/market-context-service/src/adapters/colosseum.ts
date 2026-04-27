@@ -8,10 +8,12 @@ import { getEnv } from "../../../shared/env.js";
 export class ColosseumAdapter {
   private apiBase: string;
   private pat: string | undefined;
+  private allowMock: boolean;
 
   constructor() {
     this.apiBase = getEnv("COLOSSEUM_COPILOT_API_BASE") || "https://copilot.colosseum.com/api/v1";
     this.pat = getEnv("COLOSSEUM_COPILOT_PAT");
+    this.allowMock = (getEnv("COLOSSEUM_COPILOT_ALLOW_MOCK") || "false").toLowerCase() === "true";
     
     if (!this.pat) {
       console.warn("[ColosseumAdapter] COLOSSEUM_COPILOT_PAT ausente. O sistema operará em modo mock/safe (Demonstração).");
@@ -23,7 +25,11 @@ export class ColosseumAdapter {
    */
   async checkStatus(): Promise<{ authenticated: boolean; mock: boolean; message: string }> {
     if (!this.pat) {
-      return { authenticated: false, mock: true, message: "Modo de simulação ativo (Sem PAT)" };
+      return {
+        authenticated: false,
+        mock: this.allowMock,
+        message: this.allowMock ? "Modo de simulação ativo (Sem PAT)" : "Sem PAT (auth ausente)"
+      };
     }
     try {
       const res = await fetch(`${this.apiBase}/status`, {
@@ -43,7 +49,7 @@ export class ColosseumAdapter {
    */
   async deepDiveResearch(query: string, limit: number = 3): Promise<{ projects: any[]; archives: any[] }> {
     if (!this.pat) {
-      // Retorna Mock Determinístico de Alto Nível Institucional se não houver PAT
+      if (!this.allowMock) return { projects: [], archives: [] };
       return {
         projects: [
           { name: "Stealf Wallet", slug: "stealf", tags: ["Privacy", "Payments", "DeFi"], score: 92 },
@@ -70,8 +76,19 @@ export class ColosseumAdapter {
         })
       ]);
 
-      const projects = projRes.ok ? (await projRes.json()).data : [];
-      const archives = archRes.ok ? (await archRes.json()).data : [];
+      const projJson = projRes.ok ? await projRes.json() : null;
+      const archJson = archRes.ok ? await archRes.json() : null;
+
+      const projects = Array.isArray(projJson?.data)
+        ? projJson.data
+        : Array.isArray(projJson?.results)
+          ? projJson.results
+          : [];
+      const archives = Array.isArray(archJson?.data)
+        ? archJson.data
+        : Array.isArray(archJson?.results)
+          ? archJson.results
+          : [];
 
       return { projects, archives };
     } catch (error) {

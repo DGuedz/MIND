@@ -133,9 +133,19 @@ export function CloakGatewayPage() {
                    <div className="flex gap-6 w-24 justify-end"><span>1</span><span>{amountSol}</span></div>
                  </div>
                  
-                 <div className="flex justify-between text-zinc-500 mb-4">
-                   <span>Execution Fee</span>
+                 <div className="flex justify-between text-zinc-500 mb-1">
+                   <span>Execution Fee (8%)</span>
                    <div className="flex gap-6 w-24 justify-end"><span>1</span><span>{(Number(amountSol) * 0.08).toFixed(5)}</span></div>
+                 </div>
+
+                 <div className="flex justify-between text-zinc-500 mb-1">
+                   <span>Impact Multiplier (I)</span>
+                   <div className="flex gap-6 w-24 justify-end"><span>1.2x</span><span>-</span></div>
+                 </div>
+
+                 <div className="flex justify-between text-zinc-500 mb-4">
+                   <span>Quality Escrow</span>
+                   <div className="flex gap-6 w-24 justify-end"><span>LOCKED</span><span>-</span></div>
                  </div>
 
                  <div className="text-center text-white mb-2">--------------------------------</div>

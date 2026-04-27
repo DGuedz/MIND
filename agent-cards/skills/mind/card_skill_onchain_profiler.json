@@ -1,0 +1,31 @@
+{
+  "id": "skill_mind_onchain_profiler",
+  "kind": "skill",
+  "name": "On-Chain Data Profiler",
+  "publisher": "MIND Protocol",
+  "category": "data_analysis",
+  "pricing": {
+    "type": "pay_per_execution",
+    "amount": 0.05,
+    "currency": "USDC"
+  },
+  "description": "Skill de Data Analysis e Indexação on-chain. Analisa carteiras, fluxos UTXO e extrai métricas comportamentais (TVL, win rate) para qualificação de risco de crédito.",
+  "execution_engine": "python_rpc",
+  "capabilities": [
+    "Data Analysis & Visualization",
+    "Wallet Sybil Detection",
+    "On-Chain Behavioral Profiling",
+    "Credit Risk Scoring"
+  ],
+  "requirements": [
+    "solana-rpc",
+    "data-lake-access"
+  ],
+  "instructions": {
+    "usage": "Invoque esta skill para mapear o perfil de risco de uma carteira antes de aprovar crédito ou execução em Dark Pools."
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "tags": ["data-science", "on-chain", "credit-risk", "profiling", "analytics"]
+}

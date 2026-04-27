@@ -181,6 +181,15 @@
       "url": "https://app.rwa.xyz/credit",
       "use_for": ["tokenized credit market context"],
       "avoid_for": ["static claims without date stamp"]
+    },
+    {
+      "id": "zero_trust_release",
+      "domain": "devops_secops",
+      "tier": "A",
+      "type": "official_repo",
+      "url": "https://github.com/DGuedz/MIND/blob/main/.agents/skills/zero-trust-release/SKILL.md",
+      "use_for": ["orphan branch generation", "SPV builder rationale", "Clean Room methodology"],
+      "avoid_for": ["modifying main branch history"]
     }
   ]
 }

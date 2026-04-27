@@ -1,0 +1,110 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "Superteam Brasil Bounty Copilot (Skill)",
+    "version": "1.0.0",
+    "description": "Copiloto, Validador e PMF Matchmaker oficial para o track de Regional Track patrocinado por Superteam Brasil. Esta skill avalia a tese do seu projeto (ex: MIND) e identifica o Product-Market Fit exato com as demandas deste sponsor e do ecossistema Solana, guiando você na decisão de submissão. Instale na sua IDE para obter boilerplates e scaffolding direcionado. Ao final do hackathon, audita o código e libera o prêmio de 10,000 USDG via liquidação atômica (x402).",
+    "tags": [
+      "solana",
+      "colosseum-hackathon",
+      "bounty-copilot",
+      "pmf-matchmaker",
+      "bounty-validator",
+      "superteam_brasil",
+      "smart-contract",
+      "x402-settlement"
+    ],
+    "license": "Proprietary",
+    "author": {
+      "name": "Superteam Brasil",
+      "contact": "https://arena.colosseum.org"
+    }
+  },
+  "discovery": {
+    "intent": "bounty_acceleration_and_validation",
+    "category": "hackathon",
+    "keywords": [
+      "colosseum",
+      "bounty",
+      "copilot",
+      "validator",
+      "regional track",
+      "superteam_brasil"
+    ],
+    "compatibleFrameworks": [
+      "mind-protocol",
+      "claude-code",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "repository_url",
+          "type": "string",
+          "description": "URL do repositório submetido para avaliação"
+        },
+        {
+          "name": "wallet_address",
+          "type": "string",
+          "description": "Endereço Solana do builder para liquidação do bounty"
+        }
+      ],
+      "commands": {
+        "pmf_analysis": "okto-route \"Analyze my PMF for the Superteam Brasil bounty based on my current repo thesis\"",
+        "scaffold": "okto-route \"Scaffold integration for Superteam Brasil bounty\"",
+        "audit": "okto-route \"Audit my code against Superteam Brasil bounty requirements\""
+      }
+    },
+    "samples": [],
+    "qualityScore": 0.95
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://arena.colosseum.org",
+      "metadata": "https://arena.colosseum.org",
+      "data": "https://arena.colosseum.org"
+    },
+    "rateLimit": {
+      "requests": 10,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "dynamic_performance",
+    "currency": "USDC",
+    "base_price": 0.01,
+    "multiplier_index": 1
+  },
+  "governance": {
+    "escrow_enabled": false,
+    "auditor_required": true,
+    "slashing_condition": "false_positive_validation > 0"
+  },
+  "performance": {
+    "success_rate": 0.99,
+    "avg_roi_multiplier": 1,
+    "reorder_rate": 0
+  },
+  "provenance": {
+    "source": "Colosseum Frontier Hackathon / Superteam Brasil",
+    "createdAt": "2026-04-27T01:18:07.520Z",
+    "updatedAt": "2026-04-27T01:18:07.520Z",
+    "signature": "unsigned",
+    "origin": "Superteam Brasil",
+    "badges": [
+      "Colosseum Official",
+      "PMF Matchmaker",
+      "Bounty Copilot",
+      "x402 Ready"
+    ]
+  },
+  "skill": {
+    "source_url": "https://arena.colosseum.org",
+    "repo_path": ".agents/skills/superteam_brasil/SKILL.md"
+  }
+}

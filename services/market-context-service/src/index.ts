@@ -7,7 +7,7 @@ import { checkDb, db } from "./db/client.js";
 import { marketContexts } from "./db/schema.js";
 import { getMarketContextById, listMarketContexts, listEcosystemSignals } from "./db/repository.js";
 import { runColosseumDeepDive } from "./skills/skill_colosseum_intel.js";
-import { runEcosystemIntelUpdate } from "./skills/skill_ecosystem_intel.js";
+import { EcosystemIntelIntent, runEcosystemIntelUpdate } from "./skills/skill_ecosystem_intel.js";
 
 const server = fastify({ logger: true });
 
@@ -84,9 +84,116 @@ server.get("/v1/market/signals", async (request, reply) => {
 });
 
 server.post("/v1/market/signals/update", async (request, reply) => {
-  const { query } = request.body as { query?: string };
-  const signals = await runEcosystemIntelUpdate(query);
-  return { success: true, count: signals.length };
+  const UpdateRequestSchema = z.object({
+    query: z.string().min(1).optional(),
+    intent: z
+      .object({
+        id: z.string().uuid().optional(),
+        query: z.string().min(1).optional(),
+        constraints: z
+          .object({
+            max_items: z.number().int().min(1).max(50).optional(),
+            max_cost_usdc: z.number().positive().optional(),
+            freshness_minutes: z.number().int().min(1).max(1440).optional(),
+            allow_source_types: z
+              .array(
+                z.enum([
+                  "indexer_api",
+                  "onchain_oracle",
+                  "blog",
+                  "docs",
+                  "changelog",
+                  "product_page",
+                  "x_post",
+                  "institutional_announcement",
+                  "press_release",
+                  "governance_forum"
+                ])
+              )
+              .optional()
+          })
+          .optional()
+      })
+      .optional()
+  });
+
+  const parsed = UpdateRequestSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({
+      error: "invalid_market_signals_intent",
+      details: parsed.error.flatten(),
+      decision: buildDecision({
+        decision: "BLOCK",
+        reasonCodes: ["RC_MISSING_EVIDENCE"],
+        confidence: 0.96,
+        requiredFollowups: ["Enviar intent/query valido para atualizar o feed."],
+        evidence: ["Schema validation failed: invalid_market_signals_intent"]
+      })
+    });
+  }
+
+  const intentId = parsed.data.intent?.id ?? randomUUID();
+  const query = parsed.data.intent?.query ?? parsed.data.query ?? "Solana DeFi";
+  const intent: EcosystemIntelIntent = {
+    id: intentId,
+    query,
+    constraints: parsed.data.intent?.constraints
+  };
+
+  try {
+    const result = await runEcosystemIntelUpdate(intent);
+
+    const isPolicyViolation = result.proof.warnings.includes("policy_violation:max_cost_usdc");
+    if (isPolicyViolation) {
+      return reply.code(200).send({
+        status: "ok",
+        success: false,
+        intent_id: intentId,
+        decision: buildDecision({
+          decision: "BLOCK",
+          reasonCodes: ["RC_POLICY_VIOLATION"],
+          confidence: 0.92,
+          assumptions: ["Custo estimado baseado em limite max_items e constante interna por item."],
+          requiredFollowups: ["Aumentar max_cost_usdc ou reduzir max_items."],
+          evidence: [`query=${query}`, `estimated_cost_usdc=${String((result.proof.constraints as any).estimated_cost_usdc)}`]
+        }),
+        proof: result.proof
+      });
+    }
+
+    return reply.code(200).send({
+      status: "ok",
+      success: true,
+      intent_id: intentId,
+      decision: buildDecision({
+        decision: "ALLOW",
+        confidence: 0.86,
+        assumptions: ["Sinais sao classificados e filtrados conforme regras da skill (public vs verified)."],
+        evidence: [
+          `query=${query}`,
+          `fetched_count=${result.proof.fetched_count}`,
+          `accepted_count=${result.proof.accepted_count}`,
+          `persisted_count=${result.proof.persisted_count}`
+        ]
+      }),
+      proof: result.proof
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    request.log.error({ error: message }, "market_signals_update_failed");
+    return reply.code(200).send({
+      status: "ok",
+      success: false,
+      intent_id: intentId,
+      decision: buildDecision({
+        decision: "INSUFFICIENT_EVIDENCE",
+        reasonCodes: ["RC_TOOL_FAILURE"],
+        confidence: 0.9,
+        requiredFollowups: ["Verificar logs e conectividade das fontes antes de nova tentativa."],
+        evidence: [`exception=${message}`]
+      })
+    });
+  }
 });
 
 server.get("/v1/market/context", async (request, reply) => {

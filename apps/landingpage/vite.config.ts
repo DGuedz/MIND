@@ -3,45 +3,42 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import fs from 'fs'
 
-function copyMaterializedPublicFiles() {
+function copyPublicAllowlist() {
   const publicDir = path.resolve(__dirname, 'public')
   const outputDir = path.resolve(__dirname, 'dist')
 
-  function copyRecursive(srcDir: string, destDir: string) {
-    if (!fs.existsSync(srcDir)) return
-    fs.mkdirSync(destDir, { recursive: true })
+  const allowlist = [
+    'favicon.svg',
+    'icons.svg',
+    'logo_hero.svg',
+    'mind_fingerprint_head.svg',
+    'mind_logo.png',
+    'sanduiche_rev_mind_solana_core.mp4',
+    'catalog/skills.json',
+    'catalog/products.json'
+  ]
 
-    for (const entry of fs.readdirSync(srcDir, { withFileTypes: true })) {
-      const source = path.join(srcDir, entry.name)
-      const target = path.join(destDir, entry.name)
-
-      if (entry.isDirectory()) {
-        copyRecursive(source, target)
-        continue
-      }
-
-      if (!entry.isFile()) continue
-
-      const stats = fs.statSync(source) as fs.Stats & { flags?: number }
-      const flags = stats.flags ?? 0
-      const isDataless = Boolean(flags & 0x40000000)
-      if (isDataless) continue
-
-      fs.copyFileSync(source, target)
+  const copyFile = (relativePath: string) => {
+    const source = path.join(publicDir, relativePath)
+    const target = path.join(outputDir, relativePath)
+    if (!fs.existsSync(source)) {
+      throw new Error(`[public-copy] missing required public asset: ${relativePath}`)
     }
+    fs.mkdirSync(path.dirname(target), { recursive: true })
+    fs.copyFileSync(source, target)
   }
 
   return {
-    name: 'copy-materialized-public-files',
+    name: 'copy-public-allowlist',
     closeBundle() {
-      copyRecursive(publicDir, outputDir)
+      for (const relPath of allowlist) copyFile(relPath)
     },
   }
 }
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), copyMaterializedPublicFiles()],
+  plugins: [react(), copyPublicAllowlist()],
   build: {
     copyPublicDir: false,
   },
@@ -51,7 +48,6 @@ export default defineConfig({
     },
   },
   server: {
-    host: true,
-    allowedHosts: true
+    host: true
   }
 })
