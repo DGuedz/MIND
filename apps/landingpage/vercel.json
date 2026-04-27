@@ -9,12 +9,26 @@
       "has": [{ "type": "host", "value": "www.mindprotocol.xyz" }],
       "destination": "https://mindprotocol.xyz/:path*",
       "permanent": true
+    },
+    {
+      "source": "/docs/the-garage",
+      "destination": "https://github.com/DGuedz/MIND/tree/main/agent-cards",
+      "permanent": false
+    },
+    {
+      "source": "/docs/superteam",
+      "destination": "https://github.com/DGuedz/MIND/tree/main/agent-cards",
+      "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/v1/(.*)",
       "destination": "https://mind-api-gateway.vercel.app/v1/$1"
+    },
+    {
+      "source": "/catalog/(.*)",
+      "destination": "/catalog/$1"
     },
     {
       "source": "/(.*)",
@@ -26,7 +40,15 @@
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" }
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/catalog/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
     }
   ]
