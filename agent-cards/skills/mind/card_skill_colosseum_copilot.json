@@ -3,14 +3,16 @@
   "metadata": {
     "name": "colosseum-copilot (Skill)",
     "version": "1.0.0",
-    "description": "Pesquisa oportunidades e teses em Solana/crypto via Colosseum Copilot. Requer COLOSSEUM_COPILOT_PAT (env) para consultas autenticadas.",
+    "description": "Atua como PMF Matchmaker para o ecossistema Solana. Avalia repositórios locais para encontrar o Product-Market Fit exato com a tese dos sponsors (Jupiter, Pyth, etc.), guiando a submissão de bounties. Requer COLOSSEUM_COPILOT_PAT.",
     "category": "ecosystem-intelligence",
     "tags": [
       "solana",
       "agent-skill",
       "mind",
       "ecosystem-intelligence",
-      "colosseum-copilot"
+      "colosseum-copilot",
+      "pmf-matchmaker",
+      "sponsor-thesis"
     ],
     "license": "Proprietary",
     "author": {
@@ -28,7 +30,9 @@
       "agent-skill",
       "mind",
       "ecosystem-intelligence",
-      "colosseum-copilot"
+      "colosseum-copilot",
+      "pmf",
+      "bounty"
     ],
     "compatibleFrameworks": [
       "claude-code",

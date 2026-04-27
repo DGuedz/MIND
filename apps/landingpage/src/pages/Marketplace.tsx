@@ -291,8 +291,8 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
     
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotX = ((x - centerX) / centerX) * 12; // 12 deg max rotation
-    const rotY = ((y - centerY) / centerY) * -12;
+    const rotX = ((x - centerX) / centerX) * 4; // 4 deg max rotation (suave)
+    const rotY = ((y - centerY) / centerY) * -4;
     
     setMousePos({ x, y, rotX, rotY });
   };
@@ -372,19 +372,20 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
 
   return (
     <div 
-      className="relative group w-full h-full" 
+      className="relative group w-full h-full cursor-pointer" 
       style={{ perspective: "1200px" }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
+      onClick={onToggle}
     >
       <div
-        className={`relative w-full h-full bg-black/40 backdrop-blur-md rounded-2xl cursor-crosshair overflow-hidden
+        className={`relative w-full h-full bg-black/40 backdrop-blur-md rounded-2xl overflow-hidden
           ${isHovered ? "shadow-[0_20px_50px_-15px_rgba(255,255,255,0.1)]" : "shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]"} 
           ${isSelected ? "ring-1 ring-white/40 shadow-[0_0_30px_rgba(255,255,255,0.1)]" : "ring-1 ring-white/10 hover:ring-white/20"}`}
         style={{ 
           transformStyle: 'preserve-3d',
-          transform: isHovered ? `translateY(-8px) scale(1.02) rotateX(${mousePos.rotY}deg) rotateY(${mousePos.rotX}deg)` : 'translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)',
+          transform: isHovered ? `translateY(-4px) scale(1.01) rotateX(${mousePos.rotY}deg) rotateY(${mousePos.rotX}deg)` : 'translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)',
           transition: isHovered ? 'transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease-out' : 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
         }}
       >
@@ -415,12 +416,12 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
 
         <div 
           className="relative z-10 p-6 flex flex-col justify-between gap-6 h-full transition-transform duration-300 ease-out"
-          style={{ transform: isHovered ? `translateZ(30px)` : `translateZ(0px)` }}
+          style={{ transform: isHovered ? `translateZ(15px)` : `translateZ(0px)` }}
         >
           <div className="space-y-5">
             <div 
               className="flex items-center gap-3 flex-wrap transition-transform duration-300"
-              style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
+              style={{ transform: isHovered ? `translateZ(10px)` : `translateZ(0px)` }}
             >
               <Badge variant="outline" className="bg-zinc-900/80 text-zinc-300 border-zinc-700/50 text-[9px] font-mono uppercase tracking-widest backdrop-blur-sm shadow-sm">
                 {item.source}
@@ -448,13 +449,13 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
             <div className="space-y-2">
               <div 
                 className="text-xl font-bold text-white tracking-tight font-mono drop-shadow-md transition-transform duration-300"
-                style={{ transform: isHovered ? `translateZ(40px)` : `translateZ(0px)` }}
+                style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
               >
                 {item.name}
               </div>
               <div 
                 className="text-sm text-zinc-400 font-light leading-relaxed line-clamp-3 transition-transform duration-300"
-                style={{ transform: isHovered ? `translateZ(15px)` : `translateZ(0px)` }}
+                style={{ transform: isHovered ? `translateZ(10px)` : `translateZ(0px)` }}
               >
                 {item.description}
               </div>
@@ -463,7 +464,7 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
             {/* Asset Valuation Metrics (Proof-based) */}
             <div 
               className="grid grid-cols-3 gap-2 mt-4 transition-transform duration-300"
-              style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
+              style={{ transform: isHovered ? `translateZ(10px)` : `translateZ(0px)` }}
             >
               <div className="bg-white/[0.03] border border-white/5 rounded-lg p-2 flex flex-col justify-center relative overflow-hidden group/metric">
                 <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
@@ -490,10 +491,10 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
           </div>
 
           <div 
-            className="flex items-center justify-between mt-auto pt-4 border-t border-white/5 transition-transform duration-300"
-            style={{ transform: isHovered ? `translateZ(25px)` : `translateZ(0px)` }}
+            className="flex items-center justify-between mt-auto pt-4 border-t border-white/5 transition-transform duration-300 pb-1"
+            style={{ transform: isHovered ? `translateZ(10px)` : `translateZ(0px)` }}
           >
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {item.badges?.map(badge => (
                 <div key={badge} className="px-2 py-1 rounded text-[8px] font-mono uppercase tracking-[0.2em] bg-amber-500/10 text-amber-400 border border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.15)]">
                   {badge}
@@ -528,10 +529,11 @@ function CatalogCard({ item, isSelected, onToggle }: { item: CatalogItem, isSele
         </div>
 
         {isSelected && (
-          <div 
-            className="relative z-20 mt-2 p-6 pt-0 space-y-5 animate-in fade-in slide-in-from-top-4 duration-500"
-            style={{ transform: isHovered ? `translateZ(35px)` : `translateZ(0px)` }}
-          >
+            <div 
+              className="relative z-20 mt-2 p-6 pt-0 space-y-5 animate-in fade-in slide-in-from-top-4 duration-500 cursor-default"
+              style={{ transform: isHovered ? `translateZ(10px)` : `translateZ(0px)` }}
+              onClick={(e) => e.stopPropagation()}
+            >
             <div className="grid grid-cols-2 gap-4 p-4 bg-black/40 rounded-xl border border-white/5">
               <div className="space-y-1">
                 <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Token Symbol</div>

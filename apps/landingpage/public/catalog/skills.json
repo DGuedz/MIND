@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-04-27T02:44:07.897Z",
+  "as_of": "2026-04-27T13:48:40.098Z",
   "items": [
     {
       "id": "solana-intel-oracle",
@@ -38,7 +38,7 @@
       "id": "colosseum_copilot",
       "kind": "skill",
       "name": "colosseum-copilot",
-      "description": "Pesquisa oportunidades e teses em Solana/crypto via Colosseum Copilot. Requer COLOSSEUM_COPILOT_PAT (env) para consultas autenticadas.",
+      "description": "Atua como PMF Matchmaker para o ecossistema Solana. Avalia repositórios locais para encontrar o Product-Market Fit exato com a tese dos sponsors (Jupiter, Pyth, etc.), guiando a submissão de bounties. Requer COLOSSEUM_COPILOT_PAT.",
       "source": "mind",
       "providerType": "internal",
       "category": "ecosystem-intelligence",
@@ -50,7 +50,9 @@
         "agent-skill",
         "mind",
         "ecosystem-intelligence",
-        "colosseum-copilot"
+        "colosseum-copilot",
+        "pmf-matchmaker",
+        "sponsor-thesis"
       ],
       "badges": [],
       "pricing": {
