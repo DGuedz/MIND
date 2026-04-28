@@ -19,6 +19,7 @@ backup/
 deep-research-report*.md
 Gemini_Generated_Image*.png
 logo_hero.svg
+!apps/landingpage/public/logo_hero.svg
 logo_land.png
 
 # Finder duplicates
