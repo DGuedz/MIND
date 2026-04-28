@@ -59,7 +59,8 @@ export default async function handler(req, res) {
     const campaignCode = state.campaignCode || "THEGARAGE";
     const next = state.next || "marketplace";
 
-    const target = new URL("/contribute", getBaseUrl(req));
+    const returnTo = state.returnTo === "register" ? "register" : "contribute";
+    const target = new URL(`/${returnTo}`, getBaseUrl(req));
     target.searchParams.set("code", campaignCode);
     target.searchParams.set("next", next);
     target.searchParams.set("github_connected", "1");
@@ -71,6 +72,7 @@ export default async function handler(req, res) {
   } catch (error) {
     const campaignCode = state.campaignCode || "THEGARAGE";
     const next = state.next || "marketplace";
-    redirect(res, `/contribute?code=${encodeURIComponent(campaignCode)}&next=${encodeURIComponent(next)}&github_error=oauth_failed`);
+    const returnTo = state.returnTo === "register" ? "register" : "contribute";
+    redirect(res, `/${returnTo}?code=${encodeURIComponent(campaignCode)}&next=${encodeURIComponent(next)}&github_error=oauth_failed`);
   }
 }

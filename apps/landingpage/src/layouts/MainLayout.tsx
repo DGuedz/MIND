@@ -41,7 +41,7 @@ export function MainLayout({ children }: MainLayoutProps) {
     { id: "infrastructure", label: "Infrastructure", icon: Globe, path: "/infrastructure" },
     { id: "features", label: "Features", icon: Shield, path: "/features" },
     { id: "pitchdeck", label: "Pitchdeck", icon: Presentation, path: "/pitchdeck" },
-    { id: "terminal", label: "Builders", icon: Terminal, path: "/register" },
+    { id: "terminal", label: "Builders", icon: Terminal, path: "/contribute" },
   ];
 
   // Sync activeTab with current route
@@ -84,7 +84,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         />
 
         <div 
-          className="container mx-auto px-6 h-32 flex items-center justify-between relative z-20 transition-transform duration-500 ease-out"
+          className="container mx-auto px-6 h-32 flex items-center justify-between gap-8 relative z-20 transition-transform duration-500 ease-out"
           style={{
             transformStyle: 'preserve-3d',
             transform: isHovered 
@@ -93,7 +93,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           }}
         >
           <div 
-            className="flex items-center gap-16 transition-transform duration-300"
+            className="flex min-w-0 items-center gap-8 xl:gap-12 transition-transform duration-300"
             style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
           >
             <div className="cursor-pointer group" onClick={() => navigate("/")}>
@@ -102,11 +102,11 @@ export function MainLayout({ children }: MainLayoutProps) {
               </div>
             </div>
 
-            <nav className="hidden lg:flex items-center gap-10">
+            <nav className="hidden lg:flex min-w-0 items-center gap-5 xl:gap-7">
               {navItems.map((item) => (
                 <div 
                   key={item.id}
-                  className={`flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.3em] transition-all duration-500 cursor-pointer ${activeTab === item.id ? "text-white opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" : "text-zinc-600 hover:text-zinc-300 opacity-60 hover:opacity-100"}`}
+                  className={`flex shrink-0 items-center gap-3 whitespace-nowrap text-[10px] font-mono uppercase tracking-[0.2em] xl:tracking-[0.26em] transition-all duration-500 cursor-pointer ${activeTab === item.id ? "text-white opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" : "text-zinc-600 hover:text-zinc-300 opacity-60 hover:opacity-100"}`}
                   onClick={() => navigate(item.path)}
                   style={{ transform: isHovered && activeTab === item.id ? `translateZ(30px)` : `translateZ(10px)` }}
                 >
@@ -117,11 +117,11 @@ export function MainLayout({ children }: MainLayoutProps) {
           </div>
 
           <div 
-            className="flex items-center gap-8 transition-transform duration-300"
+            className="flex shrink-0 items-center gap-6 transition-transform duration-300"
             style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
           >
             <div 
-              className="group hidden md:flex items-center gap-4 text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+              className="group hidden 2xl:flex items-center gap-4 whitespace-nowrap text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
               onClick={() => navigate("/pitchdeck")}
               title="View MIND Pitchdeck"
             >
@@ -129,14 +129,14 @@ export function MainLayout({ children }: MainLayoutProps) {
             </div>
             <button
               type="button"
-              className="hidden md:inline text-[9px] text-zinc-600 hover:text-white transition-all duration-500 font-mono uppercase tracking-[0.4em] hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+              className="hidden xl:inline whitespace-nowrap text-[9px] text-zinc-600 hover:text-white transition-all duration-500 font-mono uppercase tracking-[0.32em] 2xl:tracking-[0.4em] hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
               onClick={() => navigate("/#github")}
             >
               Repository
             </button>
             <div 
               className="text-zinc-600 hover:text-white transition-all duration-500 cursor-pointer hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/contribute")}
             >
               <Settings className="w-3.5 h-3.5" />
             </div>
@@ -164,8 +164,8 @@ export function MainLayout({ children }: MainLayoutProps) {
               <h4 className="text-zinc-400 text-lg mb-6">Ecosystem</h4>
               <ul className="space-y-4 text-zinc-300 text-sm">
                 <li><a href="https://mcp.solana.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Solana Developer MCP</a></li>
-                <li><a href="/docs/solana-defi-ecosystem-intel" className="hover:text-white transition-colors">DeFi Ecosystem Intel</a></li>
-                <li><a href="/docs/colosseum-copilot" className="hover:text-white transition-colors">Colosseum Copilot</a></li>
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/.agents/skills/solana-defi-ecosystem-intel/SKILL.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">DeFi Ecosystem Intel</a></li>
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/.agents/skills/colosseum-copilot/SKILL.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Colosseum Copilot</a></li>
               </ul>
             </div>
 
@@ -173,9 +173,9 @@ export function MainLayout({ children }: MainLayoutProps) {
             <div>
               <h4 className="text-zinc-400 text-lg mb-6">Governance</h4>
               <ul className="space-y-4 text-zinc-300 text-sm">
-                <li><a href="/docs/skills-map" className="hover:text-white transition-colors">Skills Map</a></li>
-                <li><a href="/docs/spec-runtime" className="hover:text-white transition-colors">Spec Runtime</a></li>
-                <li><a href="/register" className="hover:text-white transition-colors">Agentic Builder Access</a></li>
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/governance/spec_runtime/skills_map.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Skills Map</a></li>
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/governance/spec_runtime/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Spec Runtime</a></li>
+                <li><a href="/contribute" className="hover:text-white transition-colors">Agentic Builder Access</a></li>
               </ul>
             </div>
 

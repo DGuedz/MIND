@@ -1,0 +1,27 @@
+{
+  "name": "Chitu - On-Chain Alpha Capture",
+  "version": "1.0",
+  "description": "Sistema de captura de Alpha on-chain na Solana para comunidades e equipes de pesquisa (3º Colocado no Solana Online Hackathon). O agente monitora os movimentos do smart money e notifica sobre oportunidades de trade.",
+  "capabilities": [
+    "smart money tracking",
+    "alpha discovery",
+    "on-chain transaction parsing",
+    "wallet profiling"
+  ],
+  "skills": [
+    "chain-scanner",
+    "wallet-tracker"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402"
+  },
+  "proof": {
+    "type": "append-only + onchain anchor"
+  },
+  "policies": [
+    "execution gated",
+    "human validation required for deployment",
+    "zero emojis"
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "neural-memory (Skill)",
+    "version": "1.0.0",
+    "description": "Gerencia operações append-only, compressão semântica e retrieval contextual para evitar context bloat.",
+    "category": "storage-intelligence",
+    "tags": [
+      "mind",
+      "agent-skill",
+      "memory",
+      "retrieval",
+      "compression",
+      "neural-memory"
+    ],
+    "license": "Proprietary",
+    "author": {
+      "name": "MIND",
+      "contact": "https://github.com/DGuedz/MIND"
+    }
+  },
+  "discovery": {
+    "intent": "orchestration",
+    "category": "storage",
+    "docExt": ".md",
+    "docKind": "skill-md",
+    "keywords": [
+      "append-only",
+      "semantic-compression",
+      "retrieval",
+      "vector-db",
+      "proof"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "event_payload",
+          "type": "object",
+          "description": "JSON contendo type, source, payload e evidence"
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "description": "String para retrieval seletivo"
+        }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.8
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "MIND/agent-engine/skills",
+    "sourceType": "internal",
+    "createdAt": "2026-04-27T00:00:00.000Z",
+    "updatedAt": "2026-04-27T00:00:00.000Z",
+    "signature": "unsigned",
+    "origin": "Community Launch",
+    "badges": [
+      "Validated",
+      "Community"
+    ]
+  },
+  "skill": {
+    "source_url": "https://github.com/DGuedz/MIND",
+    "repo_path": "agent-engine/skills/neural-memory.md"
+  }
+}
+

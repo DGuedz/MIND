@@ -1,0 +1,51 @@
+{
+  "name": "a2a-identity-vault",
+  "displayName": "a2a-identity-vault",
+  "description": "A2A Identity Middleware. Fornece autenticação programática e gerenciamento de ciclo de vida de tokens (OAuth2, PAT, Service Principals) para integrações de agentes com GitLab, Bitbucket e Azure DevOps.",
+  "category": "infrastructure",
+  "origin": {
+    "campaign": "the_garage_frontier_sp",
+    "community": "superteam_br",
+    "sourceEvent": "the_garage_solana_house_sp",
+    "referralCodes": [
+      "THEGARAGE",
+      "SUPERTEAMBR"
+    ]
+  },
+  "builder": {
+    "displayName": "MIND",
+    "github": "DGuedz",
+    "contact": "TODO_EMAIL_OR_TELEGRAM",
+    "solanaReceiveAddress": "A2aMindProtocolPublicKeyPlaceholder"
+  },
+  "payout": {
+    "currency": "USDC",
+    "chain": "solana",
+    "recipientAddress": "A2aMindProtocolPublicKeyPlaceholder",
+    "providerShareBps": 9200,
+    "protocolShareBps": 800
+  },
+  "provenance": {
+    "sourceRepository": "https://github.com/DGuedz/MIND",
+    "sourceCommit": "023ff3b14e39b87af8d0ecb3f76f91a209525f0a",
+    "pullRequestUrl": "TODO_PR_URL",
+    "submittedAt": "TODO_ISO_8601",
+    "attestation": "I confirm this skill was submitted through the The Garage / Superteam BR builder flow."
+  },
+  "pricing": {
+    "model": "per_request",
+    "currency": "USDC",
+    "price": 0.01
+  },
+  "campaign": "the_garage_frontier_sp",
+  "entrypoint": "SKILL.md",
+  "tags": [
+    "mind",
+    "a2a",
+    "auth",
+    "identity",
+    "gitlab",
+    "bitbucket",
+    "azure-devops"
+  ]
+}

@@ -32,7 +32,7 @@ function App() {
             <Route path="pitchdeck" element={<PitchdeckPage />} />
             <Route path="contribute" element={<ContributePage />} />
             <Route path="the-garage" element={<TheGaragePage />} />
-            <Route path="builders" element={<Navigate to="/register" replace />} />
+            <Route path="builders" element={<Navigate to="/contribute" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

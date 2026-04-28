@@ -388,104 +388,251 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
 }
 
 // Private Agent Checkout Flow (Animated SVG)
-function CheckoutFlowSVG() {
+function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 4);
-    }, 2000);
+    }, 2400);
     return () => clearInterval(interval);
   }, []);
 
   const steps = [
-    { x: 50, y: 50, label: "REQUEST", info: "INTENT: SIGNED", detail: "0.5 SOL // x402" },
-    { x: 150, y: 150, label: "POLICY", info: "CHECKOUT: GATED", detail: "AUTHZ: OK // RULES" },
-    { x: 250, y: 250, label: "SETTLE", info: "CLOAK: x402", detail: "TX: 5tWq...9pZm" },
-    { x: 350, y: 350, label: "PROVE", info: "PROOF: MINTED", detail: "METAPLEX_CORE // cNFT" }
+    { x: 108, y: 156, label: "INTENT", info: "SIGNED_REQUEST", detail: "0.50 SOL // x402", value: "01" },
+    { x: 235, y: 256, label: "VALIDATE", info: "MINDPRINT_OK", detail: "POLICY_LIMIT: PASS", value: "02" },
+    { x: 326, y: 395, label: "EXECUTE", info: "ATOMIC_SPLIT", detail: "92 / 8 ROUTED", value: "03" },
+    { x: 390, y: 532, label: "MINT", info: "PROOF_RECEIPT", detail: "cNFT_ANCHOR", value: "04" }
+  ];
+
+  const flowPath = "M 108 156 C 190 144 238 184 235 256 C 232 338 304 323 326 395 C 350 468 380 459 390 532";
+  const flowDuration = 9.6;
+  const nodeKeyPoints = "0;0.369;0.704;1;1";
+  const onchainSignals = [
+    { x: 78, y: 104, label: "SLOT", value: "+128" },
+    { x: 344, y: 178, label: "CU", value: "4.1K" },
+    { x: 84, y: 468, label: "FEE", value: "5K_LAMPORTS" },
+    { x: 328, y: 548, label: "SIG", value: "5tWq..9pZm" },
   ];
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
-        <radialGradient id="escrowGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.1 }} />
+        <radialGradient id="mindFlowAura" cx="50%" cy="46%" r="58%">
+          <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.14 }} />
+          <stop offset="42%" style={{ stopColor: "#737373", stopOpacity: 0.05 }} />
           <stop offset="100%" style={{ stopColor: "#050505", stopOpacity: 0 }} />
         </radialGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+        <linearGradient id="mindFlowStroke" x1="70" y1="120" x2="420" y2="560" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
+          <stop offset="48%" stopColor="#ffffff" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.08" />
+        </linearGradient>
+        <linearGradient id="mindFlowPlate" x1="90" y1="90" x2="410" y2="590" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.07" />
+          <stop offset="50%" stopColor="#ffffff" stopOpacity="0.015" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.06" />
+        </linearGradient>
+        <filter id="mindSoftGlow">
+          <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
           <feMerge>
             <feMergeNode in="coloredBlur"/>
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
+        <filter id="mindDeepBlur">
+          <feGaussianBlur stdDeviation="18" />
+        </filter>
       </defs>
-      <rect width="500" height="667" fill="url(#escrowGrad)" />
-      
-      {/* Background Grid */}
-      <g opacity="0.05">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <line key={`h-${i}`} x1="0" y1={i * 66.7} x2="500" y2={i * 66.7} stroke="#ffffff" strokeWidth="0.5" />
+
+      <rect width="500" height="667" fill="#050505" />
+      <rect width="500" height="667" fill="url(#mindFlowAura)" />
+
+      <g opacity="0.08">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <line key={`h-${i}`} x1="34" y1={68 + i * 62} x2="466" y2={68 + i * 62} stroke="#ffffff" strokeWidth="0.5" />
+        ))}
+        {Array.from({ length: 6 }).map((_, i) => (
+          <line key={`v-${i}`} x1={76 + i * 70} y1="72" x2={38 + i * 70} y2="604" stroke="#ffffff" strokeWidth="0.35" />
         ))}
       </g>
 
-      <g transform="translate(60, 120)">
-        {/* Connection Path */}
-        <motion.path
-          d="M 50,50 Q 150,50 150,150 T 250,250 T 350,350"
+      <motion.g
+        transform="translate(0 18)"
+        animate={{ y: isHovered ? -4 : 0, opacity: isHovered ? 1 : 0.86 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
+        <motion.ellipse
+          cx="260"
+          cy="326"
+          rx="154"
+          ry="244"
           fill="none"
           stroke="#ffffff"
-          strokeWidth="1"
-          opacity="0.1"
+          strokeWidth="0.4"
+          opacity="0.12"
+          animate={{ rotate: [0, 2.5, 0], opacity: [0.08, 0.18, 0.08] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "260px 326px" }}
+        />
+        <motion.ellipse
+          cx="260"
+          cy="326"
+          rx="102"
+          ry="178"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="0.35"
+          opacity="0.12"
+          animate={{ rotate: [0, -3, 0], opacity: [0.06, 0.14, 0.06] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "260px 326px" }}
+        />
+      </motion.g>
+
+      <motion.g
+        transform="translate(0 10)"
+        animate={{ y: isHovered ? -8 : 0, scale: isHovered ? 1.018 : 1 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        style={{ transformOrigin: "260px 340px" }}
+      >
+        <motion.polygon
+          points="92,122 388,90 438,556 128,594"
+          fill="url(#mindFlowPlate)"
+          stroke="#ffffff"
+          strokeWidth="0.6"
+          animate={{ opacity: isHovered ? 0.42 : 0.3 }}
+          transition={{ duration: 0.6 }}
+        />
+        <motion.polygon
+          points="126,176 360,150 397,526 151,554"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="0.35"
+          animate={{ opacity: isHovered ? 0.24 : 0.16 }}
+          transition={{ duration: 0.6 }}
+        />
+        <motion.polygon
+          points="160,236 336,216 360,492 176,512"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="0.3"
+          animate={{ opacity: isHovered ? 0.18 : 0.12 }}
+          transition={{ duration: 0.6 }}
+        />
+      </motion.g>
+
+      <g opacity="0.16" filter="url(#mindDeepBlur)">
+        <circle cx="300" cy="360" r="130" fill="#ffffff" opacity="0.12" />
+        <circle cx="168" cy="170" r="70" fill="#ffffff" opacity="0.06" />
+      </g>
+
+      <g>
+        <motion.path
+          d={flowPath}
+          fill="none"
+          stroke="url(#mindFlowStroke)"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          opacity="0.8"
+          strokeDasharray="8 14"
+          animate={{ strokeDashoffset: [0, -88] }}
+          transition={{ duration: flowDuration, repeat: Infinity, ease: "linear" }}
         />
 
-        {/* Pulsing Nodes & Information Labels */}
+        {onchainSignals.map((signal, i) => (
+          <motion.g
+            key={signal.label}
+            className="font-mono"
+            initial={false}
+            animate={{
+              opacity: isHovered ? 0.78 : 0.26,
+              x: isHovered ? 0 : (i % 2 === 0 ? -4 : 4),
+              y: isHovered ? 0 : 3,
+            }}
+            transition={{ duration: 0.45, delay: i * 0.04 }}
+          >
+            <line
+              x1={signal.x}
+              y1={signal.y + 6}
+              x2={signal.x + (i % 2 === 0 ? 42 : -42)}
+              y2={signal.y + 6}
+              stroke="#ffffff"
+              strokeWidth="0.35"
+              opacity="0.35"
+            />
+            <text x={signal.x} y={signal.y} fontSize="7" fill="#737373" letterSpacing="2">
+              {signal.label}
+            </text>
+            <text x={signal.x} y={signal.y + 18} fontSize="8" fill="#d4d4d8" letterSpacing="1.4">
+              {signal.value}
+            </text>
+          </motion.g>
+        ))}
+
         {steps.map((node, i) => {
-          const isRightSide = node.x > 200;
-          const textX = isRightSide ? node.x - 120 : node.x + 20;
+          const isActive = activeStep === i;
+          const isRightSide = node.x > 280;
+          const textX = isRightSide ? node.x - 22 : node.x + 22;
           const textAnchor = isRightSide ? "end" : "start";
 
           return (
             <g key={i}>
-              {/* Node Visual */}
-              <motion.circle
-                cx={node.x} cy={node.y} r={4}
+              <motion.rect
+                x={node.x - 6}
+                y={node.y - 6}
+                width="12"
+                height="12"
+                rx="3"
                 fill="#ffffff"
-                filter="url(#glow)"
-                animate={{ 
-                  opacity: activeStep === i ? 1 : 0.2, 
-                  scale: activeStep === i ? 1.5 : 1 
+                opacity={isActive ? 0.2 : 0.07}
+                animate={{
+                  rotate: isActive ? [0, 45, 0] : 0,
+                  scale: isActive ? [1, 1.25, 1] : 1,
                 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 1.6, repeat: isActive ? Infinity : 0, ease: "easeInOut" }}
+                style={{ transformOrigin: `${node.x}px ${node.y}px` }}
               />
-              {activeStep === i && (
+              <motion.circle
+                cx={node.x} cy={node.y} r={isActive ? 4.5 : 3}
+                fill="#ffffff"
+                filter="url(#mindSoftGlow)"
+                animate={{ 
+                  opacity: isActive ? 1 : 0.28, 
+                  scale: isActive ? [1, 1.35, 1] : 1 
+                }}
+                transition={{ duration: 1.2, repeat: isActive ? Infinity : 0, ease: "easeInOut" }}
+              />
+              {isActive && (
                 <motion.circle
-                  cx={node.x} cy={node.y} r={12}
+                  cx={node.x} cy={node.y} r={16}
                   fill="none"
                   stroke="#ffffff"
                   strokeWidth="0.5"
-                  initial={{ opacity: 0.5, scale: 1 }}
-                  animate={{ opacity: 0, scale: 2 }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                  initial={{ opacity: 0.45, scale: 0.7 }}
+                  animate={{ opacity: 0, scale: 2.2 }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
                 />
               )}
 
-              {/* Sincronized Minimalist Info */}
               <AnimatePresence>
-                {activeStep === i && (
+                {isActive && (
                   <motion.g
                     initial={{ opacity: 0, x: isRightSide ? -10 : 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: isRightSide ? 10 : -10 }}
                     className="font-mono"
                   >
-                    <text x={textX} y={node.y - 5} fontSize="8" fill="#ffffff" fontWeight="bold" opacity="0.8" textAnchor={textAnchor}>
+                    <text x={textX} y={node.y - 18} fontSize="8" fill="#737373" letterSpacing="3" textAnchor={textAnchor}>
+                      {node.value}
+                    </text>
+                    <text x={textX} y={node.y - 4} fontSize="10" fill="#ffffff" fontWeight="700" opacity="0.92" textAnchor={textAnchor}>
                       {node.label}
                     </text>
-                    <text x={textX} y={node.y + 10} fontSize="6" fill="#a1a1aa" opacity="0.6" textAnchor={textAnchor}>
+                    <text x={textX} y={node.y + 12} fontSize="7" fill="#a1a1aa" opacity="0.7" textAnchor={textAnchor}>
                       {node.info}
                     </text>
-                    <text x={textX} y={node.y + 22} fontSize="6" fill="#525252" opacity="0.4" textAnchor={textAnchor}>
+                    <text x={textX} y={node.y + 25} fontSize="6" fill="#525252" opacity="0.7" textAnchor={textAnchor}>
                       {node.detail}
                     </text>
                   </motion.g>
@@ -495,26 +642,35 @@ function CheckoutFlowSVG() {
           );
         })}
 
-        {/* Moving Asset Particle */}
-        <motion.circle
-          r="2.5"
-          fill="#ffffff"
-          filter="url(#glow)"
-          animate={{
-            offsetDistance: ["0%", "100%"]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{
-            offsetPath: "path('M 50,50 Q 150,50 150,150 T 250,250 T 350,350')"
-          }}
-        />
+        <g filter="url(#mindSoftGlow)">
+          <circle r="3.4" fill="#ffffff">
+            <animateMotion
+              dur={`${flowDuration}s`}
+              repeatCount="indefinite"
+              calcMode="linear"
+              keyTimes="0;0.25;0.5;0.75;1"
+              keyPoints={nodeKeyPoints}
+              path={flowPath}
+            />
+          </circle>
+          <circle r="1.4" fill="#ffffff" opacity="0.42">
+            <animateMotion
+              dur={`${flowDuration}s`}
+              repeatCount="indefinite"
+              begin="-0.18s"
+              calcMode="linear"
+              keyTimes="0;0.25;0.5;0.75;1"
+              keyPoints={nodeKeyPoints}
+              path={flowPath}
+            />
+          </circle>
+        </g>
       </g>
 
-      <text x="50" y="620" fontFamily="monospace" fontSize="10" fill="#a1a1aa" letterSpacing="4" opacity="0.5">ESCROW // ATOMIC_SETTLEMENT_LOOP</text>
+      <g className="font-mono" opacity="0.7">
+        <text x="52" y="604" fontSize="9" fill="#a1a1aa" letterSpacing="4">MIND_DATA_ART // ATOMIC_FLOW</text>
+        <text x="52" y="624" fontSize="7" fill="#525252" letterSpacing="3">POLICY_SIGNALS_RENDERED_AS_SETTLEMENT_GEOMETRY</text>
+      </g>
     </svg>
   );
 }
@@ -1085,8 +1241,22 @@ export function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave
 export function HomePage() {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [videoSrc, setVideoSrc] = useState("/sanduiche_rev_mind_solana_core.mp4");
+  const [isProcessCardHovered, setIsProcessCardHovered] = useState(false);
+  const [processCardTilt, setProcessCardTilt] = useState({ x: 0, y: 0 });
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleProcessCardMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    setProcessCardTilt({ x, y });
+  };
+
+  const handleProcessCardLeave = () => {
+    setIsProcessCardHovered(false);
+    setProcessCardTilt({ x: 0, y: 0 });
+  };
   
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -1218,7 +1388,7 @@ export function HomePage() {
             >
               <div className="space-y-4 flex flex-col items-center">
                 <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm w-fit">
-                  Solana-First Rails
+                  Initial Traction Phase
                 </Badge>
 
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] text-white font-mono uppercase">
@@ -1229,16 +1399,16 @@ export function HomePage() {
               </div>
 
               <p className="text-lg md:text-xl text-zinc-300 leading-relaxed max-w-2xl font-light text-center drop-shadow-[0_0_12px_rgba(255,255,255,0.25)] transition-all duration-700 hover:text-white hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-                Builders publish Agent Cards with policy-gated execution and proof-native delivery. Agents discover skills, consume market signals, and settle atomically with a 92/8 split.
+                We build the on-chain roads, you build the intelligence. Connect your GitHub to publish Agent Cards, monetize your skills, and settle atomically with a 92/8 split.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 pt-4 justify-center">
                 <Button 
                   size="lg" 
                   className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-                  onClick={() => navigate("/register")}
+                  onClick={() => navigate("/contribute")}
                 >
-                  Access Builder Profile
+                  Connect GitHub
                 </Button>
                 <Button 
                   size="lg" 
@@ -1387,12 +1557,46 @@ export function HomePage() {
 
       {/* Section 2: Architecture of Nature (Trust) */}
       <section id="process" className="container mx-auto px-6 mt-16 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-        <div className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative">
-          <CheckoutFlowSVG />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
-          <div className="absolute bottom-10 left-10 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-            Atomic Settlement Flow
-          </div>
+        <div className="relative" style={{ perspective: "1200px" }}>
+          <motion.div
+            className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative cursor-crosshair"
+            onMouseEnter={() => setIsProcessCardHovered(true)}
+            onMouseMove={handleProcessCardMove}
+            onMouseLeave={handleProcessCardLeave}
+            animate={{
+              rotateX: isProcessCardHovered ? processCardTilt.y * -3.5 : 0,
+              rotateY: isProcessCardHovered ? processCardTilt.x * 3.5 : 0,
+              y: isProcessCardHovered ? -6 : 0,
+              scale: isProcessCardHovered ? 1.012 : 1,
+              boxShadow: isProcessCardHovered
+                ? "0 34px 90px rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.18)"
+                : "0 0 0 rgba(255,255,255,0)",
+            }}
+            transition={{ type: "spring", stiffness: 120, damping: 20, mass: 0.8 }}
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              animate={{ opacity: isProcessCardHovered ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+              style={{
+                background: `radial-gradient(circle at ${(processCardTilt.x + 1) * 50}% ${(processCardTilt.y + 1) * 50}%, rgba(255,255,255,0.12), transparent 34%)`,
+              }}
+            />
+            <CheckoutFlowSVG isHovered={isProcessCardHovered} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
+            <motion.div
+              className="absolute inset-x-10 top-8 flex items-center justify-between text-[9px] font-mono uppercase tracking-[0.28em] text-zinc-600 pointer-events-none"
+              animate={{ opacity: isProcessCardHovered ? 0.9 : 0.38, y: isProcessCardHovered ? 0 : 4 }}
+              transition={{ duration: 0.4 }}
+            >
+              <span>Onchain Signal Layer</span>
+              <span className="hidden sm:inline">Symbolic Telemetry</span>
+            </motion.div>
+            <div className="absolute bottom-10 left-10 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+              Atomic Settlement Flow
+            </div>
+          </motion.div>
         </div>
         
         <div className="space-y-12">
@@ -1444,9 +1648,9 @@ export function HomePage() {
             <Button
               size="lg"
               className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/contribute")}
             >
-              Publish Agent Card
+              Connect GitHub
             </Button>
             <Button
               size="lg"

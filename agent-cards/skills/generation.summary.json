@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-04-24T02:11:05.337Z",
+  "generatedAt": "2026-04-28T02:00:49.851Z",
   "writeMode": true,
-  "outputCount": 39,
+  "outputCount": 142,
   "outputs": [
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_jupiter.json",
@@ -152,12 +152,424 @@
       "cardName": "render-validation-expert (Skill)"
     },
     {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_peak_trading.json",
+      "cardName": "peak-trading (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_chitu.json",
+      "cardName": "chitu (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_x402_flow_auditor.json",
+      "cardName": "x402-flow-auditor (Skill)"
+    },
+    {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/stbr/card_skill_solana_glossary.json",
       "cardName": "solana-glossary (Skill)"
     },
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/frames/card_skill_agentwallet.json",
       "cardName": "agentwallet (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_universe_eligibility_filter_v1.json",
+      "cardName": "rwa_universe_eligibility_filter_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_robust_moment_estimator_v1.json",
+      "cardName": "robust_moment_estimator_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_cardinality_mvsk_optimizer_v1.json",
+      "cardName": "cardinality_mvsk_optimizer_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_tradability_market_impact_simulator_v1.json",
+      "cardName": "tradability_market_impact_simulator_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_allocation_auditor_proof_v1.json",
+      "cardName": "allocation_auditor_proof_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_higher_moment_feature_engineer_v1.json",
+      "cardName": "higher_moment_feature_engineer_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_hedge_scenario_builder_v1.json",
+      "cardName": "hedge_scenario_builder_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_solana_rwa_vault_executor_v1.json",
+      "cardName": "solana_rwa_vault_executor_v1 (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_real_estate.json",
+      "cardName": "rwa_eligibility_real_estate (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_treasuries.json",
+      "cardName": "rwa_eligibility_treasuries (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_private_credit.json",
+      "cardName": "rwa_eligibility_private_credit (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_commodities.json",
+      "cardName": "rwa_eligibility_commodities (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_carbon_credits.json",
+      "cardName": "rwa_eligibility_carbon_credits (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_infrastructure.json",
+      "cardName": "rwa_eligibility_infrastructure (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_agriculture.json",
+      "cardName": "rwa_eligibility_agriculture (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_rwa_eligibility_art.json",
+      "cardName": "rwa_eligibility_art (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_cardinality_solver.json",
+      "cardName": "mvsk_cardinality_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_quantum_solver.json",
+      "cardName": "mvsk_quantum_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_annealing_solver.json",
+      "cardName": "mvsk_annealing_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_hubo_qubo_solver.json",
+      "cardName": "mvsk_hubo_qubo_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_gradient_solver.json",
+      "cardName": "mvsk_gradient_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_stochastic_solver.json",
+      "cardName": "mvsk_stochastic_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_bayesian_solver.json",
+      "cardName": "mvsk_bayesian_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_mvsk_evolutionary_solver.json",
+      "cardName": "mvsk_evolutionary_solver (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_moment_estimator_shrinkage.json",
+      "cardName": "moment_estimator_shrinkage (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_moment_estimator_ledoit_wolf.json",
+      "cardName": "moment_estimator_ledoit_wolf (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_moment_estimator_minimum_covariance_determinant.json",
+      "cardName": "moment_estimator_minimum_covariance_determinant (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_moment_estimator_exponential_weighting.json",
+      "cardName": "moment_estimator_exponential_weighting (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_moment_estimator_winsorized.json",
+      "cardName": "moment_estimator_winsorized (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_moment_estimator_bootstrap.json",
+      "cardName": "moment_estimator_bootstrap (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_moment_estimator_jackknife.json",
+      "cardName": "moment_estimator_jackknife (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_market_impact_slippage.json",
+      "cardName": "market_impact_slippage (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_market_impact_liquidity_cascade.json",
+      "cardName": "market_impact_liquidity_cascade (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_market_impact_flash_crash.json",
+      "cardName": "market_impact_flash_crash (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_market_impact_order_book_depth.json",
+      "cardName": "market_impact_order_book_depth (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_market_impact_amm_curve.json",
+      "cardName": "market_impact_amm_curve (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_market_impact_dark_pool.json",
+      "cardName": "market_impact_dark_pool (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_hedge_scenario_rate_hike.json",
+      "cardName": "hedge_scenario_rate_hike (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_hedge_scenario_inflation_spike.json",
+      "cardName": "hedge_scenario_inflation_spike (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_hedge_scenario_black_swan.json",
+      "cardName": "hedge_scenario_black_swan (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_hedge_scenario_liquidity_crunch.json",
+      "cardName": "hedge_scenario_liquidity_crunch (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_hedge_scenario_geopolitical_shock.json",
+      "cardName": "hedge_scenario_geopolitical_shock (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_hedge_scenario_yield_curve_inversion.json",
+      "cardName": "hedge_scenario_yield_curve_inversion (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_cardinality.json",
+      "cardName": "pipeline_real_estate_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_quantum.json",
+      "cardName": "pipeline_real_estate_quantum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_annealing.json",
+      "cardName": "pipeline_real_estate_annealing (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_hubo_qubo.json",
+      "cardName": "pipeline_real_estate_hubo_qubo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_gradient.json",
+      "cardName": "pipeline_real_estate_gradient (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_stochastic.json",
+      "cardName": "pipeline_real_estate_stochastic (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_bayesian.json",
+      "cardName": "pipeline_real_estate_bayesian (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_real_estate_evolutionary.json",
+      "cardName": "pipeline_real_estate_evolutionary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_cardinality.json",
+      "cardName": "pipeline_treasuries_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_quantum.json",
+      "cardName": "pipeline_treasuries_quantum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_annealing.json",
+      "cardName": "pipeline_treasuries_annealing (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_hubo_qubo.json",
+      "cardName": "pipeline_treasuries_hubo_qubo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_gradient.json",
+      "cardName": "pipeline_treasuries_gradient (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_stochastic.json",
+      "cardName": "pipeline_treasuries_stochastic (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_bayesian.json",
+      "cardName": "pipeline_treasuries_bayesian (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_treasuries_evolutionary.json",
+      "cardName": "pipeline_treasuries_evolutionary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_cardinality.json",
+      "cardName": "pipeline_private_credit_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_quantum.json",
+      "cardName": "pipeline_private_credit_quantum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_annealing.json",
+      "cardName": "pipeline_private_credit_annealing (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_hubo_qubo.json",
+      "cardName": "pipeline_private_credit_hubo_qubo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_gradient.json",
+      "cardName": "pipeline_private_credit_gradient (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_stochastic.json",
+      "cardName": "pipeline_private_credit_stochastic (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_bayesian.json",
+      "cardName": "pipeline_private_credit_bayesian (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_private_credit_evolutionary.json",
+      "cardName": "pipeline_private_credit_evolutionary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_cardinality.json",
+      "cardName": "pipeline_commodities_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_quantum.json",
+      "cardName": "pipeline_commodities_quantum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_annealing.json",
+      "cardName": "pipeline_commodities_annealing (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_hubo_qubo.json",
+      "cardName": "pipeline_commodities_hubo_qubo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_gradient.json",
+      "cardName": "pipeline_commodities_gradient (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_stochastic.json",
+      "cardName": "pipeline_commodities_stochastic (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_bayesian.json",
+      "cardName": "pipeline_commodities_bayesian (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_commodities_evolutionary.json",
+      "cardName": "pipeline_commodities_evolutionary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_cardinality.json",
+      "cardName": "pipeline_carbon_credits_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_quantum.json",
+      "cardName": "pipeline_carbon_credits_quantum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_annealing.json",
+      "cardName": "pipeline_carbon_credits_annealing (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_hubo_qubo.json",
+      "cardName": "pipeline_carbon_credits_hubo_qubo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_gradient.json",
+      "cardName": "pipeline_carbon_credits_gradient (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_stochastic.json",
+      "cardName": "pipeline_carbon_credits_stochastic (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_bayesian.json",
+      "cardName": "pipeline_carbon_credits_bayesian (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_carbon_credits_evolutionary.json",
+      "cardName": "pipeline_carbon_credits_evolutionary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_cardinality.json",
+      "cardName": "pipeline_infrastructure_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_quantum.json",
+      "cardName": "pipeline_infrastructure_quantum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_annealing.json",
+      "cardName": "pipeline_infrastructure_annealing (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_hubo_qubo.json",
+      "cardName": "pipeline_infrastructure_hubo_qubo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_gradient.json",
+      "cardName": "pipeline_infrastructure_gradient (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_stochastic.json",
+      "cardName": "pipeline_infrastructure_stochastic (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_bayesian.json",
+      "cardName": "pipeline_infrastructure_bayesian (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_infrastructure_evolutionary.json",
+      "cardName": "pipeline_infrastructure_evolutionary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_cardinality.json",
+      "cardName": "pipeline_agriculture_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_quantum.json",
+      "cardName": "pipeline_agriculture_quantum (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_annealing.json",
+      "cardName": "pipeline_agriculture_annealing (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_hubo_qubo.json",
+      "cardName": "pipeline_agriculture_hubo_qubo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_gradient.json",
+      "cardName": "pipeline_agriculture_gradient (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_stochastic.json",
+      "cardName": "pipeline_agriculture_stochastic (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_bayesian.json",
+      "cardName": "pipeline_agriculture_bayesian (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_agriculture_evolutionary.json",
+      "cardName": "pipeline_agriculture_evolutionary (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_art_cardinality.json",
+      "cardName": "pipeline_art_cardinality (Skill)"
     }
   ]
 }

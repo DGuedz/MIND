@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { RealQrCode } from "../components/RealQrCode";
 
 const builderSteps = [
-  { id: "01", title: "Claim", body: "Use THEGARAGE or SUPERTEAMBR to validate the sponsored Marketplace path." },
-  { id: "02", title: "Scaffold", body: "Generate SKILL.md and manifest.json with origin, payout and provenance fields." },
-  { id: "03", title: "Submit", body: "Open a PR under agent-cards/skills/community with your builder data filled." },
-  { id: "04", title: "Route", body: "Approved skills become discoverable Agent Cards with explicit settlement terms." }
+  { id: "01", title: "Connect", body: "Use GitHub first to prove builder identity and source ownership." },
+  { id: "02", title: "Claim", body: "Use THEGARAGE, COLOSSEUM or SUPERTEAMBR to validate the sponsored Marketplace path." },
+  { id: "03", title: "Submit", body: "Open a PR under agent-cards/skills/community with commit and campaign data." },
+  { id: "04", title: "Settle", body: "Add wallet or delegated KMS before payout, testnet settlement or x402 execution." }
 ];
 
-const traceFields = ["origin", "builder", "payout", "provenance"];
+const traceFields = ["origin", "github", "payout", "provenance"];
 
 function GaragePass() {
   return (
@@ -94,7 +94,7 @@ export const TheGaragePage: React.FC = () => {
                 Build the intelligence layer.
               </h1>
               <p className="max-w-3xl text-lg md:text-xl text-zinc-500 leading-relaxed font-light">
-                MIND builds the rails for the Agent Economy on Solana. Builders bring the skills, strategies and copilots that turn those rails into a live marketplace.
+                MIND starts with GitHub-native builder onboarding, then adds wallet/KMS only when settlement is required.
               </p>
             </div>
 
@@ -102,13 +102,13 @@ export const TheGaragePage: React.FC = () => {
               <div className="border border-white/10 bg-white/[0.025] p-6 rounded-2xl">
                 <h2 className="text-white text-lg font-semibold mb-3">Community alpha</h2>
                 <p className="text-sm leading-relaxed text-zinc-500">
-                  Choose a premium skill in the Marketplace and apply <span className="font-mono text-emerald-300">THEGARAGE</span> or <span className="font-mono text-emerald-300">SUPERTEAMBR</span>. The protocol sponsors access so builders can validate MIND before opening a PR.
+                  Choose a premium skill in the Marketplace and apply <span className="font-mono text-emerald-300">THEGARAGE</span>, <span className="font-mono text-emerald-300">COLOSSEUM</span> or <span className="font-mono text-emerald-300">SUPERTEAMBR</span>. The protocol sponsors access so builders can validate MIND before opening a PR.
                 </p>
               </div>
               <div className="border border-white/10 bg-black/40 p-6 rounded-2xl">
                 <h2 className="text-white text-lg font-semibold mb-3">Builder proof</h2>
                 <p className="text-sm leading-relaxed text-zinc-500">
-                  Every contributed skill carries origin, payout and source commit data in both MD and JSON templates.
+                  Every contributed skill carries GitHub, origin, payout status and source commit data in both MD and JSON templates.
                 </p>
               </div>
             </div>
@@ -165,8 +165,11 @@ export const TheGaragePage: React.FC = () => {
                 <span className="block pl-3">--name "sua-skill"</span>
                 <span className="block pl-3">--builder "Seu Nome"</span>
                 <span className="block pl-3">--github "seu-github"</span>
-                <span className="block pl-3 break-all">--wallet "SUA_WALLET_SOLANA"</span>
+                <span className="block pl-3 break-all">--wallet "WALLET_PENDING_AFTER_GITHUB_REVIEW"</span>
               </code>
+              <p className="mt-3 text-[10px] leading-relaxed text-zinc-600">
+                Replace the wallet placeholder before payout, Solana testnet settlement or x402 execution.
+              </p>
             </div>
           </motion.aside>
         </div>

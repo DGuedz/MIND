@@ -9,16 +9,18 @@ export default async function handler(req, res) {
   const requestUrl = new URL(req.url, getBaseUrl(req));
   const campaignCode = requestUrl.searchParams.get("code")?.toUpperCase() || "THEGARAGE";
   const next = requestUrl.searchParams.get("next") || "marketplace";
+  const returnTo = requestUrl.searchParams.get("return_to") === "register" ? "register" : "contribute";
 
   if (!clientId || !clientSecret) {
-    redirect(res, `/contribute?code=${encodeURIComponent(campaignCode)}&next=${encodeURIComponent(next)}&github_error=oauth_not_configured`);
+    redirect(res, `/${returnTo}?code=${encodeURIComponent(campaignCode)}&next=${encodeURIComponent(next)}&github_error=oauth_not_configured`);
     return;
   }
 
   const safeCode = VALID_CODES.has(campaignCode) ? campaignCode : "THEGARAGE";
   const state = signState({
     campaignCode: safeCode,
-    next
+    next,
+    returnTo
   });
 
   const githubUrl = new URL("https://github.com/login/oauth/authorize");

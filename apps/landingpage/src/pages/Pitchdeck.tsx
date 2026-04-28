@@ -355,7 +355,7 @@ export function PitchdeckPage() {
                         Marketplace <ChevronRight className="w-4 h-4" />
                       </button>
                       <button 
-                        onClick={() => navigate("/register")}
+                        onClick={() => navigate("/contribute")}
                         className="px-8 py-4 border border-zinc-700 bg-zinc-900/50 text-zinc-200 font-mono uppercase tracking-[0.2em] text-[10px] hover:bg-zinc-800 hover:text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all flex items-center justify-center gap-3"
                       >
                         Builders Terminal <Terminal className="w-4 h-4 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />

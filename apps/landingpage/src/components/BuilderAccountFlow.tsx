@@ -106,7 +106,7 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
     return Boolean(
       githubConnected &&
       normalizedGithubHandle &&
-      isLikelySolanaWallet(solanaReceiveWallet) &&
+      (!solanaReceiveWallet || isLikelySolanaWallet(solanaReceiveWallet)) &&
       isValidVoucherCode(normalizedReferralCode) &&
       consentMarketplaceAttribution
     );
@@ -139,7 +139,7 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
       const messages: Record<string, string> = {
         INVALID_VOUCHER_CODE: "Use THEGARAGE, SUPERTEAMBR or COLOSSEUM.",
         MISSING_GITHUB_HANDLE: "GitHub handle is required.",
-        INVALID_SOLANA_WALLET: "Enter a valid Solana receive wallet.",
+        INVALID_SOLANA_WALLET: "Enter a valid Solana receive wallet or leave it pending.",
         MISSING_MARKETPLACE_CONSENT: "Marketplace attribution consent is required.",
         REGISTRATION_FAILED: "Registration failed. Check the fields and try again."
       };
@@ -156,7 +156,7 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
           </div>
           <h2 className="text-white text-lg font-semibold">Connect GitHub first</h2>
           <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
-            Connect your GitHub to unlock real builder access during MIND's initial traction period. This establishes your verified identity for PR provenance and ecosystem rewards.
+            Connect your GitHub to unlock real builder access during MIND's initial traction period. This establishes your verified identity to create and commercialize Agent Cards.
           </p>
         </div>
       ) : (
@@ -164,9 +164,9 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
           <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-emerald-400 mb-3">
             Access Unlocked
           </div>
-          <h2 className="text-white text-lg font-semibold">Initial Traction Period</h2>
+          <h2 className="text-white text-lg font-semibold">Builder Identity Verified</h2>
           <p className="mt-2 text-sm text-emerald-400/80 leading-relaxed">
-            Your connection is established. You are now authorized to build, claim vouchers, and receive payouts during the MIND initial traction phase.
+            Your GitHub connection is established and verified. You are now authorized to participate in the MIND ecosystem.
           </p>
         </div>
       )}
@@ -212,13 +212,16 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
           {githubConnected ? (
             <>
               <label className="block">
-                <span className="block text-[9px] font-mono uppercase tracking-[0.24em] text-zinc-500 mb-2">Solana receive wallet</span>
+                <span className="block text-[9px] font-mono uppercase tracking-[0.24em] text-zinc-500 mb-2">Solana receive wallet later</span>
                 <input
                   value={solanaReceiveWallet}
                   onChange={(event) => setSolanaReceiveWallet(event.target.value)}
-                  placeholder="Base58 wallet address"
+                  placeholder="Optional before payout/x402"
                   className="w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500/40"
                 />
+                <span className="mt-2 block text-[10px] text-zinc-600 leading-relaxed">
+                  GitHub unlocks the builder track now. Wallet or delegated KMS is required before payout, testnet settlement or x402 execution.
+                </span>
               </label>
               <label className="block">
                 <span className="block text-[9px] font-mono uppercase tracking-[0.24em] text-zinc-500 mb-2">Campaign code</span>
@@ -263,22 +266,32 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
       ) : null}
 
       {account ? (
-        <div className="rounded-xl border border-white/10 bg-black/40 p-4 font-mono text-[10px] text-zinc-500 space-y-2">
-          <div className="text-emerald-400 uppercase tracking-[0.2em]">Account Registered</div>
-          <div>@{account.githubHandle}</div>
-          <div>{account.referralCode}</div>
-          <div>{account.registrationStatus}</div>
-          <div className="break-all">{account.solanaReceiveWallet}</div>
-        </div>
-      ) : null}
+        <div className="space-y-4">
+          <div className="rounded-xl border border-white/10 bg-black/40 p-4 font-mono text-[10px] text-zinc-500 space-y-2">
+            <div className="text-emerald-400 uppercase tracking-[0.2em]">Account Registered</div>
+            <div>@{account.githubHandle}</div>
+            <div>{account.referralCode}</div>
+            <div>{account.registrationStatus}</div>
+            <div className="break-all">{account.solanaReceiveWallet || "wallet_pending_before_settlement"}</div>
+          </div>
+          
+          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.02] p-5 space-y-3">
+            <div className="inline-block px-2 py-1 bg-emerald-500/10 text-emerald-400 font-mono text-[9px] uppercase tracking-[0.2em] border border-emerald-500/20 rounded">
+              Traction Phase Active
+            </div>
+            <h3 className="text-sm font-semibold text-white">Create & Commercialize</h3>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              As a GitHub-verified builder from <strong>{account.referralCode}</strong>, your account is upgraded to <span className="text-white font-medium">100% Free Mode</span>. You can claim sponsored access now. Wallet or KMS is required before payout, testnet settlement or x402 execution.
+            </p>
+          </div>
 
-      {account ? (
-        <Link
-          to={account.marketplaceClaimPath}
-          className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-[11px] font-mono uppercase tracking-[0.24em] text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
-        >
-          Continue to Marketplace
-        </Link>
+          <Link
+            to={account.marketplaceClaimPath}
+            className="block rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-3 text-center text-[11px] font-mono uppercase tracking-[0.24em] text-emerald-300 transition-colors hover:bg-emerald-500/25"
+          >
+            Enter Marketplace
+          </Link>
+        </div>
       ) : null}
     </form>
   );

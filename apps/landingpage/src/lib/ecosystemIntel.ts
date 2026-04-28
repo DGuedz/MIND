@@ -27,7 +27,7 @@ export type ArchiveCardSignal = {
   line3: string;
 };
 
-const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:4000").trim().replace(/\/$/, "");
+const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
 
 const defaultSignals: Record<string, ArchiveCardSignal> = {
   "Institutional DeFi": {

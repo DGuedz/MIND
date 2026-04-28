@@ -24,6 +24,7 @@ Padronizar o uso de fontes confiaveis em todo o projeto para reduzir alucinacao,
 6. Dados e identidade on-chain (Covalent/Metaplex).
 7. Mercado de credito tokenizado (RWA).
 8. DevSecOps Institucional (Zero-Trust Release / Clean Room / SPV).
+9. Identidade A2A Corporativa (M2M Login / OAuth2 / PAT).
 
 ## Contrato de Resposta Grounded
 Quando responder sobre tese, produto ou risco:

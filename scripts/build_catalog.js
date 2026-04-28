@@ -7,7 +7,7 @@ const PRODUCTS_DIR = path.join(ROOT_DIR, 'agent-cards', 'products');
 const OUT_SKILLS_FILE = path.join(ROOT_DIR, 'apps', 'landingpage', 'public', 'catalog', 'skills.json');
 const OUT_PRODUCTS_FILE = path.join(ROOT_DIR, 'apps', 'landingpage', 'public', 'catalog', 'products.json');
 
-const sources = ['mind', 'sendaifun', 'stbr', 'frames', 'hostinger', 'colosseum-sponsors'];
+const sources = ['mind', 'sendaifun', 'stbr', 'frames', 'hostinger', 'colosseum-sponsors', 'tamkaize'];
 const providerTypeBySource = {
   mind: 'internal',
   sendaifun: 'external',
@@ -15,7 +15,8 @@ const providerTypeBySource = {
   frames: 'external',
   nous: 'external',
   hostinger: 'vendor',
-  'colosseum-sponsors': 'sponsor'
+  'colosseum-sponsors': 'sponsor',
+  tamkaize: 'external'
 };
 const skillItems = [];
 
@@ -117,7 +118,7 @@ for (const source of sources) {
           license: 'Proprietary',
           tags: Array.isArray(tags) ? tags : (typeof tags === 'string' ? tags.split(',').map(t => t.trim()) : []),
           badges: [],
-          pricing: isProduct ? { model: "subscription" } : { model: "free" }
+          pricing: data.pricing || (isProduct ? { model: "subscription" } : { model: "free" })
         };
         
         skillItems.push(item);

@@ -190,6 +190,15 @@
       "url": "https://github.com/DGuedz/MIND/blob/main/.agents/skills/zero-trust-release/SKILL.md",
       "use_for": ["orphan branch generation", "SPV builder rationale", "Clean Room methodology"],
       "avoid_for": ["modifying main branch history"]
+    },
+    {
+      "id": "a2a_identity_vault",
+      "domain": "agent_interop",
+      "tier": "A",
+      "type": "official_repo",
+      "url": "https://github.com/DGuedz/MIND/blob/main/governance/A2A_IDENTITY_VAULT_THESIS.md",
+      "use_for": ["A2A authentication", "M2M login middleware", "OAuth2/PAT integration", "GitLab/Bitbucket/Azure DevOps integration"],
+      "avoid_for": ["user-facing authentication flows"]
     }
   ]
 }

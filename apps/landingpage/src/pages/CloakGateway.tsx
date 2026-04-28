@@ -16,10 +16,12 @@ export function CloakGatewayPage() {
   const [status, setStatus] = useState<"idle" | "shielding" | "settling" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [receipt, setReceipt] = useState<{ decision: string; nullifier: string } | null>(null);
+  const [isMock, setIsMock] = useState(false);
 
   const handleAtomicExecution = async () => {
     setStatus("shielding");
     setErrorMsg("");
+    setIsMock(false);
 
     try {
       // Simulate Dark Pool Routing Time
@@ -29,11 +31,11 @@ export function CloakGatewayPage() {
       let receiptData;
       
       try {
-        const res = await fetch("http://127.0.0.1:3000/v1/treasury/shield-pay", {
+        const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+        const res = await fetch(`${gatewayBaseUrl}/v1/treasury/shield-pay`, {
           method: "POST",
           headers: { 
-            "Content-Type": "application/json",
-            "x-api-key": "EPHEMERAL_SESSION_KEY_MOCK"
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
             intentId,
@@ -48,8 +50,7 @@ export function CloakGatewayPage() {
         
         receiptData = await res.json();
       } catch (e) {
-        console.warn("[MOCK MODE] Backend fetch failed, falling back to mock UI flow for demonstration.", e);
-        // Fallback to MOCK data for UI/UX testing when the backend is offline
+        setIsMock(true);
         await new Promise(r => setTimeout(r, 1500)); // Simulate Anchor settlement time
         receiptData = {
           decision: "ALLOW",
@@ -65,7 +66,6 @@ export function CloakGatewayPage() {
       });
       setStatus("success");
     } catch (e: any) {
-      console.error(e);
       setErrorMsg(e.message || "Failed to execute atomic settlement");
       setStatus("error");
     }
@@ -103,7 +103,7 @@ export function CloakGatewayPage() {
                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 mb-2">
                    <CheckCircle2 className="w-6 h-6" />
                  </div>
-                 <h2 className="text-sm font-mono uppercase text-green-400">Settlement Verified</h2>
+                 <h2 className="text-sm font-mono uppercase text-green-400">{isMock ? "Settlement Simulated" : "Settlement Verified"}</h2>
                </div>
                
                {/* Terminal Receipt (NFC-e / Mindprint cNFT Style) */}
@@ -116,7 +116,7 @@ export function CloakGatewayPage() {
                  
                  <div className="space-y-1 mb-4">
                    <div className="flex justify-between"><span>ID:</span><span className="text-white">ON-CHAIN AGENT NODE</span></div>
-                   <div className="flex justify-between"><span>NETWORK:</span><span className="text-white">SOLANA MAINNET-BETA</span></div>
+                   <div className="flex justify-between"><span>NETWORK:</span><span className="text-white">{isMock ? "DEMO (OFFLINE)" : "SOLANA MAINNET-BETA"}</span></div>
                    <div className="flex justify-between"><span>DATE:</span><span className="text-white">{new Date().toISOString().replace('T', ' ').substring(0, 19)} UTC</span></div>
                  </div>
 
@@ -171,7 +171,7 @@ export function CloakGatewayPage() {
                  <div className="text-center text-white mb-1">--------------------------------</div>
                  <div className="text-center space-y-1 mt-4">
                    <div className="text-zinc-500 tracking-widest">CRYPTOGRAPHIC RECEIPT</div>
-                   <div className="text-white tracking-widest">VERIFIABLE ON-CHAIN</div>
+                   <div className="text-white tracking-widest">{isMock ? "NOT ON-CHAIN (DEMO)" : "VERIFIABLE ON-CHAIN"}</div>
                  </div>
                  <div className="text-center text-white mt-4">================================</div>
                </div>

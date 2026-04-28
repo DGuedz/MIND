@@ -3,16 +3,13 @@
   "metadata": {
     "name": "colosseum-copilot (Skill)",
     "version": "1.0.0",
-    "description": "Atua como PMF Matchmaker para o ecossistema Solana. Avalia repositórios locais para encontrar o Product-Market Fit exato com a tese dos sponsors (Jupiter, Pyth, etc.), guiando a submissão de bounties. Requer COLOSSEUM_COPILOT_PAT.",
-    "category": "ecosystem-intelligence",
+    "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
     "tags": [
       "solana",
       "agent-skill",
       "mind",
       "ecosystem-intelligence",
-      "colosseum-copilot",
-      "pmf-matchmaker",
-      "sponsor-thesis"
+      "colosseum-copilot"
     ],
     "license": "Proprietary",
     "author": {
@@ -23,16 +20,12 @@
   "discovery": {
     "intent": "data_analysis",
     "category": "finance",
-    "docExt": ".md",
-    "docKind": "skill-md",
     "keywords": [
       "solana",
       "agent-skill",
       "mind",
       "ecosystem-intelligence",
-      "colosseum-copilot",
-      "pmf",
-      "bounty"
+      "colosseum-copilot"
     ],
     "compatibleFrameworks": [
       "claude-code",
@@ -85,15 +78,9 @@
   },
   "provenance": {
     "source": "MIND/.agents/skills",
-    "sourceType": "internal",
-    "createdAt": "2026-04-24T02:11:05.337Z",
-    "updatedAt": "2026-04-24T02:11:05.337Z",
-    "signature": "unsigned",
-    "origin": "The Garage - Superteam BR",
-    "badges": [
-      "The Garage Premium",
-      "Superteam BR"
-    ]
+    "createdAt": "2026-04-28T02:00:49.851Z",
+    "updatedAt": "2026-04-28T02:00:49.851Z",
+    "signature": "unsigned"
   },
   "skill": {
     "source_url": "https://github.com/DGuedz/MIND",

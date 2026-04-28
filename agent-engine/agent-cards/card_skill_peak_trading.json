@@ -1,0 +1,27 @@
+{
+  "name": "Peak Trading - AI Quantitative Terminal",
+  "version": "1.0",
+  "description": "Terminal de IA para registro de operações e gestão de risco (1º Colocado no Solana Online Hackathon). O agente analisa livros de ofertas e executa estratégias quantitativas com gestão de risco automatizada.",
+  "capabilities": [
+    "quantitative trading analysis",
+    "risk management",
+    "trade logging",
+    "machine learning pattern recognition"
+  ],
+  "skills": [
+    "market-analyst",
+    "risk-assessor"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402"
+  },
+  "proof": {
+    "type": "append-only + onchain anchor"
+  },
+  "policies": [
+    "execution gated",
+    "human validation required for deployment",
+    "zero emojis"
+  ]
+}

@@ -585,6 +585,93 @@ server.post("/v1/discovery/validate", async (request: FastifyRequest, reply: Fas
   }
 });
 
+// --- A2A Identity Vault Endpoints ---
+
+const A2AIdentityAuthSchema = z.object({
+  intent: z.literal("A2A_AUTH"),
+  provider: z.enum(["GITLAB", "BITBUCKET", "AZURE_DEVOPS"]),
+  auth_type: z.enum(["OAUTH2", "PAT", "SERVICE_PRINCIPAL"]),
+  scopes: z.array(z.string()),
+  target_repo: z.string().url().optional()
+});
+
+server.post("/v1/identity/a2a/token", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = A2AIdentityAuthSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_UNTRUSTED_OVERRIDE_ATTEMPT"],
+      confidence: 1.0,
+      assumptions: ["Payload invalido ou malformado."],
+      required_followups: ["corrigir_payload"],
+      evidence: [],
+      error: "invalid_a2a_auth_request",
+      details: parsed.error.flatten()
+    });
+  }
+
+  // TODO: Integração real com Turnkey KMS / HashiCorp Vault para armazenar o token
+  // TODO: Integração real com provedor (GitLab/Bitbucket/Azure) via OAuth2/PAT
+  
+  // Mock determinístico para validar o fluxo do A2A Identity Vault
+  const mockTokenReference = `vault:${parsed.data.provider.toLowerCase()}_token_${Date.now()}`;
+
+  return reply.code(200).send({
+    decision: "ALLOW",
+    reason_codes: [],
+    confidence: 1.0,
+    assumptions: ["Token solicitado para escopos especificos e aprovado pelo KMS."],
+    required_followups: [],
+    evidence: [`auth_provider:${parsed.data.provider}`, `auth_type:${parsed.data.auth_type}`],
+    artifacts: {
+      provider: parsed.data.provider,
+      token_reference: mockTokenReference,
+      expires_in: 3600
+    }
+  });
+});
+
+const A2AIdentityProxySchema = z.object({
+  token_reference: z.string().startsWith("vault:"),
+  method: z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
+  url: z.string().url(),
+  body: z.any().optional()
+});
+
+server.post("/v1/identity/a2a/proxy", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = A2AIdentityProxySchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_UNTRUSTED_OVERRIDE_ATTEMPT"],
+      confidence: 1.0,
+      assumptions: ["Payload de proxy invalido."],
+      required_followups: ["corrigir_payload"],
+      evidence: []
+    });
+  }
+
+  // TODO: Buscar o token real no Turnkey KMS a partir do `token_reference`
+  // Mock para fins de demonstração da arquitetura Zero-Trust
+  const mockRealToken = "mock_secret_token_from_kms";
+  
+  // Aqui faria a chamada HTTP real para o provedor injetando o header:
+  // Authorization: Bearer mockRealToken
+  
+  return reply.code(200).send({
+    decision: "ALLOW",
+    reason_codes: [],
+    confidence: 1.0,
+    assumptions: ["Proxy executado com injeção de credencial blindada."],
+    required_followups: [],
+    evidence: [`proxy_url:${parsed.data.url}`, `method:${parsed.data.method}`],
+    artifacts: {
+      status: "success",
+      mock_provider_response: { message: "Operação no provedor concluída via A2A Proxy." }
+    }
+  });
+});
+
 // Autonomous Execution (Proxy to Execution Service)
 server.post("/v1/execute/autonomous", async (request: FastifyRequest, reply: FastifyReply) => {
   const executionServiceUrl = process.env.EXECUTION_SERVICE_URL ?? "http://localhost:3006";

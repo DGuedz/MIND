@@ -30,6 +30,39 @@
       "category": "qa-design",
       "description": "Auditoria visual e correcoes de bugs de renderizacao no localhost (Vite/React e Next.js).",
       "repoPath": ".agents/skills/render-validation-expert/SKILL.md"
+    },
+    {
+      "name": "peak-trading",
+      "category": "trading",
+      "description": "Terminal de IA quantitativa para registro de operações e gestão de risco (1º Colocado no Solana Online Hackathon). O agente analisa livros de ofertas e executa estratégias quantitativas com gestão de risco automatizada via machine learning.",
+      "repoPath": ".agents/skills/peak-trading/SKILL.md",
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5.0
+      }
+    },
+    {
+      "name": "chitu",
+      "category": "data-analytics",
+      "description": "Sistema de captura de Alpha on-chain na Solana para comunidades e equipes de pesquisa (3º Colocado no Solana Online Hackathon). O agente monitora os movimentos do smart money e notifica sobre oportunidades de trade em tempo real.",
+      "repoPath": ".agents/skills/chitu/SKILL.md",
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3.0
+      }
+    },
+    {
+      "name": "x402-flow-auditor",
+      "category": "security",
+      "description": "Audita e valida o fluxo de onboarding de builders e liquidacao atomica x402 no MIND Protocol, garantindo seguranca Zero-Trust e UX fluida.",
+      "repoPath": ".agents/skills/x402-flow-auditor/SKILL.md",
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
     }
   ]
 }

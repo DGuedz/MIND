@@ -19,6 +19,10 @@ const SOURCE_FILES = [
   {
     sourceKey: "frames",
     manifestPath: path.join(REPO_ROOT, "agent-cards/skills/sources/frames-skills.v1.json")
+  },
+  {
+    sourceKey: "tamkaize",
+    manifestPath: path.join(REPO_ROOT, "agent-cards/skills/sources/tamkaize-skills.v1.json")
   }
 ];
 
@@ -105,7 +109,7 @@ function buildCard({ source, sourceKey, skill, createdAt, updatedAt }) {
       endpoints,
       rateLimit: { requests: 60, per: "minute" }
     },
-    pricing: {
+    pricing: skill.pricing || {
       model: "free",
       currency: "USDC",
       price: 0

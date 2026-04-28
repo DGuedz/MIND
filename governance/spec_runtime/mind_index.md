@@ -31,6 +31,7 @@ Economic infrastructure that decides, executes, and proves for A2A flows.
 - revenue: `governance/spec_runtime/revenue_model.md`
 - pitch: `governance/spec_runtime/pitch_hackathon.md`
 - execution: `governance/spec_runtime/execution_checklist.md`
+- docs integrity: `.agents/skills/docs-link-integrity/SKILL.md`
 
 ## Runtime heartbeat
 - last_event_type: `intent.policy.checked`

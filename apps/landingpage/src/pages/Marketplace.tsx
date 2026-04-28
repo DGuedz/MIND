@@ -729,7 +729,7 @@ function CatalogCard({
                       <div className="border-t border-white/10 pt-2 mt-2">
                         <div className="text-emerald-400 mb-2">Access granted by sponsored flow. Repo command:</div>
                         <code className="text-white bg-black px-3 py-2 rounded border border-white/10 select-all block font-bold">
-                          {`git clone https://github.com/DGuedz/MIND.git && cd MIND && pnpm install && pnpm run create-skill -- --name "sua-skill"${builderRegistration ? ` --builder "${builderRegistration.githubHandle}" --github "${builderRegistration.githubHandle}" --wallet "${builderRegistration.solanaReceiveWallet}"` : ""}`}
+                          {`git clone https://github.com/DGuedz/MIND.git && cd MIND && pnpm install && pnpm run create-skill -- --name "sua-skill"${builderRegistration ? ` --builder "${builderRegistration.githubHandle}" --github "${builderRegistration.githubHandle}" --wallet "${builderRegistration.solanaReceiveWallet || "WALLET_PENDING_AFTER_GITHUB_REVIEW"}"` : ""}`}
                         </code>
                         {builderRegistration ? (
                           <div className="mt-2 text-zinc-500">
@@ -955,7 +955,7 @@ export function MarketplacePage() {
               {catalogAsOf ? ` • as_of ${catalogAsOf}` : ""}
             </div>
             <div className={`inline-flex rounded-full border px-3 py-1 text-[9px] font-mono uppercase tracking-[0.2em] ${builderRegistration ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" : "border-white/10 bg-white/[0.03] text-zinc-500"}`}>
-              {builderRegistration ? `Registered @${builderRegistration.githubHandle} • ${builderRegistration.referralCode}` : "Register builder to unlock vouchers"}
+              {builderRegistration ? `Registered @${builderRegistration.githubHandle} • ${builderRegistration.referralCode} (100% FREE MODE)` : "Register builder to unlock vouchers"}
             </div>
           </div>
           <div className="flex flex-wrap gap-3 items-center">

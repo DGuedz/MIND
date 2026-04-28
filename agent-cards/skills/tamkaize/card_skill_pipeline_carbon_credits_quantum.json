@@ -1,0 +1,89 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "pipeline_carbon_credits_quantum (Skill)",
+    "version": "1.0.0",
+    "description": "Pipeline end-to-end de otimização para carbon credits usando quantum",
+    "tags": [
+      "solana",
+      "agent-skill",
+      "tamkaize",
+      "ai-agents",
+      "pipeline_carbon_credits_quantum"
+    ],
+    "license": "Proprietary",
+    "author": {
+      "name": "Kai Ze Tam / MVSK Workflow",
+      "contact": "https://github.com/tamkaize"
+    }
+  },
+  "discovery": {
+    "intent": "orchestration",
+    "category": "automation",
+    "keywords": [
+      "solana",
+      "agent-skill",
+      "tamkaize",
+      "ai-agents",
+      "pipeline_carbon_credits_quantum"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "skill_name",
+          "type": "string",
+          "description": "Nome da skill"
+        },
+        {
+          "name": "installation",
+          "type": "string",
+          "description": "Instrucoes de instalacao/ativacao"
+        },
+        {
+          "name": "usage",
+          "type": "string",
+          "description": "Como acionar a skill no agente"
+        }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.75
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/tamkaize",
+      "metadata": "https://github.com/tamkaize",
+      "data": "https://github.com/tamkaize"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "pay-per-use",
+    "currency": "USDC",
+    "price": 10
+  },
+  "provenance": {
+    "source": "Kai Ze Tam / MVSK Workflow",
+    "createdAt": "2026-04-28T02:00:49.851Z",
+    "updatedAt": "2026-04-28T02:00:49.851Z",
+    "signature": "unsigned"
+  },
+  "skill": {
+    "source_url": "https://github.com/tamkaize",
+    "repo_path": null
+  }
+}

@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Bot, ShieldCheck, Wallet, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Bot, ShieldCheck, Wallet, ArrowRight, CheckCircle2, Sparkles, Terminal } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { Badge } from "../components/ui/badge";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { MindprintVisual } from "../components/MindprintVisual";
+import { buildGithubOAuthStartPathForSurface, getBuilderRegistration, getInitialVoucherCode, normalizeGithubHandle } from "../lib/builderAccess";
 
 // Component for Metallic Reflective Text synced with Mouse
 function MetallicText({ children, className }: { children: React.ReactNode, className?: string }) {
@@ -32,13 +34,28 @@ function MetallicText({ children, className }: { children: React.ReactNode, clas
 }
 
 export function RegisterPage() {
+  const [searchParams] = useSearchParams();
+  const initialCampaignCode = getInitialVoucherCode(searchParams.get("code"));
+  const initialGithubHandle = normalizeGithubHandle(searchParams.get("github_login") ?? "");
+  const githubError = searchParams.get("github_error");
   const [step, setStep] = useState(1);
   const [agentId] = useState(() => `MIND_AG_${Math.random().toString(36).substr(2, 6).toUpperCase()}`);
   const [formData, setFormData] = useState({
     agentName: "",
     walletAddress: "",
+    campaignCode: initialCampaignCode,
     agentRole: "trading",
   });
+  
+  const [builderReg, setBuilderReg] = useState(() => getBuilderRegistration());
+
+  useEffect(() => {
+    const handleStorage = () => {
+      setBuilderReg(getBuilderRegistration());
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -60,6 +77,13 @@ export function RegisterPage() {
     setStep(3);
   };
 
+  const githubHandle = builderReg?.githubHandle ?? initialGithubHandle;
+  const githubConnected = Boolean(githubHandle);
+
+  const handleGithubConnect = () => {
+    window.location.href = buildGithubOAuthStartPathForSurface(formData.campaignCode, "marketplace", "register");
+  };
+
   return (
     <div className="container mx-auto px-6 pt-48 pb-32 space-y-32">
       <motion.header 
@@ -76,7 +100,7 @@ export function RegisterPage() {
           <MetallicText className="italic font-medium text-zinc-300 text-4xl md:text-6xl lg:text-7xl drop-shadow-2xl">Agent.</MetallicText>
         </h1>
         <p className="text-lg md:text-xl text-zinc-400 leading-relaxed max-w-2xl font-light text-center">
-          Onboard your autonomous agent to the MIND A2A protocol. Security anchored via Solana and Zero-Trust KMS.
+          Start with GitHub identity for The Garage, Frontier and Colosseum validation. Wallet or KMS comes later before settlement.
         </p>
       </motion.header>
 
@@ -131,8 +155,8 @@ export function RegisterPage() {
             <div className="absolute top-1/2 left-0 right-0 h-px bg-white/5 -translate-y-1/2 z-0" />
             {[
               { label: "Designation", num: "01" },
-              { label: "Treasury", num: "02" },
-              { label: "Headquarters", num: "03" }
+              { label: "GitHub", num: "02" },
+              { label: "Testnet", num: "03" }
             ].map((stepInfo, idx) => (
               <div key={idx} className="flex flex-col items-center gap-4 relative z-10">
                 <div 
@@ -160,7 +184,13 @@ export function RegisterPage() {
             style={{ transform: isHovered ? "translateZ(30px)" : "translateZ(0px)" }}
           >
             {step === 1 && (
-              <form onSubmit={() => setStep(2)} className="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setStep(2);
+                }}
+                className="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000"
+              >
                 <div className="space-y-4">
                   <label className="text-[10px] text-zinc-500 font-mono uppercase tracking-[0.3em] flex items-center gap-3">
                     <Bot className="w-3.5 h-3.5" /> Agent Designation
@@ -203,10 +233,54 @@ export function RegisterPage() {
               <form onSubmit={handleSubmit} className="space-y-10 animate-in fade-in slide-in-from-right-8 duration-1000">
                 <div className="space-y-4">
                   <label className="text-[10px] text-zinc-500 font-mono uppercase tracking-[0.3em] flex items-center gap-3">
-                    <Wallet className="w-3.5 h-3.5" /> Solana Settlement Address
+                    <Terminal className="w-3.5 h-3.5" /> GitHub Builder Identity
+                  </label>
+                  {githubConnected ? (
+                    <div className="w-full bg-emerald-500/5 border border-emerald-500/20 rounded-2xl px-6 py-5 text-emerald-400 font-mono text-xs tracking-widest uppercase flex items-center gap-3 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                      <CheckCircle2 className="w-4 h-4" /> Connected as @{githubHandle}
+                    </div>
+                  ) : (
+                    <div className="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-zinc-400 font-mono text-xs tracking-widest flex items-center justify-between">
+                      <span>Not connected</span>
+                      <button 
+                        type="button"
+                        onClick={handleGithubConnect}
+                        className="text-[10px] bg-white text-black px-4 py-1.5 rounded-full hover:bg-zinc-200 transition-colors uppercase"
+                      >
+                        Connect
+                      </button>
+                    </div>
+                  )}
+                  {githubError ? (
+                    <div className="rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-[10px] text-zinc-500 leading-relaxed font-mono uppercase tracking-widest">
+                      GitHub OAuth not ready. Configure GitHub OAuth env vars before public validation.
+                    </div>
+                  ) : null}
+                  <p className="text-[9px] text-zinc-600 uppercase tracking-widest leading-relaxed">
+                    Primary anchor during Initial Traction Phase: The Garage, Frontier, Colosseum and Solana testnet.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[10px] text-zinc-500 font-mono uppercase tracking-[0.3em] flex items-center gap-3">
+                    <ShieldCheck className="w-3.5 h-3.5" /> Validation Track
+                  </label>
+                  <select 
+                    value={formData.campaignCode}
+                    onChange={(e) => setFormData({...formData, campaignCode: getInitialVoucherCode(e.target.value)})}
+                    className="w-full bg-white/5 border border-white/30 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-white/50 focus:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-300 appearance-none font-mono text-xs tracking-widest uppercase"
+                  >
+                    <option value="THEGARAGE">The Garage</option>
+                    <option value="COLOSSEUM">Colosseum</option>
+                    <option value="SUPERTEAMBR">Superteam BR</option>
+                  </select>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[10px] text-zinc-500 font-mono uppercase tracking-[0.3em] flex items-center gap-3">
+                    <Wallet className="w-3.5 h-3.5" /> Wallet/KMS Later <span className="text-zinc-700">(Optional)</span>
                   </label>
                   <input 
-                    required
                     type="text" 
                     placeholder="7nxB...4vP9"
                     value={formData.walletAddress}
@@ -218,7 +292,7 @@ export function RegisterPage() {
                 <div className="bg-white/5 p-6 rounded-2xl flex gap-6 border border-white/20 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
                   <ShieldCheck className="w-4 h-4 text-zinc-600 shrink-0 mt-0.5" />
                   <p className="text-[9px] text-zinc-600 uppercase tracking-widest leading-relaxed">
-                    MIND anchors Mindprint cNFTs to your agent to verify institutional policy compliance and A2A governance.
+                    GitHub proves builder identity and source trail. Wallet/KMS is requested only before payout, testnet settlement or x402 execution.
                   </p>
                 </div>
 
@@ -232,9 +306,10 @@ export function RegisterPage() {
                   </button>
                   <button 
                     type="submit" 
-                    className="w-2/3 bg-white text-black hover:bg-zinc-200 rounded-full py-6 font-mono text-[10px] uppercase tracking-[0.3em] transition-all duration-500"
+                    disabled={!githubConnected}
+                    className="w-2/3 bg-white text-black hover:bg-zinc-200 disabled:bg-zinc-800 disabled:text-zinc-600 disabled:cursor-not-allowed rounded-full py-6 font-mono text-[10px] uppercase tracking-[0.3em] transition-all duration-500"
                   >
-                    Initialize Rails
+                    Stage Testnet Rails
                   </button>
                 </div>
               </form>
@@ -248,9 +323,9 @@ export function RegisterPage() {
                 
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold text-white uppercase tracking-[0.2em] font-mono flex items-center justify-center gap-3 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">
-                    <Sparkles className="w-4 h-4" /> Identity Anchored
+                    <Sparkles className="w-4 h-4" /> Builder Staged
                   </h3>
-                  <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-mono drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">Mindprint cNFT successfully minted on Solana. KMS protected.</p>
+                  <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-mono drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">GitHub identity verified. Wallet/KMS remains pending before settlement.</p>
                 </div>
                 
                 <div className="bg-white/5 rounded-2xl p-8 text-left font-mono text-[9px] text-zinc-500 space-y-3 border border-white/20 tracking-[0.2em] shadow-[inset_0_0_30px_rgba(255,255,255,0.02)]">
@@ -259,20 +334,24 @@ export function RegisterPage() {
                     <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] font-bold">{agentId}</span>
                   </p>
                   <p className="flex justify-between border-b border-white/20 pb-3">
+                    <span className="text-zinc-800 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">BUILDER ANCHOR</span> 
+                    <span className="text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] font-bold">@{githubHandle || "UNKNOWN"}</span>
+                  </p>
+                  <p className="flex justify-between border-b border-white/20 pb-3">
                     <span className="text-zinc-800 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">RAILS</span> 
-                    <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] font-bold">X402_ATOMIC_SETTLEMENT</span>
+                    <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] font-bold">WALLET_KMS_PENDING</span>
                   </p>
                   <p className="flex justify-between">
                     <span className="text-zinc-800 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">NETWORK</span> 
-                    <span className="text-zinc-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">SOLANA_MAINNET</span>
+                    <span className="text-zinc-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">SOLANA_TESTNET</span>
                   </p>
                 </div>
 
                 <button 
-                  onClick={() => window.open('/app', '_self')}
+                  onClick={() => window.open(`/contribute?code=${formData.campaignCode}&next=marketplace&github_connected=1&github_login=${encodeURIComponent(githubHandle)}`, '_self')}
                   className="w-full bg-white text-black hover:bg-zinc-200 rounded-full py-6 font-mono text-[10px] uppercase tracking-[0.3em] transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-[1.02]"
                 >
-                  Enter Headquarters
+                  Continue Builder Flow
                 </button>
               </div>
             )}

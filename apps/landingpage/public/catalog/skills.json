@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-04-27T13:48:40.098Z",
+  "as_of": "2026-04-28T02:00:49.954Z",
   "items": [
     {
       "id": "solana-intel-oracle",
@@ -35,13 +35,38 @@
       }
     },
     {
+      "id": "chitu",
+      "kind": "skill",
+      "name": "chitu",
+      "description": "Sistema de captura de Alpha on-chain na Solana para comunidades e equipes de pesquisa (3º Colocado no Solana Online Hackathon). O agente monitora os movimentos do smart money e notifica sobre oportunidades de trade em tempo real.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "data-analytics",
+        "chitu"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3
+      }
+    },
+    {
       "id": "colosseum_copilot",
       "kind": "skill",
       "name": "colosseum-copilot",
-      "description": "Atua como PMF Matchmaker para o ecossistema Solana. Avalia repositórios locais para encontrar o Product-Market Fit exato com a tese dos sponsors (Jupiter, Pyth, etc.), guiando a submissão de bounties. Requer COLOSSEUM_COPILOT_PAT.",
+      "description": "Pesquisa oportunidades e teses em Solana/crypto com base em historico de builders e sinais publicos.",
       "source": "mind",
       "providerType": "internal",
-      "category": "ecosystem-intelligence",
+      "category": "finance",
       "docExt": ".md",
       "docKind": "skill-md",
       "license": "Proprietary",
@@ -50,13 +75,13 @@
         "agent-skill",
         "mind",
         "ecosystem-intelligence",
-        "colosseum-copilot",
-        "pmf-matchmaker",
-        "sponsor-thesis"
+        "colosseum-copilot"
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -207,7 +232,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -279,6 +306,32 @@
       }
     },
     {
+      "id": "neural_memory",
+      "kind": "skill",
+      "name": "neural-memory",
+      "description": "Gerencia operações append-only, compressão semântica e retrieval contextual para evitar context bloat.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "storage-intelligence",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "memory",
+        "retrieval",
+        "compression",
+        "neural-memory"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
       "id": "skill_mind_onchain_profiler",
       "kind": "skill",
       "name": "On-Chain Data Profiler",
@@ -301,6 +354,31 @@
         "type": "pay_per_execution",
         "amount": 0.05,
         "currency": "USDC"
+      }
+    },
+    {
+      "id": "peak_trading",
+      "kind": "skill",
+      "name": "peak-trading",
+      "description": "Terminal de IA quantitativa para registro de operações e gestão de risco (1º Colocado no Solana Online Hackathon). O agente analisa livros de ofertas e executa estratégias quantitativas com gestão de risco automatizada via machine learning.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "trading",
+        "peak-trading"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
       }
     },
     {
@@ -392,7 +470,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -462,7 +542,7 @@
       "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
       "source": "mind",
       "providerType": "internal",
-      "category": "ecosystem-intelligence",
+      "category": "finance",
       "docExt": ".md",
       "docKind": "skill-md",
       "license": "Proprietary",
@@ -475,7 +555,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -567,7 +649,34 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "subscription"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "x402_flow_auditor",
+      "kind": "skill",
+      "name": "x402-flow-auditor",
+      "description": "Audita e valida o fluxo de onboarding de builders e liquidacao atomica x402 no MIND Protocol, garantindo seguranca Zero-Trust e UX fluida.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "security",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "security",
+        "x402-flow-auditor"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -616,7 +725,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -639,7 +750,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -662,7 +775,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -685,7 +800,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -708,7 +825,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -731,7 +850,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -754,7 +875,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -777,7 +900,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -800,7 +925,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -823,7 +950,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -846,7 +975,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -869,7 +1000,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -892,7 +1025,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -915,7 +1050,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -938,7 +1075,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -961,7 +1100,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -984,7 +1125,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1007,7 +1150,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1030,7 +1175,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1053,7 +1200,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1076,7 +1225,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1099,7 +1250,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1122,7 +1275,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1145,7 +1300,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1168,7 +1325,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1191,7 +1350,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1214,7 +1375,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1237,7 +1400,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1260,7 +1425,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1283,7 +1450,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1306,7 +1475,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1329,7 +1500,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1352,7 +1525,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1381,7 +1556,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1404,7 +1581,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1427,7 +1606,9 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     },
     {
@@ -1453,7 +1634,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1479,7 +1663,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1505,7 +1692,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1531,7 +1721,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1557,7 +1750,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1583,7 +1779,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1609,7 +1808,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1635,7 +1837,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1661,7 +1866,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1687,7 +1895,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1713,7 +1924,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1739,7 +1953,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1765,7 +1982,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1791,7 +2011,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1817,7 +2040,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1843,7 +2069,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1869,7 +2098,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1895,7 +2127,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1921,7 +2156,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1947,7 +2185,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1973,7 +2214,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -1999,7 +2243,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2025,7 +2272,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2051,7 +2301,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2077,7 +2330,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2103,7 +2359,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2129,7 +2388,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2155,7 +2417,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2181,7 +2446,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2207,7 +2475,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2233,7 +2504,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2259,7 +2533,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2285,7 +2562,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2311,7 +2591,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2337,7 +2620,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2363,7 +2649,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2389,7 +2678,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2415,7 +2707,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2441,7 +2736,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2467,7 +2765,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2493,7 +2794,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2519,7 +2823,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2545,7 +2852,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2571,7 +2881,10 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
       }
     },
     {
@@ -2597,7 +2910,2510 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free"
+        "model": "dynamic_performance",
+        "currency": "USDC",
+        "base_price": 0.01,
+        "multiplier_index": 1
+      }
+    },
+    {
+      "id": "allocation_auditor_proof_v1",
+      "kind": "skill",
+      "name": "allocation_auditor_proof_v1",
+      "description": "Torna a alocação auditável e vendável para tesourarias",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "security",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "security",
+        "allocation_auditor_proof_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.75
+      }
+    },
+    {
+      "id": "cardinality_mvsk_optimizer_v1",
+      "kind": "skill",
+      "name": "cardinality_mvsk_optimizer_v1",
+      "description": "Resolve o problema principal: pesos ótimos sob risco de cauda e restrições de sparsity",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "cardinality_mvsk_optimizer_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 8
+      }
+    },
+    {
+      "id": "hedge_scenario_black_swan",
+      "kind": "skill",
+      "name": "hedge_scenario_black_swan",
+      "description": "Construtor de cenário de hedge para black swan",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "hedge_scenario_black_swan"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.5
+      }
+    },
+    {
+      "id": "hedge_scenario_builder_v1",
+      "kind": "skill",
+      "name": "hedge_scenario_builder_v1",
+      "description": "Preço de proteção, cenários e overlay de risco",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "hedge_scenario_builder_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.5
+      }
+    },
+    {
+      "id": "hedge_scenario_geopolitical_shock",
+      "kind": "skill",
+      "name": "hedge_scenario_geopolitical_shock",
+      "description": "Construtor de cenário de hedge para geopolitical shock",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "hedge_scenario_geopolitical_shock"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.5
+      }
+    },
+    {
+      "id": "hedge_scenario_inflation_spike",
+      "kind": "skill",
+      "name": "hedge_scenario_inflation_spike",
+      "description": "Construtor de cenário de hedge para inflation spike",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "hedge_scenario_inflation_spike"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.5
+      }
+    },
+    {
+      "id": "hedge_scenario_liquidity_crunch",
+      "kind": "skill",
+      "name": "hedge_scenario_liquidity_crunch",
+      "description": "Construtor de cenário de hedge para liquidity crunch",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "hedge_scenario_liquidity_crunch"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.5
+      }
+    },
+    {
+      "id": "hedge_scenario_rate_hike",
+      "kind": "skill",
+      "name": "hedge_scenario_rate_hike",
+      "description": "Construtor de cenário de hedge para rate hike",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "hedge_scenario_rate_hike"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.5
+      }
+    },
+    {
+      "id": "hedge_scenario_yield_curve_inversion",
+      "kind": "skill",
+      "name": "hedge_scenario_yield_curve_inversion",
+      "description": "Construtor de cenário de hedge para yield curve_inversion",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "hedge_scenario_yield_curve_inversion"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 1.5
+      }
+    },
+    {
+      "id": "higher_moment_feature_engineer_v1",
+      "kind": "skill",
+      "name": "higher_moment_feature_engineer_v1",
+      "description": "Enriquece alpha e representação do universo via fatores + quantum-inspired features",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "higher_moment_feature_engineer_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2.25
+      }
+    },
+    {
+      "id": "market_impact_amm_curve",
+      "kind": "skill",
+      "name": "market_impact_amm_curve",
+      "description": "Simulador de impacto de mercado focado em amm curve",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "market_impact_amm_curve"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3
+      }
+    },
+    {
+      "id": "market_impact_dark_pool",
+      "kind": "skill",
+      "name": "market_impact_dark_pool",
+      "description": "Simulador de impacto de mercado focado em dark pool",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "market_impact_dark_pool"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3
+      }
+    },
+    {
+      "id": "market_impact_flash_crash",
+      "kind": "skill",
+      "name": "market_impact_flash_crash",
+      "description": "Simulador de impacto de mercado focado em flash crash",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "market_impact_flash_crash"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3
+      }
+    },
+    {
+      "id": "market_impact_liquidity_cascade",
+      "kind": "skill",
+      "name": "market_impact_liquidity_cascade",
+      "description": "Simulador de impacto de mercado focado em liquidity cascade",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "market_impact_liquidity_cascade"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3
+      }
+    },
+    {
+      "id": "market_impact_order_book_depth",
+      "kind": "skill",
+      "name": "market_impact_order_book_depth",
+      "description": "Simulador de impacto de mercado focado em order book_depth",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "market_impact_order_book_depth"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3
+      }
+    },
+    {
+      "id": "market_impact_slippage",
+      "kind": "skill",
+      "name": "market_impact_slippage",
+      "description": "Simulador de impacto de mercado focado em slippage",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "market_impact_slippage"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3
+      }
+    },
+    {
+      "id": "moment_estimator_bootstrap",
+      "kind": "skill",
+      "name": "moment_estimator_bootstrap",
+      "description": "Estimador de momentos usando o método bootstrap",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "moment_estimator_bootstrap"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2
+      }
+    },
+    {
+      "id": "moment_estimator_exponential_weighting",
+      "kind": "skill",
+      "name": "moment_estimator_exponential_weighting",
+      "description": "Estimador de momentos usando o método exponential weighting",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "moment_estimator_exponential_weighting"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2
+      }
+    },
+    {
+      "id": "moment_estimator_jackknife",
+      "kind": "skill",
+      "name": "moment_estimator_jackknife",
+      "description": "Estimador de momentos usando o método jackknife",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "moment_estimator_jackknife"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2
+      }
+    },
+    {
+      "id": "moment_estimator_ledoit_wolf",
+      "kind": "skill",
+      "name": "moment_estimator_ledoit_wolf",
+      "description": "Estimador de momentos usando o método ledoit wolf",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "moment_estimator_ledoit_wolf"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2
+      }
+    },
+    {
+      "id": "moment_estimator_minimum_covariance_determinant",
+      "kind": "skill",
+      "name": "moment_estimator_minimum_covariance_determinant",
+      "description": "Estimador de momentos usando o método minimum covariance_determinant",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "moment_estimator_minimum_covariance_determinant"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2
+      }
+    },
+    {
+      "id": "moment_estimator_shrinkage",
+      "kind": "skill",
+      "name": "moment_estimator_shrinkage",
+      "description": "Estimador de momentos usando o método shrinkage",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "moment_estimator_shrinkage"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2
+      }
+    },
+    {
+      "id": "moment_estimator_winsorized",
+      "kind": "skill",
+      "name": "moment_estimator_winsorized",
+      "description": "Estimador de momentos usando o método winsorized",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "moment_estimator_winsorized"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2
+      }
+    },
+    {
+      "id": "mvsk_annealing_solver",
+      "kind": "skill",
+      "name": "mvsk_annealing_solver",
+      "description": "Solver especializado em annealing para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_annealing_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "mvsk_bayesian_solver",
+      "kind": "skill",
+      "name": "mvsk_bayesian_solver",
+      "description": "Solver especializado em bayesian para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_bayesian_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "mvsk_cardinality_solver",
+      "kind": "skill",
+      "name": "mvsk_cardinality_solver",
+      "description": "Solver especializado em cardinality para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_cardinality_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "mvsk_evolutionary_solver",
+      "kind": "skill",
+      "name": "mvsk_evolutionary_solver",
+      "description": "Solver especializado em evolutionary para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_evolutionary_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "mvsk_gradient_solver",
+      "kind": "skill",
+      "name": "mvsk_gradient_solver",
+      "description": "Solver especializado em gradient para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_gradient_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "mvsk_hubo_qubo_solver",
+      "kind": "skill",
+      "name": "mvsk_hubo_qubo_solver",
+      "description": "Solver especializado em hubo qubo para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_hubo_qubo_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "mvsk_quantum_solver",
+      "kind": "skill",
+      "name": "mvsk_quantum_solver",
+      "description": "Solver especializado em quantum para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_quantum_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "mvsk_stochastic_solver",
+      "kind": "skill",
+      "name": "mvsk_stochastic_solver",
+      "description": "Solver especializado em stochastic para otimização MVSK",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "mvsk_stochastic_solver"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 5
+      }
+    },
+    {
+      "id": "pipeline_agriculture_annealing",
+      "kind": "skill",
+      "name": "pipeline_agriculture_annealing",
+      "description": "Pipeline end-to-end de otimização para agriculture usando annealing",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_annealing"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_agriculture_bayesian",
+      "kind": "skill",
+      "name": "pipeline_agriculture_bayesian",
+      "description": "Pipeline end-to-end de otimização para agriculture usando bayesian",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_bayesian"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_agriculture_cardinality",
+      "kind": "skill",
+      "name": "pipeline_agriculture_cardinality",
+      "description": "Pipeline end-to-end de otimização para agriculture usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_agriculture_evolutionary",
+      "kind": "skill",
+      "name": "pipeline_agriculture_evolutionary",
+      "description": "Pipeline end-to-end de otimização para agriculture usando evolutionary",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_evolutionary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_agriculture_gradient",
+      "kind": "skill",
+      "name": "pipeline_agriculture_gradient",
+      "description": "Pipeline end-to-end de otimização para agriculture usando gradient",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_gradient"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_agriculture_hubo_qubo",
+      "kind": "skill",
+      "name": "pipeline_agriculture_hubo_qubo",
+      "description": "Pipeline end-to-end de otimização para agriculture usando hubo qubo",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_hubo_qubo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_agriculture_quantum",
+      "kind": "skill",
+      "name": "pipeline_agriculture_quantum",
+      "description": "Pipeline end-to-end de otimização para agriculture usando quantum",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_quantum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_agriculture_stochastic",
+      "kind": "skill",
+      "name": "pipeline_agriculture_stochastic",
+      "description": "Pipeline end-to-end de otimização para agriculture usando stochastic",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_agriculture_stochastic"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_art_cardinality",
+      "kind": "skill",
+      "name": "pipeline_art_cardinality",
+      "description": "Pipeline end-to-end de otimização para art usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_art_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_annealing",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_annealing",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando annealing",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_annealing"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_bayesian",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_bayesian",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando bayesian",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_bayesian"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_cardinality",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_cardinality",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_evolutionary",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_evolutionary",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando evolutionary",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_evolutionary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_gradient",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_gradient",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando gradient",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_gradient"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_hubo_qubo",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_hubo_qubo",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando hubo qubo",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_hubo_qubo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_quantum",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_quantum",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando quantum",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_quantum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_carbon_credits_stochastic",
+      "kind": "skill",
+      "name": "pipeline_carbon_credits_stochastic",
+      "description": "Pipeline end-to-end de otimização para carbon credits usando stochastic",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_carbon_credits_stochastic"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_annealing",
+      "kind": "skill",
+      "name": "pipeline_commodities_annealing",
+      "description": "Pipeline end-to-end de otimização para commodities usando annealing",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_annealing"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_bayesian",
+      "kind": "skill",
+      "name": "pipeline_commodities_bayesian",
+      "description": "Pipeline end-to-end de otimização para commodities usando bayesian",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_bayesian"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_cardinality",
+      "kind": "skill",
+      "name": "pipeline_commodities_cardinality",
+      "description": "Pipeline end-to-end de otimização para commodities usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_evolutionary",
+      "kind": "skill",
+      "name": "pipeline_commodities_evolutionary",
+      "description": "Pipeline end-to-end de otimização para commodities usando evolutionary",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_evolutionary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_gradient",
+      "kind": "skill",
+      "name": "pipeline_commodities_gradient",
+      "description": "Pipeline end-to-end de otimização para commodities usando gradient",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_gradient"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_hubo_qubo",
+      "kind": "skill",
+      "name": "pipeline_commodities_hubo_qubo",
+      "description": "Pipeline end-to-end de otimização para commodities usando hubo qubo",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_hubo_qubo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_quantum",
+      "kind": "skill",
+      "name": "pipeline_commodities_quantum",
+      "description": "Pipeline end-to-end de otimização para commodities usando quantum",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_quantum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_commodities_stochastic",
+      "kind": "skill",
+      "name": "pipeline_commodities_stochastic",
+      "description": "Pipeline end-to-end de otimização para commodities usando stochastic",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_commodities_stochastic"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_annealing",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_annealing",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando annealing",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_annealing"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_bayesian",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_bayesian",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando bayesian",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_bayesian"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_cardinality",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_cardinality",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_evolutionary",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_evolutionary",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando evolutionary",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_evolutionary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_gradient",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_gradient",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando gradient",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_gradient"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_hubo_qubo",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_hubo_qubo",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando hubo qubo",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_hubo_qubo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_quantum",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_quantum",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando quantum",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_quantum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_infrastructure_stochastic",
+      "kind": "skill",
+      "name": "pipeline_infrastructure_stochastic",
+      "description": "Pipeline end-to-end de otimização para infrastructure usando stochastic",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_infrastructure_stochastic"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_annealing",
+      "kind": "skill",
+      "name": "pipeline_private_credit_annealing",
+      "description": "Pipeline end-to-end de otimização para private credit usando annealing",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_annealing"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_bayesian",
+      "kind": "skill",
+      "name": "pipeline_private_credit_bayesian",
+      "description": "Pipeline end-to-end de otimização para private credit usando bayesian",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_bayesian"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_cardinality",
+      "kind": "skill",
+      "name": "pipeline_private_credit_cardinality",
+      "description": "Pipeline end-to-end de otimização para private credit usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_evolutionary",
+      "kind": "skill",
+      "name": "pipeline_private_credit_evolutionary",
+      "description": "Pipeline end-to-end de otimização para private credit usando evolutionary",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_evolutionary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_gradient",
+      "kind": "skill",
+      "name": "pipeline_private_credit_gradient",
+      "description": "Pipeline end-to-end de otimização para private credit usando gradient",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_gradient"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_hubo_qubo",
+      "kind": "skill",
+      "name": "pipeline_private_credit_hubo_qubo",
+      "description": "Pipeline end-to-end de otimização para private credit usando hubo qubo",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_hubo_qubo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_quantum",
+      "kind": "skill",
+      "name": "pipeline_private_credit_quantum",
+      "description": "Pipeline end-to-end de otimização para private credit usando quantum",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_quantum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_private_credit_stochastic",
+      "kind": "skill",
+      "name": "pipeline_private_credit_stochastic",
+      "description": "Pipeline end-to-end de otimização para private credit usando stochastic",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_private_credit_stochastic"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_annealing",
+      "kind": "skill",
+      "name": "pipeline_real_estate_annealing",
+      "description": "Pipeline end-to-end de otimização para real estate usando annealing",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_annealing"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_bayesian",
+      "kind": "skill",
+      "name": "pipeline_real_estate_bayesian",
+      "description": "Pipeline end-to-end de otimização para real estate usando bayesian",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_bayesian"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_cardinality",
+      "kind": "skill",
+      "name": "pipeline_real_estate_cardinality",
+      "description": "Pipeline end-to-end de otimização para real estate usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_evolutionary",
+      "kind": "skill",
+      "name": "pipeline_real_estate_evolutionary",
+      "description": "Pipeline end-to-end de otimização para real estate usando evolutionary",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_evolutionary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_gradient",
+      "kind": "skill",
+      "name": "pipeline_real_estate_gradient",
+      "description": "Pipeline end-to-end de otimização para real estate usando gradient",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_gradient"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_hubo_qubo",
+      "kind": "skill",
+      "name": "pipeline_real_estate_hubo_qubo",
+      "description": "Pipeline end-to-end de otimização para real estate usando hubo qubo",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_hubo_qubo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_quantum",
+      "kind": "skill",
+      "name": "pipeline_real_estate_quantum",
+      "description": "Pipeline end-to-end de otimização para real estate usando quantum",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_quantum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_real_estate_stochastic",
+      "kind": "skill",
+      "name": "pipeline_real_estate_stochastic",
+      "description": "Pipeline end-to-end de otimização para real estate usando stochastic",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_real_estate_stochastic"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_annealing",
+      "kind": "skill",
+      "name": "pipeline_treasuries_annealing",
+      "description": "Pipeline end-to-end de otimização para treasuries usando annealing",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_annealing"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_bayesian",
+      "kind": "skill",
+      "name": "pipeline_treasuries_bayesian",
+      "description": "Pipeline end-to-end de otimização para treasuries usando bayesian",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_bayesian"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_cardinality",
+      "kind": "skill",
+      "name": "pipeline_treasuries_cardinality",
+      "description": "Pipeline end-to-end de otimização para treasuries usando cardinality",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_cardinality"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_evolutionary",
+      "kind": "skill",
+      "name": "pipeline_treasuries_evolutionary",
+      "description": "Pipeline end-to-end de otimização para treasuries usando evolutionary",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_evolutionary"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_gradient",
+      "kind": "skill",
+      "name": "pipeline_treasuries_gradient",
+      "description": "Pipeline end-to-end de otimização para treasuries usando gradient",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_gradient"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_hubo_qubo",
+      "kind": "skill",
+      "name": "pipeline_treasuries_hubo_qubo",
+      "description": "Pipeline end-to-end de otimização para treasuries usando hubo qubo",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_hubo_qubo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_quantum",
+      "kind": "skill",
+      "name": "pipeline_treasuries_quantum",
+      "description": "Pipeline end-to-end de otimização para treasuries usando quantum",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_quantum"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "pipeline_treasuries_stochastic",
+      "kind": "skill",
+      "name": "pipeline_treasuries_stochastic",
+      "description": "Pipeline end-to-end de otimização para treasuries usando stochastic",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "ai-agents",
+        "pipeline_treasuries_stochastic"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 10
+      }
+    },
+    {
+      "id": "robust_moment_estimator_v1",
+      "kind": "skill",
+      "name": "robust_moment_estimator_v1",
+      "description": "Gera parâmetros robustos para reduzir erro de estimação",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "data-analytics",
+        "robust_moment_estimator_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 2.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_agriculture",
+      "kind": "skill",
+      "name": "rwa_eligibility_agriculture",
+      "description": "Filtro de elegibilidade específico para agriculture tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_agriculture"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_art",
+      "kind": "skill",
+      "name": "rwa_eligibility_art",
+      "description": "Filtro de elegibilidade específico para art tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_art"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_carbon_credits",
+      "kind": "skill",
+      "name": "rwa_eligibility_carbon_credits",
+      "description": "Filtro de elegibilidade específico para carbon credits tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_carbon_credits"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_commodities",
+      "kind": "skill",
+      "name": "rwa_eligibility_commodities",
+      "description": "Filtro de elegibilidade específico para commodities tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_commodities"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_infrastructure",
+      "kind": "skill",
+      "name": "rwa_eligibility_infrastructure",
+      "description": "Filtro de elegibilidade específico para infrastructure tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_infrastructure"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_private_credit",
+      "kind": "skill",
+      "name": "rwa_eligibility_private_credit",
+      "description": "Filtro de elegibilidade específico para private credit tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_private_credit"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_real_estate",
+      "kind": "skill",
+      "name": "rwa_eligibility_real_estate",
+      "description": "Filtro de elegibilidade específico para real estate tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_real_estate"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_eligibility_treasuries",
+      "kind": "skill",
+      "name": "rwa_eligibility_treasuries",
+      "description": "Filtro de elegibilidade específico para treasuries tokenizado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_eligibility_treasuries"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.5
+      }
+    },
+    {
+      "id": "rwa_universe_eligibility_filter_v1",
+      "kind": "skill",
+      "name": "rwa_universe_eligibility_filter_v1",
+      "description": "Bloqueia asset lixo/ilíquido/incompatível antes de contaminar o otimizador",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "rwa_universe_eligibility_filter_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.75
+      }
+    },
+    {
+      "id": "solana_rwa_vault_executor_v1",
+      "kind": "skill",
+      "name": "solana_rwa_vault_executor_v1",
+      "description": "Leva a alocação para trilhos tokenizados em Solana com prova de execução",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "defi",
+        "solana_rwa_vault_executor_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 4.5
+      }
+    },
+    {
+      "id": "tradability_market_impact_simulator_v1",
+      "kind": "skill",
+      "name": "tradability_market_impact_simulator_v1",
+      "description": "Impede que o portfólio \"ótimo\" seja inexequível no mercado",
+      "source": "tamkaize",
+      "providerType": "external",
+      "category": "finance",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "tamkaize",
+        "trading",
+        "tradability_market_impact_simulator_v1"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 3.5
       }
     }
   ]

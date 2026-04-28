@@ -833,7 +833,8 @@ export function AppPage() {
 
   const handleKillSwitch = async () => {
     try {
-      await fetch("http://127.0.0.1:4000/v1/agent/halt", {
+      const gatewayUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+      await fetch(`${gatewayUrl}/v1/agent/halt`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ agentId: "SolClaw_Alpha", reason: "manual_override" })
@@ -847,7 +848,8 @@ export function AppPage() {
 
   const handleSimulateHeroFlow = async () => {
     try {
-      await fetch("http://127.0.0.1:3000/v1/intents/request", {
+      const gatewayUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+      await fetch(`${gatewayUrl}/v1/intents/request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -875,7 +877,8 @@ export function AppPage() {
 
   const handleForceRebalance = async () => {
     try {
-      await fetch("http://127.0.0.1:4000/v1/agent/rebalance", {
+      const gatewayUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+      await fetch(`${gatewayUrl}/v1/agent/rebalance`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ targetAsset: "USDC", strategy: "safe_harbor" })

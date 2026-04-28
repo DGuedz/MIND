@@ -31,8 +31,8 @@ export const REQUIRED_TRACE_FIELDS = [
   "origin.campaign",
   "origin.sourceEvent",
   "builder.github",
-  "builder.solanaReceiveAddress",
-  "payout.recipientAddress",
+  "builder.solanaReceiveAddress.beforePayout",
+  "payout.recipientAddress.beforeSettlement",
   "provenance.sourceCommit",
   "provenance.pullRequestUrl"
 ] as const;
@@ -124,13 +124,21 @@ export function buildGithubOAuthStartPath(code: string, next: string | null | un
   return `/api/github/oauth/start?code=${getInitialVoucherCode(code)}&next=${encodeURIComponent(next || "marketplace")}`;
 }
 
+export function buildGithubOAuthStartPathForSurface(
+  code: string,
+  next: string | null | undefined = "marketplace",
+  returnTo: "contribute" | "register" = "contribute"
+) {
+  return `/api/github/oauth/start?code=${getInitialVoucherCode(code)}&next=${encodeURIComponent(next || "marketplace")}&return_to=${returnTo}`;
+}
+
 export function buildSkillScaffoldCommand(params?: {
   githubHandle?: string;
   solanaReceiveWallet?: string;
   skillName?: string;
 }) {
   const githubHandle = normalizeGithubHandle(params?.githubHandle ?? "");
-  const wallet = params?.solanaReceiveWallet?.trim() || "SUA_WALLET_SOLANA";
+  const wallet = params?.solanaReceiveWallet?.trim() || "WALLET_PENDING_AFTER_GITHUB_REVIEW";
   const skillName = params?.skillName?.trim() || "sua-skill";
   const builder = githubHandle || "Seu Nome";
   const github = githubHandle || "seu-github";
@@ -165,7 +173,7 @@ export function getBuilderRegistration(): BuilderRegistration | null {
 
   try {
     const parsed = JSON.parse(raw) as BuilderRegistration;
-    if (!parsed.githubHandle || !parsed.solanaReceiveWallet || !isValidVoucherCode(parsed.referralCode)) {
+    if (!parsed.githubHandle || !isValidVoucherCode(parsed.referralCode)) {
       return null;
     }
     return parsed;
@@ -188,7 +196,7 @@ export function saveBuilderRegistration(draft: BuilderRegistrationDraft): Builde
     throw new Error("MISSING_GITHUB_HANDLE");
   }
 
-  if (!isLikelySolanaWallet(solanaReceiveWallet)) {
+  if (solanaReceiveWallet && !isLikelySolanaWallet(solanaReceiveWallet)) {
     throw new Error("INVALID_SOLANA_WALLET");
   }
 
@@ -224,7 +232,7 @@ export function getVoucherEligibility(registration: BuilderRegistration | null, 
   }
 
   if (!registration) {
-    return { eligible: false, reason: "Connect GitHub and register Solana wallet before claiming" };
+    return { eligible: false, reason: "Connect GitHub before claiming" };
   }
 
   if (registration.status === "blocked") {
@@ -235,7 +243,7 @@ export function getVoucherEligibility(registration: BuilderRegistration | null, 
     return { eligible: false, reason: "Marketplace attribution consent is required" };
   }
 
-  if (!registration.githubHandle || !isLikelySolanaWallet(registration.solanaReceiveWallet)) {
+  if (!registration.githubHandle) {
     return { eligible: false, reason: "Builder registration is incomplete" };
   }
 
@@ -243,7 +251,11 @@ export function getVoucherEligibility(registration: BuilderRegistration | null, 
     return { eligible: false, reason: `Use the registered campaign code: ${registration.referralCode}` };
   }
 
-  return { eligible: true, reason: `Eligible builder: @${registration.githubHandle}` };
+  const walletNote = isLikelySolanaWallet(registration.solanaReceiveWallet)
+    ? "Wallet ready for settlement"
+    : "Wallet/KMS required before payout or x402 execution";
+
+  return { eligible: true, reason: `Eligible builder: @${registration.githubHandle}. ${walletNote}` };
 }
 
 export function getVoucherClaims(): VoucherClaim[] {
