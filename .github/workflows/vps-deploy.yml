@@ -1,0 +1,175 @@
+name: Deploy MIND VPS
+
+on:
+  workflow_dispatch:
+    inputs:
+      hermes_profile:
+        description: "Enable Hermes services"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+  push:
+    branches: [main]
+    paths:
+      - "services/event-router-service/**"
+      - "services/hermes-auth/**"
+      - "services/hermes-backend/**"
+      - "governance/spec_runtime/**"
+      - "scripts/deploy_vps.sh"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/vps-deploy.yml"
+
+concurrency:
+  group: mind-vps-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production-vps
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute image names
+        id: images
+        shell: bash
+        run: |
+          repo="$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
+          tag="${GITHUB_SHA}"
+          echo "event_router=ghcr.io/${repo}/event-router-service:${tag}" >> "$GITHUB_OUTPUT"
+          echo "hermes_auth=ghcr.io/${repo}/hermes-auth:${tag}" >> "$GITHUB_OUTPUT"
+          echo "hermes_backend=ghcr.io/${repo}/hermes-backend:${tag}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push event router
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: services/event-router-service/deploy/Dockerfile
+          push: true
+          tags: ${{ steps.images.outputs.event_router }}
+
+      - name: Build and push Hermes auth
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: services/hermes-auth/deploy/Dockerfile
+          push: true
+          tags: ${{ steps.images.outputs.hermes_auth }}
+
+      - name: Build and push Hermes backend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: services/hermes-backend/deploy/Dockerfile
+          push: true
+          tags: ${{ steps.images.outputs.hermes_backend }}
+
+      - name: Validate required secrets
+        shell: bash
+        env:
+          VPS_HOST: ${{ secrets.HOSTINGER_VPS_HOST }}
+          VPS_USER: ${{ secrets.HOSTINGER_VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.HOSTINGER_VPS_SSH_KEY }}
+        run: |
+          test -n "$VPS_HOST"
+          test -n "$VPS_USER"
+          test -n "$VPS_SSH_KEY"
+
+      - name: Install SSH key
+        shell: bash
+        env:
+          VPS_SSH_KEY: ${{ secrets.HOSTINGER_VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.HOSTINGER_VPS_HOST }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/mind_vps
+          chmod 600 ~/.ssh/mind_vps
+          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy on VPS
+        shell: bash
+        env:
+          VPS_HOST: ${{ secrets.HOSTINGER_VPS_HOST }}
+          VPS_USER: ${{ secrets.HOSTINGER_VPS_USER }}
+          DEPLOY_REF: ${{ github.sha }}
+          EVENT_ROUTER_SERVICE_TOKEN: ${{ secrets.EVENT_ROUTER_SERVICE_TOKEN }}
+          AUTH_JWKS_URL: ${{ secrets.AUTH_JWKS_URL }}
+          AUTH_ISSUER: ${{ secrets.AUTH_ISSUER }}
+          AUTH_AUDIENCE: ${{ secrets.AUTH_AUDIENCE }}
+          PUBLIC_API_HOST: ${{ vars.PUBLIC_API_HOST || 'api.mindprotocol.xyz' }}
+          TRAEFIK_ACME_EMAIL: ${{ vars.TRAEFIK_ACME_EMAIL || 'ops@mindprotocol.xyz' }}
+          EVENT_ROUTER_IMAGE: ${{ steps.images.outputs.event_router }}
+          HERMES_AUTH_IMAGE: ${{ steps.images.outputs.hermes_auth }}
+          HERMES_BACKEND_IMAGE: ${{ steps.images.outputs.hermes_backend }}
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME || github.actor }}
+          GHCR_READ_TOKEN: ${{ secrets.GHCR_READ_TOKEN }}
+          HERMES_PROFILE: ${{ github.event.inputs.hermes_profile || 'true' }}
+        run: |
+          tar \
+            --exclude='.git' \
+            --exclude='.vercel' \
+            --exclude='**/.vercel' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='**/.env' \
+            --exclude='**/.env.*' \
+            --exclude='node_modules' \
+            --exclude='**/node_modules' \
+            --exclude='apps/landingpage/node_modules' \
+            --exclude='apps/landingpage/dist' \
+            --exclude='logs' \
+            --exclude='logs_' \
+            --exclude='**/logs' \
+            --exclude='**/logs_' \
+            --exclude='assets/credentials' \
+            --exclude='supabase/.temp' \
+            -czf /tmp/mind-release.tgz .
+
+          {
+            printf 'DEPLOY_REF=%q\n' "$DEPLOY_REF"
+            printf 'EVENT_ROUTER_SERVICE_TOKEN=%q\n' "$EVENT_ROUTER_SERVICE_TOKEN"
+            printf 'PUBLIC_API_HOST=%q\n' "$PUBLIC_API_HOST"
+            printf 'TRAEFIK_ACME_EMAIL=%q\n' "$TRAEFIK_ACME_EMAIL"
+            printf 'EVENT_ROUTER_IMAGE=%q\n' "$EVENT_ROUTER_IMAGE"
+            printf 'AUTH_JWKS_URL=%q\n' "$AUTH_JWKS_URL"
+            printf 'AUTH_ISSUER=%q\n' "$AUTH_ISSUER"
+            printf 'AUTH_AUDIENCE=%q\n' "$AUTH_AUDIENCE"
+            printf 'HERMES_AUTH_IMAGE=%q\n' "$HERMES_AUTH_IMAGE"
+            printf 'HERMES_BACKEND_IMAGE=%q\n' "$HERMES_BACKEND_IMAGE"
+            printf 'GHCR_USERNAME=%q\n' "$GHCR_USERNAME"
+            printf 'GHCR_READ_TOKEN=%q\n' "$GHCR_READ_TOKEN"
+            printf 'HERMES_PROFILE=%q\n' "$HERMES_PROFILE"
+            printf 'APP_DIR=%q\n' "/opt/mind/current"
+          } > /tmp/mind-runtime.env
+
+          ssh -i ~/.ssh/mind_vps "$VPS_USER@$VPS_HOST" \
+            "mkdir -p /opt/mind/releases/$DEPLOY_REF"
+
+          scp -i ~/.ssh/mind_vps /tmp/mind-release.tgz \
+            "$VPS_USER@$VPS_HOST:/tmp/mind-release.tgz"
+
+          scp -i ~/.ssh/mind_vps /tmp/mind-runtime.env \
+            "$VPS_USER@$VPS_HOST:/tmp/mind-runtime.env"
+
+          ssh -i ~/.ssh/mind_vps "$VPS_USER@$VPS_HOST" \
+            "tar -xzf /tmp/mind-release.tgz -C /opt/mind/releases/$DEPLOY_REF && ln -sfn /opt/mind/releases/$DEPLOY_REF /opt/mind/current && install -m 600 /tmp/mind-runtime.env /opt/mind/runtime.env"
+
+          ssh -i ~/.ssh/mind_vps "$VPS_USER@$VPS_HOST" \
+            "bash -lc 'set -a && . /opt/mind/runtime.env && set +a && bash /opt/mind/current/scripts/deploy_vps.sh'"

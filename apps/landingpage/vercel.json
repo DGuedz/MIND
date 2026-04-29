@@ -29,7 +29,7 @@
   "rewrites": [
     {
       "source": "/v1/(.*)",
-      "destination": "https://mind-api-gateway.vercel.app/v1/$1"
+      "destination": "https://api.mindprotocol.xyz/v1/$1"
     },
     {
       "source": "/catalog/(.*)",
