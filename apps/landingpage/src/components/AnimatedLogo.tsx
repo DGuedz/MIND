@@ -35,12 +35,13 @@ export const AnimatedLogo = ({ className = "", size = "lg", showGlow = true }: A
       <div className="hologram-glitch w-full h-full">
         <div
           style={{
-            backgroundImage: "url('/logo_hero.svg')",
-            backgroundSize: "contain",
+            backgroundImage: "url('/mind_logo_profile.png')",
+            backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             width: "100%",
             height: "100%",
+            borderRadius: "50%",
           }}
         />
         
