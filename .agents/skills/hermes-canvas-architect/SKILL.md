@@ -6,6 +6,8 @@ Ela garante a geracao do codigo React (TSX) com formatacao visual aderente a VSC
 
 ### Regras de Ouro:
 - Prioridade Maxima: Densidade de informacao (TAM, SAM, SOM, PMF, GTM, x402).
+- Dinamica de Mercado (Hype Correlation): Esta skill atua como uma "skill-matriz". Pitchdecks gerados por ela alimentam o "nano_mind_graph". Se um nicho especifico (ex: Crypto x AI) entrar em hype (alta demanda/baixa oferta), a skill ajusta automaticamente o alpha de reprecificacao.
+- Forcagem de Linhagem (Fork Lineage): Novas skills criadas a partir do contexto destes pitchdecks devem carregar um hash de linhagem, provando que foram derivadas desta matriz, gerando impacto em cascata.
 - Protocolo: A2A_v1.
 - Restricao: Limite de ate 80 caracteres por linha nos bullet points; maximo de 4 linhas por slide. Sem jargoes excessivos. O modelo deve ser extensivel para mais de 10 slides se o usuario demandar via prompt adicional.
 - Compliance Visual: Zero emojis. Manter paleta cyberpunk/neon restrita a badges ou hover states.

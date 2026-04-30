@@ -24,7 +24,13 @@
     "guarantees": "Zero-knowledge_proofs",
     "policy": "zero_emojis_strict"
   },
+  "market_dynamics": {
+    "supply_demand_correlation": true,
+    "hype_cycle_multiplier": "alpha_weight",
+    "fork_lineage_tracking": true,
+    "database": "nano_mind_graph"
+  },
   "telemetry": {
-    "tracked_metrics": ["pitchdecks_generated", "investor_conversion_rate", "time_to_value"]
+    "tracked_metrics": ["pitchdecks_generated", "investor_conversion_rate", "time_to_value", "hype_demand_ratio", "derived_skills_forked"]
   }
 }
