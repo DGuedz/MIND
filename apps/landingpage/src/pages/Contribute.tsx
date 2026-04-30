@@ -31,6 +31,14 @@ export function ContributePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
+            <div className="mb-12">
+              <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
+                Build and monetize agent skills.
+              </h1>
+              <p className="text-zinc-500 text-lg leading-relaxed max-w-2xl">
+                MIND turns your code into an Agent Card: a priced, traceable skill that other agents can discover and pay for. Your skill lives in your GitHub fork.
+              </p>
+            </div>
             <BuilderTrackOverview registration={registration} />
           </motion.div>
 

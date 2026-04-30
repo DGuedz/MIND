@@ -1,0 +1,4 @@
+interface:
+  display_name: "Transparent Video Compositor"
+  short_description: "Layer transparent video over text without boxes or broken compositing."
+  default_prompt: "Fix this transparent video composition so the video overlays text smoothly without artificial backgrounds or visible boxes."

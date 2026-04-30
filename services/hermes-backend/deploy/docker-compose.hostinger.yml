@@ -1,0 +1,99 @@
+services:
+  traefik:
+    container_name: mind-hermes-traefik
+    image: traefik:v3.1
+    restart: unless-stopped
+    command:
+      - --api.dashboard=false
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL:-ops@mindprotocol.xyz}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-letsencrypt:/letsencrypt
+    networks:
+      - mind-hermes-edge
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.hermes-jwt.forwardauth.address=http://hermes-auth:9000/verify
+      - traefik.http.middlewares.hermes-jwt.forwardauth.trustForwardHeader=false
+      - traefik.http.middlewares.hermes-jwt.forwardauth.authResponseHeaders=X-Auth-Subject,X-Auth-Issuer,X-Auth-Audience
+
+  hermes-auth:
+    container_name: mind-hermes-auth
+    image: ${HERMES_AUTH_IMAGE:-mind-hermes-auth:local}
+    build:
+      context: ../../..
+      dockerfile: services/hermes-auth/deploy/Dockerfile
+    restart: unless-stopped
+    expose:
+      - "9000"
+    environment:
+      AUTH_BIND_ADDR: 0.0.0.0:9000
+      AUTH_VERIFY_PATH: /verify
+      AUTH_JWKS_URL: ${AUTH_JWKS_URL:?set_AUTH_JWKS_URL}
+      AUTH_ISSUER: ${AUTH_ISSUER:?set_AUTH_ISSUER}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:?set_AUTH_AUDIENCE}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9000/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    networks:
+      - mind-hermes-edge
+
+  hermes-backend:
+    container_name: mind-hermes-backend
+    image: ${HERMES_BACKEND_IMAGE:-mind-hermes-backend:local}
+    build:
+      context: ../../..
+      dockerfile: services/hermes-backend/deploy/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      hermes-auth:
+        condition: service_healthy
+    expose:
+      - "8001"
+    environment:
+      HERMES_HOST: 0.0.0.0
+      HERMES_PORT: 8001
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hermes-health.entrypoints=websecure
+      - traefik.http.routers.hermes-health.rule=Host(`${PUBLIC_API_HOST:-api.mindprotocol.xyz}`) && Path(`/hermes/health`) && Method(`GET`)
+      - traefik.http.routers.hermes-health.tls=true
+      - traefik.http.routers.hermes-health.tls.certresolver=letsencrypt
+      - traefik.http.routers.hermes-health.service=hermes-svc
+      - traefik.http.routers.hermes-events.entrypoints=websecure
+      - traefik.http.routers.hermes-events.rule=Host(`${PUBLIC_API_HOST:-api.mindprotocol.xyz}`) && Path(`/hermes/events`) && Method(`POST`)
+      - traefik.http.routers.hermes-events.middlewares=hermes-jwt
+      - traefik.http.routers.hermes-events.tls=true
+      - traefik.http.routers.hermes-events.tls.certresolver=letsencrypt
+      - traefik.http.routers.hermes-events.service=hermes-svc
+      - traefik.http.services.hermes-svc.loadbalancer.server.port=8001
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8001/hermes/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    networks:
+      - mind-hermes-edge
+
+networks:
+  mind-hermes-edge:
+    name: mind-hermes-edge
+
+volumes:
+  traefik-letsencrypt:

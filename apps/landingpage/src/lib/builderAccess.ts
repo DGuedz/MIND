@@ -8,22 +8,22 @@ export const BUILDER_TRACK_STEPS = [
   {
     id: "01",
     title: "Connect GitHub",
-    body: "Start with builder identity. GitHub becomes the source for PR, commit trail and marketplace attribution."
+    body: "Start with builder identity. GitHub is your builder identity and your storage layer."
   },
   {
     id: "02",
     title: "Create Skill",
-    body: "Generate a SKILL.md and manifest.json with builder, payout, origin and provenance fields already present."
+    body: "Generate a SKILL.md. This creates a monetizable unit (Agent Card), not just code."
   },
   {
     id: "03",
     title: "Open PR",
-    body: "Submit the skill under agent-cards/skills/community and keep the source commit and PR URL traceable."
+    body: "Submit the skill under agent-cards/skills/community. Your PR is your listing request."
   },
   {
     id: "04",
     title: "Get Listed",
-    body: "Approved skills become Agent Cards in the MIND Marketplace with explicit pricing and revenue routing."
+    body: "Approved skills become revenue-generating assets in the MIND Marketplace with explicit pricing."
   }
 ] as const;
 

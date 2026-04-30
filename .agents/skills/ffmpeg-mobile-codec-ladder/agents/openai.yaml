@@ -1,0 +1,4 @@
+interface:
+  display_name: "FFmpeg Mobile Codec Ladder"
+  short_description: "Encode poster, AV1, HEVC, H.264, and scrub variants for mobile web video."
+  default_prompt: "Create a mobile-first FFmpeg codec ladder for this video and report the generated asset sizes."

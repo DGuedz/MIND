@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Motion Factory"
+  short_description: "Route raw 3D/video assets into verified mobile web motion."
+  default_prompt: "Plan and execute a mobile-first web video motion pipeline with asset audit, FFmpeg encoding, frontend integration, transparency handling, and render QA."

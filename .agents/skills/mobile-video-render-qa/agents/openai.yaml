@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Video Render QA"
+  short_description: "Verify mobile/desktop routes and visual rendering after video motion changes."
+  default_prompt: "Run a mobile-first render QA pass for this video change, including build, route checks, media checks, and screenshot evidence when available."

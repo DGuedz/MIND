@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scroll Scrub Video Choreographer"
+  short_description: "Wire scroll, mouse, and hover timelines for smooth web video motion."
+  default_prompt: "Implement or fix a scroll/mouse-driven video interaction with precise timing, smooth transitions, and mobile fallback."

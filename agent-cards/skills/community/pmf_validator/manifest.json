@@ -1,0 +1,14 @@
+{
+  "name": "pmf_validator",
+  "version": "1.0.0",
+  "builder": {
+    "name": "MIND Core",
+    "github": "DGuedz"
+  },
+  "pricing": {
+    "model": "free",
+    "price_usdc": 0
+  },
+  "category": "validation",
+  "tags": ["pmf", "product", "analysis"]
+}

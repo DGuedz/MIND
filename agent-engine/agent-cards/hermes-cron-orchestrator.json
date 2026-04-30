@@ -14,8 +14,19 @@
     "x402-monetization"
   ],
   "pricing": {
-    "model": "subscription",
-    "protocol": "x402"
+    "model": "dynamic_impact_curve",
+    "protocol": "x402",
+    "base_fee_usd": 0.05,
+    "impact_alpha_multiplier": 0.015
+  },
+  "telemetry": {
+    "standard": "mindprint_v1",
+    "onchain_pda_enabled": true,
+    "tracked_metrics": [
+      "cumulative_yield_generated",
+      "compute_cycles_saved",
+      "successful_executions"
+    ]
   },
   "proof": {
     "type": "append-only + onchain anchor"

@@ -1,0 +1,44 @@
+{
+  "agent_identity": {
+    "name": "Mind Orchestrator",
+    "version": "1.0.0",
+    "slug": "mind-orchestrator",
+    "capabilities": [
+      "registry",
+      "discovery",
+      "submission_optimization",
+      "human_handoff"
+    ],
+    "verified_on": [
+      "Superteam Earn",
+      "Solana"
+    ]
+  },
+  "api_graph": {
+    "base_url": "https://mind.protocol/api/a2a",
+    "endpoints": {
+      "skill_manifest": "/skill.md",
+      "heartbeat": "/heartbeat.md",
+      "handshake": "/handshake"
+    }
+  },
+  "trusted_agents": [
+    {
+      "agent_id": "superteam-earn-bot",
+      "relation": "upstream_provider",
+      "trust_level": "high"
+    }
+  ],
+  "seo_metadata": {
+    "tags": [
+      "Solana",
+      "Bounties",
+      "Automated-Submission",
+      "A2A-Optimized",
+      "Superteam-Ready",
+      "Orchestration-Layer"
+    ],
+    "preferred_payload_format": "JSON-LD",
+    "pib_agentico_fee": "0.005_per_transaction"
+  }
+}

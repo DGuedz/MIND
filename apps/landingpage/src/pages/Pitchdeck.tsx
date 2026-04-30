@@ -26,9 +26,10 @@ const slides = [
     subtitle: "A Camada de Liquidação A2A",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Apresentação baseada no modelo Lean Canvas.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Focada na economia de agentes.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Arquitetura <em className="not-italic text-white">Zero-Trust</em> para execução autônoma.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Protocolo nativo para a nova Economia Agêntica.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Liquidação Solana-first via nanopagamentos x402.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Execução Zero-Trust sem depender de confiança humana.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Transformando código em Ativos de Rendimento Contínuo.</li>
       </ul>
     ),
     step: "Intro",
@@ -39,41 +40,41 @@ const slides = [
     title: "1. O Problema",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">50%</strong> do tráfego web já é originado por Agentes autonomos.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">37%</strong> dos sites bloqueiam agentes hoje.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> A economia A2A sofre com APIs fragmentadas.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Faltam trilhos nativos para monetização contínua.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Assinaturas SaaS (Web2) não servem para robôs autônomos.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Falta infraestrutura para compra e venda direta entre IAs.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Preço fixo ignora a eficiência e o lucro real gerado.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> É impossível auditar publicamente o impacto financeiro da IA.</li>
       </ul>
     ),
-    step: "Lean Canvas",
+    step: "Problema",
     icon: Layers,
     bgEffect: "radial-gradient(600px circle at 10% 10%, rgba(255,255,255,0.05), transparent 70%)"
   },
   {
-    title: "2. A Solução",
+    title: "2. A Solução (PMF)",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Transformamos <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">+100</strong> skills em <em className="not-italic text-white">Agent Cards</em>.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Padronizamos veículos de execução agêntica.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> O protocolo exige credenciais de identidade.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <em className="not-italic text-white">Intent Firewall</em> checa regras e liquida na hora.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> PMF Validado: Skills viram Yield-Bearing Assets on-chain.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Telemetria A2A: Registramos cada milissegundo de execução.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Preço Dinâmico: Custo é ajustado pelo lucro real entregue.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Solana-first: Robôs pagam robôs atomicamente em 400ms.</li>
       </ul>
     ),
-    step: "Lean Canvas",
+    step: "Solução",
     icon: Cpu,
     bgEffect: "radial-gradient(700px circle at 90% 90%, rgba(255,255,255,0.04), transparent 80%)"
   },
   {
-    title: "3. Proposta de Valor",
+    title: "3. Mercado (TAM & SOM)",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Ferramentas soltas viram operações soberanas.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Operações A2A guiadas por segurança <em className="not-italic text-white">Zero-Trust</em>.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Liquidação atômica com latência <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">&lt; 400ms</strong>.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Execução gera recibo imutável (<em className="not-italic text-white">Mindprint</em>/cNFT).</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> TAM: Economia Agêntica global projetada em US$ 50 Bilhões.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> SAM: Intersecção Crypto x AI e ecossistema DeFi na Solana.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> SOM: +10.000 builders ativos nas trilhas do Colosseum/Frontier.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Foco inicial: Infraestrutura nativa para hackathons e Bounties.</li>
       </ul>
     ),
-    step: "Lean Canvas",
+    step: "Mercado",
     icon: Terminal,
     bgEffect: "radial-gradient(900px circle at 80% 20%, rgba(255,255,255,0.05), transparent 50%)"
   },
@@ -81,78 +82,64 @@ const slides = [
     title: "4. Vantagem Injusta",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Arquitetura <em className="not-italic text-white">Solana-first</em> projetada para escala.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Rede robusta: <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">100%</strong> de uptime nos últimos <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">16 meses</strong>.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">US$ 1 bilhão</strong> em receita de apps por trimestre.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Infraestrutura perfeita para nanopagamentos x402.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Construído 100% na Solana para nanopagamentos atômicos.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Mindprints: Sistema proprietário de auditoria e telemetria.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Alinhamento Frontier: Arquitetura desenhada para escala institucional.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Blue Ocean: Única infraestrutura nativa de liquidação A2A.</li>
       </ul>
     ),
-    step: "Lean Canvas",
+    step: "Diferencial",
     icon: FingerprintBot,
     bgEffect: "radial-gradient(700px circle at 20% 80%, rgba(255,255,255,0.06), transparent 60%)"
   },
   {
-    title: "5. Segmentos de Clientes",
+    title: "5. Go-to-Market (GTM)",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Foco nos <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">+3.200 devs ativos</strong> ao mês na Solana.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Carteiras de autocustódia como a Solflare.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Base de <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">+4 milhões</strong> de usuários ativados.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Facilidade de delegação através de <em className="not-italic text-white">Session Keys</em>.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> A2A SEO: Robôs encontram skills organicamente via JSON-LD.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Tração acelerada via Colosseum Frontier, Hackathons e The Garage.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Integração direta com GitHub para registro imutável on-chain.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Chat UI Onboarding converte desenvolvedores em segundos.</li>
       </ul>
     ),
-    step: "Lean Canvas",
+    step: "GTM",
     icon: Layers,
     bgEffect: "radial-gradient(800px circle at 50% 20%, rgba(255,255,255,0.05), transparent 60%)"
   },
   {
-    title: "6. Canais de Distribuição",
+    title: "6. Modelo de Negócios",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> GitHub como vitrine e garagem de descoberta A2A.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Sinergia com plataformas como o ClawHub.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Demanda validada com <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">180 mil</strong> usuários ativos.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">12 milhões</strong> de downloads de ferramentas IA.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Taxa Base + Porcentagem sobre o Lucro Real Gerado (Yield).</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Split Automático 92/8 garantido via smart contracts.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">92%</strong> direto para a carteira do criador da ferramenta.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">8%</strong> financia a segurança e expansão do protocolo MIND.</li>
       </ul>
     ),
-    step: "Lean Canvas",
-    icon: Terminal,
-    bgEffect: "radial-gradient(600px circle at 20% 50%, rgba(255,255,255,0.04), transparent 70%)"
-  },
-  {
-    title: "7. Estrutura de Receitas",
-    content: (
-      <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> <em className="not-italic text-white">Atomic Settlement</em> puro sem escrows complexos.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Viabiliza nanopagamentos menores que <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">US$ 0,05</strong>.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Split automático: <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">92%</strong> vai direto para o dev.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Take rate: <strong className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">8%</strong> de pedágio vai para o protocolo.</li>
-      </ul>
-    ),
-    step: "Lean Canvas",
+    step: "Receita",
     icon: Cpu,
     bgEffect: "radial-gradient(700px circle at 80% 50%, rgba(255,255,255,0.05), transparent 60%)"
   },
   {
-    title: "8. Métricas-Chave",
+    title: "7. Tração e Métricas",
     content: (
       <ul className="space-y-4 list-none pl-0">
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Quantidade de <em className="not-italic text-white">Agent Cards</em> listados e ativos.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Volume financeiro (TPV) processado em USDC.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Total de <em className="not-italic text-white">Mindprints</em> (cNFTs) emitidos on-chain.</li>
-        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Validação constante de operações M2M.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Dashboard ao vivo rastreando mercado secundário A2A.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Volume total de lucro financeiro (USDC) gerado na rede.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Ciclos de processamento (Compute) poupados no mundo real.</li>
+        <li className="flex items-start gap-3"><span className="text-zinc-500 mt-1">-</span> Total de carteiras recebendo royalties a cada execução.</li>
       </ul>
     ),
-    step: "Lean Canvas",
+    step: "Métricas",
     icon: Layers,
     bgEffect: "radial-gradient(900px circle at 50% 80%, rgba(255,255,255,0.06), transparent 50%)"
   },
   {
-    title: "Pronto para Operar?",
-    subtitle: "Inicie a Liquidação Atômica",
+    title: "A Nova Economia Começou",
+    subtitle: "Construa sua primeira máquina de rendimento",
     content: (
       <div className="text-center">
-        Acesse nosso Marketplace de Agentes ou registre-se como um Builder para implantar seus próprios <em className="not-italic text-white">Agent Cards</em>.
+        Explore nosso painel de telemetria ou converse com o Hermes para publicar sua primeira ferramenta A2A.
       </div>
     ),
     step: "CTA",

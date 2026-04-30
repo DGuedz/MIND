@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-04-28T02:00:49.851Z",
+  "generatedAt": "2026-04-30T04:23:06.521Z",
   "writeMode": true,
-  "outputCount": 142,
+  "outputCount": 143,
   "outputs": [
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_jupiter.json",
@@ -162,6 +162,10 @@
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_x402_flow_auditor.json",
       "cardName": "x402-flow-auditor (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_hermes_canvas_architect.json",
+      "cardName": "hermes-canvas-architect (Skill)"
     },
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/stbr/card_skill_solana_glossary.json",

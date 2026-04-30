@@ -1,0 +1,4 @@
+interface:
+  display_name: "3D Motion Video Director"
+  short_description: "Specify 3D video masters for web hero motion, alpha, and mobile-safe composition."
+  default_prompt: "Create a production brief for a 3D animated web video asset with mobile-safe framing, transparency, and frontend handoff requirements."

@@ -63,6 +63,17 @@
         "currency": "USDC",
         "price": 0
       }
+    },
+    {
+      "name": "hermes-canvas-architect",
+      "category": "productivity",
+      "description": "Skill meta-cognitiva para geração modular de Pitchdecks (10+ slides). Estrutura automática de TAM, SAM, SOM, PMF e GTM em código React (TSX) com VSC Economy (Zero Emojis).",
+      "repoPath": ".agents/skills/hermes-canvas-architect/SKILL.md",
+      "pricing": {
+        "model": "dynamic_impact_curve",
+        "currency": "USDC",
+        "price": 0.5
+      }
     }
   ]
 }

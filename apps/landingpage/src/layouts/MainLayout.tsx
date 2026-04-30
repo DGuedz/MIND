@@ -8,7 +8,8 @@ import {
   Search,
   Globe,
   Shield,
-  Presentation
+  Presentation,
+  Store
 } from "lucide-react"
 import { Logo } from "../components/Logo"
 
@@ -37,7 +38,8 @@ export function MainLayout({ children }: MainLayoutProps) {
 
   const navItems = [
     { id: "home", label: "Home", icon: HomeIcon, path: "/" },
-    { id: "discover", label: "Marketplace", icon: Search, path: "/marketplace" },
+    { id: "marketplace", label: "Marketplace", icon: Store, path: "/marketplace" },
+    { id: "discover", label: "Discovery", icon: Search, path: "/start" },
     { id: "infrastructure", label: "Infrastructure", icon: Globe, path: "/infrastructure" },
     { id: "features", label: "Features", icon: Shield, path: "/features" },
     { id: "pitchdeck", label: "Pitchdeck", icon: Presentation, path: "/pitchdeck" },
@@ -70,7 +72,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-0"
           style={{
             opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.02), transparent 40%)`
+            background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.05), transparent 40%)`
           }}
         />
 
@@ -79,7 +81,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           className="absolute bottom-0 left-0 right-0 h-[1px] pointer-events-none transition-opacity duration-500 z-10"
           style={{
             opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.25), transparent 100%)`
+            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.5), transparent 100%)`
           }}
         />
 
@@ -106,7 +108,7 @@ export function MainLayout({ children }: MainLayoutProps) {
               {navItems.map((item) => (
                 <div 
                   key={item.id}
-                  className={`flex shrink-0 items-center gap-3 whitespace-nowrap text-[10px] font-mono uppercase tracking-[0.2em] xl:tracking-[0.26em] transition-all duration-500 cursor-pointer ${activeTab === item.id ? "text-white opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" : "text-zinc-600 hover:text-zinc-300 opacity-60 hover:opacity-100"}`}
+                  className={`flex shrink-0 items-center gap-3 whitespace-nowrap text-[10px] font-mono uppercase tracking-[0.2em] xl:tracking-[0.26em] transition-all duration-500 cursor-pointer ${activeTab === item.id ? "text-white opacity-100 drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]" : "text-zinc-600 hover:text-white opacity-60 hover:opacity-100 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"}`}
                   onClick={() => navigate(item.path)}
                   style={{ transform: isHovered && activeTab === item.id ? `translateZ(30px)` : `translateZ(10px)` }}
                 >
@@ -114,32 +116,6 @@ export function MainLayout({ children }: MainLayoutProps) {
                 </div>
               ))}
             </nav>
-          </div>
-
-          <div 
-            className="flex shrink-0 items-center gap-6 transition-transform duration-300"
-            style={{ transform: isHovered ? `translateZ(20px)` : `translateZ(0px)` }}
-          >
-            <div 
-              className="group hidden 2xl:flex items-center gap-4 whitespace-nowrap text-[9px] font-mono uppercase tracking-[0.4em] cursor-pointer transition-all duration-300 text-zinc-600 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-              onClick={() => navigate("/pitchdeck")}
-              title="View MIND Pitchdeck"
-            >
-              Pitchdeck <span className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-white group-hover:shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all" /> Lean Canvas
-            </div>
-            <button
-              type="button"
-              className="hidden xl:inline whitespace-nowrap text-[9px] text-zinc-600 hover:text-white transition-all duration-500 font-mono uppercase tracking-[0.32em] 2xl:tracking-[0.4em] hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-              onClick={() => navigate("/#github")}
-            >
-              Repository
-            </button>
-            <div 
-              className="text-zinc-600 hover:text-white transition-all duration-500 cursor-pointer hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]"
-              onClick={() => navigate("/contribute")}
-            >
-              <Settings className="w-3.5 h-3.5" />
-            </div>
           </div>
         </div>
       </header>

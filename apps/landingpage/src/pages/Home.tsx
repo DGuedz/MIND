@@ -1264,21 +1264,38 @@ export function HomePage() {
 
   // Pre-fetch the video as a Blob to prevent net::ERR_ABORTED on Vercel/Vite
   // due to excessive HTTP Range requests during scroll scrubbing.
+  // We use an AbortController to cleanly cancel the fetch if the component unmounts.
   useEffect(() => {
+    const controller = new AbortController();
     let objectUrl = "";
-    fetch("/sanduiche_rev_mind_solana_core.mp4")
+    let isMounted = true;
+
+    fetch("/sanduiche_rev_mind_solana_core.mp4", { signal: controller.signal })
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch video");
         return res.blob();
       })
       .then(blob => {
-        objectUrl = URL.createObjectURL(blob);
-        setVideoSrc(objectUrl);
+        if (isMounted) {
+          objectUrl = URL.createObjectURL(blob);
+          setVideoSrc(objectUrl);
+        }
       })
-      .catch(err => console.error("Error pre-fetching video:", err));
+      .catch(err => {
+        if (err.name !== "AbortError" && isMounted) {
+          console.error("Error pre-fetching video:", err);
+          // Fallback to direct URL if blob fetch fails
+          setVideoSrc("/sanduiche_rev_mind_solana_core.mp4");
+        }
+      });
 
     return () => {
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      isMounted = false;
+      controller.abort();
+      if (objectUrl) {
+        // Delay revocation to allow the video element to safely switch its source
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 100);
+      }
     };
   }, []);
 
@@ -1290,7 +1307,7 @@ export function HomePage() {
     offset: ["start start", "end end"]
   });
 
-  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0], { clamp: true });
+  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0], { clamp: true });
 
   useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
     if (videoRef.current && videoRef.current.duration) {
@@ -1398,8 +1415,10 @@ export function HomePage() {
                 </h1>
               </div>
 
-              <p className="text-lg md:text-xl text-zinc-300 leading-relaxed max-w-2xl font-light text-center drop-shadow-[0_0_12px_rgba(255,255,255,0.25)] transition-all duration-700 hover:text-white hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-                We build the on-chain roads, you build the intelligence. Connect your GitHub to publish Agent Cards, monetize your skills, and settle atomically with a 92/8 split.
+              <p className="text-lg md:text-xl text-center max-w-2xl transition-all duration-700">
+                <MetallicText progress={scrollYProgress} className="leading-relaxed font-mono drop-shadow-[0_0_12px_rgba(255,255,255,0.25)] hover:text-white hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                  We build the on-chain roads, you build the intelligence. Connect your GitHub to publish Agent Cards, monetize your skills, and settle atomically with a 92/8 split.
+                </MetallicText>
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 pt-4 justify-center">
@@ -1409,14 +1428,6 @@ export function HomePage() {
                   onClick={() => navigate("/contribute")}
                 >
                   Connect GitHub
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white/30 text-white hover:bg-white/5 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px] bg-black/20 backdrop-blur-sm"
-                  onClick={() => navigate("/app")}
-                >
-                  Enter Command Dashboard
                 </Button>
               </div>
             </motion.div>
@@ -1443,12 +1454,12 @@ export function HomePage() {
           </Badge>
 
           <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1] font-mono uppercase">
-            Neural Message <br />
-            <span className="italic font-light opacity-60 text-zinc-400">Bridge.</span>
+            A2A Settlement <br />
+            <span className="italic font-light opacity-60 text-zinc-400">Rails.</span>
           </h2>
 
           <p className="text-zinc-500 leading-relaxed font-light text-lg">
-            Where money becomes a message. Experience the zero-latency A2A settlement rails. Credentials define authority; x402 defines payment.
+            Economic infrastructure that decides, executes, and proves for A2A flows. Protect capital with policy gates, route execution under constraints, and produce auditable proof bundles.
           </p>
 
           <div className="space-y-6 pt-4">
@@ -1636,21 +1647,21 @@ export function HomePage() {
           </Badge>
 
           <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
-            List Cards. <br />
-            <span className="italic font-light opacity-60">Get Paid Per Execution.</span>
-          </h2>
+                Discover Skills. <br />
+                <span className="italic font-light opacity-60">Collaborate with Superteam BR.</span>
+              </h2>
 
-          <p className="text-zinc-500 leading-relaxed font-light text-lg">
-            Publish reusable Agent Cards with explicit pricing, evidence requirements, and payout splits. Settlement is policy-first and atomic via Cloak/x402, with proof minted after execution.
-          </p>
+              <p className="text-zinc-500 leading-relaxed font-light text-lg">
+                Join the Colosseum Frontier Hackathon initiative. Connect your GitHub to discover Agent Cards like the Superteam Brasil Bounty Copilot. Build, share, and find the exact PMF for your project through mutual agent collaboration.
+              </p>
 
           <div className="flex flex-col sm:flex-row gap-6 pt-2">
             <Button
               size="lg"
               className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
-              onClick={() => navigate("/contribute")}
+              onClick={() => navigate("/start")}
             >
-              Connect GitHub
+              [Connect GitHub to Discover]
             </Button>
             <Button
               size="lg"

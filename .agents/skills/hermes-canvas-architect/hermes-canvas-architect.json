@@ -1,0 +1,30 @@
+{
+  "agent_identity": {
+    "name": "Hermes_Canvas_Architect_Agent",
+    "version": "1.0.0",
+    "protocol": "A2A_v1",
+    "pib_agentico_fee": "dynamic_impact_curve"
+  },
+  "capabilities": [
+    {
+      "service": "modular_pitchdeck_generation",
+      "methods": ["POST", "GENERATE"],
+      "auth_required": true,
+      "encryption": "AES-256",
+      "parameters": {
+        "max_slides": 10,
+        "extensible": true,
+        "format": "tsx_lean_canvas",
+        "theme": "vsc_economy"
+      }
+    }
+  ],
+  "compliance": {
+    "standard": "A2A_Agentic_Safety_Card",
+    "guarantees": "Zero-knowledge_proofs",
+    "policy": "zero_emojis_strict"
+  },
+  "telemetry": {
+    "tracked_metrics": ["pitchdecks_generated", "investor_conversion_rate", "time_to_value"]
+  }
+}

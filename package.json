@@ -44,7 +44,9 @@
     "verify:colab-runtime": "python3 scripts/colab_runtime_probe.py",
     "check:tailwind": "pnpm --filter landingpage-temp run check:tailwind",
     "clean:heavy": "bash scripts/clean_heavy.sh",
-    "master-skill": "node scripts/master-skill.mjs"
+    "master-skill": "node scripts/master-skill.mjs",
+    "validate:hermes:hostinger": "bash scripts/deploy_hermes_hostinger.sh --check",
+    "deploy:hermes:hostinger": "bash scripts/deploy_hermes_hostinger.sh --deploy"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",

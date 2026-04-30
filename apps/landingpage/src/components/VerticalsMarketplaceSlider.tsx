@@ -1,4 +1,4 @@
-import { type ComponentType, useState, useMemo } from "react";
+import { type ComponentType, useState, useMemo, useEffect, useRef } from "react";
 
 type VerticalStat = {
   label: string;
@@ -46,6 +46,13 @@ export function VerticalsMarketplaceSlider({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Keep track of the latest index for the wheel event handler without re-binding
+  const currentIndexRef = useRef(activeIndex);
+  useEffect(() => {
+    currentIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   const maxIndex = Math.max(0, verticals.length - 1);
   const safeIndex = Math.max(0, Math.min(activeIndex, Math.max(0, verticals.length - 1)));
@@ -56,6 +63,52 @@ export function VerticalsMarketplaceSlider({
     setActiveIndex(clampedIdx);
   };
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let isTransitioning = false;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Ignore mainly horizontal scrolls
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
+      // Ignore very small scroll movements (trackpad noise)
+      if (Math.abs(e.deltaY) < 10) return;
+
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const currentIndex = currentIndexRef.current;
+
+      // Allow natural page scroll if we are at the boundaries
+      if (
+        (direction === 1 && currentIndex === maxIndex) ||
+        (direction === -1 && currentIndex === 0)
+      ) {
+        return;
+      }
+
+      // Prevent page from scrolling
+      e.preventDefault();
+
+      if (isTransitioning) return;
+      isTransitioning = true;
+
+      // Move to the next/prev slide
+      const nextIdx = currentIndex + direction;
+      setActiveIndex(Math.max(0, Math.min(maxIndex, nextIdx)));
+
+      // Cooldown to prevent flying through all slides
+      setTimeout(() => {
+        isTransitioning = false;
+      }, 700); 
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, [maxIndex]);
+
   const headerMeta = useMemo(() => {
     if (!active) return { vertical: "", count: "" };
     const count = String(verticals.length).padStart(2, "0");
@@ -64,7 +117,7 @@ export function VerticalsMarketplaceSlider({
   }, [active, safeIndex, verticals.length]);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
       <div className="flex flex-col gap-4 md:gap-8 pb-4 md:pb-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-8 border-b border-white/20 pb-4 md:pb-6 shrink-0">
           <div className="space-y-2 md:space-y-3 max-w-2xl">

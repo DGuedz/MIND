@@ -55,6 +55,7 @@ Public routes:
 
 - `GET https://api.mindprotocol.xyz/v1/health`
 - `POST https://api.mindprotocol.xyz/v1/events`
+- `GET https://api.mindprotocol.xyz/hermes/health`
 - `POST https://api.mindprotocol.xyz/hermes/events`
 
 Internal routes:
@@ -294,6 +295,39 @@ curl -i -X POST https://api.mindprotocol.xyz/hermes/events \
 ```
 
 Expected Hermes result without JWT: `401`.
+
+## Hermes-Only Hostinger Runtime
+
+For a dedicated 24/7 Hermes VPS runtime, use:
+
+```bash
+pnpm validate:hermes:hostinger
+pnpm deploy:hermes:hostinger
+```
+
+Required local environment:
+
+```bash
+export HOSTINGER_VPS_HOST=<vps-ip-or-host>
+export HOSTINGER_VPS_USER=<deploy-user>
+export HOSTINGER_VPS_SSH_KEY_PATH=~/.ssh/mind_vps_deploy
+export AUTH_JWKS_URL=https://<issuer>/.well-known/jwks.json
+export AUTH_ISSUER=https://<issuer>/
+export AUTH_AUDIENCE=mind-hermes-api
+export PUBLIC_API_HOST=api.mindprotocol.xyz
+```
+
+The deploy script writes `/opt/mind/hermes/runtime.env` with `0600` permissions on the VPS and does not copy local `.env` files.
+
+Evidence gates:
+
+```bash
+docker compose -f services/hermes-backend/deploy/docker-compose.hostinger.yml ps
+curl -fsS https://api.mindprotocol.xyz/hermes/health
+curl -i -X POST -H "content-type: application/json" -d '{}' https://api.mindprotocol.xyz/hermes/events
+```
+
+Expected unauthenticated event result: `401`.
 
 ## Vercel Integration
 

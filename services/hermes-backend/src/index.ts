@@ -25,6 +25,10 @@ fastify.get("/health", async (request, reply) => {
   return { status: "hermes-backend-ok" };
 });
 
+fastify.get("/hermes/health", async (request, reply) => {
+  return { status: "hermes-backend-ok" };
+});
+
 const start = async () => {
   try {
     await fastify.listen({ port: PORT, host: HOST });

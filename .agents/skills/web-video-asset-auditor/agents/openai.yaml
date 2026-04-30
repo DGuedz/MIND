@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Video Asset Auditor"
+  short_description: "Inspect video assets with ffprobe before encoding or frontend work."
+  default_prompt: "Audit this video asset for codec, size, keyframes, alpha, metadata, and web/mobile suitability."
