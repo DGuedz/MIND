@@ -289,13 +289,13 @@ export function VerticalsMarketplaceSlider({
                   className="lg:col-span-7 flex flex-col justify-center w-full py-4 lg:py-0 min-h-[300px] h-full"
                 >
                 <div
-                  className="group cursor-pointer w-full flex-1 flex flex-col min-h-[300px] sm:min-h-[350px] md:min-h-[400px]"
+                  className="group cursor-pointer w-full flex-1 flex flex-col min-h-[250px] lg:min-h-0"
                   onClick={onExploreRegistry}
                   onMouseEnter={() => setHoveredCardId(active.card.id)}
                   onMouseLeave={() => setHoveredCardId((cur) => (cur === active.card.id ? null : cur))}
                 >
-                  <div className="relative rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/20 bg-[#050505] flex-1 flex flex-col h-full min-h-[300px] sm:min-h-[350px] md:min-h-[400px]">
-                    <div className="flex-1 relative w-full h-full min-h-[300px] sm:min-h-[350px] md:min-h-[400px]">
+                  <div className="relative rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/20 bg-[#050505] flex-1 flex flex-col h-full min-h-[250px] lg:min-h-0">
+                    <div className="flex-1 relative w-full h-full flex items-center justify-center p-0 min-h-[250px] lg:min-h-0">
                       <active.card.Art isHovered={hoveredCardId === active.card.id} />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/25 pointer-events-none" />

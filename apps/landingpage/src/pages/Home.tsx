@@ -78,7 +78,7 @@ function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
   }, []);
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="dexterGrad" cx="50%" cy="50%" r="50%">
           <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.15 }} />
@@ -151,7 +151,7 @@ function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
 // Volan Yield Agent: The High Voltage Network (Animated SVG)
 function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="volanGrad" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
@@ -288,7 +288,7 @@ function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
 // Krios Risk Agent: The Intent Firewall (Animated SVG)
 function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <linearGradient id="kriosGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.08" />
@@ -417,7 +417,7 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
   ];
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="mindFlowAura" cx="50%" cy="46%" r="58%">
           <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.14 }} />
@@ -902,21 +902,21 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
   ];
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="buildersGrad" cx="50%" cy="50%" r="50%">
           <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.08 }} />
           <stop offset="100%" style={{ stopColor: "#050505", stopOpacity: 0 }} />
         </radialGradient>
       </defs>
-      <rect width="500" height="667" fill="url(#buildersGrad)" />
+      <rect width="500" height="500" fill="url(#buildersGrad)" />
 
       {/* Grid Background */}
       <g opacity="0.03">
         {Array.from({ length: 20 }).map((_, i) => (
-          <line key={`v-${i}`} x1={i * 25} y1="0" x2={i * 25} y2="667" stroke="#ffffff" strokeWidth="0.5" />
+          <line key={`v-${i}`} x1={i * 25} y1="0" x2={i * 25} y2="500" stroke="#ffffff" strokeWidth="0.5" />
         ))}
-        {Array.from({ length: 27 }).map((_, i) => (
+        {Array.from({ length: 20 }).map((_, i) => (
           <line key={`h-${i}`} x1="0" y1={i * 25} x2="500" y2={i * 25} stroke="#ffffff" strokeWidth="0.5" />
         ))}
       </g>
@@ -957,7 +957,7 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
 
         {/* STEP 02: EVIDENCE / PROOF BUNDLE */}
         <motion.g 
-          transform="translate(0, 140)"
+          transform="translate(0, 120)"
           animate={{ opacity: activeStep === 1 ? 1 : 0.05 }}
           transition={{ duration: 0.8 }}
         >
@@ -997,7 +997,7 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
 
         {/* STEP 03: ESCROW RELEASE */}
         <motion.g 
-          transform="translate(0, 300)"
+          transform="translate(0, 260)"
           animate={{ opacity: activeStep === 2 ? 1 : 0.05 }}
           transition={{ duration: 0.8 }}
         >
