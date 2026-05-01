@@ -113,7 +113,7 @@ export function VerticalsMarketplaceSlider({
   return (
     <div className="relative h-[400vh]" ref={containerRef}>
       <div className="sticky top-20 md:top-24 flex flex-col gap-4 md:gap-8 pb-4 md:pb-8 pt-8 md:pt-0 max-h-[calc(100vh-6rem)] h-screen overflow-hidden">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-8 border-b border-white/20 pb-4 md:pb-6 shrink-0">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-8 border-b border-white/20 pb-6 md:pb-8 shrink-0">
           <div className="space-y-2 md:space-y-3 max-w-2xl">
             <div className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">
               Agent Cards Marketplace
@@ -196,39 +196,39 @@ export function VerticalsMarketplaceSlider({
                   transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
                   className="lg:col-span-5 space-y-3 sm:space-y-4 lg:space-y-5 flex flex-col justify-center py-3 lg:py-0"
                 >
-                <div className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/[0.02] px-3 py-1 text-[8px] md:text-[9px] font-mono uppercase tracking-[0.3em] text-zinc-500">
+                <div className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/[0.03] px-4 py-1.5 text-[8px] md:text-[9px] font-mono uppercase tracking-[0.35em] text-zinc-400 shadow-inner">
                   Vertical {active.indexLabel} · Discovery
                 </div>
 
-                <div className="space-y-2 md:space-y-3">
-                  <div className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight font-mono uppercase leading-[0.95]">
+                <div className="space-y-1 md:space-y-2 pt-2">
+                  <div className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-white tracking-tighter font-mono uppercase leading-[0.9]">
                     {active.title}
                   </div>
-                  <div className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-zinc-600 tracking-tight font-mono uppercase italic leading-[0.95]">
+                  <div className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-zinc-600 tracking-tighter font-mono uppercase italic leading-[0.9]">
                     {active.subtitle}.
                   </div>
-                  <p className="text-zinc-500 leading-relaxed font-light text-xs sm:text-sm md:text-base max-w-xl">
+                  <p className="text-zinc-400 leading-relaxed font-light text-sm md:text-base max-w-md pt-3">
                     {active.description}
                   </p>
                 </div>
 
-                <div className="rounded-xl border border-white/[0.08] bg-black/30 p-3 space-y-2">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.28em] text-zinc-500">
+                <div className="rounded-xl border border-white/10 bg-[#020202]/80 backdrop-blur-md p-4 space-y-3 shadow-inner">
+                  <div className="flex items-center justify-between gap-3 border-b border-white/5 pb-2">
+                    <div className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.3em] text-zinc-500">
                       Market Signals
                     </div>
-                    <div className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.22em] text-zinc-600">
+                    <div className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-400">
                       {active.signal?.classification_layer ?? "public_ecosystem_signal"}
                     </div>
                   </div>
-                  <div className="text-[11px] md:text-xs text-zinc-400 font-light leading-relaxed">
-                    {active.signal?.headline ?? "Feed indisponivel. Exibindo ultimo snapshot valido."}
+                  <div className="text-xs md:text-sm text-zinc-300 font-mono font-light leading-relaxed">
+                    {active.signal?.headline ?? "Feed indisponível. Exibindo último snapshot válido."}
                   </div>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-600">
-                    <span>As Of {active.signal?.published_at ?? "N/A"}</span>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.25em] text-zinc-500 pt-1">
+                    <span className="text-zinc-400">As Of {active.signal?.published_at ?? "N/A"}</span>
                     <span>Conf {active.signal ? active.signal.confidence_score.toFixed(2) : "0.00"}</span>
                     <span>{active.signal?.claim_type ?? "company_claim"}</span>
-                    {active.signal?.stale ? <span>Stale</span> : null}
+                    {active.signal?.stale ? <span className="text-red-400">Stale</span> : null}
                   </div>
                   {active.signal?.source_url ? (
                     <a
@@ -242,26 +242,26 @@ export function VerticalsMarketplaceSlider({
                   ) : null}
                 </div>
 
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-3 sm:space-y-4">
                   {active.stats.slice(0, 2).map((s) => (
-                    <div key={s.label} className="flex items-start gap-3 rounded-xl border border-white/[0.08] bg-black/30 px-3 py-2.5">
-                      <div className="mt-0.5 h-5 w-5 rounded-full border border-white/25 flex items-center justify-center text-[8px] font-mono text-zinc-400">
+                    <div key={s.label} className="flex items-start gap-4 rounded-xl border border-white/5 bg-[#050505]/50 px-4 py-3">
+                      <div className="mt-0.5 h-6 w-6 rounded-full border border-white/20 bg-white/[0.02] flex items-center justify-center text-[10px] font-mono text-zinc-300">
                         +
                       </div>
-                      <div className="space-y-0.5">
-                        <div className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.25em] text-zinc-400">{s.label}</div>
-                        <div className="text-[11px] md:text-xs text-zinc-500 font-light">
-                          {s.value} · {s.hint}
+                      <div className="space-y-1">
+                        <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">{s.label}</div>
+                        <div className="text-xs md:text-sm text-zinc-300 font-mono">
+                          {s.value} <span className="text-zinc-600">· {s.hint}</span>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 md:pt-0">
+                <div className="flex flex-col sm:flex-row gap-3 pt-4 md:pt-2">
                   <button
                     type="button"
-                    className="bg-white text-black hover:bg-zinc-200 text-[8px] md:text-[9px] font-mono uppercase tracking-[0.25em] px-4 md:px-6 py-2 rounded-full transition-colors w-full sm:w-auto"
+                    className="bg-white text-black hover:bg-zinc-200 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] px-6 py-3 rounded-full transition-all w-full sm:w-auto shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] font-bold"
                     onClick={async () => {
                       if (active.card.id === "clint" || active.card.id === "volan" || active.card.id === "dexter" || active.card.id === "krios") {
                         window.location.href = `/gateway?intentId=purchase_card_${active.card.id}&amountLamports=10000000&recipient=FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah`;
@@ -274,7 +274,7 @@ export function VerticalsMarketplaceSlider({
                   </button>
                   <button
                     type="button"
-                    className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.25em] text-zinc-500 hover:text-white transition-colors px-4 md:px-6 py-2 border border-white/20 rounded-full w-full sm:w-auto text-center"
+                    className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-all px-6 py-3 border border-white/20 hover:border-white/40 hover:bg-white/[0.02] rounded-full w-full sm:w-auto text-center"
                     onClick={onExploreRegistry}
                   >
                     View on Registry
@@ -286,29 +286,29 @@ export function VerticalsMarketplaceSlider({
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-                  className="lg:col-span-7 flex flex-col justify-center w-full py-4 lg:py-0 min-h-[300px]"
+                  className="lg:col-span-7 flex flex-col justify-center w-full py-4 lg:py-0 min-h-[300px] h-full"
                 >
                 <div
-                  className="group cursor-pointer w-full h-[210px] sm:h-[250px] md:h-[290px] lg:h-[300px] xl:h-[340px] 2xl:h-[380px] flex flex-col"
+                  className="group cursor-pointer w-full flex-1 flex flex-col min-h-[300px] sm:min-h-[350px] md:min-h-[400px]"
                   onClick={onExploreRegistry}
                   onMouseEnter={() => setHoveredCardId(active.card.id)}
                   onMouseLeave={() => setHoveredCardId((cur) => (cur === active.card.id ? null : cur))}
                 >
-                  <div className="relative rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/20 bg-[#050505] flex-1 flex flex-col">
-                    <div className="flex-1 relative">
+                  <div className="relative rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/20 bg-[#050505] flex-1 flex flex-col h-full min-h-[300px] sm:min-h-[350px] md:min-h-[400px]">
+                    <div className="flex-1 relative w-full h-full min-h-[300px] sm:min-h-[350px] md:min-h-[400px]">
                       <active.card.Art isHovered={hoveredCardId === active.card.id} />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/25 pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5">
-                      <div className="flex items-end justify-between gap-4 md:gap-6">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
+                      <div className="flex items-end justify-between gap-4 md:gap-6 border-t border-white/10 pt-4 bg-gradient-to-t from-black/80 to-transparent">
                         <div className="space-y-1 md:space-y-2">
-                          <div className="text-[8px] md:text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">Featured Card</div>
-                          <div className="text-xl md:text-2xl font-mono uppercase text-white tracking-tight">{active.card.name}</div>
-                          <div className="text-[8px] md:text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">{active.card.type}</div>
+                          <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">Featured Card</div>
+                          <div className="text-2xl md:text-3xl font-mono uppercase text-white tracking-tight">{active.card.name}</div>
+                          <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">{active.card.type}</div>
                         </div>
                         <div className="text-right space-y-1 md:space-y-2">
-                          <div className="text-[8px] md:text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">Price</div>
-                          <div className="text-[9px] md:text-[11px] font-mono text-zinc-300">{active.card.price}</div>
+                          <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">Price</div>
+                          <div className="text-[10px] md:text-[12px] font-mono text-zinc-300 tracking-wider">{active.card.price}</div>
                         </div>
                       </div>
                     </div>

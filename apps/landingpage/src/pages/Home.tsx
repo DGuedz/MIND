@@ -78,17 +78,17 @@ function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
   }, []);
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="dexterGrad" cx="50%" cy="50%" r="50%">
           <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.15 }} />
           <stop offset="100%" style={{ stopColor: "#050505", stopOpacity: 0 }} />
         </radialGradient>
       </defs>
-      <rect width="500" height="667" fill="url(#dexterGrad)" />
+      <rect width="500" height="500" fill="url(#dexterGrad)" />
       
       {/* Neural Data Grid */}
-      <g opacity={isHovered ? 0.9 : 0.4}>
+      <g opacity={isHovered ? 0.9 : 0.4} transform="translate(0, -50)">
         {Array.from({ length: 15 }).map((_, i) => 
           Array.from({ length: 20 }).map((_, j) => {
             const x = 40 + i * 30;
@@ -139,11 +139,11 @@ function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
         width="500" height="1" 
         fill="#ffffff" 
         opacity="0.2"
-        animate={{ y: [0, 667] }}
+        animate={{ y: [0, 500] }}
         transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
       />
 
-      <text x="50" y="600" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">DEXTER // DATA_GRID</text>
+      <text x="50" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">DEXTER // DATA_GRID</text>
     </svg>
   );
 }
@@ -151,7 +151,7 @@ function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
 // Volan Yield Agent: The High Voltage Network (Animated SVG)
 function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="volanGrad" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
@@ -166,10 +166,10 @@ function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
         </filter>
       </defs>
       
-      <rect width="500" height="667" fill="url(#volanGrad)" />
+      <rect width="500" height="500" fill="url(#volanGrad)" />
 
       {/* Central Power Core */}
-      <g transform="translate(250, 300)">
+      <g transform="translate(250, 250)">
         <motion.circle 
           r="15" fill="#ffffff" opacity={isHovered ? 0.9 : 0.3}
           animate={{ scale: isHovered ? [1, 1.2, 0.9, 1.3, 1] : 1 }}
@@ -280,7 +280,7 @@ function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
         </motion.g>
       )}
 
-      <text x="50" y="600" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">VOLAN // YIELD_STACK</text>
+      <text x="50" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">VOLAN // YIELD_STACK</text>
     </svg>
   );
 }
@@ -288,7 +288,7 @@ function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
 // Krios Risk Agent: The Intent Firewall (Animated SVG)
 function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <linearGradient id="kriosGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.08" />
@@ -296,7 +296,7 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05" />
         </linearGradient>
       </defs>
-      <rect width="500" height="667" fill="url(#kriosGrad)" />
+      <rect width="500" height="500" fill="url(#kriosGrad)" />
 
       {/* Vertical Firewall Pillars */}
       <g opacity={isHovered ? 0.8 : 0.3}>
@@ -305,19 +305,19 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
           const isGated = i % 3 === 0;
           return (
             <g key={`pillar-${i}`}>
-              <line x1={x} y1="0" x2={x} y2="667" stroke="#ffffff" strokeWidth="0.5" opacity="0.15" />
+              <line x1={x} y1="0" x2={x} y2="500" stroke="#ffffff" strokeWidth="0.5" opacity="0.15" />
               {/* Data stream going down */}
               <motion.line
                 x1={x} y1="0" x2={x} y2="150"
                 stroke="#ffffff" strokeWidth={isGated ? 1.5 : 0.5}
                 opacity={isHovered ? 0.6 : 0.2}
-                animate={{ y1: [-150, 667], y2: [0, 817] }}
+                animate={{ y1: [-150, 500], y2: [0, 650] }}
                 transition={{ duration: 3 + (i % 4), repeat: Infinity, ease: "linear", delay: i * 0.15 }}
               />
               {/* Intersecting Policy Gate */}
               {isHovered && isGated && (
                 <motion.rect
-                  x={x - 12} y={333 + (i % 2 === 0 ? 50 : -50)} width="24" height="2"
+                  x={x - 12} y={250 + (i % 2 === 0 ? 50 : -50)} width="24" height="2"
                   fill="#ffffff"
                   initial={{ opacity: 0, scaleX: 0 }}
                   animate={{ opacity: [0, 1, 0], scaleX: [0, 1, 0] }}
@@ -330,7 +330,7 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
       </g>
 
       {/* Central Hexagon Shield Core */}
-      <g transform="translate(250, 333)">
+      <g transform="translate(250, 250)">
         {Array.from({ length: 5 }).map((_, i) => {
           const size = 50 + i * 35;
           return (
@@ -383,7 +383,7 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
         </motion.g>
       )}
 
-      <text x="40" y="620" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">KRIOS // RISK_FIREWALL</text>
+      <text x="40" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">KRIOS // RISK_FIREWALL</text>
     </svg>
   );
 }
@@ -402,34 +402,34 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
   const steps = [
     { x: 108, y: 156, label: "INTENT", info: "SIGNED_REQUEST", detail: "0.50 SOL // x402", value: "01" },
     { x: 235, y: 256, label: "VALIDATE", info: "MINDPRINT_OK", detail: "POLICY_LIMIT: PASS", value: "02" },
-    { x: 326, y: 395, label: "EXECUTE", info: "ATOMIC_SPLIT", detail: "92 / 8 ROUTED", value: "03" },
-    { x: 390, y: 532, label: "MINT", info: "PROOF_RECEIPT", detail: "cNFT_ANCHOR", value: "04" }
+    { x: 326, y: 360, label: "EXECUTE", info: "ATOMIC_SPLIT", detail: "92 / 8 ROUTED", value: "03" },
+    { x: 390, y: 460, label: "MINT", info: "PROOF_RECEIPT", detail: "cNFT_ANCHOR", value: "04" }
   ];
 
-  const flowPath = "M 108 156 C 190 144 238 184 235 256 C 232 338 304 323 326 395 C 350 468 380 459 390 532";
+  const flowPath = "M 108 156 C 190 144 238 184 235 256 C 232 300 304 300 326 360 C 350 410 380 400 390 460";
   const flowDuration = 9.6;
   const nodeKeyPoints = "0;0.369;0.704;1;1";
   const onchainSignals = [
     { x: 78, y: 104, label: "SLOT", value: "+128" },
     { x: 344, y: 178, label: "CU", value: "4.1K" },
-    { x: 84, y: 468, label: "FEE", value: "5K_LAMPORTS" },
-    { x: 328, y: 548, label: "SIG", value: "5tWq..9pZm" },
+    { x: 84, y: 400, label: "FEE", value: "5K_LAMPORTS" },
+    { x: 328, y: 480, label: "SIG", value: "5tWq..9pZm" },
   ];
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 667" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
       <defs>
         <radialGradient id="mindFlowAura" cx="50%" cy="46%" r="58%">
           <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.14 }} />
           <stop offset="42%" style={{ stopColor: "#737373", stopOpacity: 0.05 }} />
           <stop offset="100%" style={{ stopColor: "#050505", stopOpacity: 0 }} />
         </radialGradient>
-        <linearGradient id="mindFlowStroke" x1="70" y1="120" x2="420" y2="560" gradientUnits="userSpaceOnUse">
+        <linearGradient id="mindFlowStroke" x1="70" y1="120" x2="420" y2="480" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
           <stop offset="48%" stopColor="#ffffff" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0.08" />
         </linearGradient>
-        <linearGradient id="mindFlowPlate" x1="90" y1="90" x2="410" y2="590" gradientUnits="userSpaceOnUse">
+        <linearGradient id="mindFlowPlate" x1="90" y1="90" x2="410" y2="480" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.07" />
           <stop offset="50%" stopColor="#ffffff" stopOpacity="0.015" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0.06" />
@@ -446,15 +446,15 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
         </filter>
       </defs>
 
-      <rect width="500" height="667" fill="#050505" />
-      <rect width="500" height="667" fill="url(#mindFlowAura)" />
+      <rect width="500" height="500" fill="#050505" />
+      <rect width="500" height="500" fill="url(#mindFlowAura)" />
 
       <g opacity="0.08">
-        {Array.from({ length: 9 }).map((_, i) => (
+        {Array.from({ length: 7 }).map((_, i) => (
           <line key={`h-${i}`} x1="34" y1={68 + i * 62} x2="466" y2={68 + i * 62} stroke="#ffffff" strokeWidth="0.5" />
         ))}
         {Array.from({ length: 6 }).map((_, i) => (
-          <line key={`v-${i}`} x1={76 + i * 70} y1="72" x2={38 + i * 70} y2="604" stroke="#ffffff" strokeWidth="0.35" />
+          <line key={`v-${i}`} x1={76 + i * 70} y1="72" x2={38 + i * 70} y2="480" stroke="#ffffff" strokeWidth="0.35" />
         ))}
       </g>
 
@@ -465,29 +465,29 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
       >
         <motion.ellipse
           cx="260"
-          cy="326"
+          cy="250"
           rx="154"
-          ry="244"
+          ry="180"
           fill="none"
           stroke="#ffffff"
           strokeWidth="0.4"
           opacity="0.12"
           animate={{ rotate: [0, 2.5, 0], opacity: [0.08, 0.18, 0.08] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transformOrigin: "260px 326px" }}
+          style={{ transformOrigin: "260px 250px" }}
         />
         <motion.ellipse
           cx="260"
-          cy="326"
+          cy="250"
           rx="102"
-          ry="178"
+          ry="130"
           fill="none"
           stroke="#ffffff"
           strokeWidth="0.35"
           opacity="0.12"
           animate={{ rotate: [0, -3, 0], opacity: [0.06, 0.14, 0.06] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transformOrigin: "260px 326px" }}
+          style={{ transformOrigin: "260px 250px" }}
         />
       </motion.g>
 
@@ -495,10 +495,10 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
         transform="translate(0 10)"
         animate={{ y: isHovered ? -8 : 0, scale: isHovered ? 1.018 : 1 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        style={{ transformOrigin: "260px 340px" }}
+        style={{ transformOrigin: "260px 250px" }}
       >
         <motion.polygon
-          points="92,122 388,90 438,556 128,594"
+          points="92,122 388,90 438,450 128,480"
           fill="url(#mindFlowPlate)"
           stroke="#ffffff"
           strokeWidth="0.6"
@@ -506,7 +506,7 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
           transition={{ duration: 0.6 }}
         />
         <motion.polygon
-          points="126,176 360,150 397,526 151,554"
+          points="126,176 360,150 397,420 151,450"
           fill="none"
           stroke="#ffffff"
           strokeWidth="0.35"
@@ -514,7 +514,7 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
           transition={{ duration: 0.6 }}
         />
         <motion.polygon
-          points="160,236 336,216 360,492 176,512"
+          points="160,236 336,216 360,390 176,410"
           fill="none"
           stroke="#ffffff"
           strokeWidth="0.3"
@@ -524,7 +524,7 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
       </motion.g>
 
       <g opacity="0.16" filter="url(#mindDeepBlur)">
-        <circle cx="300" cy="360" r="130" fill="#ffffff" opacity="0.12" />
+        <circle cx="300" cy="300" r="100" fill="#ffffff" opacity="0.12" />
         <circle cx="168" cy="170" r="70" fill="#ffffff" opacity="0.06" />
       </g>
 
@@ -669,8 +669,8 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
       </g>
 
       <g className="font-mono" opacity="0.7">
-        <text x="52" y="604" fontSize="9" fill="#a1a1aa" letterSpacing="4">MIND_DATA_ART // ATOMIC_FLOW</text>
-        <text x="52" y="624" fontSize="7" fill="#525252" letterSpacing="3">POLICY_SIGNALS_RENDERED_AS_SETTLEMENT_GEOMETRY</text>
+        <text x="52" y="460" fontSize="9" fill="#a1a1aa" letterSpacing="4">MIND_DATA_ART // ATOMIC_FLOW</text>
+        <text x="52" y="480" fontSize="7" fill="#525252" letterSpacing="3">POLICY_SIGNALS_RENDERED_AS_SETTLEMENT_GEOMETRY</text>
       </g>
     </svg>
   );
