@@ -7,6 +7,20 @@ Economic infrastructure that decides, executes, and proves for A2A flows.
 - protects capital with policy gates
 - routes execution under constraints
 - produces auditable proof bundles
+- ensures native AI discovery (A2A SEO) via standard web extensions
+
+## A2A Native Discovery & Traceability
+The protocol ensures agents can natively discover, audit, and trace execution value across the web and GitHub using specific file extensions:
+- **`.json`**: The technical manifest (A2A capabilities, endpoints, and protocol fees). Universally parsed by orchestrators and web crawlers.
+- **`.md`**: The SPINS cognitive brain (Structured Prompt Information System). Easily indexed by RAG pipelines and GitHub search.
+- **`.mindprint`**: Cryptographic passport containing SHA-256 hashes of the logic and the original intent lineage. Secures the asset identity against tampering.
+- **`.x402`**: The atomic settlement policy. Declares the offline yield smart contract (split, triggers, currency) for the Cloak API Gateway.
+
+## Competitive Moat (Vantagem Competitiva)
+MIND's architecture establishes a deep moat through **Parasitic/Symbiotic Indexing** and **Proprietary Settlement**:
+- **Zero-CAC Discovery**: We do not need to build or maintain a complex "AI Search Engine". We symbiotically ride the infrastructure that GitHub and the open web already provide. Developers simply push code, and RAG pipelines naturally index it.
+- **Protocol Lock-In via Traceability**: While the discovery layer is open (GitHub/Web), the monetization layer is strictly proprietary. Skills discovered in the wild cannot generate yield without passing through the `.x402` atomic settlement and validating their `.mindprint` checksums via our API Gateway.
+- **Ecosystem Effect**: Every new skill added to GitHub organically increases MIND's total addressable market without any active marketing spend from the protocol.
 
 ## Revenue
 - execution fee (bps)

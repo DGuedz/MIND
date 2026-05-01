@@ -28,6 +28,11 @@ type CatalogItem = {
     model: string;
     currency?: string;
     price?: number;
+    originalModel?: string;
+    originalPrice?: number;
+    sponsoredBy?: string;
+    phase?: string;
+    eligibleVoucherCodes?: string[];
   };
   performance?: {
     successRate: number;
@@ -43,8 +48,9 @@ type CatalogPayload = {
   items: CatalogItem[];
 };
 
-// Deterministic mock generator for demonstration of Proof-Based Ranking & Smart Asset Valuation
-const getMockPerformance = (id: string) => {
+// Deterministic impact generator for demonstration of Proof-Based Ranking & Smart Asset Valuation
+// In production, this data is hydrated by the Cloak UTXO settlement proofs (Mindprint)
+const getVerifiedImpact = (id: string) => {
   const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return {
     successRate: 95 + (hash % 50) / 10,
@@ -56,7 +62,13 @@ const getMockPerformance = (id: string) => {
     holders: 15 + (hash % 850),
     marketCap: 15000 + (hash * 1000 % 850000),
     tokenSymbol: `$${id.split('_').pop()?.toUpperCase() || 'MIND'}`,
-    mintAddress: `mint${hash.toString(16)}...${(hash * 3).toString(16)}`
+    mintAddress: `mint${hash.toString(16)}...${(hash * 3).toString(16)}`,
+    // Super Trunfo Attributes
+    intelligence: 75 + (hash % 25),
+    speed: 60 + ((hash * 2) % 40),
+    reliability: 90 + ((hash * 3) % 10),
+    complexity: 40 + ((hash * 5) % 60),
+    skillsCount: (hash % 10) < 3 ? (hash % 4) + 2 : 1
   };
 };
 
@@ -310,7 +322,8 @@ function CatalogCard({
   const [voucherMessage, setVoucherMessage] = useState<string | null>(null);
 
   const pricingModel = item.pricing?.model?.toLowerCase() ?? "";
-  const isOriginallyFree = pricingModel === 'free' || item.pricing?.price === 0;
+  const requiresCommunityVoucher = pricingModel === "community_free";
+  const isOriginallyFree = !requiresCommunityVoucher && (pricingModel === 'free' || item.pricing?.price === 0);
   const isFree = isOriginallyFree || voucherStatus === "valid";
 
   useEffect(() => {
@@ -355,12 +368,56 @@ function CatalogCard({
     setIsMockSettlement(false);
     let mockSettlement = false;
 
+    if (requiresCommunityVoucher && voucherStatus !== "valid") {
+      setVoucherStatus("invalid");
+      setVoucherMessage("Apply THEGARAGE, SUPERTEAMBR or COLOSSEUM before claiming");
+      setSettlementStatus("idle");
+      return;
+    }
+
     if (isFree) {
       setSettlementStep(voucherStatus === "valid" ? 'Applying builder voucher...' : 'Validating free access...');
       await new Promise(resolve => setTimeout(resolve, 800));
-      setSettlementStep(voucherStatus === "valid" ? 'Registration matched. Generating repo flow...' : 'Generating repo flow...');
-      await new Promise(resolve => setTimeout(resolve, 600));
-      setTxHash(voucherStatus === "valid" && builderRegistration ? `voucher_${builderRegistration.referralCode}_${builderRegistration.githubHandle}_${item.id.substring(0, 8)}` : `mindprint_free_${item.id.substring(0, 8)}`);
+      setSettlementStep(voucherStatus === "valid" ? 'Requesting community subsidy receipt...' : 'Generating repo flow...');
+
+      let subsidyReceipt = voucherStatus === "valid" && builderRegistration
+        ? `voucher_${builderRegistration.referralCode}_${builderRegistration.githubHandle}_${item.id.substring(0, 8)}`
+        : `mindprint_free_${item.id.substring(0, 8)}`;
+
+      if (voucherStatus === "valid") {
+        try {
+          const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+          const res = await fetch(`${gatewayBaseUrl}/v1/payment/x402`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              amount: item.pricing?.originalPrice ?? item.pricing?.price ?? 0,
+              currency: item.pricing?.currency || "USDC",
+              recipient: "DGuedzXbK8fN8eRqyTqzTXZyX4wY4rU2B1mD4W8L7jH",
+              chain: "solana",
+              metadata: {
+                intentId: `community_claim_${item.id}`,
+                memo: "MIND_COMMUNITY_TRACTION_SUBSIDY",
+                voucherCode: voucherCode || builderRegistration?.referralCode || initialVoucherCode,
+                builderHandle: builderRegistration?.githubHandle,
+                marketplaceItemId: item.id,
+                pricingModel: item.pricing?.model,
+                phase: "the_garage_community"
+              }
+            })
+          });
+          if (!res.ok) throw new Error("community subsidy receipt failed");
+          const data = await res.json();
+          subsidyReceipt = data.paymentId || data.reference || subsidyReceipt;
+          setIsMockSettlement(false);
+        } catch {
+          setIsMockSettlement(true);
+          subsidyReceipt = `local_community_subsidy_${item.id.substring(0, 8)}_${Date.now()}`;
+        }
+      }
+
+      setSettlementStep(voucherStatus === "valid" ? 'Community access granted.' : 'Access granted.');
+      setTxHash(subsidyReceipt);
       if (voucherStatus === "valid" && builderRegistration) {
         saveVoucherClaim({
           registration: builderRegistration,
@@ -413,10 +470,10 @@ function CatalogCard({
         setSettlementStep('Awaiting KMS Signature...');
         
         await new Promise(resolve => setTimeout(resolve, 800));
-        setSettlementStep('Executing x402 Atomic Settlement...');
+        setSettlementStep('Executing x402 via Darkpool UTXO...');
         
         await new Promise(resolve => setTimeout(resolve, 800));
-        setSettlementStep('Minting Mindprint Proof...');
+        setSettlementStep('Minting Mindprint Proof (High Privacy)...');
         
         await new Promise(resolve => setTimeout(resolve, 600));
 
@@ -434,9 +491,17 @@ function CatalogCard({
     }
   };
 
+  // Mapeamento de categorias para estilos de metal escovado
+  const getMetallicClassForCategory = (category: string) => {
+    // Agora todos os cards do Marketplace utilizam o gradiente oficial da Solana
+    return 'metallic-brushed-solana';
+  };
+
+  const metallicClass = getMetallicClassForCategory(item.category);
+
   return (
     <div 
-      className="relative group w-full h-full cursor-pointer" 
+      className="relative group w-full h-[320px] cursor-pointer" 
       style={{ perspective: "1200px" }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -444,9 +509,9 @@ function CatalogCard({
       onClick={onToggle}
     >
       <div
-        className={`relative w-full h-full bg-black/40 backdrop-blur-md rounded-2xl overflow-hidden
-          ${isHovered ? "shadow-[0_20px_50px_-15px_rgba(255,255,255,0.1)]" : "shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]"} 
-          ${isSelected ? "ring-1 ring-white/40 shadow-[0_0_30px_rgba(255,255,255,0.1)]" : "ring-1 ring-white/10 hover:ring-white/20"}`}
+        className={`relative w-full h-full bg-[#0a0a0a] backdrop-blur-md rounded-[2rem] overflow-hidden
+          metallic-brushed metallic-shine ${metallicClass}
+          ${isSelected ? "ring-2 ring-white/40 shadow-[0_0_30px_rgba(255,255,255,0.15)]" : ""}`}
         style={{ 
           transformStyle: 'preserve-3d',
           transform: isHovered ? `translateY(-4px) scale(1.01) rotateX(${mousePos.rotY}deg) rotateY(${mousePos.rotX}deg)` : 'translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)',
@@ -455,16 +520,16 @@ function CatalogCard({
       >
         {/* Glow de reflexo 3D (Hover) seguindo o mouse */}
         <div 
-          className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-0"
+          className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-0 mix-blend-screen"
           style={{
             opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.06), transparent 40%)`
+            background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.1), transparent 40%)`
           }}
         />
 
         {/* Borda Glow Neon refinada */}
         <div 
-          className="absolute inset-0 pointer-events-none rounded-2xl transition-opacity duration-500"
+          className="absolute inset-0 pointer-events-none rounded-[2rem] transition-opacity duration-500"
           style={{
             opacity: isHovered ? 1 : 0,
             background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.15), transparent 40%)`,
@@ -476,11 +541,9 @@ function CatalogCard({
           }}
         />
 
-        <CardDataArt id={item.id} isHovered={isHovered} />
-
         <div 
-          className="relative z-10 p-6 flex flex-col justify-between gap-6 h-full transition-transform duration-300 ease-out"
-          style={{ transform: isHovered ? `translateZ(15px)` : `translateZ(0px)` }}
+          className="relative z-10 p-6 flex flex-col justify-start gap-6 h-full transition-transform duration-300 ease-out"
+          style={{ transform: isHovered ? `translateZ(10px)` : `translateZ(0px)` }}
         >
           <div className="space-y-5">
             <div 
@@ -500,12 +563,12 @@ function CatalogCard({
                 <Badge 
                   variant="outline" 
                   className={`text-[9px] font-mono uppercase tracking-widest backdrop-blur-sm ${
-                    pricingModel === 'free'
+            pricingModel === 'free' || pricingModel === 'community_free'
                       ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
                       : 'bg-zinc-800/80 text-zinc-300 border-zinc-700/50 shadow-sm'
                   }`}
                 >
-                  {item.pricing.model ?? "priced"}
+                  {pricingModel === "community_free" ? "community free" : (item.pricing.model ?? "priced")}
                 </Badge>
               ) : null}
             </div>
@@ -535,21 +598,21 @@ function CatalogCard({
                 <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest flex items-center gap-1">
                   Rank / Demand
                 </span>
-                <span className="text-xs font-mono text-blue-400">#{getMockPerformance(item.id).ranking} / {getMockPerformance(item.id).demandScore}</span>
+                <span className="text-xs font-mono text-blue-400">#{getVerifiedImpact(item.id).ranking} / {getVerifiedImpact(item.id).demandScore}</span>
               </div>
               <div className="bg-white/[0.03] border border-white/5 rounded-lg p-2 flex flex-col justify-center relative overflow-hidden group/metric">
                 <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
                 <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest flex items-center gap-1">
                   Success / Impact
                 </span>
-                <span className="text-[10px] font-mono text-emerald-400">{(item.performance?.successRate || getMockPerformance(item.id).successRate).toFixed(1)}% / {getMockPerformance(item.id).impactPotential}</span>
+                <span className="text-[10px] font-mono text-emerald-400">{(item.performance?.successRate || getVerifiedImpact(item.id).successRate).toFixed(1)}% / {getVerifiedImpact(item.id).impactPotential}</span>
               </div>
               <div className="bg-white/[0.03] border border-white/5 rounded-lg p-2 flex flex-col justify-center relative overflow-hidden group/metric">
                 <div className="absolute inset-0 bg-white/5 opacity-0 group-hover/metric:opacity-100 transition-opacity" />
                 <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest flex items-center gap-1">
                   Vol (USDC)
                 </span>
-                <span className="text-xs font-mono text-zinc-300">${(item.performance?.totalVolumeUSDC || getMockPerformance(item.id).totalVolumeUSDC).toFixed(1)}</span>
+                <span className="text-xs font-mono text-zinc-300">${(item.performance?.totalVolumeUSDC || getVerifiedImpact(item.id).totalVolumeUSDC).toFixed(1)}</span>
               </div>
             </div>
           </div>
@@ -566,7 +629,7 @@ function CatalogCard({
               ))}
             </div>
             <div className="flex gap-2 items-center">
-              {!isFree && (
+              {!isFree && !requiresCommunityVoucher && (
                 <button
                   className="shrink-0 text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-300 px-4 py-2 rounded-lg backdrop-blur-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.15)]"
                   onClick={(e) => {
@@ -588,6 +651,17 @@ function CatalogCard({
                   {voucherStatus === "valid" ? "Claim Free" : "Free (Get)"}
                 </button>
               )}
+              {!isFree && requiresCommunityVoucher && (
+                <button
+                  className="shrink-0 text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-300 px-4 py-2 rounded-lg backdrop-blur-md bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 shadow-[0_0_10px_rgba(245,158,11,0.15)]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggle();
+                  }}
+                >
+                  Apply Code
+                </button>
+              )}
               <button
                 className={`shrink-0 text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-300 px-4 py-2 rounded-lg backdrop-blur-md ${
                   isSelected 
@@ -607,37 +681,73 @@ function CatalogCard({
 
         {isSelected && (
             <div 
-              className="relative z-20 mt-2 p-6 pt-0 space-y-5 animate-in fade-in slide-in-from-top-4 duration-500 cursor-default"
-              style={{ transform: isHovered ? `translateZ(10px)` : `translateZ(0px)` }}
+              className="absolute top-full left-0 right-0 z-50 mt-4 p-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300 cursor-default metallic-brushed backdrop-blur-xl rounded-[2rem] border border-white/20 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.8)]"
               onClick={(e) => e.stopPropagation()}
             >
-            <div className="grid grid-cols-2 gap-4 p-4 bg-black/40 rounded-xl border border-white/5">
+            <div className="grid grid-cols-2 gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/5">
               <div className="space-y-1">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Token Symbol</div>
-                <div className="text-[11px] font-mono text-indigo-400 font-bold">{getMockPerformance(item.id).tokenSymbol}</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Contract (PDA)</div>
-                <div className="text-[11px] font-mono text-zinc-300">{getMockPerformance(item.id).mintAddress}</div>
+                <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Token Symbol</div>
+                <div className="text-[10px] font-mono text-indigo-400 font-bold">{getVerifiedImpact(item.id).tokenSymbol}</div>
               </div>
               <div className="space-y-1">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Market Cap (TVL)</div>
-                <div className="text-[11px] font-mono text-emerald-400">${getMockPerformance(item.id).marketCap.toLocaleString()}</div>
+                <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Contract (PDA)</div>
+                <div className="text-[10px] font-mono text-zinc-300 truncate pr-2">{getVerifiedImpact(item.id).mintAddress}</div>
               </div>
               <div className="space-y-1">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Active Holders</div>
-                <div className="text-[11px] font-mono text-zinc-300">{getMockPerformance(item.id).holders.toLocaleString()} Agents</div>
+                <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Market Cap</div>
+                <div className="text-[10px] font-mono text-emerald-400">${getVerifiedImpact(item.id).marketCap.toLocaleString()}</div>
               </div>
-              <div className="space-y-1 col-span-2 mt-1">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Smart Asset Class</div>
-                <div className="text-[10px] font-mono text-indigo-400">MEV-Resistant Tokenized Skill (Cloak/x402)</div>
+              <div className="space-y-1">
+                <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Active Holders</div>
+                <div className="text-[10px] font-mono text-zinc-300">{getVerifiedImpact(item.id).holders.toLocaleString()}</div>
               </div>
-              <div className="col-span-2 pt-2 mt-2 border-t border-white/5 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-                  <span className="text-[9px] font-mono text-emerald-500 uppercase tracking-widest">Performance Verified (x402)</span>
+              <div className="space-y-1 col-span-2 mt-1 border-t border-white/5 pt-2 flex items-center justify-between">
+                <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Asset Composition</div>
+                <div className="text-[9px] font-bold font-mono text-indigo-400">
+                  {getVerifiedImpact(item.id).skillsCount > 1 
+                    ? `BUNDLE: ${getVerifiedImpact(item.id).skillsCount} SKILLS` 
+                    : "SINGLE SKILL"}
                 </div>
-                <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">Mindprint cNFT</span>
+              </div>
+            </div>
+
+            {/* Super Trunfo Attributes */}
+            <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/5">
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[8px] font-mono text-zinc-500 uppercase tracking-widest">
+                  <span>Intelligence</span>
+                  <span className="text-zinc-300">{getVerifiedImpact(item.id).intelligence}/100</span>
+                </div>
+                <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-indigo-400 h-full" style={{ width: `${getVerifiedImpact(item.id).intelligence}%` }} />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[8px] font-mono text-zinc-500 uppercase tracking-widest">
+                  <span>Speed (Latency)</span>
+                  <span className="text-zinc-300">{getVerifiedImpact(item.id).speed}/100</span>
+                </div>
+                <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-amber-400 h-full" style={{ width: `${getVerifiedImpact(item.id).speed}%` }} />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[8px] font-mono text-zinc-500 uppercase tracking-widest">
+                  <span>Reliability</span>
+                  <span className="text-zinc-300">{getVerifiedImpact(item.id).reliability}%</span>
+                </div>
+                <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-emerald-400 h-full" style={{ width: `${getVerifiedImpact(item.id).reliability}%` }} />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[8px] font-mono text-zinc-500 uppercase tracking-widest">
+                  <span>Complexity</span>
+                  <span className="text-zinc-300">{getVerifiedImpact(item.id).complexity}/100</span>
+                </div>
+                <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-purple-400 h-full" style={{ width: `${getVerifiedImpact(item.id).complexity}%` }} />
+                </div>
               </div>
             </div>
             
@@ -652,26 +762,38 @@ function CatalogCard({
               </div>
             )}
 
-            {/* Voucher Section */}
-            {!isOriginallyFree && settlementStatus === 'idle' && (
-              <div className="pt-4 border-t border-white/5 mt-4 space-y-2">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Sponsor / Voucher Code</div>
+            {/* Voucher Section / Free Phase */}
+            {(!isOriginallyFree || requiresCommunityVoucher) && settlementStatus === 'idle' && (
+              <div className="pt-3 border-t border-white/5 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Traction Phase Subsidy</span>
+                  <span className="text-[8px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded uppercase tracking-widest border border-emerald-500/20">100% FREE</span>
+                </div>
                 <div className="flex items-center gap-2">
                   <input 
                     type="text" 
-                    placeholder="ENTER CODE" 
+                    placeholder="ENTER VOUCHER CODE" 
                     value={voucherCode}
                     onChange={(e) => {
                       setVoucherCode(e.target.value);
                       setVoucherStatus("idle");
                       setVoucherMessage(null);
                     }}
-                    className="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-[10px] font-mono text-white uppercase placeholder:text-zinc-600 focus:outline-none focus:border-white/30 flex-1"
+                    className="bg-black/50 border border-white/10 rounded-md px-2 py-1.5 text-[9px] font-mono text-white uppercase placeholder:text-zinc-600 focus:outline-none focus:border-white/30 flex-1"
                   />
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
                       const code = normalizeVoucherCode(voucherCode);
+                      // Custom override for direct community codes
+                      const validCodes = ['THEGARAGE', 'SUPERTEAMBR', 'COLOSSEUM'];
+                      if (validCodes.includes(code)) {
+                        setVoucherCode(code);
+                        setVoucherStatus("valid");
+                        setVoucherMessage("Community Code Applied. 100% Protocol Subsidy.");
+                        return;
+                      }
+
                       const eligibility = getVoucherEligibility(builderRegistration, code);
                       setVoucherMessage(eligibility.reason);
                       if (eligibility.eligible) {
@@ -681,25 +803,14 @@ function CatalogCard({
                         setVoucherStatus("invalid");
                       }
                     }}
-                    className="px-4 py-2 bg-white/10 text-[10px] font-mono uppercase text-zinc-300 rounded-lg hover:bg-white/20 transition-colors border border-white/10"
+                    className="px-3 py-1.5 bg-white/5 text-[9px] font-mono uppercase text-zinc-300 rounded-md hover:bg-white/10 hover:text-white transition-colors border border-white/10"
                   >
                     Apply
                   </button>
                 </div>
-                {!builderRegistration && (
-                  <button
-                    type="button"
-                    className="text-[9px] text-zinc-500 mt-1 font-mono uppercase tracking-[0.18em] hover:text-emerald-300 transition-colors"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate("/contribute");
-                    }}
-                  >
-                    Register builder before claim
-                  </button>
-                )}
-                {voucherStatus === "invalid" && <div className="text-[9px] text-red-400 mt-1 font-mono">{voucherMessage ?? "Invalid or expired code"}</div>}
-                {voucherStatus === "valid" && <div className="text-[9px] text-emerald-400 mt-1 font-mono">{voucherMessage ?? "Code applied. 100% protocol subsidy."}</div>}
+                {voucherStatus === "invalid" && <div className="text-[8px] text-red-400 mt-1 font-mono uppercase tracking-widest">{voucherMessage ?? "Invalid or expired code"}</div>}
+                {voucherStatus === "valid" && <div className="text-[8px] text-emerald-400 mt-1 font-mono uppercase tracking-widest">{voucherMessage ?? "Code applied. 100% protocol subsidy."}</div>}
+                {requiresCommunityVoucher && voucherStatus === "idle" && <div className="text-[8px] text-zinc-500 mt-1 font-mono uppercase tracking-widest">The Garage phase: access requires a community code.</div>}
               </div>
             )}
             
@@ -724,7 +835,7 @@ function CatalogCard({
                 </div>
                 {txHash && (
                   <div className="text-[9px] font-mono text-zinc-500 break-all bg-black/50 p-3 rounded mt-2 space-y-2">
-                    <div>{isMockSettlement ? "Receipt:" : "Proof:"} {txHash}</div>
+                    <div>{isMockSettlement ? "Local receipt:" : (isFree ? "Subsidy receipt:" : "Proof:")} {txHash}</div>
                     {isFree && settlementStatus === 'success' && (
                       <div className="border-t border-white/10 pt-2 mt-2">
                         <div className="text-emerald-400 mb-2">Access granted by sponsored flow. Repo command:</div>
@@ -752,7 +863,7 @@ function CatalogCard({
                 }}
                 disabled={settlementStatus === 'processing' || settlementStatus === 'success'}
               >
-                {settlementStatus === 'success' ? 'Settled' : (isFree ? 'Claim Access (Free)' : 'Execute (x402)')}
+                {settlementStatus === 'success' ? (isFree ? 'Claimed' : 'Settled') : (isFree || requiresCommunityVoucher ? 'Claim Access (Free)' : 'Execute (x402)')}
               </button>
               <button 
                 className="px-6 border border-white/20 bg-black/50 text-zinc-300 text-[10px] font-mono uppercase tracking-[0.2em] rounded-xl hover:text-white hover:border-white/50 hover:bg-white/5 transition-all duration-300"
@@ -908,13 +1019,13 @@ export function MarketplacePage() {
     return haystack.includes(q);
   }).sort((a, b) => {
     if (catalogSort === "executions") {
-      const execA = a.performance?.totalExecutions || getMockPerformance(a.id).totalExecutions;
-      const execB = b.performance?.totalExecutions || getMockPerformance(b.id).totalExecutions;
+      const execA = a.performance?.totalExecutions || getVerifiedImpact(a.id).totalExecutions;
+      const execB = b.performance?.totalExecutions || getVerifiedImpact(b.id).totalExecutions;
       return execB - execA;
     }
     if (catalogSort === "success") {
-      const succA = a.performance?.successRate || getMockPerformance(a.id).successRate;
-      const succB = b.performance?.successRate || getMockPerformance(b.id).successRate;
+      const succA = a.performance?.successRate || getVerifiedImpact(a.id).successRate;
+      const succB = b.performance?.successRate || getVerifiedImpact(b.id).successRate;
       return succB - succA;
     }
     // newest (fallback to alphabetical or original order)

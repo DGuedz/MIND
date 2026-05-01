@@ -8,7 +8,7 @@ O **PIB Agêntico** gerado por esta skill é calculado pela redução de OPEX (d
 
 ## 2. Estrutura de Precificação (Colosseum Copilot)
 
-A precificação migra do modelo `free` para um modelo dinâmico e atômico (UTXO/x402):
+A precificação migra do modelo `free` para um modelo dinâmico e atômico (UTXO/x402 com privacy_level "high" via Darkpool):
 
 - **Base Fee (SaaS-like Atômico):** Cobrança de micro-taxa fixa (ex: $0.05 USDC) por execução de pesquisa de perfil simples (builder history ou github sanity check).
 - **Premium Fee (Deep Dive):** Precificação escalada (ex: $1.00 a $5.00 USDC) para geração de tese completa de investimento cruzando sinais de mercado, teses de VCs e on-chain data.

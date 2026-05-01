@@ -1,5 +1,6 @@
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import { createHash } from "node:crypto";
 import { CreateAgentInputSchema, CreateIntentInputSchema } from "@mind/schemas";
 import { getJson, HttpRequestError, postJson } from "./http.js";
 import { executeA2APaymentInDarkPool } from "./services/cloak.service.js";
@@ -9,6 +10,25 @@ const server = fastify({ logger: true });
 const rateLimitWindowMs = Number(process.env.API_GATEWAY_RATE_LIMIT_WINDOW_MS ?? 60000);
 const rateLimitMax = Number(process.env.API_GATEWAY_RATE_LIMIT_MAX ?? 60);
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
+const gatewayRuntimeEnv = (
+  process.env.API_GATEWAY_ENV ?? process.env.APP_ENV ?? process.env.NODE_ENV ?? "development"
+)
+  .trim()
+  .toLowerCase();
+const requiresGatewayApiKey = new Set(["prod", "production", "stage", "staging"]).has(gatewayRuntimeEnv);
+
+const logPolicyDecision = (
+  decision: "ALLOW" | "BLOCK",
+  context: string,
+  details: Record<string, unknown>
+) => {
+  const payload = { decision, context, ...details };
+  if (decision === "ALLOW") {
+    server.log.info(payload, "policy_decision");
+    return;
+  }
+  server.log.warn(payload, "policy_decision");
+};
 
 const isHealthRoute = (url: string) => url.startsWith("/health") || url.startsWith("/v1/health");
 const isPublicReadRoute = (method: string, url: string) =>
@@ -28,10 +48,29 @@ server.addHook("preHandler", async (request, reply) => {
     return;
   }
 
-  const apiKey = process.env.API_GATEWAY_API_KEY;
+  const apiKey = process.env.API_GATEWAY_API_KEY?.trim();
+  if (requiresGatewayApiKey && !apiKey) {
+    logPolicyDecision("BLOCK", "api_key_auth", {
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      route: request.url,
+      method: request.method,
+      runtime_env: gatewayRuntimeEnv,
+      requires_api_key: true
+    });
+    reply.code(503).send({ error: "service_misconfigured", reason: "missing_api_gateway_api_key" });
+    return;
+  }
+
   if (apiKey) {
     const provided = getApiKey(request);
     if (!provided || provided !== apiKey) {
+      logPolicyDecision("BLOCK", "api_key_auth", {
+        reason_codes: ["RC_UNTRUSTED_OVERRIDE_ATTEMPT"],
+        route: request.url,
+        method: request.method,
+        runtime_env: gatewayRuntimeEnv,
+        requires_api_key: requiresGatewayApiKey
+      });
       reply.code(401).send({ error: "unauthorized" });
       return;
     }
@@ -113,6 +152,201 @@ const X402PaymentRequestSchema = z.object({
   chain: X402ChainSchema.default("solana"),
   metadata: z.record(z.unknown()).optional()
 });
+
+const COMMUNITY_VOUCHER_CODES = new Set(["THEGARAGE", "SUPERTEAMBR", "COLOSSEUM"]);
+const communityTractionFreeMode = (process.env.MIND_COMMUNITY_TRACTION_FREE_MODE ?? "true") !== "false";
+const communityVoucherDefaultExpiresAt = process.env.MIND_COMMUNITY_VOUCHER_DEFAULT_EXPIRES_AT ?? "2099-12-31T23:59:59.999Z";
+const usedCommunityVoucherClaims = new Set<string>();
+
+const getMetadataString = (metadata: Record<string, unknown> | undefined, key: string): string | undefined => {
+  const value = metadata?.[key];
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+};
+
+const getCommunityVoucherCode = (metadata: Record<string, unknown> | undefined): string | null => {
+  const code = getMetadataString(metadata, "voucherCode") ?? getMetadataString(metadata, "communityCode");
+  if (!code) return null;
+  const normalized = code.toUpperCase();
+  return COMMUNITY_VOUCHER_CODES.has(normalized) ? normalized : null;
+};
+
+const getCommunityVoucherExpiresAt = (voucherCode: string): { iso: string; timestampMs: number } => {
+  const envKey = `MIND_COMMUNITY_VOUCHER_${voucherCode}_EXPIRES_AT`;
+  const configured = process.env[envKey] ?? communityVoucherDefaultExpiresAt;
+  const parsed = Date.parse(configured);
+  if (Number.isFinite(parsed)) {
+    return { iso: new Date(parsed).toISOString(), timestampMs: parsed };
+  }
+  const fallbackParsed = Date.parse("2099-12-31T23:59:59.999Z");
+  return { iso: new Date(fallbackParsed).toISOString(), timestampMs: fallbackParsed };
+};
+
+type CommunityVoucherValidationResult =
+  | {
+      ok: true;
+      voucherCode: string;
+      builderHandle: string;
+      marketplaceItemId: string;
+      claimKey: string;
+      expiresAt: string;
+    }
+  | {
+      ok: false;
+      statusCode: number;
+      error: string;
+      reason_codes: string[];
+      details: Record<string, unknown>;
+    };
+
+const validateCommunityVoucher = (
+  metadata: Record<string, unknown> | undefined
+): CommunityVoucherValidationResult => {
+  const voucherCode = getCommunityVoucherCode(metadata);
+  if (!voucherCode) {
+    return {
+      ok: false,
+      statusCode: 400,
+      error: "invalid_community_voucher",
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      details: { reason: "voucher_not_allowed" }
+    };
+  }
+
+  const builderHandle = getMetadataString(metadata, "builderHandle");
+  const marketplaceItemId = getMetadataString(metadata, "marketplaceItemId");
+  if (!builderHandle || !marketplaceItemId) {
+    return {
+      ok: false,
+      statusCode: 400,
+      error: "invalid_community_voucher_metadata",
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      details: {
+        reason: "builder_or_item_missing",
+        voucherCode,
+        hasBuilderHandle: Boolean(builderHandle),
+        hasMarketplaceItemId: Boolean(marketplaceItemId)
+      }
+    };
+  }
+
+  const expires = getCommunityVoucherExpiresAt(voucherCode);
+  if (Date.now() > expires.timestampMs) {
+    return {
+      ok: false,
+      statusCode: 410,
+      error: "community_voucher_expired",
+      reason_codes: ["RC_POLICY_VIOLATION"],
+      details: {
+        reason: "voucher_expired",
+        voucherCode,
+        expiresAt: expires.iso
+      }
+    };
+  }
+
+  const claimKey = `${voucherCode}:${builderHandle.toLowerCase()}:${marketplaceItemId.toLowerCase()}`;
+  if (usedCommunityVoucherClaims.has(claimKey)) {
+    return {
+      ok: false,
+      statusCode: 409,
+      error: "community_voucher_already_used",
+      reason_codes: ["RC_POLICY_VIOLATION"],
+      details: {
+        reason: "duplicate_claim",
+        voucherCode,
+        builderHandle,
+        marketplaceItemId
+      }
+    };
+  }
+
+  return {
+    ok: true,
+    voucherCode,
+    builderHandle,
+    marketplaceItemId,
+    claimKey,
+    expiresAt: expires.iso
+  };
+};
+
+const createCommunitySubsidyReceipt = (
+  input: z.infer<typeof X402PaymentRequestSchema>,
+  voucherContext: {
+    voucherCode: string;
+    builderHandle: string;
+    marketplaceItemId: string;
+    claimKey: string;
+    expiresAt: string;
+  }
+) => {
+  const { voucherCode, builderHandle, marketplaceItemId, claimKey, expiresAt } = voucherContext;
+  const intentId = getMetadataString(input.metadata, "intentId") ?? `community_claim_${marketplaceItemId}`;
+  const claimHash = createHash("sha256").update(claimKey).digest("hex");
+  const receiptHash = createHash("sha256")
+    .update(JSON.stringify({
+      amount: input.amount,
+      currency: input.currency,
+      recipient: input.recipient,
+      chain: input.chain,
+      voucherCode,
+      builderHandle,
+      marketplaceItemId,
+      intentId
+    }))
+    .digest("hex");
+
+  return {
+    paymentId: `community_subsidy_${receiptHash}`,
+    status: "sponsored",
+    decision: "ALLOW",
+    reason_codes: [],
+    chain: input.chain,
+    transactionHash: null,
+    paymentUrl: null,
+    reference: `community_subsidy_${receiptHash}`,
+    asset: input.currency,
+    amount: 0,
+    communityTraction: {
+      phase: "the_garage_community",
+      nextPhase: "open_interest",
+      voucherCode,
+      builderHandle,
+      marketplaceItemId,
+      voucherExpiresAt: expiresAt,
+      intentId,
+      originalAmount: input.amount,
+      originalCurrency: input.currency,
+      settlementRequired: false,
+      x402RealSettlementEnabled: false,
+      validationContract: "governance/spec_runtime/x402_phase_contract.json",
+      activationGates: [
+        "minimum_builder_supply_reached",
+        "community_flows_tested",
+        "policy_check_passed",
+        "kms_wallet_ready",
+        "x402_payment_verified",
+        "proof_bundle_verified"
+      ],
+      openInterestRequiredEvidence: [
+        "confirmed_tx_hash",
+        "payment_reference",
+        "policy_decision",
+        "receipt_hash",
+        "mindprint_asset_id"
+      ],
+      evidence: [
+        "valid_community_voucher",
+        "voucher_expiration_validated_server_side",
+        "voucher_single_use_enforced_server_side",
+        "sponsored_access_no_onchain_broadcast",
+        "x402_real_settlement_deferred_until_open_interest",
+        `voucher_claim_hash:${claimHash}`,
+        `receipt_hash:${receiptHash}`
+      ]
+    }
+  };
+};
 
 const X402PaymentVerifySchema = z.object({
   paymentId: z.string().min(32),
@@ -343,6 +577,31 @@ server.post("/v1/payment/x402", async (request: FastifyRequest, reply: FastifyRe
   const amountDecimal = parseFiniteNumber(parsed.data.amount);
   if (amountDecimal === null) {
     return reply.code(400).send({ error: "invalid_amount" });
+  }
+
+  if (communityTractionFreeMode && getCommunityVoucherCode(parsed.data.metadata)) {
+    const voucherValidation = validateCommunityVoucher(parsed.data.metadata);
+    if (!voucherValidation.ok) {
+      logPolicyDecision("BLOCK", "community_voucher", {
+        reason_codes: voucherValidation.reason_codes,
+        ...voucherValidation.details
+      });
+      return reply.code(voucherValidation.statusCode).send({
+        decision: "BLOCK",
+        error: voucherValidation.error,
+        reason_codes: voucherValidation.reason_codes
+      });
+    }
+
+    usedCommunityVoucherClaims.add(voucherValidation.claimKey);
+    logPolicyDecision("ALLOW", "community_voucher", {
+      reason_codes: [],
+      voucherCode: voucherValidation.voucherCode,
+      builderHandle: voucherValidation.builderHandle,
+      marketplaceItemId: voucherValidation.marketplaceItemId,
+      expiresAt: voucherValidation.expiresAt
+    });
+    return reply.code(200).send(createCommunitySubsidyReceipt(parsed.data, voucherValidation));
   }
 
   const amountMinor = toMinorAmount(parsed.data.currency, amountDecimal);
@@ -638,8 +897,62 @@ const A2AIdentityProxySchema = z.object({
   body: z.any().optional()
 });
 
+const X402SettlementEvidenceSchema = z.object({
+  paymentId: z.string().min(32),
+  amount: z.union([z.number(), z.string()]),
+  currency: X402AssetSchema,
+  recipient: z.string().min(32),
+  chain: X402ChainSchema.default("solana")
+});
+
+const identityProxyAllowlistDomains = new Set(
+  (process.env.IDENTITY_PROXY_ALLOWLIST_DOMAINS ?? "")
+    .split(",")
+    .map((entry) => entry.trim().toLowerCase())
+    .filter(Boolean)
+);
+
+const buildAuditId = (scope: string, seed: string) =>
+  `audit_${scope}_${createHash("sha256").update(`${scope}:${seed}:${Date.now()}`).digest("hex").slice(0, 16)}`;
+
+const isAllowlistedDomain = (targetUrl: string): { allowed: boolean; hostname: string | null; reason: string | null } => {
+  try {
+    const parsed = new URL(targetUrl);
+    const hostname = parsed.hostname.toLowerCase();
+    if (identityProxyAllowlistDomains.size === 0) {
+      return { allowed: false, hostname, reason: "allowlist_empty" };
+    }
+
+    const allowed = [...identityProxyAllowlistDomains].some(
+      (domain) => hostname === domain || hostname.endsWith(`.${domain}`)
+    );
+    return { allowed, hostname, reason: allowed ? null : "domain_not_allowlisted" };
+  } catch {
+    return { allowed: false, hostname: null, reason: "invalid_url" };
+  }
+};
+
+const resolveIdentityProxyToken = (tokenReference: string): string | null => {
+  const mappingRaw = process.env.IDENTITY_PROXY_TOKEN_MAP_JSON;
+  if (!mappingRaw) {
+    return null;
+  }
+
+  try {
+    const mapping = JSON.parse(mappingRaw) as Record<string, unknown>;
+    const token = mapping[tokenReference];
+    if (typeof token === "string" && token.trim().length > 0) {
+      return token.trim();
+    }
+    return null;
+  } catch {
+    return null;
+  }
+};
+
 server.post("/v1/identity/a2a/proxy", async (request: FastifyRequest, reply: FastifyReply) => {
   const parsed = A2AIdentityProxySchema.safeParse(request.body);
+  const auditId = buildAuditId("identity_proxy", `${request.ip ?? "unknown"}:${Date.now()}`);
   if (!parsed.success) {
     return reply.code(400).send({
       decision: "BLOCK",
@@ -647,29 +960,153 @@ server.post("/v1/identity/a2a/proxy", async (request: FastifyRequest, reply: Fas
       confidence: 1.0,
       assumptions: ["Payload de proxy invalido."],
       required_followups: ["corrigir_payload"],
-      evidence: []
+      evidence: [],
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/identity/a2a/proxy"
+      }
     });
   }
 
-  // TODO: Buscar o token real no Turnkey KMS a partir do `token_reference`
-  // Mock para fins de demonstração da arquitetura Zero-Trust
-  const mockRealToken = "mock_secret_token_from_kms";
-  
-  // Aqui faria a chamada HTTP real para o provedor injetando o header:
-  // Authorization: Bearer mockRealToken
-  
-  return reply.code(200).send({
-    decision: "ALLOW",
-    reason_codes: [],
-    confidence: 1.0,
-    assumptions: ["Proxy executado com injeção de credencial blindada."],
-    required_followups: [],
-    evidence: [`proxy_url:${parsed.data.url}`, `method:${parsed.data.method}`],
-    artifacts: {
-      status: "success",
-      mock_provider_response: { message: "Operação no provedor concluída via A2A Proxy." }
+  const domainCheck = isAllowlistedDomain(parsed.data.url);
+  if (!domainCheck.allowed) {
+    return reply.code(403).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_POLICY_VIOLATION"],
+      confidence: 0.99,
+      assumptions: [],
+      required_followups: ["configure_identity_proxy_allowlist"],
+      evidence: [
+        `domain_check:${domainCheck.reason ?? "unknown"}`,
+        `target_domain:${domainCheck.hostname ?? "unknown"}`
+      ],
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/identity/a2a/proxy",
+        target_domain: domainCheck.hostname,
+        method: parsed.data.method
+      }
+    });
+  }
+
+  const bearerToken = resolveIdentityProxyToken(parsed.data.token_reference);
+  if (!bearerToken) {
+    return reply.code(428).send({
+      decision: "INSUFFICIENT_EVIDENCE",
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      confidence: 0.95,
+      assumptions: [],
+      required_followups: ["configure_kms_token_resolution", "provide_valid_token_reference"],
+      evidence: [
+        `target_domain:${domainCheck.hostname ?? "unknown"}`,
+        `token_reference:${parsed.data.token_reference}`,
+        "kms_token_unavailable"
+      ],
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/identity/a2a/proxy",
+        target_domain: domainCheck.hostname,
+        method: parsed.data.method
+      }
+    });
+  }
+
+  const headers = { Authorization: `Bearer ${bearerToken}` };
+  try {
+    if (parsed.data.method === "GET") {
+      const response = await getJson<Record<string, unknown>>(parsed.data.url, headers);
+      return reply.code(response.statusCode ?? 200).send({
+        decision: "ALLOW",
+        reason_codes: [],
+        confidence: 0.95,
+        assumptions: [],
+        required_followups: [],
+        evidence: [
+          `target_domain:${domainCheck.hostname ?? "unknown"}`,
+          `method:${parsed.data.method}`,
+          `status_code:${response.statusCode ?? 200}`
+        ],
+        audit: {
+          audit_id: auditId,
+          timestamp: new Date().toISOString(),
+          route: "/v1/identity/a2a/proxy",
+          target_domain: domainCheck.hostname,
+          method: parsed.data.method
+        },
+        artifacts: {
+          status: "success",
+          provider_response: response.data
+        }
+      });
     }
-  });
+
+    if (parsed.data.method === "POST") {
+      const response = await postJson<Record<string, unknown>>(parsed.data.url, parsed.data.body ?? {}, headers);
+      return reply.code(response.statusCode ?? 200).send({
+        decision: "ALLOW",
+        reason_codes: [],
+        confidence: 0.95,
+        assumptions: [],
+        required_followups: [],
+        evidence: [
+          `target_domain:${domainCheck.hostname ?? "unknown"}`,
+          `method:${parsed.data.method}`,
+          `status_code:${response.statusCode ?? 200}`
+        ],
+        audit: {
+          audit_id: auditId,
+          timestamp: new Date().toISOString(),
+          route: "/v1/identity/a2a/proxy",
+          target_domain: domainCheck.hostname,
+          method: parsed.data.method
+        },
+        artifacts: {
+          status: "success",
+          provider_response: response.data
+        }
+      });
+    }
+
+    return reply.code(403).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_POLICY_VIOLATION"],
+      confidence: 1.0,
+      assumptions: [],
+      required_followups: ["use_allowed_http_method"],
+      evidence: [`method:${parsed.data.method}`, "supported_methods:GET,POST"],
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/identity/a2a/proxy",
+        target_domain: domainCheck.hostname,
+        method: parsed.data.method
+      }
+    });
+  } catch (error) {
+    return reply.code(502).send({
+      decision: "INSUFFICIENT_EVIDENCE",
+      reason_codes: ["RC_TOOL_FAILURE"],
+      confidence: 0.75,
+      assumptions: [],
+      required_followups: ["retry_proxy_call", "inspect_downstream_availability"],
+      evidence: [
+        `target_domain:${domainCheck.hostname ?? "unknown"}`,
+        `method:${parsed.data.method}`,
+        "downstream_proxy_failure"
+      ],
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/identity/a2a/proxy",
+        target_domain: domainCheck.hostname,
+        method: parsed.data.method
+      },
+      error: (error as Error).message
+    });
+  }
 });
 
 // Autonomous Execution (Proxy to Execution Service)
@@ -992,6 +1429,15 @@ const TgOnboardSchema = z.object({
   wallet: z.string().min(1)
 });
 
+const VercelGatewaySchema = z.object({
+  execution_type: z.enum(["sandbox_eval", "ai_gateway_route"]),
+  payload: z.string(),
+  language: z.enum(["javascript", "typescript", "python", "shell"]).optional(),
+  target_model: z.string().optional(),
+  network_policy: z.enum(["deny_all", "gateway_only", "allowlist"]).optional().default("deny_all"),
+  settlement: X402SettlementEvidenceSchema.optional()
+});
+
 server.post("/v1/onboard/tg-agent", async (request: FastifyRequest, reply: FastifyReply) => {
   const parsed = TgOnboardSchema.safeParse(request.body ?? {});
   if (!parsed.success) {
@@ -1080,6 +1526,221 @@ server.post("/v1/agent/rebalance", async (request: FastifyRequest, reply: Fastif
     strategy: parsed.data.strategy,
     timestamp: new Date().toISOString()
   });
+});
+
+// Vercel Sandbox & AI Gateway
+server.post("/v1/vercel/execute", async (request: FastifyRequest, reply: FastifyReply) => {
+  const parsed = VercelGatewaySchema.safeParse(request.body ?? {});
+  const auditId = buildAuditId("vercel_execute", `${request.ip ?? "unknown"}:${Date.now()}`);
+  if (!parsed.success) {
+    return reply.code(400).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_UNTRUSTED_OVERRIDE_ATTEMPT"],
+      message: "Invalid Vercel execution request.",
+      details: parsed.error.flatten(),
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute"
+      }
+    });
+  }
+
+  if (!parsed.data.settlement) {
+    return reply.code(402).send({
+      decision: "INSUFFICIENT_EVIDENCE",
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      confidence: 0.98,
+      assumptions: [],
+      required_followups: ["provide_settlement_proof"],
+      evidence: ["settlement:missing"],
+      message: "Missing x402 settlement proof.",
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      }
+    });
+  }
+
+  if (parsed.data.settlement.chain !== "solana") {
+    return reply.code(403).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_POLICY_VIOLATION"],
+      confidence: 1.0,
+      assumptions: [],
+      required_followups: ["use_supported_chain_solana"],
+      evidence: [`settlement_chain:${parsed.data.settlement.chain}`],
+      message: "Unsupported settlement chain.",
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      }
+    });
+  }
+
+  const amountDecimal = parseFiniteNumber(parsed.data.settlement.amount);
+  if (amountDecimal === null) {
+    return reply.code(400).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_UNTRUSTED_OVERRIDE_ATTEMPT"],
+      confidence: 1.0,
+      assumptions: [],
+      required_followups: ["provide_valid_settlement_amount"],
+      evidence: ["settlement_amount:invalid"],
+      message: "Invalid settlement amount.",
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      }
+    });
+  }
+
+  const amountMinor = toMinorAmount(parsed.data.settlement.currency, amountDecimal);
+  if (!amountMinor) {
+    return reply.code(400).send({
+      decision: "BLOCK",
+      reason_codes: ["RC_UNTRUSTED_OVERRIDE_ATTEMPT"],
+      confidence: 1.0,
+      assumptions: [],
+      required_followups: ["provide_valid_settlement_minor_amount"],
+      evidence: ["settlement_amount_minor:invalid"],
+      message: "Invalid settlement amount minor.",
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      }
+    });
+  }
+
+  const a2aServiceUrl = process.env.A2A_SERVICE_URL ?? "http://localhost:3008";
+  let settlementStatus: "pending" | "reference_not_found" | "confirmed" | "failed" = "pending";
+  let settlementTxHash: string | null = null;
+  try {
+    const settlementVerify = await postJson<{
+      status: "pending" | "reference_not_found" | "confirmed" | "failed";
+      reason?: string;
+      txHash?: string;
+    }>(`${a2aServiceUrl}/v1/payments/solana/verify`, {
+      asset: parsed.data.settlement.currency,
+      recipientWallet: parsed.data.settlement.recipient,
+      amountMinor,
+      reference: parsed.data.settlement.paymentId
+    });
+    settlementStatus = settlementVerify.data.status;
+    settlementTxHash = settlementVerify.data.txHash ?? null;
+  } catch (error) {
+    return reply.code(502).send({
+      decision: "INSUFFICIENT_EVIDENCE",
+      reason_codes: ["RC_TOOL_FAILURE"],
+      confidence: 0.8,
+      assumptions: [],
+      required_followups: ["retry_settlement_verification"],
+      evidence: [`payment_id:${parsed.data.settlement.paymentId}`, "settlement_verification_tool_failure"],
+      message: "Settlement verification failed.",
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      },
+      error: (error as Error).message
+    });
+  }
+
+  if (settlementStatus !== "confirmed" || !settlementTxHash) {
+    return reply.code(402).send({
+      decision: "INSUFFICIENT_EVIDENCE",
+      reason_codes: ["RC_MISSING_EVIDENCE"],
+      confidence: 0.95,
+      assumptions: [],
+      required_followups: ["wait_for_onchain_confirmation", "provide_confirmed_tx_hash"],
+      evidence: [
+        `payment_id:${parsed.data.settlement.paymentId}`,
+        `settlement_status:${settlementStatus}`,
+        `tx_hash_present:${Boolean(settlementTxHash)}`
+      ],
+      message: "x402 settlement not confirmed.",
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      }
+    });
+  }
+
+  if (parsed.data.execution_type === "sandbox_eval") {
+    // Mock sandbox execution response
+    return reply.code(200).send({
+      decision: "ALLOW",
+      reason_codes: [],
+      confidence: 0.9,
+      assumptions: ["sandbox runtime integration remains draft"],
+      required_followups: [],
+      evidence: [
+        `payment_id:${parsed.data.settlement.paymentId}`,
+        `settlement_tx_hash:${settlementTxHash}`,
+        "execution:sandbox_isolated"
+      ],
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      },
+      data: {
+        execution_type: "sandbox_eval",
+        status: "draft_pending_runtime_integration",
+        stdout: "Mock stdout: Hello from Vercel Sandbox",
+        stderr: "",
+        exit_code: 0,
+        duration_ms: 120,
+        network_policy: parsed.data.network_policy,
+        receipt: parsed.data.settlement.paymentId,
+        payment_flow: "darkpool_utxo_cloak",
+        privacy_level: "high"
+      }
+    });
+  } else {
+    // Mock AI Gateway routing response
+    return reply.code(200).send({
+      decision: "ALLOW",
+      reason_codes: [],
+      confidence: 0.9,
+      assumptions: ["ai gateway runtime integration remains draft"],
+      required_followups: [],
+      evidence: [
+        `payment_id:${parsed.data.settlement.paymentId}`,
+        `settlement_tx_hash:${settlementTxHash}`,
+        "execution:gateway_routed"
+      ],
+      audit: {
+        audit_id: auditId,
+        timestamp: new Date().toISOString(),
+        route: "/v1/vercel/execute",
+        execution_type: parsed.data.execution_type
+      },
+      data: {
+        execution_type: "ai_gateway_route",
+        status: "draft_pending_runtime_integration",
+        model_used: parsed.data.target_model || "default-model",
+        response: "Mock response from Vercel AI Gateway.",
+        usage: { prompt_tokens: 10, completion_tokens: 20, total_tokens: 30 },
+        duration_ms: 350,
+        receipt: parsed.data.settlement.paymentId,
+        payment_flow: "darkpool_utxo_cloak",
+        privacy_level: "high"
+      }
+    });
+  }
 });
 
 server.post("/v1/hero-flow/run", async (request: FastifyRequest, reply: FastifyReply) => {

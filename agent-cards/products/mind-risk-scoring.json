@@ -4,7 +4,14 @@
     "name": "MIND Autonomous Risk Scoring Engine",
     "version": "1.8.0",
     "description": "Sistema de scoring de risco em tempo real para operações autônomas com machine learning e análise preditiva",
-    "tags": ["risk", "scoring", "machinelearning", "defi", "security", "compliance"],
+    "tags": [
+      "risk",
+      "scoring",
+      "machinelearning",
+      "defi",
+      "security",
+      "compliance"
+    ],
     "license": "Apache-2.0",
     "author": {
       "name": "MIND Protocol",
@@ -16,8 +23,21 @@
     "category": "finance",
     "docExt": ".json",
     "docKind": "agent-card-v1",
-    "keywords": ["risk", "scoring", "machinelearning", "defi", "security", "compliance", "prediction"],
-    "compatibleFrameworks": ["langchain", "crewai", "autogpt", "babyagi"]
+    "keywords": [
+      "risk",
+      "scoring",
+      "machinelearning",
+      "defi",
+      "security",
+      "compliance",
+      "prediction"
+    ],
+    "compatibleFrameworks": [
+      "langchain",
+      "crewai",
+      "autogpt",
+      "babyagi"
+    ]
   },
   "data": {
     "type": "api",
@@ -26,7 +46,7 @@
       "fields": [
         {
           "name": "transactionData",
-          "type": "object", 
+          "type": "object",
           "description": "Dados da transação para análise de risco"
         },
         {
@@ -61,21 +81,19 @@
     }
   },
   "pricing": {
-    "model": "per_request",
+    "model": "community_free",
     "currency": "USDC",
-    "price": 0.03,
-    "x402Endpoint": "https://api.mindprotocol.ai/x402/payment",
-    "profitPotential": "extremely_high",
-    "roiMetrics": {
-      "lossPrevention": "$10,000+ per incident",
-      "complianceCostSavings": "$5,000 monthly",
-      "insurancePremiumReduction": "15-30%"
-    },
-    "valueBasedPricing": {
-      "basic": { "price": 0.03, "features": ["basic scoring"] },
-      "professional": { "price": 0.08, "features": ["advanced ml", "real-time monitoring"] },
-      "enterprise": { "price": 0.15, "features": ["custom models", "sla guarantee", "audit trail"] }
-    }
+    "price": 0,
+    "originalModel": "per_request",
+    "originalPrice": 0.03,
+    "sponsoredBy": "MIND Protocol",
+    "phase": "the_garage_community",
+    "eligibleVoucherCodes": [
+      "THEGARAGE",
+      "SUPERTEAMBR",
+      "COLOSSEUM"
+    ],
+    "settlementRequired": false
   },
   "provenance": {
     "source": "MIND Risk Engine + Historical Market Data",
@@ -88,44 +106,82 @@
     "trainingData": "2M+ historical transactions",
     "modelVersion": "xgboost-v3.2.1"
   },
-  "economicModel": {
-    "revenueStream": "risk_subscription",
-    "lifetimeValue": "$25,000",
-    "acquisitionCost": "$1,000", 
-    "margin": "88%",
-    "growthRate": "35% monthly",
-    "monetizationStrategy": "value-based pricing with clear ROI demonstration",
-    "targetMarket": "hedge funds, prop trading, defi protocols",
-    "competitiveMoats": ["proprietary ml models", "real-time data feeds", "regulatory compliance"]
-  },
-  "performanceMetrics": {
-    "uptime": "99.99%",
-    "responseTime": "<150ms",
-    "accuracy": "94.7%",
-    "precision": "96.2%",
-    "recall": "93.1%",
-    "auc": "0.98"
-  },
-  "clientResults": [
-    {
-      "firm": "Crypto Hedge Fund A",
-      "result": "$2.8M losses prevented in Q1",
-      "roi": "3400%"
-    },
-    {
-      "firm": "DeFi Protocol B",
-      "result": "Zero security incidents since implementation",
-      "savings": "$450k in insurance premiums"
-    },
-    {
-      "firm": "Market Maker C",
-      "result": "27% improvement in risk-adjusted returns",
-      "testimonial": "The real-time risk scoring transformed our trading strategy"
-    }
-  ],
   "integrationExamples": {
     "langchain": "https://github.com/mind-protocol/langchain-integration",
     "crewai": "https://github.com/mind-protocol/crewai-risk-agent",
     "autogpt": "https://github.com/mind-protocol/autogpt-risk-plugin"
+  },
+  "traction": {
+    "objective": "community_builder_engagement",
+    "phase": "the_garage_community",
+    "successMetrics": [
+      "builder_registration",
+      "voucher_claim",
+      "skill_pr_opened"
+    ],
+    "paidConversion": "post_traction_only"
+  },
+  "lifecycle": {
+    "currentPhase": "the_garage_community",
+    "nextPhase": "open_interest",
+    "x402RealSettlementEnabled": false,
+    "activationGates": [
+      "minimum_builder_supply_reached",
+      "community_flows_tested",
+      "policy_check_passed",
+      "kms_wallet_ready",
+      "x402_payment_verified",
+      "proof_bundle_verified"
+    ]
+  },
+  "validation": {
+    "policy": {
+      "requiredChecks": [
+        "hash_integrity",
+        "builder_identity",
+        "payout_wallet_present",
+        "policy_gate",
+        "voucher_or_x402_reference",
+        "proof_bundle"
+      ],
+      "decisionContract": "governance/spec_runtime/x402_phase_contract.json"
+    },
+    "proof": {
+      "requiredArtifacts": [
+        "manifest_json_hash",
+        "skill_md_hash",
+        "builder_github",
+        "payout_wallet",
+        "voucher_receipt_or_x402_tx",
+        "policy_decision"
+      ]
+    }
+  },
+  "cnftPreset": {
+    "standard": "Metaplex Core",
+    "mintPhase": "open_interest",
+    "currentPhaseDelivery": "metadata_preset_only",
+    "attributes": [
+      {
+        "key": "MIND Phase",
+        "value": "the_garage_community"
+      },
+      {
+        "key": "Next Phase",
+        "value": "open_interest"
+      },
+      {
+        "key": "x402 Real Settlement",
+        "value": "disabled_until_open_interest"
+      },
+      {
+        "key": "Validation Contract",
+        "value": "mind_x402_phase_contract_v1"
+      },
+      {
+        "key": "Required Checks",
+        "value": "hash_integrity,builder_identity,payout_wallet_present,policy_gate,voucher_or_x402_reference,proof_bundle"
+      }
+    ]
   }
 }

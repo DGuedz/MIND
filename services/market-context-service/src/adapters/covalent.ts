@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { postJson } from "./http.js";
+import { postJson } from "./http.ts";
 import { GoldRushClient } from "@covalenthq/client-sdk";
 
 const canonicalize = (value: unknown): string => {

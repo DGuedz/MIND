@@ -4,7 +4,14 @@
     "name": "MIND Market Intelligence API",
     "version": "1.5.0",
     "description": "Inteligência de mercado em tempo real com dados de 5.400+ projetos Solana e pesquisa Colosseum Copilot",
-    "tags": ["market", "intelligence", "research", "solana", "data", "analytics"],
+    "tags": [
+      "market",
+      "intelligence",
+      "research",
+      "solana",
+      "data",
+      "analytics"
+    ],
     "license": "Apache-2.0",
     "author": {
       "name": "MIND Protocol",
@@ -16,8 +23,21 @@
     "category": "finance",
     "docExt": ".json",
     "docKind": "agent-card-v1",
-    "keywords": ["market", "research", "intelligence", "solana", "defi", "analytics", "colosseum"],
-    "compatibleFrameworks": ["langchain", "crewai", "autogpt", "babyagi"]
+    "keywords": [
+      "market",
+      "research",
+      "intelligence",
+      "solana",
+      "defi",
+      "analytics",
+      "colosseum"
+    ],
+    "compatibleFrameworks": [
+      "langchain",
+      "crewai",
+      "autogpt",
+      "babyagi"
+    ]
   },
   "data": {
     "type": "api",
@@ -26,7 +46,7 @@
       "fields": [
         {
           "name": "query",
-          "type": "string", 
+          "type": "string",
           "description": "Consulta de pesquisa de mercado"
         },
         {
@@ -61,21 +81,19 @@
     }
   },
   "pricing": {
-    "model": "per_request",
+    "model": "community_free",
     "currency": "USDC",
-    "price": 0.02,
-    "x402Endpoint": "https://api.mindprotocol.ai/x402/payment",
-    "profitPotential": "very_high",
-    "roiMetrics": {
-      "valuePerQuery": "$50",
-      "costAvoidance": "$200",
-      "opportunityIdentification": "$1000+"
-    },
-    "tieredPricing": {
-      "basic": { "price": 0.02, "requests": 100 },
-      "pro": { "price": 0.015, "requests": 1000, "minCommit": 10000 },
-      "enterprise": { "price": 0.01, "requests": 10000, "minCommit": 100000 }
-    }
+    "price": 0,
+    "originalModel": "per_request",
+    "originalPrice": 0.02,
+    "sponsoredBy": "MIND Protocol",
+    "phase": "the_garage_community",
+    "eligibleVoucherCodes": [
+      "THEGARAGE",
+      "SUPERTEAMBR",
+      "COLOSSEUM"
+    ],
+    "settlementRequired": false
   },
   "provenance": {
     "source": "Colosseum Copilot + 5.400+ projetos Solana",
@@ -87,26 +105,77 @@
     "coverage": "5400+ projects, 100+ protocols",
     "updateFrequency": "real-time"
   },
-  "economicModel": {
-    "revenueStream": "data_subscription",
-    "lifetimeValue": "$8,000",
-    "acquisitionCost": "$200", 
-    "margin": "90%",
-    "growthRate": "40% monthly",
-    "monetizationStrategy": "value-based pricing with tiered structure",
-    "marketSize": "$50B+ addressable market",
-    "competitiveAdvantage": "exclusive Colosseum integration"
+  "traction": {
+    "objective": "community_builder_engagement",
+    "phase": "the_garage_community",
+    "successMetrics": [
+      "builder_registration",
+      "voucher_claim",
+      "skill_pr_opened"
+    ],
+    "paidConversion": "post_traction_only"
   },
-  "successStories": [
-    {
-      "client": "HedgeFund AI",
-      "result": "23% alpha generation in Q1 2024",
-      "testimonial": "MIND Market Intel identified 3 arbitrage opportunities we missed"
+  "lifecycle": {
+    "currentPhase": "the_garage_community",
+    "nextPhase": "open_interest",
+    "x402RealSettlementEnabled": false,
+    "activationGates": [
+      "minimum_builder_supply_reached",
+      "community_flows_tested",
+      "policy_check_passed",
+      "kms_wallet_ready",
+      "x402_payment_verified",
+      "proof_bundle_verified"
+    ]
+  },
+  "validation": {
+    "policy": {
+      "requiredChecks": [
+        "hash_integrity",
+        "builder_identity",
+        "payout_wallet_present",
+        "policy_gate",
+        "voucher_or_x402_reference",
+        "proof_bundle"
+      ],
+      "decisionContract": "governance/spec_runtime/x402_phase_contract.json"
     },
-    {
-      "client": "VC Research Team", 
-      "result": "60% faster due diligence",
-      "testimonial": "The competitive landscape analysis saved us 200+ hours of research"
+    "proof": {
+      "requiredArtifacts": [
+        "manifest_json_hash",
+        "skill_md_hash",
+        "builder_github",
+        "payout_wallet",
+        "voucher_receipt_or_x402_tx",
+        "policy_decision"
+      ]
     }
-  ]
+  },
+  "cnftPreset": {
+    "standard": "Metaplex Core",
+    "mintPhase": "open_interest",
+    "currentPhaseDelivery": "metadata_preset_only",
+    "attributes": [
+      {
+        "key": "MIND Phase",
+        "value": "the_garage_community"
+      },
+      {
+        "key": "Next Phase",
+        "value": "open_interest"
+      },
+      {
+        "key": "x402 Real Settlement",
+        "value": "disabled_until_open_interest"
+      },
+      {
+        "key": "Validation Contract",
+        "value": "mind_x402_phase_contract_v1"
+      },
+      {
+        "key": "Required Checks",
+        "value": "hash_integrity,builder_identity,payout_wallet_present,policy_gate,voucher_or_x402_reference,proof_bundle"
+      }
+    ]
+  }
 }

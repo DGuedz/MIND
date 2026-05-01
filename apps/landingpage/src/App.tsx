@@ -32,8 +32,8 @@ function App() {
             <Route path="infrastructure" element={<InfrastructurePage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="links" element={<LinksPage />} />
-            <Route path="/start" element={<Start />} />
-        <Route path="/traction" element={<Dashboard />} />
+            <Route path="start" element={<Start />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="gateway" element={<CloakGatewayPage />} />
             <Route path="pitchdeck" element={<PitchdeckPage />} />
             <Route path="contribute" element={<ContributePage />} />

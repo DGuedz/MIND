@@ -23,6 +23,10 @@ const SOURCE_FILES = [
   {
     sourceKey: "tamkaize",
     manifestPath: path.join(REPO_ROOT, "agent-cards/skills/sources/tamkaize-skills.v1.json")
+  },
+  {
+    sourceKey: "vercel",
+    manifestPath: path.join(REPO_ROOT, "agent-cards/skills/sources/vercel-skills.v1.json")
   }
 ];
 
@@ -109,10 +113,14 @@ function buildCard({ source, sourceKey, skill, createdAt, updatedAt }) {
       endpoints,
       rateLimit: { requests: 60, per: "minute" }
     },
-    pricing: skill.pricing || {
-      model: "free",
-      currency: "USDC",
-      price: 0
+    pricing: {
+      ...(skill.pricing || {
+        model: "free",
+        currency: "USDC",
+        price: 0
+      }),
+      payment_flow: "darkpool_utxo_cloak",
+      privacy_level: "high"
     },
     provenance: {
       source: source.name,
@@ -165,9 +173,13 @@ async function main() {
   const outputs = [];
 
   for (const src of SOURCE_FILES) {
+    console.log("Processing source:", src.sourceKey);
+    console.log("Loading manifest...");
     const manifest = await loadManifest(src.manifestPath);
+    console.log("Loaded manifest. Ensuring dir...");
     const outDir = path.join(REPO_ROOT, "agent-cards/skills", src.sourceKey);
     await ensureDir(outDir);
+    console.log("Ensured dir. Processing skills...");
 
     for (const skill of manifest.skills ?? []) {
       const filename = `card_skill_${slugToFilenamePart(skill.name)}.json`;
@@ -180,10 +192,16 @@ async function main() {
         updatedAt
       });
       outputs.push({ outPath, cardName: card.metadata.name });
-      if (write) await writeJson(outPath, card);
+      if (write) {
+        console.log("Writing JSON for", filename);
+        await writeJson(outPath, card);
+        console.log("Wrote JSON for", filename);
+      }
     }
+    console.log("Finished source:", src.sourceKey);
   }
 
+  console.log("Writing summary...");
   const summary = {
     generatedAt: updatedAt,
     writeMode: write,

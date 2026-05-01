@@ -1,0 +1,13 @@
+{
+  "asset_id": "metaplex_core_sim_5bc7ca42",
+  "checksums": {
+    "manifest_json": "1e835b8ac2b23d6198cffa59da447a090832cec548b25549480d8b69b2a3f5d4",
+    "spins_md": "a52be44d88565dbd8143b10e78c0e0dfab5d3ad05831e479ca46d3e157613243"
+  },
+  "lineage": {
+    "parent_hash": "genesis",
+    "prompt_vector": "86eee82ca95e8e26dd89a3cd22e2c74b2f6b35395c3b85ed93cdcc9a81a1a128"
+  },
+  "zk_proof_ready": true,
+  "timestamp": "2026-05-01T16:11:37.100Z"
+}

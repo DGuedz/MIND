@@ -55,6 +55,30 @@ const main = async () => {
 
   const { server } = await import("../apps/api-gateway/src/index.ts");
 
+  const subsidyResp = await server.inject({
+    method: "POST",
+    url: "/v1/payment/x402",
+    payload: {
+      amount: 0,
+      currency: "USDC",
+      recipient: "MockRecipient1111111111111111111111111111111111",
+      chain: "solana",
+      metadata: {
+        intentId: "community_claim_smoke",
+        voucherCode: "THEGARAGE",
+        builderHandle: "smoke-builder",
+        marketplaceItemId: "card_price_feed_sol",
+        phase: "the_garage_community"
+      }
+    }
+  });
+
+  assert.equal(subsidyResp.statusCode, 200);
+  const subsidyJson = subsidyResp.json() as any;
+  assert.equal(subsidyJson.status, "sponsored");
+  assert.equal(subsidyJson.communityTraction.settlementRequired, false);
+  assert.ok(subsidyJson.communityTraction.evidence.includes("sponsored_access_no_onchain_broadcast"));
+
   const paymentResp = await server.inject({
     method: "POST",
     url: "/v1/payment/x402",

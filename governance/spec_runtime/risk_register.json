@@ -1,14 +1,20 @@
 {
-  "updated_at": "2026-04-06T12:21:03.762Z",
+  "updated_at": "2026-04-30T04:56:59.822Z",
   "by_reason": {
-    "BLOCK": 23,
+    "BLOCK": 24,
     "escalated_runtime_risk": 3
   },
   "by_event_type": {
-    "intent.policy.checked": 23,
+    "intent.policy.checked": 24,
     "market.runtime.signal": 3
   },
   "latest": [
+    {
+      "event_id": "evt_service_test_001",
+      "event_type": "intent.policy.checked",
+      "reason": "BLOCK",
+      "timestamp": "2026-04-06T12:40:00Z"
+    },
     {
       "event_id": "evt_e2e_block_2_1775478062716",
       "event_type": "intent.policy.checked",

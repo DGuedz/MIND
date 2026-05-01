@@ -80,14 +80,19 @@ export function FeaturesPage() {
           { icon: Cpu, title: "Agentic Settlement Log", desc: "Every action emits hash-linked proof artifacts. Verify intent, policy compliance, and execution history on-chain." },
           { icon: ArrowRightLeft, title: "JIT Liquidity Pools", desc: "The execution lane for the agent economy. Seamlessly move value between agents with sub-second latency on Solana." }
         ].map((item, i) => (
-          <motion.div key={i} variants={itemVariants} className="bg-white/[0.02] border border-white/20 p-10 rounded-[2.5rem] group hover:border-white/30 transition-all duration-700">
-            <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
-              <item.icon className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
+          <motion.div key={i} variants={itemVariants} className="metallic-brushed-solana metallic-shine backdrop-blur-md p-10 rounded-[2.5rem] group transition-all duration-700 relative overflow-hidden">
+            {/* Hover Glow Background - Optional extra shine */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                <item.icon className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" />
+              </div>
+              <h3 className="text-white font-medium tracking-widest uppercase text-[10px] font-mono mb-4 drop-shadow-sm">{item.title}</h3>
+              <p className="text-zinc-500 group-hover:text-zinc-400 text-sm leading-relaxed font-light transition-colors duration-500">
+                {item.desc}
+              </p>
             </div>
-            <h3 className="text-white font-medium tracking-widest uppercase text-[10px] font-mono mb-4">{item.title}</h3>
-            <p className="text-zinc-500 group-hover:text-zinc-300 text-sm leading-relaxed font-light transition-colors duration-500">
-              {item.desc}
-            </p>
           </motion.div>
         ))}
       </motion.div>

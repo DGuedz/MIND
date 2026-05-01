@@ -24,7 +24,7 @@ O MIND é a **Mesa de Risco (Risk Desk) e a Câmara de Compensação (Clearingho
 
 ### Slide 3
 **Visible:** x402 transfere. MIND aprova, blinda e prova.
-**Speaker (Kuka):** O padrão x402 atua como o trilho mensageiro. O MIND empacota essa transferência com verificações de política de risco, roteamento privado via Cloak (UTXO), exigência de alçada humana (*Multisig* corporativo) e a emissão da nota de corretagem (Proof Bundle).
+**Speaker (Kuka):** O padrão x402 atua como o trilho mensageiro. O MIND empacota essa transferência com verificações de política de risco, roteamento privado via Cloak (Darkpool UTXO com privacy_level "high"), exigência de alçada humana (*Multisig* corporativo) e a emissão da nota de corretagem (Proof Bundle / Mindprint).
 
 ### Slide 4
 **Visible:** Cloak fornece liquidação privada via ZK UTXO.

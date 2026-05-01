@@ -1,0 +1,10 @@
+# X402 Atomic Settlement Policy
+policy_id: "x402_77d03868"
+mindprint_ref: "77d03868-bd7f-4ab1-8771-2eaf4aceddd9"
+split:
+  creator: 0.92
+  protocol: 0.08
+settlement_layer: "Cloak_Darkpool"
+trigger: "on_execution_success"
+currency: "SOL"
+enforcement: "strict"

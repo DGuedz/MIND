@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-04-30T04:23:06.670Z",
+  "as_of": "2026-05-01T16:25:25.134Z",
   "items": [
     {
       "id": "solana-intel-oracle",
@@ -82,6 +82,31 @@
         "model": "free",
         "currency": "USDC",
         "price": 0
+      }
+    },
+    {
+      "id": "covalent_risk_scorer",
+      "kind": "skill",
+      "name": "covalent-risk-scorer",
+      "description": "Consome a Covalent GoldRush API para Risk Scoring on-chain em tempo real antes de aprovar intents x402 ou swaps DeFi.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "security",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "security",
+        "covalent-risk-scorer"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.02
       }
     },
     {
@@ -674,9 +699,120 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free",
+        "model": "community_free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "originalModel": "per_request",
+        "originalPrice": 0,
+        "sponsoredBy": "MIND Protocol",
+        "phase": "the_garage_community",
+        "eligibleVoucherCodes": [
+          "THEGARAGE",
+          "SUPERTEAMBR",
+          "COLOSSEUM"
+        ],
+        "settlementRequired": false
+      },
+      "traction": {
+        "objective": "community_builder_engagement",
+        "phase": "the_garage_community",
+        "successMetrics": [
+          "builder_registration",
+          "voucher_claim",
+          "skill_pr_opened"
+        ],
+        "paidConversion": "post_traction_only"
+      },
+      "lifecycle": {
+        "currentPhase": "the_garage_community",
+        "nextPhase": "open_interest",
+        "x402RealSettlementEnabled": false,
+        "activationGates": [
+          "minimum_builder_supply_reached",
+          "community_flows_tested",
+          "policy_check_passed",
+          "kms_wallet_ready",
+          "x402_payment_verified",
+          "proof_bundle_verified"
+        ]
+      },
+      "validation": {
+        "policy": {
+          "requiredChecks": [
+            "hash_integrity",
+            "builder_identity",
+            "payout_wallet_present",
+            "policy_gate",
+            "voucher_or_x402_reference",
+            "proof_bundle"
+          ],
+          "decisionContract": "governance/spec_runtime/x402_phase_contract.json"
+        },
+        "proof": {
+          "requiredArtifacts": [
+            "manifest_json_hash",
+            "skill_md_hash",
+            "builder_github",
+            "payout_wallet",
+            "voucher_receipt_or_x402_tx",
+            "policy_decision"
+          ]
+        }
+      },
+      "cnftPreset": {
+        "standard": "Metaplex Core",
+        "mintPhase": "open_interest",
+        "currentPhaseDelivery": "metadata_preset_only",
+        "attributes": [
+          {
+            "key": "MIND Phase",
+            "value": "the_garage_community"
+          },
+          {
+            "key": "Next Phase",
+            "value": "open_interest"
+          },
+          {
+            "key": "x402 Real Settlement",
+            "value": "disabled_until_open_interest"
+          },
+          {
+            "key": "Validation Contract",
+            "value": "mind_x402_phase_contract_v1"
+          },
+          {
+            "key": "Required Checks",
+            "value": "hash_integrity,builder_identity,payout_wallet_present,policy_gate,voucher_or_x402_reference,proof_bundle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vercel_sandbox_gateway",
+      "kind": "skill",
+      "name": "vercel-sandbox-gateway",
+      "description": "Routes untrusted code execution to Vercel Sandbox and model prompts to Vercel AI Gateway behind a MIND x402 policy gate.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "infrastructure",
+        "vercel-sandbox-gateway",
+        "x402",
+        "zero-trust"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.05
       }
     },
     {
@@ -752,7 +888,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -777,7 +915,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -802,7 +942,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -827,7 +969,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -852,7 +996,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -877,7 +1023,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -902,7 +1050,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -927,7 +1077,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -952,7 +1104,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -977,7 +1131,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1002,7 +1158,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1027,7 +1185,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1052,7 +1212,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1077,7 +1239,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1102,7 +1266,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1127,7 +1293,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1152,7 +1320,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1177,7 +1347,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1202,7 +1374,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1227,7 +1401,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1252,7 +1428,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1277,7 +1455,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1302,7 +1482,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1327,7 +1509,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1352,7 +1536,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1377,7 +1563,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1402,7 +1590,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1427,7 +1617,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1452,7 +1644,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1477,7 +1671,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1502,7 +1698,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1527,7 +1725,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1552,7 +1752,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1581,9 +1783,92 @@
       ],
       "badges": [],
       "pricing": {
-        "model": "free",
+        "model": "community_free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "originalModel": "per_request",
+        "originalPrice": 0,
+        "sponsoredBy": "MIND Protocol",
+        "phase": "the_garage_community",
+        "eligibleVoucherCodes": [
+          "THEGARAGE",
+          "SUPERTEAMBR",
+          "COLOSSEUM"
+        ],
+        "settlementRequired": false
+      },
+      "traction": {
+        "objective": "community_builder_engagement",
+        "phase": "the_garage_community",
+        "successMetrics": [
+          "builder_registration",
+          "voucher_claim",
+          "skill_pr_opened"
+        ],
+        "paidConversion": "post_traction_only"
+      },
+      "lifecycle": {
+        "currentPhase": "the_garage_community",
+        "nextPhase": "open_interest",
+        "x402RealSettlementEnabled": false,
+        "activationGates": [
+          "minimum_builder_supply_reached",
+          "community_flows_tested",
+          "policy_check_passed",
+          "kms_wallet_ready",
+          "x402_payment_verified",
+          "proof_bundle_verified"
+        ]
+      },
+      "validation": {
+        "policy": {
+          "requiredChecks": [
+            "hash_integrity",
+            "builder_identity",
+            "payout_wallet_present",
+            "policy_gate",
+            "voucher_or_x402_reference",
+            "proof_bundle"
+          ],
+          "decisionContract": "governance/spec_runtime/x402_phase_contract.json"
+        },
+        "proof": {
+          "requiredArtifacts": [
+            "manifest_json_hash",
+            "skill_md_hash",
+            "builder_github",
+            "payout_wallet",
+            "voucher_receipt_or_x402_tx",
+            "policy_decision"
+          ]
+        }
+      },
+      "cnftPreset": {
+        "standard": "Metaplex Core",
+        "mintPhase": "open_interest",
+        "currentPhaseDelivery": "metadata_preset_only",
+        "attributes": [
+          {
+            "key": "MIND Phase",
+            "value": "the_garage_community"
+          },
+          {
+            "key": "Next Phase",
+            "value": "open_interest"
+          },
+          {
+            "key": "x402 Real Settlement",
+            "value": "disabled_until_open_interest"
+          },
+          {
+            "key": "Validation Contract",
+            "value": "mind_x402_phase_contract_v1"
+          },
+          {
+            "key": "Required Checks",
+            "value": "hash_integrity,builder_identity,payout_wallet_present,policy_gate,voucher_or_x402_reference,proof_bundle"
+          }
+        ]
       }
     },
     {
@@ -5439,6 +5724,656 @@
         "model": "pay-per-use",
         "currency": "USDC",
         "price": 3.5
+      }
+    },
+    {
+      "id": "agent_browser",
+      "kind": "skill",
+      "name": "agent-browser",
+      "description": "Browser automation CLI for AI agents including navigation, form filling, screenshots, and data extraction",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "ai-agents",
+        "agent-browser"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "ai_elements",
+      "kind": "skill",
+      "name": "ai-elements",
+      "description": "Component library built on shadcn/ui for AI-native applications",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "ai-elements"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "ai_sdk",
+      "kind": "skill",
+      "name": "ai-sdk",
+      "description": "Answer questions about the AI SDK and help build AI-powered features including agents, chatbots, and RAG systems",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "ai-agents",
+        "ai-sdk"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "autoship",
+      "kind": "skill",
+      "name": "autoship",
+      "description": "Automated releases with repository cloning, AI-powered changeset generation, and npm publishing",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "devops",
+        "autoship"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "before_and_after",
+      "kind": "skill",
+      "name": "before-and-after",
+      "description": "Screenshot comparison tool for capturing before/after states of web pages",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "devops",
+        "before-and-after"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "building_components",
+      "kind": "skill",
+      "name": "building-components",
+      "description": "Guidance on building UI components with accessibility, composable APIs, and theming",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "building-components"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "cra_to_next_migration",
+      "kind": "skill",
+      "name": "cra-to-next-migration",
+      "description": "Comprehensive guide for converting Create React App projects to Next.js",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "cra-to-next-migration"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "find_skills",
+      "kind": "skill",
+      "name": "find-skills",
+      "description": "Discover and install agent skills from the skills.sh directory",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "automation",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "ai-agents",
+        "find-skills"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "json_render_core",
+      "kind": "skill",
+      "name": "json-render-core",
+      "description": "Core package for schema definition, catalog creation, and spec streaming",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "json-render-core"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "json_render_react",
+      "kind": "skill",
+      "name": "json-render-react",
+      "description": "React renderer that converts JSON specs into React component trees",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "json-render-react"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "json_render_react_native",
+      "kind": "skill",
+      "name": "json-render-react-native",
+      "description": "React Native renderer for JSON specs with standard components and data binding",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "json-render-react-native"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "json_render_remotion",
+      "kind": "skill",
+      "name": "json-render-remotion",
+      "description": "Remotion renderer that turns JSON timeline specs into videos",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "json-render-remotion"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "next_best_practices",
+      "kind": "skill",
+      "name": "next-best-practices",
+      "description": "Next.js best practices covering file conventions, RSC boundaries, data patterns, and more",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "next-best-practices"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "next_cache_components",
+      "kind": "skill",
+      "name": "next-cache-components",
+      "description": "Next.js 16 Cache Components and PPR for mixing static, cached, and dynamic content",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "next-cache-components"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "next_upgrade",
+      "kind": "skill",
+      "name": "next-upgrade",
+      "description": "Upgrade Next.js to the latest version using official migration guides and codemods",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "next-upgrade"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "remotion_best_practices",
+      "kind": "skill",
+      "name": "remotion-best-practices",
+      "description": "Best practices for Remotion video creation in React with 30+ rule files",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "remotion-best-practices"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "streamdown",
+      "kind": "skill",
+      "name": "streamdown",
+      "description": "Streaming-optimized React Markdown renderer with built-in security",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "streamdown"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "turborepo",
+      "kind": "skill",
+      "name": "turborepo",
+      "description": "Build system guide for JavaScript and TypeScript monorepos with task caching and parallel execution",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "devops",
+        "turborepo"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "ucp",
+      "kind": "skill",
+      "name": "ucp",
+      "description": "Universal Commerce Protocol for checkout sessions, payments, and commerce operations",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "infrastructure",
+        "ucp"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "vercel_cli",
+      "kind": "skill",
+      "name": "vercel-cli",
+      "description": "Deploy, manage, and develop projects on Vercel from the command line",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "devops",
+        "vercel-cli"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "vercel_composition_patterns",
+      "kind": "skill",
+      "name": "vercel-composition-patterns",
+      "description": "React composition patterns that scale, helping avoid boolean prop proliferation",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "vercel-composition-patterns"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "vercel_deploy",
+      "kind": "skill",
+      "name": "vercel-deploy",
+      "description": "Deploy applications and websites to Vercel instantly with framework auto-detection for 40+ frameworks",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "devops",
+        "vercel-deploy"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "vercel_react_best_practices",
+      "kind": "skill",
+      "name": "vercel-react-best-practices",
+      "description": "React and Next.js performance optimization guidelines with 40+ rules across 8 categories",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "vercel-react-best-practices"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "vercel_react_native_skills",
+      "kind": "skill",
+      "name": "vercel-react-native-skills",
+      "description": "React Native best practices with 16 rules covering performance, architecture, and platform-specific patterns",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "vercel-react-native-skills"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "web_design_guidelines",
+      "kind": "skill",
+      "name": "web-design-guidelines",
+      "description": "Review UI code for Web Interface Guidelines compliance with 100+ rules covering accessibility, performance, and UX",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "developer-tools",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "client-development",
+        "web-design-guidelines"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
+      }
+    },
+    {
+      "id": "workflow",
+      "kind": "skill",
+      "name": "workflow",
+      "description": "Durable, resilient async functions with retry logic and step-based orchestration",
+      "source": "vercel",
+      "providerType": "vendor",
+      "category": "infrastructure",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "vercel",
+        "infrastructure",
+        "workflow"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0
       }
     }
   ]

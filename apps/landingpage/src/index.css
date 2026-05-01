@@ -34,6 +34,8 @@
 
     --radius: 1rem;
   }
+
+
 }
 
 @layer base {
@@ -289,4 +291,308 @@
 .animate-metallic {
   background-size: 200% auto;
   animation: metallic-flow 8s ease infinite;
+}
+
+/* Premium Metallic Div Effects - Fusão Premium */
+.metallic-div {
+  position: relative;
+  padding: 24px;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 4px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  
+  /* Efeito de metal escovado cinza premium */
+  background: linear-gradient(135deg, 
+    #a8a8a8 0%, 
+    #7a7a7a 25%, 
+    #efefef 50%, 
+    #7a7a7a 75%, 
+    #a8a8a8 100%
+  );
+  background-size: 200% 200%;
+}
+
+.metallic-div::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    transparent 25%, 
+    rgba(255, 255, 255, 0.15) 50%, 
+    transparent 75%, 
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  opacity: 0.7;
+  transition: opacity 0.6s ease;
+}
+
+.metallic-div:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 8px 48px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.metallic-div:hover::before {
+  opacity: 0.9;
+}
+
+/* Color Variations - Fusão Premium */
+.metallic-div.green {
+  background: linear-gradient(135deg, 
+    #2d5a27 0%, 
+    #1e3c1a 25%, 
+    #52b848 50%, 
+    #1e3c1a 75%, 
+    #2d5a27 100%
+  );
+  border-color: rgba(82, 184, 72, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(82, 184, 72, 0.4),
+    0 4px 32px rgba(30, 60, 26, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.metallic-div.green:hover {
+  border-color: rgba(82, 184, 72, 0.5);
+  box-shadow: 
+    inset 0 1px 0 rgba(82, 184, 72, 0.6),
+    0 8px 48px rgba(30, 60, 26, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.metallic-div.blue {
+  background: linear-gradient(135deg, 
+    #1a3a5f 0%, 
+    #0f2036 25%, 
+    #4a90e2 50%, 
+    #0f2036 75%, 
+    #1a3a5f 100%
+  );
+  border-color: rgba(74, 144, 226, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(74, 144, 226, 0.4),
+    0 4px 32px rgba(15, 32, 54, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.metallic-div.blue:hover {
+  border-color: rgba(74, 144, 226, 0.5);
+  box-shadow: 
+    inset 0 1px 0 rgba(74, 144, 226, 0.6),
+    0 8px 48px rgba(15, 32, 54, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.metallic-div.purple {
+  background: linear-gradient(135deg, 
+    #4b2c5e 0%, 
+    #2d1a38 25%, 
+    #9b59b6 50%, 
+    #2d1a38 75%, 
+    #4b2c5e 100%
+  );
+  border-color: rgba(155, 89, 182, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(155, 89, 182, 0.4),
+    0 4px 32px rgba(45, 26, 56, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.metallic-div.purple:hover {
+  border-color: rgba(155, 89, 182, 0.5);
+  box-shadow: 
+    inset 0 1px 0 rgba(155, 89, 182, 0.6),
+    0 8px 48px rgba(45, 26, 56, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.metallic-div.orange {
+  background: linear-gradient(135deg, 
+    #a65d1d 0%, 
+    #6e3d13 25%, 
+    #f39c12 50%, 
+    #6e3d13 75%, 
+    #a65d1d 100%
+  );
+  border-color: rgba(243, 156, 18, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(243, 156, 18, 0.4),
+    0 4px 32px rgba(110, 61, 19, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.metallic-div.orange:hover {
+  border-color: rgba(243, 156, 18, 0.5);
+  box-shadow: 
+    inset 0 1px 0 rgba(243, 156, 18, 0.6),
+    0 8px 48px rgba(110, 61, 19, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Mouse-activated shine effect */
+.metallic-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.metallic-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.2) 70%,
+    rgba(255, 255, 255, 0.1) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg) translateY(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.metallic-shine:hover::after {
+  transform: rotate(30deg) translateY(100%);
+}
+
+/* Brushed Metal Effects (Hype Cards) */
+.metallic-brushed {
+  position: relative;
+  background-color: #0a0a0a;
+  background-image: 
+    /* Light reflections */
+    linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.05) 25%, transparent 30%, transparent 40%, rgba(255,255,255,0.02) 45%, transparent 50%),
+    /* Brushed texture */
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px),
+    /* Base gradient */
+    linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+  background-size: 200% 200%, 100% 100%, 100% 100%;
+  /* Filtro de sombra metálica suave e realista */
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.1), 
+    0 8px 16px -4px rgba(0,0,0,0.8),
+    0 0 20px -5px rgba(255,255,255,0.05); /* Glow metálico sutil na base */
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.metallic-brushed:hover {
+  background-position: 100% 100%, 0% 0%, 0% 0%;
+  border-color: rgba(255,255,255,0.25);
+  /* Sombra mais difusa e glow mais intenso no hover */
+  box-shadow: 
+    inset 0 1px 2px rgba(255,255,255,0.2), 
+    0 16px 32px -8px rgba(0,0,0,0.9),
+    0 0 30px -5px rgba(255,255,255,0.15);
+  transform: translateY(-4px);
+}
+
+/* Gold/Emerald (DeFi & Trading - HIGH DEMAND) */
+.metallic-brushed-emerald {
+  background-image: 
+    linear-gradient(105deg, transparent 20%, rgba(16, 185, 129, 0.15) 25%, transparent 30%, transparent 40%, rgba(16, 185, 129, 0.08) 45%, transparent 50%),
+    repeating-linear-gradient(90deg, rgba(16, 185, 129, 0.03) 0%, rgba(16, 185, 129, 0.03) 1px, transparent 1px, transparent 2px),
+    linear-gradient(135deg, #05100a 0%, #0a2215 25%, #103320 50%, #0a2215 75%, #05100a 100%);
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 
+    inset 0 1px 1px rgba(16, 185, 129, 0.1), 
+    0 8px 16px -4px rgba(0,0,0,0.8),
+    0 0 20px -5px rgba(16, 185, 129, 0.05);
+}
+.metallic-brushed-emerald:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 
+    inset 0 1px 2px rgba(16, 185, 129, 0.3), 
+    0 16px 32px -8px rgba(0,0,0,0.9),
+    0 0 30px -5px rgba(16, 185, 129, 0.2);
+}
+
+/* Sapphire (Security - PREMIUM) */
+.metallic-brushed-sapphire {
+  background-image: 
+    linear-gradient(105deg, transparent 20%, rgba(59, 130, 246, 0.15) 25%, transparent 30%, transparent 40%, rgba(59, 130, 246, 0.08) 45%, transparent 50%),
+    repeating-linear-gradient(90deg, rgba(59, 130, 246, 0.03) 0%, rgba(59, 130, 246, 0.03) 1px, transparent 1px, transparent 2px),
+    linear-gradient(135deg, #050a15 0%, #0a152a 25%, #0f2040 50%, #0a152a 75%, #050a15 100%);
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 
+    inset 0 1px 1px rgba(59, 130, 246, 0.1), 
+    0 8px 16px -4px rgba(0,0,0,0.8),
+    0 0 20px -5px rgba(59, 130, 246, 0.05);
+}
+.metallic-brushed-sapphire:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 
+    inset 0 1px 2px rgba(59, 130, 246, 0.3), 
+    0 16px 32px -8px rgba(0,0,0,0.9),
+    0 0 30px -5px rgba(59, 130, 246, 0.2);
+}
+
+/* Amethyst (Ecosystem Intel) */
+.metallic-brushed-amethyst {
+  background-image: 
+    linear-gradient(105deg, transparent 20%, rgba(168, 85, 247, 0.15) 25%, transparent 30%, transparent 40%, rgba(168, 85, 247, 0.08) 45%, transparent 50%),
+    repeating-linear-gradient(90deg, rgba(168, 85, 247, 0.03) 0%, rgba(168, 85, 247, 0.03) 1px, transparent 1px, transparent 2px),
+    linear-gradient(135deg, #0a0515 0%, #150a2a 25%, #200f40 50%, #150a2a 75%, #0a0515 100%);
+  border-color: rgba(168, 85, 247, 0.2);
+  box-shadow: 
+    inset 0 1px 1px rgba(168, 85, 247, 0.1), 
+    0 8px 16px -4px rgba(0,0,0,0.8),
+    0 0 20px -5px rgba(168, 85, 247, 0.05);
+}
+.metallic-brushed-amethyst:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 
+    inset 0 1px 2px rgba(168, 85, 247, 0.3), 
+    0 16px 32px -8px rgba(0,0,0,0.9),
+    0 0 30px -5px rgba(168, 85, 247, 0.2);
+}
+
+/* Copper/Amber (A2A Infra - CORE) */
+.metallic-brushed-copper {
+  background-image: 
+    linear-gradient(105deg, transparent 20%, rgba(249, 115, 22, 0.15) 25%, transparent 30%, transparent 40%, rgba(249, 115, 22, 0.08) 45%, transparent 50%),
+    repeating-linear-gradient(90deg, rgba(249, 115, 22, 0.03) 0%, rgba(249, 115, 22, 0.03) 1px, transparent 1px, transparent 2px),
+    linear-gradient(135deg, #150a05 0%, #2a150a 25%, #40200f 50%, #2a150a 75%, #150a05 100%);
+  border-color: rgba(249, 115, 22, 0.2);
+  box-shadow: 
+    inset 0 1px 1px rgba(249, 115, 22, 0.1), 
+    0 8px 16px -4px rgba(0,0,0,0.8),
+    0 0 20px -5px rgba(249, 115, 22, 0.05);
+}
+/* Solana Brand Variant (Verde #14F195 / Roxo #9945FF) */
+.metallic-brushed-solana {
+  background-image: 
+    linear-gradient(105deg, transparent 20%, rgba(20, 241, 149, 0.15) 25%, transparent 30%, transparent 40%, rgba(153, 69, 255, 0.15) 45%, transparent 50%),
+    repeating-linear-gradient(90deg, rgba(20, 241, 149, 0.02) 0%, rgba(153, 69, 255, 0.02) 1px, transparent 1px, transparent 2px),
+    linear-gradient(135deg, #050a0f 0%, #0a1515 25%, #102025 50%, #100f20 75%, #0a0515 100%);
+  border-color: rgba(20, 241, 149, 0.2);
+  box-shadow: 
+    inset 0 1px 1px rgba(20, 241, 149, 0.1), 
+    0 8px 16px -4px rgba(0,0,0,0.8),
+    0 0 20px -5px rgba(153, 69, 255, 0.05);
+}
+.metallic-brushed-solana:hover {
+  border-color: rgba(153, 69, 255, 0.4);
+  box-shadow: 
+    inset 0 1px 2px rgba(20, 241, 149, 0.3), 
+    0 16px 32px -8px rgba(0,0,0,0.9),
+    0 0 30px -5px rgba(153, 69, 255, 0.2);
 }

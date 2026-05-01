@@ -14,6 +14,12 @@ export interface MindprintPayload {
   credentialTier: string;
   txHash: string;
   kmsProvider: string;
+  phase?: string;
+  nextPhase?: string;
+  validationContract?: string;
+  validationChecks?: string[];
+  x402SettlementMode?: string;
+  x402RealSettlementEnabled?: boolean;
 }
 
 /**
@@ -38,10 +44,10 @@ export class MindprintMinter {
         const signer = createSignerFromKeypair(this.umi, keypair);
         this.umi.use(signerIdentity(signer));
       } catch (error) {
-        console.warn("⚠️ [MindprintMinter] MIND_TREASURY_SECRET_KEY inválida. O Mint operará em modo Mock.");
+        console.warn("[MindprintMinter] MIND_TREASURY_SECRET_KEY invalida. O Mint operara em modo Mock.");
       }
     } else {
-      console.warn("⚠️ [MindprintMinter] MIND_TREASURY_SECRET_KEY não definida. O Mint operará em modo Mock.");
+      console.warn("[MindprintMinter] MIND_TREASURY_SECRET_KEY nao definida. O Mint operara em modo Mock.");
     }
   }
 
@@ -71,7 +77,13 @@ export class MindprintMinter {
               { key: 'Credential Tier', value: payload.credentialTier },
               { key: 'Solana Tx Hash', value: payload.txHash },
               { key: 'KMS Provider', value: payload.kmsProvider },
-              { key: 'Execution Mode', value: 'Autonomous (Credential-Gated)' }
+              { key: 'Execution Mode', value: 'Autonomous (Credential-Gated)' },
+              { key: 'MIND Phase', value: payload.phase ?? 'open_interest' },
+              { key: 'Next Phase', value: payload.nextPhase ?? 'open_interest' },
+              { key: 'Validation Contract', value: payload.validationContract ?? 'mind_x402_phase_contract_v1' },
+              { key: 'Validation Checks', value: (payload.validationChecks ?? ['policy_gate', 'x402_payment_verified', 'proof_bundle']).join(',') },
+              { key: 'x402 Settlement Mode', value: payload.x402SettlementMode ?? 'x402_solana_confirmed' },
+              { key: 'x402 Real Settlement', value: String(payload.x402RealSettlementEnabled ?? true) }
             ]
           }
         ]
@@ -81,7 +93,7 @@ export class MindprintMinter {
       await tx.sendAndConfirm(this.umi);
       
       const assetId = asset.publicKey.toString();
-      console.log(`   ✅ Mindprint Cunhado com Sucesso! Asset ID: ${assetId}`);
+      console.log(`Mindprint cunhado com sucesso. Asset ID: ${assetId}`);
 
       return {
         assetId,

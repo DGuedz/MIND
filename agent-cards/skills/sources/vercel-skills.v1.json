@@ -1,0 +1,167 @@
+{
+  "source": {
+    "name": "Vercel",
+    "url": "https://vercel.com/docs/agent-resources/skills",
+    "license": "MIT",
+    "description": "Official directory of Vercel published skills. Each skill is verified, documented, and ready to integrate, so you can quickly add powerful new capabilities to your agents.",
+    "ingestedAt": "2026-04-30T00:00:00Z"
+  },
+  "skills": [
+    {
+      "name": "vercel-react-best-practices",
+      "category": "client-development",
+      "description": "React and Next.js performance optimization guidelines with 40+ rules across 8 categories",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "vercel-composition-patterns",
+      "category": "client-development",
+      "description": "React composition patterns that scale, helping avoid boolean prop proliferation",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "vercel-react-native-skills",
+      "category": "client-development",
+      "description": "React Native best practices with 16 rules covering performance, architecture, and platform-specific patterns",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "next-best-practices",
+      "category": "client-development",
+      "description": "Next.js best practices covering file conventions, RSC boundaries, data patterns, and more",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "next-cache-components",
+      "category": "client-development",
+      "description": "Next.js 16 Cache Components and PPR for mixing static, cached, and dynamic content",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "next-upgrade",
+      "category": "client-development",
+      "description": "Upgrade Next.js to the latest version using official migration guides and codemods",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "cra-to-next-migration",
+      "category": "client-development",
+      "description": "Comprehensive guide for converting Create React App projects to Next.js",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "turborepo",
+      "category": "devops",
+      "description": "Build system guide for JavaScript and TypeScript monorepos with task caching and parallel execution",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "ai-sdk",
+      "category": "ai-agents",
+      "description": "Answer questions about the AI SDK and help build AI-powered features including agents, chatbots, and RAG systems",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "ai-elements",
+      "category": "client-development",
+      "description": "Component library built on shadcn/ui for AI-native applications",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "streamdown",
+      "category": "client-development",
+      "description": "Streaming-optimized React Markdown renderer with built-in security",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "web-design-guidelines",
+      "category": "client-development",
+      "description": "Review UI code for Web Interface Guidelines compliance with 100+ rules covering accessibility, performance, and UX",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "building-components",
+      "category": "client-development",
+      "description": "Guidance on building UI components with accessibility, composable APIs, and theming",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "agent-browser",
+      "category": "ai-agents",
+      "description": "Browser automation CLI for AI agents including navigation, form filling, screenshots, and data extraction",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "vercel-deploy",
+      "category": "devops",
+      "description": "Deploy applications and websites to Vercel instantly with framework auto-detection for 40+ frameworks",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "vercel-cli",
+      "category": "devops",
+      "description": "Deploy, manage, and develop projects on Vercel from the command line",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "autoship",
+      "category": "devops",
+      "description": "Automated releases with repository cloning, AI-powered changeset generation, and npm publishing",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "ucp",
+      "category": "infrastructure",
+      "description": "Universal Commerce Protocol for checkout sessions, payments, and commerce operations",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "workflow",
+      "category": "infrastructure",
+      "description": "Durable, resilient async functions with retry logic and step-based orchestration",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "json-render-core",
+      "category": "client-development",
+      "description": "Core package for schema definition, catalog creation, and spec streaming",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "json-render-react",
+      "category": "client-development",
+      "description": "React renderer that converts JSON specs into React component trees",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "json-render-react-native",
+      "category": "client-development",
+      "description": "React Native renderer for JSON specs with standard components and data binding",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "json-render-remotion",
+      "category": "client-development",
+      "description": "Remotion renderer that turns JSON timeline specs into videos",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "remotion-best-practices",
+      "category": "client-development",
+      "description": "Best practices for Remotion video creation in React with 30+ rule files",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "find-skills",
+      "category": "ai-agents",
+      "description": "Discover and install agent skills from the skills.sh directory",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    },
+    {
+      "name": "before-and-after",
+      "category": "devops",
+      "description": "Screenshot comparison tool for capturing before/after states of web pages",
+      "pricing": { "model": "free", "currency": "USDC", "price": 0 }
+    }
+  ]
+}

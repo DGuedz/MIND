@@ -24,6 +24,8 @@ interface MindprintSettlement {
   signature: string;
   nullifier: string;
   root: string;
+  payment_flow: string;
+  privacy_level: string;
 }
 
 export const executeA2APaymentInDarkPool = async (params: A2ADarkPoolParams): Promise<MindprintSettlement> => {
@@ -92,6 +94,8 @@ export const executeA2APaymentInDarkPool = async (params: A2ADarkPoolParams): Pr
   return {
     signature: txSignature,
     nullifier: mockNullifier,
-    root: mockRoot
+    root: mockRoot,
+    payment_flow: "darkpool_utxo_cloak",
+    privacy_level: "high"
   };
 };

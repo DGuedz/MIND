@@ -12,6 +12,11 @@ export function CloakGatewayPage() {
   const amountLamports = searchParams.get("amountLamports") || "0";
   const amountSol = (Number(amountLamports) / 1e9).toFixed(4);
   const recipient = searchParams.get("recipient") || "unknown";
+  const voucherCode = searchParams.get("voucher");
+
+  const isFreeTractionPhase = voucherCode === "THEGARAGE" || voucherCode === "SUPERTEAMBR" || voucherCode === "COLOSSEUM";
+  const finalAmountSol = isFreeTractionPhase ? "0.0000" : amountSol;
+  const finalAmountLamports = isFreeTractionPhase ? 0 : Number(amountLamports);
 
   const [status, setStatus] = useState<"idle" | "shielding" | "settling" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -39,13 +44,17 @@ export function CloakGatewayPage() {
           },
           body: JSON.stringify({
             intentId,
-            amountLamports: Number(amountLamports),
-            recipientPubkey: recipient
+            amountLamports: finalAmountLamports,
+            recipientPubkey: recipient,
+            voucherCode: isFreeTractionPhase ? voucherCode : undefined
           })
+        }).catch(e => {
+          // If fetch fails completely (e.g. connection refused), throw immediately to trigger mock fallback
+          throw new Error("Local API Gateway unreachable: " + e.message);
         });
 
         if (!res.ok) {
-          throw new Error("Local API Gateway unreachable or returned error");
+          throw new Error("Local API Gateway returned error: " + res.status);
         }
         
         receiptData = await res.json();
@@ -130,13 +139,20 @@ export function CloakGatewayPage() {
                  
                  <div className="flex justify-between text-white mb-1">
                    <span className="truncate uppercase max-w-[140px]">{intentId.replace('purchase_card_', '')} LICENSE</span>
-                   <div className="flex gap-6 w-24 justify-end"><span>1</span><span>{amountSol}</span></div>
+                   <div className="flex gap-6 w-24 justify-end"><span>1</span><span className={isFreeTractionPhase ? "line-through text-zinc-600" : ""}>{amountSol}</span></div>
                  </div>
                  
                  <div className="flex justify-between text-zinc-500 mb-1">
                    <span>Execution Fee (8%)</span>
-                   <div className="flex gap-6 w-24 justify-end"><span>1</span><span>{(Number(amountSol) * 0.08).toFixed(5)}</span></div>
+                   <div className="flex gap-6 w-24 justify-end"><span>1</span><span className={isFreeTractionPhase ? "line-through text-zinc-700" : ""}>{(Number(amountSol) * 0.08).toFixed(5)}</span></div>
                  </div>
+
+                 {isFreeTractionPhase && (
+                   <div className="flex justify-between text-emerald-500 mb-1">
+                     <span>Traction Phase Subsidy</span>
+                     <div className="flex gap-6 w-24 justify-end"><span>1</span><span>-100%</span></div>
+                   </div>
+                 )}
 
                  <div className="flex justify-between text-zinc-500 mb-1">
                    <span>Impact Multiplier (I)</span>
@@ -152,7 +168,7 @@ export function CloakGatewayPage() {
                  
                  <div className="flex justify-between text-white text-sm mb-2">
                    <span>TOTAL (SOL)</span>
-                   <span>{amountSol}</span>
+                   <span className={isFreeTractionPhase ? "text-emerald-400 font-bold" : ""}>{finalAmountSol}</span>
                  </div>
 
                  <div className="text-center text-white mb-4">--------------------------------</div>
@@ -177,10 +193,10 @@ export function CloakGatewayPage() {
                </div>
 
                <button 
-                  onClick={() => navigate("/app")}
+                  onClick={() => navigate("/dashboard")}
                   className="w-full bg-white text-black hover:bg-zinc-200 text-[10px] font-mono uppercase tracking-[0.25em] h-12 rounded-full transition-colors mt-4"
                >
-                 Return to Registry
+                 View in Dashboard
                </button>
             </motion.div>
           ) : status === "error" ? (
@@ -205,17 +221,33 @@ export function CloakGatewayPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center border-b border-white/10 pb-6">
                   <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Intent ID</span>
-                  <span className="text-xs font-mono text-zinc-300">{intentId}</span>
+                  <span className="text-xs font-mono text-zinc-300">{intentId.replace('purchase_card_', '')}</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-6">
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Recipient</span>
-                  <span className="text-xs font-mono text-zinc-400 max-w-[200px] truncate">{recipient}</span>
-                </div>
+                {isFreeTractionPhase ? (
+                  <div className="flex justify-between items-center border-b border-white/10 pb-6">
+                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Community Subsidy</span>
+                    <span className="text-xs font-mono text-emerald-400 font-bold uppercase">{voucherCode} APPLIED</span>
+                  </div>
+                ) : (
+                  <div className="flex justify-between items-center border-b border-white/10 pb-6">
+                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Recipient</span>
+                    <span className="text-xs font-mono text-zinc-400 max-w-[200px] truncate">{recipient}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center pt-2">
                   <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Total Amount</span>
                   <div className="text-right">
-                    <span className="text-2xl font-mono text-white">{amountSol}</span>
-                    <span className="text-sm font-mono text-zinc-500 ml-2">SOL</span>
+                    {isFreeTractionPhase ? (
+                      <div className="flex flex-col items-end">
+                        <span className="text-sm font-mono text-zinc-600 line-through">{amountSol} SOL</span>
+                        <span className="text-2xl font-mono text-emerald-400 font-bold">{finalAmountSol} <span className="text-sm text-emerald-500/50">SOL</span></span>
+                      </div>
+                    ) : (
+                      <>
+                        <span className="text-2xl font-mono text-white">{finalAmountSol}</span>
+                        <span className="text-sm font-mono text-zinc-500 ml-2">SOL</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

@@ -22,7 +22,7 @@ Agentes autônomos já podem executar, mas não conseguem liquidar com seguranç
 
 ### 4. Solução (Câmara de Compensação Completa)
 - **Autorização Pré-trade:** Roteamento via Turnkey KMS e verificação de políticas (Policy Escrow).
-- **Liquidação Intra-trade (Cloak ZK UTXO):** Pagamento blindado na Solana usando x402.
+- **Liquidação Intra-trade (Cloak ZK UTXO):** Pagamento blindado na Solana usando x402, com payment_flow "darkpool_utxo_cloak" e privacy_level "high".
 - **Auditoria Pós-trade:** Emissão do Mindprint (Recibo/Proof Bundle) com o *hash* da transação para *dispute resolution*.
 
 ### 5. Canais (Originação de Liquidez)

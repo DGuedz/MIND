@@ -7,7 +7,7 @@ const PRODUCTS_DIR = path.join(ROOT_DIR, 'agent-cards', 'products');
 const OUT_SKILLS_FILE = path.join(ROOT_DIR, 'apps', 'landingpage', 'public', 'catalog', 'skills.json');
 const OUT_PRODUCTS_FILE = path.join(ROOT_DIR, 'apps', 'landingpage', 'public', 'catalog', 'products.json');
 
-const sources = ['mind', 'sendaifun', 'stbr', 'frames', 'hostinger', 'colosseum-sponsors', 'tamkaize'];
+const sources = ['mind', 'sendaifun', 'stbr', 'frames', 'hostinger', 'colosseum-sponsors', 'tamkaize', 'vercel'];
 const providerTypeBySource = {
   mind: 'internal',
   sendaifun: 'external',
@@ -16,7 +16,8 @@ const providerTypeBySource = {
   nous: 'external',
   hostinger: 'vendor',
   'colosseum-sponsors': 'sponsor',
-  tamkaize: 'external'
+  tamkaize: 'external',
+  vercel: 'vendor'
 };
 const skillItems = [];
 
@@ -92,6 +93,10 @@ for (const source of sources) {
           tags: tags,
           badges: data.badges || [],
           pricing: data.pricing || (isProduct ? { model: "subscription" } : { model: "free" }),
+          traction: data.traction || undefined,
+          lifecycle: data.lifecycle || undefined,
+          validation: data.validation || undefined,
+          cnftPreset: data.cnftPreset || undefined,
           performance: data.performance || undefined
         };
         
@@ -118,7 +123,11 @@ for (const source of sources) {
           license: 'Proprietary',
           tags: Array.isArray(tags) ? tags : (typeof tags === 'string' ? tags.split(',').map(t => t.trim()) : []),
           badges: [],
-          pricing: data.pricing || (isProduct ? { model: "subscription" } : { model: "free" })
+          pricing: data.pricing || (isProduct ? { model: "subscription" } : { model: "free" }),
+          traction: data.traction || undefined,
+          lifecycle: data.lifecycle || undefined,
+          validation: data.validation || undefined,
+          cnftPreset: data.cnftPreset || undefined
         };
         
         skillItems.push(item);
@@ -171,7 +180,11 @@ if (fs.existsSync(PRODUCTS_DIR)) {
         docKind,
         license,
         tags: Array.isArray(tags) ? tags : [],
-        pricing
+        pricing,
+        traction: data.traction || undefined,
+        lifecycle: data.lifecycle || undefined,
+        validation: data.validation || undefined,
+        cnftPreset: data.cnftPreset || undefined
       });
     } catch (e) {
       console.error(`Failed to parse product ${file}: ${e.message}`);

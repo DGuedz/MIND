@@ -16,6 +16,8 @@
   "pricing": {
     "model": "dynamic_impact_curve",
     "protocol": "x402",
+    "payment_flow": "darkpool_utxo_cloak",
+    "privacy_level": "high",
     "base_fee_usd": 0.05,
     "impact_alpha_multiplier": 0.015
   },

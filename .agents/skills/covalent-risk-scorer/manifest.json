@@ -1,0 +1,30 @@
+{ 
+  "card_id": "covalent_risk_scorer_001", 
+  "name": "Covalent On-Chain Risk Scoring", 
+  "version": "1.0.0", 
+  "network": "solana-mainnet", 
+  "endpoint": "https://api.mindprotocol.io/v1/skills/covalent-risk", 
+  "sla": { 
+    "max_latency_ms": 400, 
+    "availability_percent": 99.9 
+  }, 
+  "financial_policy": { 
+    "protocol": "x402", 
+    "currency": "USDC", 
+    "cost_per_execution": 0.02, 
+    "settlement": "atomic",
+    "payment_flow": "darkpool_utxo_cloak",
+    "privacy_level": "high",
+    "split_distribution": { 
+      "developer_wallet": "DGuedz...SolanaAddress", 
+      "developer_percentage": 92.0, 
+      "protocol_treasury": "MIND...TreasuryAddress", 
+      "protocol_percentage": 8.0 
+    } 
+  }, 
+  "security": { 
+    "credential_gating": true, 
+    "required_attestation": "turnkey_kms", 
+    "proof_generation": "metaplex_mindprint_cnft" 
+  } 
+}

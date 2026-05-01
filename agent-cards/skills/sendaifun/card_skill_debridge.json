@@ -74,12 +74,14 @@
   "pricing": {
     "model": "free",
     "currency": "USDC",
-    "price": 0
+    "price": 0,
+    "payment_flow": "darkpool_utxo_cloak",
+    "privacy_level": "high"
   },
   "provenance": {
     "source": "sendaifun/skills",
-    "createdAt": "2026-04-30T04:23:06.521Z",
-    "updatedAt": "2026-04-30T04:23:06.521Z",
+    "createdAt": "2026-04-30T17:44:29.403Z",
+    "updatedAt": "2026-04-30T17:44:29.403Z",
     "signature": "unsigned"
   },
   "skill": {

@@ -10,6 +10,7 @@ Canonical spec: https://frames.ag/skill.md
 - Provisiona uma wallet de agente (EVM + Solana) via OTP por email
 - Usa assinatura server-side com políticas (limites, blocklist, rate limits)
 - Executa chamadas x402 com pagamento automático via endpoint one-step `x402/fetch`
+- Todo fluxo x402 utilizará a liquidação via Darkpool UTXO (Cloak) com privacy_level "high"
 - Suporta dry-run para estimar custo antes de pagar
 
 ## Regras de segurança (obrigatórias)

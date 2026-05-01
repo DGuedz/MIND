@@ -26,3 +26,4 @@
 {"at":"2026-04-06T12:20:57.220Z","event_id":"evt_service_test_001","intent_id":"int_service_001","outcome":"BLOCK","proof_status":"pending","economics":{"ev_net":null,"fee_capture_bps":null,"latency_ms":null}}
 {"at":"2026-04-06T12:21:02.681Z","event_id":"evt_e2e_block_1_1775478061660","intent_id":"int_e2e_block_1_1775478061660","outcome":"BLOCK","proof_status":"failed","economics":{"ev_net":null,"fee_capture_bps":null,"latency_ms":null}}
 {"at":"2026-04-06T12:21:03.763Z","event_id":"evt_e2e_block_2_1775478062716","intent_id":"int_e2e_block_2_1775478062716","outcome":"BLOCK","proof_status":"failed","economics":{"ev_net":null,"fee_capture_bps":null,"latency_ms":null}}
+{"at":"2026-04-30T04:56:59.824Z","event_id":"evt_service_test_001","intent_id":"int_service_001","outcome":"BLOCK","proof_status":"pending","economics":{"ev_net":null,"fee_capture_bps":null,"latency_ms":null}}

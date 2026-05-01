@@ -1,0 +1,102 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "vercel-sandbox-gateway (Skill)",
+    "version": "1.0.0",
+    "description": "Routes untrusted code execution to Vercel Sandbox and model prompts to Vercel AI Gateway behind a MIND x402 policy gate.",
+    "tags": [
+      "solana",
+      "agent-skill",
+      "mind",
+      "infrastructure",
+      "vercel-sandbox-gateway",
+      "x402",
+      "zero-trust"
+    ],
+    "license": "Proprietary",
+    "author": {
+      "name": "MIND",
+      "contact": "https://github.com/DGuedz/MIND"
+    }
+  },
+  "discovery": {
+    "intent": "api_integration",
+    "category": "infrastructure",
+    "keywords": [
+      "vercel",
+      "sandbox",
+      "ai-gateway",
+      "untrusted-code",
+      "model-routing",
+      "x402",
+      "solana",
+      "agent-card"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "execution_type",
+          "type": "string",
+          "description": "sandbox_eval or ai_gateway_route"
+        },
+        {
+          "name": "payload",
+          "type": "string",
+          "description": "Untrusted code or model prompt"
+        },
+        {
+          "name": "target_model",
+          "type": "string",
+          "description": "Optional Vercel AI Gateway provider/model id"
+        }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.65
+  },
+  "access": {
+    "authentication": "x402",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND",
+      "payment": "https://api.mindprotocol.io/v1/skills/vercel-sandbox"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "currency": "USDC",
+    "price": 0.05
+  },
+  "provenance": {
+    "source": "MIND/.agents/skills",
+    "createdAt": "2026-04-30T00:00:00.000Z",
+    "updatedAt": "2026-04-30T00:00:00.000Z",
+    "signature": "unsigned",
+    "status": "draft_pending_runtime_integration"
+  },
+  "skill": {
+    "source_url": "https://github.com/DGuedz/MIND",
+    "repo_path": ".agents/skills/vercel-sandbox-gateway/SKILL.md"
+  },
+  "security": {
+    "required_attestation": "turnkey_kms",
+    "untrusted_input_policy": "deny_host_execution",
+    "sandbox_network_policy": "deny_all_by_default"
+  }
+}

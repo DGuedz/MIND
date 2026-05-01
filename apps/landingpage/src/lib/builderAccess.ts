@@ -23,7 +23,7 @@ export const BUILDER_TRACK_STEPS = [
   {
     id: "04",
     title: "Get Listed",
-    body: "Approved skills become revenue-generating assets in the MIND Marketplace with explicit pricing."
+    body: "Approved skills enter the MIND Marketplace with community-free access now and explicit paid pricing preserved for post-traction."
   }
 ] as const;
 

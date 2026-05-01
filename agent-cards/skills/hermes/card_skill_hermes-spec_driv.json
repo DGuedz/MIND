@@ -1,0 +1,26 @@
+{
+  "agent_identity": {
+    "name": "spec_driv_Agent",
+    "version": "1.0.0",
+    "protocol": "A2A_v1",
+    "pib_agentico_fee": "0.005_per_transaction"
+  },
+  "capabilities": [
+    {
+      "service": "spec_driv_execution",
+      "methods": ["GET", "POST"],
+      "auth_required": true,
+      "encryption": "AES-256"
+    }
+  ],
+  "compliance": {
+    "standard": "A2A_Agentic_Safety_Card",
+    "guarantees": "Zero-knowledge_proofs"
+  },
+  "traceability": {
+    "mindprint_id": "77d03868-bd7f-4ab1-8771-2eaf4aceddd9",
+    "lineage_prompt": "spec driv devops",
+    "telemetry_endpoint": "/v1/metrics/a2a",
+    "execution_audit_log": "required"
+  }
+}

@@ -9,7 +9,7 @@ Atua como um auditor de integridade para fluxos Web2-para-Web3, garantindo liqui
 
 ## Regras de Auditoria (VSC Compliant)
 1. **Zero-Trust Bridge:** O fluxo de OAuth (ex: GitHub) NUNCA deve conceder acesso a execução on-chain sem assinatura delegada (KMS) ou wallet conectada. O OAuth prova identidade, a wallet/KMS prova autoria (ownership).
-2. **Liquidação Atômica (x402):** O pagamento via x402 deve ser verificado ativamente na blockchain Solana (Anchor PDA / Cloak settlement). Confirmação off-chain ou "promessas" resultam em bloqueio imediato (`RC_POLICY_VIOLATION`).
+2. **Liquidação Atômica (x402):** O pagamento via x402 deve ser verificado ativamente na blockchain Solana (Anchor PDA / Cloak settlement) e utilizar o fluxo Darkpool UTXO (privacy_level "high"). Confirmação off-chain ou "promessas" resultam em bloqueio imediato (`RC_POLICY_VIOLATION`).
 3. **Economia de Tokens:** Todas as respostas do auditor devem seguir o modo VSC. Zero emojis, formatação minimalista e direto ao ponto.
 
 ## UX/UI Check Constraints

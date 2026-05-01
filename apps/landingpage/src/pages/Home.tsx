@@ -7,6 +7,7 @@ import { motion, useMotionValue, useTransform, MotionValue, AnimatePresence, use
 import { ArrowDown } from "lucide-react";
 import { Zap, ShieldCheck } from "lucide-react";
 import { VerticalsMarketplaceSlider } from "../components/VerticalsMarketplaceSlider";
+import { MainLayout } from "../layouts/MainLayout";
 
 // Component for Metallic Reflective Text synced with Scroll
 function MetallicText({ children, className, progress }: { children: React.ReactNode, className?: string, progress?: MotionValue<number> }) {
@@ -54,7 +55,7 @@ function SolanaMetallicText({ children, className, progress }: { children: React
   return (
     <motion.span
       onMouseMove={handleMouseMove}
-      className={`relative inline-block bg-clip-text text-transparent bg-[linear-gradient(110deg,#ffffff,45%,#c4f5de,50%,#a1a1aa,55%,#dcbdfa,80%,#ffffff)] bg-[length:200%_200%] transition-all duration-300 cursor-default drop-shadow-[0_0_10px_rgba(255,255,255,0.1)] ${className || ''}`}
+      className={`relative inline-block bg-clip-text text-transparent bg-[linear-gradient(110deg,#ffffff,40%,#d1fae5,48%,#ffffff,52%,#e9d5ff,60%,#ffffff)] bg-[length:200%_200%] transition-all duration-300 cursor-default drop-shadow-[0_0_10px_rgba(20,241,149,0.15)] ${className || ''}`}
       style={{ backgroundPosition }}
     >
       {children}
@@ -693,7 +694,7 @@ function SVGGridPreview() {
   return (
     <div className="relative group" style={{ perspective: "1000px" }}>
       <div 
-        className="bg-[#020202] border border-white/5 rounded-3xl p-8 aspect-video relative cursor-crosshair transition-all duration-500 group-hover:scale-[1.02]"
+        className="metallic-brushed-solana metallic-shine rounded-3xl p-8 aspect-video relative cursor-crosshair transition-all duration-500 group-hover:scale-[1.02]"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ 
@@ -1240,7 +1241,6 @@ export function ArchiveCard({ item, index, isHovered, onMouseEnter, onMouseLeave
 // Home Page Component
 export function HomePage() {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
-  const [videoSrc, setVideoSrc] = useState("/sanduiche_rev_mind_solana_core.mp4");
   const [isProcessCardHovered, setIsProcessCardHovered] = useState(false);
   const [processCardTilt, setProcessCardTilt] = useState({ x: 0, y: 0 });
   const navigate = useNavigate();
@@ -1262,42 +1262,9 @@ export function HomePage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const buildersRef = useRef<HTMLDivElement>(null);
 
-  // Pre-fetch the video as a Blob to prevent net::ERR_ABORTED on Vercel/Vite
-  // due to excessive HTTP Range requests during scroll scrubbing.
-  // We use an AbortController to cleanly cancel the fetch if the component unmounts.
-  useEffect(() => {
-    const controller = new AbortController();
-    let objectUrl = "";
-    let isMounted = true;
-
-    fetch("/sanduiche_rev_mind_solana_core.mp4", { signal: controller.signal })
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to fetch video");
-        return res.blob();
-      })
-      .then(blob => {
-        if (isMounted) {
-          objectUrl = URL.createObjectURL(blob);
-          setVideoSrc(objectUrl);
-        }
-      })
-      .catch(err => {
-        if (err.name !== "AbortError" && isMounted) {
-          console.error("Error pre-fetching video:", err);
-          // Fallback to direct URL if blob fetch fails
-          setVideoSrc("/sanduiche_rev_mind_solana_core.mp4");
-        }
-      });
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-      if (objectUrl) {
-        // Delay revocation to allow the video element to safely switch its source
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 100);
-      }
-    };
-  }, []);
+  // Removido o pré-fetch com Blob. Deixando o navegador gerenciar o cache nativamente
+  // Isso previne que navegações rápidas entre páginas cancelem o download e disparem
+  // net::ERR_ABORTED no console do Chromium.
 
   // Builders Scroll Activation
   const isBuildersInView = useInView(buildersRef, { amount: 0.4 });
@@ -1307,7 +1274,16 @@ export function HomePage() {
     offset: ["start start", "end end"]
   });
 
-  const heroCopyOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0], { clamp: true });
+  // We unify the fade out to ensure perfect synchronization.
+  // The fade out starts at 15% and finishes completely by 35%.
+  const heroCopyOpacity = useTransform(scrollYProgress, [0.15, 0.35], [1, 0], { clamp: true });
+  const heroCopyVisibility = useTransform(heroCopyOpacity, (val) => val === 0 ? "hidden" : "visible");
+  const heroCopyY = useTransform(scrollYProgress, [0.15, 0.35], [0, -50], { clamp: true });
+
+  // Overlay opacity fades out *after* the text, revealing the video fully in evidence.
+  // From 25% to 50% scroll.
+  const overlayOpacity = useTransform(scrollYProgress, [0.25, 0.50], [1, 0], { clamp: true });
+  const overlayVisibility = useTransform(overlayOpacity, (val) => val === 0 ? "hidden" : "visible");
 
   useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
     if (videoRef.current && videoRef.current.duration) {
@@ -1362,12 +1338,13 @@ export function HomePage() {
   }, [location.hash]);
 
   return (
-    <div className="pb-32 pt-32 bg-black">
-      <ConnectAgentModal 
-        isOpen={isConnectModalOpen} 
-        onClose={() => setIsConnectModalOpen(false)} 
-        onSuccess={() => {}}
-      />
+    <MainLayout heroCopyOpacity={heroCopyOpacity} heroCopyVisibility={heroCopyVisibility}>
+      <div className="pb-32 pt-32 bg-black">
+        <ConnectAgentModal 
+          isOpen={isConnectModalOpen} 
+          onClose={() => setIsConnectModalOpen(false)} 
+          onSuccess={() => {}}
+        />
 
       {/* Hero Section: Scroll-Driven Video Scrubbing */}
       <section
@@ -1379,7 +1356,7 @@ export function HomePage() {
           {/* Scroll-Scrubbed Video */}
           <video
             ref={videoRef}
-            src={videoSrc}
+            src="/sanduiche_rev_mind_solana_core.mp4"
             muted
             playsInline
             preload="auto"
@@ -1388,43 +1365,39 @@ export function HomePage() {
 
           {/* Camada de Segurança Visual (Overlay Dinâmico) */}
           <motion.div 
-            className="absolute inset-0 bg-black/80 z-10 pointer-events-none"
-            style={{ opacity: heroCopyOpacity }}
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.95)_100%)] z-10 pointer-events-none"
+            style={{ opacity: overlayOpacity, visibility: overlayVisibility as any }}
           />
 
           {/* Copy - Centered and Relative */}
           <motion.div 
-            className="relative z-20 flex flex-col items-center justify-center h-full px-6 text-center"
-            style={{ opacity: heroCopyOpacity }}
+            className="relative z-20 flex flex-col items-center justify-center h-full px-6 text-center pointer-events-none"
+            style={{ opacity: heroCopyOpacity, visibility: heroCopyVisibility as any, y: heroCopyY }}
           >
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="max-w-4xl space-y-10 flex flex-col items-center"
+              className="w-full max-w-4xl space-y-8 md:space-y-10 flex flex-col items-center mt-12 md:mt-0 pointer-events-auto"
             >
-              <div className="space-y-4 flex flex-col items-center">
-                <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm w-fit">
-                  Initial Traction Phase
-                </Badge>
-
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight md:leading-[1.1] text-white font-mono uppercase">
+              <div className="space-y-4 md:space-y-6 flex flex-col items-center w-full">
+                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.15] md:leading-[1.1] text-white font-mono uppercase w-full">
                   <SolanaMetallicText progress={scrollYProgress} className="tracking-[0.02em]">Solana</SolanaMetallicText>
-                  <MetallicText progress={scrollYProgress} className="tracking-[0.02em] ml-4">is now</MetallicText> <br />
-                  <MetallicText progress={scrollYProgress} className="italic font-medium text-zinc-300 text-4xl md:text-6xl lg:text-7xl drop-shadow-2xl tracking-[0.01em] mt-2 inline-block">the A2A Settlement Layer.</MetallicText>
+                  <MetallicText progress={scrollYProgress} className="tracking-[0.02em] ml-2 md:ml-4 text-2xl sm:text-4xl md:text-5xl lg:text-6xl align-middle md:align-baseline">is now</MetallicText> <br />
+                  <MetallicText progress={scrollYProgress} className="italic font-medium text-zinc-300 text-[26px] sm:text-4xl md:text-6xl lg:text-7xl drop-shadow-2xl tracking-[0.01em] mt-2 md:mt-4 inline-block w-full">the A2A Settlement Layer.</MetallicText>
                 </h1>
               </div>
 
-              <p className="text-lg md:text-xl text-center max-w-2xl transition-all duration-700">
+              <p className="text-base sm:text-lg md:text-xl text-center max-w-xs sm:max-w-2xl transition-all duration-700 px-4 md:px-0">
                 <MetallicText progress={scrollYProgress} className="leading-relaxed font-mono drop-shadow-[0_0_12px_rgba(255,255,255,0.25)] hover:text-white hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
                   We build the on-chain roads, you build the intelligence. Connect your GitHub to publish Agent Cards, monetize your skills, and settle atomically with a 92/8 split.
                 </MetallicText>
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-6 pt-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-2 md:pt-4 justify-center w-full sm:w-auto px-6 sm:px-0">
                 <Button 
                   size="lg" 
-                  className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-10 h-14 uppercase tracking-widest font-mono text-[10px]"
+                  className="bg-white text-black hover:bg-zinc-200 transition-all duration-500 rounded-full px-8 md:px-10 h-12 md:h-14 uppercase tracking-widest font-mono text-[9px] md:text-[10px] w-full sm:w-auto"
                   onClick={() => navigate("/contribute")}
                 >
                   Connect GitHub
@@ -1435,7 +1408,7 @@ export function HomePage() {
 
           <motion.div 
             className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-2 z-50"
-            style={{ opacity: heroCopyOpacity }}
+            style={{ opacity: heroCopyOpacity, visibility: heroCopyVisibility as any }}
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             onClick={scrollToHeroEnd}
@@ -1448,7 +1421,13 @@ export function HomePage() {
 
       {/* NEW SECTION: Neural Bridge Discovery */}
       <section id="neural-bridge" className="relative z-20 bg-black container mx-auto px-6 pt-16 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-        <div className="space-y-10 order-2 lg:order-1">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="space-y-10 order-2 lg:order-1"
+        >
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
             Discovery & Execution
           </Badge>
@@ -1488,13 +1467,13 @@ export function HomePage() {
               </div>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="relative z-20 order-1 lg:order-2"
         >
           <SVGGridPreview />
@@ -1502,10 +1481,16 @@ export function HomePage() {
       </section>
 
       {/* Section 1: Curated Assemblages */}
-      <section id="marketplace" className="container mx-auto px-6 mt-16">
-        <VerticalsMarketplaceSlider
-          onExploreRegistry={() => navigate("/app")}
-          verticals={[
+      <section id="marketplace" className="container mx-auto px-6 mt-16 md:mt-32">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <VerticalsMarketplaceSlider
+            onExploreRegistry={() => navigate("/app")}
+            verticals={[
             {
               id: "data",
               indexLabel: "01",
@@ -1516,7 +1501,7 @@ export function HomePage() {
                 { label: "Latency Power", value: "180ms", hint: "p50 quote" },
                 { label: "Throughput", value: "42 req/s", hint: "burst" },
                 { label: "Compute Units", value: "8.2k", hint: "sim depth" },
-                { label: "Settlement", value: "Atomic x402", hint: "no escrow" }
+                { label: "Settlement", value: "Darkpool UTXO", hint: "x402 cloak" }
               ],
               card: { id: "dexter", name: "Dexter", type: "Data Agent", price: "$0.05 / req", Art: DexterCardSVG }
             },
@@ -1564,11 +1549,18 @@ export function HomePage() {
             }
           ]}
         />
+        </motion.div>
       </section>
 
       {/* Section 2: Architecture of Nature (Trust) */}
       <section id="process" className="container mx-auto px-6 mt-16 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-        <div className="relative" style={{ perspective: "1200px" }}>
+        <motion.div 
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative" style={{ perspective: "1200px" }}
+        >
           <motion.div
             className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative cursor-crosshair"
             onMouseEnter={() => setIsProcessCardHovered(true)}
@@ -1608,9 +1600,15 @@ export function HomePage() {
               Atomic Settlement Flow
             </div>
           </motion.div>
-        </div>
+        </motion.div>
         
-        <div className="space-y-12">
+        <motion.div 
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="space-y-12"
+        >
           <div className="space-y-6">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
               Intent. Validate. <br />
@@ -1637,11 +1635,17 @@ export function HomePage() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <section id="builders" ref={buildersRef} className="container mx-auto px-6 mt-32 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-        <div className="space-y-10">
+        <motion.div 
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="space-y-10"
+        >
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
             Builders
           </Badge>
@@ -1672,19 +1676,32 @@ export function HomePage() {
               View Settlement Flow
             </Button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="rounded-[3rem] border border-white/20 overflow-hidden bg-zinc-950 relative aspect-[4/5] lg:aspect-auto lg:h-[667px] group">
+        <motion.div 
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="rounded-[3rem] border border-white/20 overflow-hidden bg-zinc-950 relative aspect-[4/5] lg:aspect-auto lg:h-[667px] group"
+        >
           <div className="absolute inset-0 z-0">
             <BuildersMatrixSVG isVisible={isBuildersInView} />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Section 3: The Archives - Removed as signals moved to Hero */}
 
-      <section id="github" className="container mx-auto px-6 mt-32 flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/20 rounded-[3rem] p-10 md:p-14">
-        <div className="space-y-4 max-w-2xl">
+      <section id="github" className="container mx-auto px-6 mt-32 mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 bg-white/[0.02] border border-white/20 rounded-[3rem] p-10 md:p-14"
+        >
+          <div className="space-y-4 max-w-2xl">
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">Repository Access</div>
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
             Source code is open for institutional review.
@@ -1710,9 +1727,11 @@ export function HomePage() {
             Contribution Guide
           </Button>
         </div>
+        </motion.div>
       </section>
 
       {/* MainLayout handles the footer now */}
-    </div>
+      </div>
+    </MainLayout>
   );
 }

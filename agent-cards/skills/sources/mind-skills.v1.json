@@ -74,6 +74,28 @@
         "currency": "USDC",
         "price": 0.5
       }
+    },
+    {
+      "name": "covalent-risk-scorer",
+      "category": "security",
+      "description": "Consome a Covalent GoldRush API para Risk Scoring on-chain em tempo real antes de aprovar intents x402 ou swaps DeFi.",
+      "repoPath": ".agents/skills/covalent-risk-scorer/SKILL.md",
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.02
+      }
+    },
+    {
+      "name": "vercel-sandbox-gateway",
+      "category": "infrastructure",
+      "description": "Roteia execucao de codigo nao confiavel para Vercel Sandbox e prompts para Vercel AI Gateway atras de uma policy gate x402 do MIND.",
+      "repoPath": ".agents/skills/vercel-sandbox-gateway/SKILL.md",
+      "pricing": {
+        "model": "pay-per-use",
+        "currency": "USDC",
+        "price": 0.05
+      }
     }
   ]
 }

@@ -11,3 +11,5 @@
 {"at":"2026-04-06T12:20:03.615Z","kind":"replay_rejected","event_id":"evt_service_test_001","source":"intent_service"}
 {"at":"2026-04-06T12:20:55.998Z","kind":"auth_rejected","ip":"127.0.0.1","source":"intent_service"}
 {"at":"2026-04-06T12:20:57.258Z","kind":"replay_rejected","event_id":"evt_service_test_001","source":"intent_service"}
+{"at":"2026-04-30T04:55:29.908Z","kind":"auth_rejected","ip":"127.0.0.1","source":"intent_service"}
+{"at":"2026-04-30T04:58:12.122Z","kind":"replay_rejected","event_id":"evt_service_test_001","source":"intent_service"}

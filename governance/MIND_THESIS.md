@@ -15,7 +15,7 @@ O PIB Agêntico é a soma de todo o valor econômico (OPEX reduzido, risco mitig
 Para suportar milhares de *Agent Cards* transacionando simultaneamente, a infraestrutura exige atomicidade absoluta:
 - **UTXO (Unspent Transaction Output) e Shield-Pay:** Uso de nullifiers ZK via Cloak Gateway para proteger a privacidade das intenções das corporações e dos agentes, garantindo que o fluxo de pagamento seja atômico.
 - **Turnkey KMS:** Nenhuma chave privada é exposta. Assinaturas ocorrem estritamente no backend (A2A Server) sob políticas rigorosas.
-- **x402 (Payment Required):** Primitiva nativa para micro-pagamentos. O fluxo (Intenção -> KMS -> x402 -> Mindprint) liquida o capital e emite um recibo criptográfico no mesmo ciclo de clock, eliminando risco de contraparte.
+- **x402 (Payment Required):** Primitiva nativa para micro-pagamentos. O fluxo (Intenção -> KMS -> x402 via Darkpool UTXO/Cloak com privacy_level "high" -> Mindprint) liquida o capital e emite um recibo criptográfico no mesmo ciclo de clock, eliminando risco de contraparte e ofuscando o tracking de dados.
 
 ## 4. Estrutura de Precificação Dinâmica (Escada de Liquidez)
 Os *Agent Cards* são categorizados em Tiers baseados em sua complexidade e capacidade de geração de valor:

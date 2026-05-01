@@ -89,9 +89,70 @@ const manifest = {
     attestation: "I confirm this skill was submitted through the The Garage / Superteam BR builder flow."
   },
   pricing: {
-    model: "per_request",
+    model: "community_free",
     currency: "USDC",
-    price: 0.01
+    price: 0,
+    originalModel: "per_request",
+    originalPrice: 0.01,
+    sponsoredBy: "MIND Protocol",
+    phase: "the_garage_community",
+    eligibleVoucherCodes: ["THEGARAGE", "SUPERTEAMBR", "COLOSSEUM"],
+    settlementRequired: false
+  },
+  lifecycle: {
+    currentPhase: "the_garage_community",
+    nextPhase: "open_interest",
+    x402RealSettlementEnabled: false,
+    activationGates: [
+      "minimum_builder_supply_reached",
+      "community_flows_tested",
+      "policy_check_passed",
+      "kms_wallet_ready",
+      "x402_payment_verified",
+      "proof_bundle_verified"
+    ]
+  },
+  validation: {
+    policy: {
+      requiredChecks: [
+        "hash_integrity",
+        "builder_identity",
+        "payout_wallet_present",
+        "policy_gate",
+        "voucher_or_x402_reference",
+        "proof_bundle"
+      ],
+      decisionContract: "governance/spec_runtime/x402_phase_contract.json"
+    },
+    proof: {
+      requiredArtifacts: [
+        "manifest_json_hash",
+        "skill_md_hash",
+        "builder_github",
+        "payout_wallet",
+        "voucher_receipt_or_x402_tx",
+        "policy_decision"
+      ]
+    }
+  },
+  cnftPreset: {
+    standard: "Metaplex Core",
+    mintPhase: "open_interest",
+    currentPhaseDelivery: "metadata_preset_only",
+    attributes: [
+      { key: "MIND Phase", value: "the_garage_community" },
+      { key: "Next Phase", value: "open_interest" },
+      { key: "x402 Real Settlement", value: "disabled_until_open_interest" },
+      { key: "Validation Contract", value: "mind_x402_phase_contract_v1" },
+      { key: "Builder GitHub", value: builderGithub },
+      { key: "Payout Wallet", value: builderWallet }
+    ]
+  },
+  traction: {
+    objective: "community_builder_engagement",
+    phase: "the_garage_community",
+    successMetrics: ["builder_registration", "voucher_claim", "skill_pr_opened"],
+    paidConversion: "post_traction_only"
   },
   campaign: "the_garage_frontier_sp",
   entrypoint: "SKILL.md",
@@ -137,11 +198,27 @@ Describe the task this skill performs for another agent or builder.
 - Do not execute financial actions without explicit policy checks.
 - Return INSUFFICIENT_EVIDENCE when required data is missing.
 
+## Validation Preset
+
+- Current phase: the_garage_community.
+- Real x402 settlement: disabled until open_interest.
+- Required checks: hash_integrity, builder_identity, payout_wallet_present, policy_gate, voucher_or_x402_reference, proof_bundle.
+- Decision contract: governance/spec_runtime/x402_phase_contract.json.
+- cNFT preset: Metaplex Core attributes are defined in manifest.json before minting is enabled.
+
+## Open Interest Readiness
+
+- x402 real settlement opens only after builder supply exists and community flows are tested.
+- Required evidence before paid execution: confirmed_tx_hash, payment_reference, policy_decision, receipt_hash, mindprint_asset_id.
+- If any evidence is missing, return INSUFFICIENT_EVIDENCE.
+
 ## Submission Checklist
 
 - [ ] I filled builder.github and builder.solanaReceiveAddress in manifest.json.
 - [ ] I filled payout.recipientAddress in manifest.json.
 - [ ] I kept origin.campaign as the_garage_frontier_sp.
+- [ ] I preserved validation.policy.requiredChecks in manifest.json.
+- [ ] I preserved cnftPreset.attributes in manifest.json.
 - [ ] I linked the final pull request in provenance.pullRequestUrl.
 `;
 

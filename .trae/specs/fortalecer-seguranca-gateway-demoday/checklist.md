@@ -1,0 +1,7 @@
+- [ ] API Gateway bloqueia bootstrap em `prod/stage` sem `API_GATEWAY_API_KEY`.
+- [x] Endpoint `/v1/payment/x402` valida voucher server-side com uso unico por (`voucher + builder + item`) e expiracao.
+- [x] Marketplace nao concede sucesso local quando backend falha; estado final e `error`.
+- [x] Endpoint `/v1/identity/a2a/proxy` aplica allowlist de dominios e nao utiliza token mock.
+- [x] Endpoint `/v1/vercel/execute` nao possui bypass permissivo; exige settlement verificado ou retorna `INSUFFICIENT_EVIDENCE`.
+- [ ] Fluxos sensiveis registram trilha auditavel minima (decisao, reason codes, evidence id, timestamp).
+- [ ] Smoke de seguranca e build de release passam antes de abrir trafego.

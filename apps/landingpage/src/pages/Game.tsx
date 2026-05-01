@@ -129,7 +129,7 @@ export function GamePage() {
       {/* RADAR BENTO BOX (Área de Jogo) */}
       <div className="flex-1 border border-white/20 rounded-2xl bg-[#0a0a0a] relative overflow-hidden flex flex-col">
         <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur px-3 py-1.5 rounded-full border border-red-500/30">
-          <p className="text-[10px] text-red-500 animate-pulse tracking-widest font-bold">⚠️ DESTROY MEV BOTS</p>
+          <p className="text-[10px] text-red-500 animate-pulse tracking-widest font-bold">[!] DESTROY MEV BOTS</p>
         </div>
         
         {/* Grid de Fundo do Radar */}

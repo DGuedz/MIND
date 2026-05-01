@@ -34,7 +34,8 @@ const slides = [
     ),
     step: "Intro",
     icon: FingerprintBot,
-    bgEffect: "radial-gradient(800px circle at 50% 50%, rgba(255,255,255,0.06), transparent 60%)"
+    bgEffect: "radial-gradient(800px circle at 50% 50%, rgba(255,255,255,0.06), transparent 60%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "1. O Problema",
@@ -48,7 +49,8 @@ const slides = [
     ),
     step: "Problema",
     icon: Layers,
-    bgEffect: "radial-gradient(600px circle at 10% 10%, rgba(255,255,255,0.05), transparent 70%)"
+    bgEffect: "radial-gradient(600px circle at 10% 10%, rgba(255,255,255,0.05), transparent 70%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "2. A Solução (PMF)",
@@ -62,7 +64,8 @@ const slides = [
     ),
     step: "Solução",
     icon: Cpu,
-    bgEffect: "radial-gradient(700px circle at 90% 90%, rgba(255,255,255,0.04), transparent 80%)"
+    bgEffect: "radial-gradient(700px circle at 90% 90%, rgba(255,255,255,0.04), transparent 80%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "3. Mercado (TAM & SOM)",
@@ -76,7 +79,8 @@ const slides = [
     ),
     step: "Mercado",
     icon: Terminal,
-    bgEffect: "radial-gradient(900px circle at 80% 20%, rgba(255,255,255,0.05), transparent 50%)"
+    bgEffect: "radial-gradient(900px circle at 80% 20%, rgba(255,255,255,0.05), transparent 50%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "4. Vantagem Injusta",
@@ -90,7 +94,8 @@ const slides = [
     ),
     step: "Diferencial",
     icon: FingerprintBot,
-    bgEffect: "radial-gradient(700px circle at 20% 80%, rgba(255,255,255,0.06), transparent 60%)"
+    bgEffect: "radial-gradient(700px circle at 20% 80%, rgba(255,255,255,0.06), transparent 60%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "5. Go-to-Market (GTM)",
@@ -104,7 +109,8 @@ const slides = [
     ),
     step: "GTM",
     icon: Layers,
-    bgEffect: "radial-gradient(800px circle at 50% 20%, rgba(255,255,255,0.05), transparent 60%)"
+    bgEffect: "radial-gradient(800px circle at 50% 20%, rgba(255,255,255,0.05), transparent 60%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "6. Modelo de Negócios",
@@ -118,7 +124,8 @@ const slides = [
     ),
     step: "Receita",
     icon: Cpu,
-    bgEffect: "radial-gradient(700px circle at 80% 50%, rgba(255,255,255,0.05), transparent 60%)"
+    bgEffect: "radial-gradient(700px circle at 80% 50%, rgba(255,255,255,0.05), transparent 60%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "7. Tração e Métricas",
@@ -132,7 +139,8 @@ const slides = [
     ),
     step: "Métricas",
     icon: Layers,
-    bgEffect: "radial-gradient(900px circle at 50% 80%, rgba(255,255,255,0.06), transparent 50%)"
+    bgEffect: "radial-gradient(900px circle at 50% 80%, rgba(255,255,255,0.06), transparent 50%)",
+    metallicClass: "metallic-brushed-solana"
   },
   {
     title: "A Nova Economia Começou",
@@ -145,7 +153,8 @@ const slides = [
     step: "CTA",
     isCta: true,
     icon: Terminal,
-    bgEffect: "radial-gradient(1000px circle at 50% 50%, rgba(255,255,255,0.08), transparent 70%)"
+    bgEffect: "radial-gradient(1000px circle at 50% 50%, rgba(255,255,255,0.08), transparent 70%)",
+    metallicClass: "metallic-brushed-solana"
   }
 ];
 
@@ -284,8 +293,8 @@ export function PitchdeckPage() {
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
               className="w-full relative"
             >
-              {/* Card Container with Glassmorphism */}
-              <div className="p-12 md:p-16 border border-zinc-800/60 bg-zinc-950/80 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden relative group">
+              {/* Card Container with Glassmorphism and Metallic Premium styling */}
+              <div className={`p-12 md:p-16 border border-white/20 bg-[#0a0a0a]/90 backdrop-blur-xl shadow-[0_20px_60px_-10px_rgba(0,0,0,0.8)] overflow-hidden relative group metallic-brushed metallic-shine rounded-2xl transition-colors duration-700 ${currentSlide.metallicClass || 'metallic-brushed-sapphire'}`}>
                 
                 {/* Inner Glow corresponding to mouse */}
                 <motion.div 
@@ -352,10 +361,10 @@ export function PitchdeckPage() {
                 </div>
 
                 {/* Decorative Tech Corner Marks */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-zinc-700 opacity-50" />
-                <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-zinc-700 opacity-50" />
-                <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-zinc-700 opacity-50" />
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-zinc-700 opacity-50" />
+                <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-white/20 opacity-50 rounded-tl-2xl" />
+                <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-white/20 opacity-50 rounded-tr-2xl" />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-white/20 opacity-50 rounded-bl-2xl" />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/20 opacity-50 rounded-br-2xl" />
               </div>
             </motion.div>
           </AnimatePresence>

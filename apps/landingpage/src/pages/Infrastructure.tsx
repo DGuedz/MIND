@@ -133,7 +133,7 @@ export function InfrastructurePage() {
             style={{ transform: isHovered ? "translateZ(20px)" : "translateZ(0px)" }}
           >
             <div className="text-[10px] font-mono text-zinc-700 uppercase tracking-[0.3em]">01. A2A Coordination</div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm shadow-[0_8px_30px_-10px_rgba(0,0,0,0.5)]">
+            <div className="metallic-brushed-solana metallic-shine rounded-2xl p-8 backdrop-blur-sm">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center shadow-inner">
                   <Network className="w-4 h-4 text-zinc-400" />
@@ -150,7 +150,7 @@ export function InfrastructurePage() {
             style={{ transform: isHovered ? "translateZ(40px)" : "translateZ(0px)" }}
           >
             <div className="text-[10px] font-mono text-white/40 uppercase tracking-[0.3em]">02. Zero-Trust KMS</div>
-            <div className="bg-zinc-900/80 border border-white/20 rounded-2xl p-8 backdrop-blur-md relative shadow-[0_0_30px_rgba(255,255,255,0.05)] ring-1 ring-white/5">
+            <div className="metallic-brushed-solana metallic-shine rounded-2xl p-8 backdrop-blur-md relative">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent rounded-2xl pointer-events-none" />
               <div className="flex items-center gap-4 mb-6 relative z-10">
                 <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/30 flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.1)]">
@@ -168,7 +168,7 @@ export function InfrastructurePage() {
             style={{ transform: isHovered ? "translateZ(20px)" : "translateZ(0px)" }}
           >
             <div className="text-[10px] font-mono text-zinc-700 uppercase tracking-[0.3em]">03. Atomic Settlement</div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm shadow-[0_8px_30px_-10px_rgba(0,0,0,0.5)]">
+            <div className="metallic-brushed-solana metallic-shine rounded-2xl p-8 backdrop-blur-sm transition-all duration-500">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center shadow-inner">
                   <Zap className="w-4 h-4 text-zinc-400" />
@@ -195,17 +195,17 @@ export function InfrastructurePage() {
           { title: "Data Economy", desc: "We persist hash-linked artifacts for auditability: intent records, execution events, and proof anchors.", icon: Database },
           { title: "Active Defense", desc: "Defense modules are integrated into the execution rail. Zero-Emoji policy enforced for institutional grade.", icon: Shield }
         ].map((item, i) => (
-          <motion.div 
-            key={i} 
-            variants={itemVariants} 
-            className="bg-black/40 backdrop-blur-md border border-white/10 hover:border-white/30 p-12 rounded-[2.5rem] group transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_20px_50px_-15px_rgba(255,255,255,0.05)] relative overflow-hidden"
+            <motion.div 
+              key={i} 
+              variants={itemVariants} 
+            className="metallic-brushed-solana metallic-shine backdrop-blur-md p-12 rounded-[2.5rem] group transition-all duration-700 relative overflow-hidden"
           >
-            {/* Hover Glow Background */}
+            {/* Hover Glow Background - Optional, as metallic-brushed already has glow, but keeping the overlay adds extra shine */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             <div className="relative z-10">
               <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                <item.icon className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
+                <item.icon className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-white font-medium tracking-widest uppercase text-[10px] font-mono mb-4 drop-shadow-sm">{item.title}</h3>
               <p className="text-zinc-500 text-sm leading-relaxed font-light group-hover:text-zinc-400 transition-colors">

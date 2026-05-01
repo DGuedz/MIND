@@ -1,0 +1,83 @@
+{
+  "contract_id": "mind_x402_phase_contract_v1",
+  "current_phase": "the_garage_community",
+  "phases": {
+    "the_garage_community": {
+      "purpose": "builder_supply_and_flow_validation",
+      "pricing_model": "community_free",
+      "x402_real_settlement": false,
+      "settlement_mode": "sponsored_receipt",
+      "allowed_voucher_codes": ["THEGARAGE", "SUPERTEAMBR", "COLOSSEUM"],
+      "required_evidence": [
+        "builder_registration",
+        "voucher_claim_receipt",
+        "skill_manifest_json",
+        "skill_rulebook_md",
+        "pull_request_url"
+      ]
+    },
+    "open_interest": {
+      "purpose": "public_interest_and_paid_execution_validation",
+      "pricing_model": "per_request",
+      "x402_real_settlement": true,
+      "settlement_mode": "x402_solana_confirmed",
+      "activation_gates": [
+        "minimum_builder_supply_reached",
+        "community_flows_tested",
+        "policy_check_passed",
+        "kms_wallet_ready",
+        "x402_payment_verified",
+        "proof_bundle_verified"
+      ],
+      "required_evidence": [
+        "confirmed_tx_hash",
+        "payment_reference",
+        "policy_decision",
+        "receipt_hash",
+        "mindprint_asset_id"
+      ]
+    }
+  },
+  "validation_preset": {
+    "schema_version": "mind_validation_preset_v1",
+    "required_manifest_fields": [
+      "name",
+      "builder.github",
+      "builder.solanaReceiveAddress",
+      "pricing.model",
+      "pricing.originalPrice",
+      "payout.recipientAddress",
+      "provenance.sourceCommit",
+      "provenance.pullRequestUrl",
+      "validation.policy.requiredChecks",
+      "validation.proof.requiredArtifacts",
+      "cnftPreset.attributes"
+    ],
+    "required_rulebook_sections": [
+      "Builder And Payout",
+      "What It Does",
+      "Inputs",
+      "Outputs",
+      "Safety",
+      "Validation Preset",
+      "Open Interest Readiness",
+      "Submission Checklist"
+    ],
+    "required_checks": [
+      "hash_integrity",
+      "builder_identity",
+      "payout_wallet_present",
+      "policy_gate",
+      "voucher_or_x402_reference",
+      "proof_bundle"
+    ],
+    "decision_contract": {
+      "decision": "ALLOW|BLOCK|INSUFFICIENT_EVIDENCE|NEEDS_HUMAN_APPROVAL",
+      "reason_codes": [],
+      "confidence": 0,
+      "assumptions": [],
+      "required_followups": [],
+      "evidence": []
+    }
+  }
+}

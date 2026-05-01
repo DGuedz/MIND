@@ -1,4 +1,5 @@
 import { type ComponentType, useState, useMemo, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
 type VerticalStat = {
   label: string;
@@ -60,54 +61,25 @@ export function VerticalsMarketplaceSlider({
 
   const scrollToIndex = (idx: number) => {
     const clampedIdx = Math.max(0, Math.min(maxIndex, idx));
-    setActiveIndex(clampedIdx);
+    
+    // Forçamos o scroll físico da página para a âncora da seção 
+    // mapeada pelo framer motion
+    if (containerRef.current) {
+      const containerTop = containerRef.current.offsetTop;
+      const containerHeight = containerRef.current.offsetHeight;
+      const targetScroll = containerTop + ((clampedIdx / verticals.length) * containerHeight);
+      
+      window.scrollTo({
+        top: targetScroll,
+        behavior: "smooth"
+      });
+    }
   };
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    let isTransitioning = false;
-
-    const handleWheel = (e: WheelEvent) => {
-      // Ignore mainly horizontal scrolls
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-
-      // Ignore very small scroll movements (trackpad noise)
-      if (Math.abs(e.deltaY) < 10) return;
-
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const currentIndex = currentIndexRef.current;
-
-      // Allow natural page scroll if we are at the boundaries
-      if (
-        (direction === 1 && currentIndex === maxIndex) ||
-        (direction === -1 && currentIndex === 0)
-      ) {
-        return;
-      }
-
-      // Prevent page from scrolling
-      e.preventDefault();
-
-      if (isTransitioning) return;
-      isTransitioning = true;
-
-      // Move to the next/prev slide
-      const nextIdx = currentIndex + direction;
-      setActiveIndex(Math.max(0, Math.min(maxIndex, nextIdx)));
-
-      // Cooldown to prevent flying through all slides
-      setTimeout(() => {
-        isTransitioning = false;
-      }, 700); 
-    };
-
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-    };
-  }, [maxIndex]);
+    // Removemos o event listener de 'wheel' customizado que bloqueava a rolagem nativa.
+    // Agora o scrollYProgress do framer-motion cuida da sincronia perfeitamente.
+  }, []);
 
   const headerMeta = useMemo(() => {
     if (!active) return { vertical: "", count: "" };
@@ -116,9 +88,31 @@ export function VerticalsMarketplaceSlider({
     return { vertical: `${current}/${count}`, count };
   }, [active, safeIndex, verticals.length]);
 
+  // Hook para mapear o progresso do scroll do container para o índice do slide
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
+  // Mapeia o progresso do scroll (0 a 1) para o índice das verticais
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      // Como o container tem h-[400vh], `latest` vai de 0 a 1 ao longo da rolagem.
+      // Dividimos esse progresso pelo número de verticais para encontrar o slide atual.
+      const progress = Math.min(Math.max(latest, 0), 0.99); // Evita bater em 1 cravado e pular pra fora do array
+      const calculatedIndex = Math.floor(progress * verticals.length);
+      
+      if (calculatedIndex !== currentIndexRef.current) {
+        setActiveIndex(calculatedIndex);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress, verticals.length]);
+
   return (
-    <div className="relative" ref={containerRef}>
-      <div className="flex flex-col gap-4 md:gap-8 pb-4 md:pb-8">
+    <div className="relative h-[400vh]" ref={containerRef}>
+      <div className="sticky top-20 md:top-24 flex flex-col gap-4 md:gap-8 pb-4 md:pb-8 pt-8 md:pt-0 max-h-[calc(100vh-6rem)] h-screen overflow-hidden">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-8 border-b border-white/20 pb-4 md:pb-6 shrink-0">
           <div className="space-y-2 md:space-y-3 max-w-2xl">
             <div className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">
@@ -185,10 +179,23 @@ export function VerticalsMarketplaceSlider({
           })}
         </div>
 
-        <div className="relative rounded-[2rem] md:rounded-[2.5rem] border border-white/20 bg-white/[0.02] overflow-hidden w-full">
-          {active ? (
-            <div className="p-4 sm:p-6 md:p-8 lg:p-6 xl:p-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-6 xl:gap-8">
-              <div className="lg:col-span-5 space-y-3 sm:space-y-4 lg:space-y-5 flex flex-col justify-center py-3 lg:py-0">
+        <div className="relative rounded-[2rem] md:rounded-[2.5rem] border border-white/20 bg-white/[0.02] overflow-hidden w-full flex-1 min-h-0">
+          <AnimatePresence mode="wait">
+            {active ? (
+              <motion.div 
+                key={active.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="p-4 sm:p-6 md:p-8 lg:p-6 xl:p-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-6 xl:gap-8 h-full overflow-y-auto overflow-x-hidden custom-scrollbar"
+              >
+                <motion.div 
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                  className="lg:col-span-5 space-y-3 sm:space-y-4 lg:space-y-5 flex flex-col justify-center py-3 lg:py-0"
+                >
                 <div className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/[0.02] px-3 py-1 text-[8px] md:text-[9px] font-mono uppercase tracking-[0.3em] text-zinc-500">
                   Vertical {active.indexLabel} · Discovery
                 </div>
@@ -273,9 +280,14 @@ export function VerticalsMarketplaceSlider({
                     View on Registry
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="lg:col-span-7 flex flex-col justify-center w-full py-4 lg:py-0">
+                <motion.div 
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+                  className="lg:col-span-7 flex flex-col justify-center w-full py-4 lg:py-0 min-h-[300px]"
+                >
                 <div
                   className="group cursor-pointer w-full h-[210px] sm:h-[250px] md:h-[290px] lg:h-[300px] xl:h-[340px] 2xl:h-[380px] flex flex-col"
                   onClick={onExploreRegistry}
@@ -302,9 +314,10 @@ export function VerticalsMarketplaceSlider({
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ) : null}
+                </motion.div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </div>
       </div>
     </div>

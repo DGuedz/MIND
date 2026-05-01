@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import { execFileSync } from "child_process";
+import { evaluateOperationIntent } from "./ops_orchestrator.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const OPENCLAW_ENDPOINT =
   `${process.env.OPENCLAW_BASE_URL || ""}`.replace(/\/$/, "") + "/inference" ||
   "http://localhost:3009/v1/inference";
 const OPENCLAW_TIMEOUT_MS = Number(process.env.OPENCLAW_TIMEOUT_MS ?? "15000");
+const TELEGRAM_ALLOW_GROUPS = process.env.TELEGRAM_ALLOW_GROUPS === "true";
 
 type DecisionContract = {
   decision: "ALLOW" | "BLOCK" | "INSUFFICIENT_EVIDENCE" | "NEEDS_HUMAN_APPROVAL";
@@ -60,6 +62,14 @@ const answerCallback = async (callbackQueryId: string, text: string) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ callback_query_id: callbackQueryId, text })
+  });
+};
+
+const sendMessage = async (chatId: number, text: string) => {
+  await fetch(`${TELEGRAM_API}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, text })
   });
 };
 
@@ -122,19 +132,57 @@ async function main() {
         for (const update of data.result) {
           lastUpdateId = update.update_id + 1;
           if (update.message && update.message.text) {
-            const text = (update.message.text as string).toLowerCase().trim();
-            const isTrigger =
-              text.startsWith("/start") ||
-              text === "start" ||
-              text.includes("oi") ||
-              text.includes("ola") ||
-              text.includes("bom dia") ||
-              text.includes("boa tarde") ||
-              text.includes("mind");
-            if (isTrigger) {
-              const chatId = update.message.chat.id as number;
+            const chatId = update.message.chat.id as number;
+            const chatType = String(update.message.chat.type ?? "private");
+            const rawText = String(update.message.text || "").trim();
+            const tokens = rawText.split(/\s+/).filter(Boolean);
+            const command = (tokens[0] || "/status").toLowerCase();
+
+            if (!TELEGRAM_ALLOW_GROUPS && (chatType === "group" || chatType === "supergroup")) {
+              await sendMessage(chatId, "BLOCK: grupos desabilitados para operacao interna.");
+              continue;
+            }
+
+            const decision = evaluateOperationIntent({
+              channel: "telegram",
+              actorId: `tg:${chatId}`,
+              chatId: String(chatId),
+              command,
+              args: tokens.slice(1),
+              metadata: { chatType }
+            });
+
+            if (decision.decision !== "ALLOW") {
+              const reason = decision.reason_codes.join(",") || "n/a";
+              await sendMessage(chatId, `Decision=${decision.decision}; reason_codes=${reason}`);
+              continue;
+            }
+
+            if (command === "/status" || command === "/health") {
+              await sendMessage(chatId, "status=ok; channel=telegram_internal; mode=guarded");
+              continue;
+            }
+
+            if (command === "/hermes" || command === "/start") {
               const intentId = `MIND-INTENT-${Math.floor(Math.random() * 10000)}`;
               await sendApprovalCard(chatId, intentId);
+              continue;
+            }
+
+            if (command === "/deploy_status") {
+              await sendMessage(chatId, "deploy_status=gated; execute via Trae IDE com aprovacao humana");
+              continue;
+            }
+
+            if (command === "/demo_secure_intent") {
+              await sendMessage(chatId, "demo_secure_intent=ready; execute via Trae: pnpm demo:secure-intent");
+              continue;
+            }
+
+            if (command === "/run_check") {
+              const gate = tokens[1] || "event-router-service";
+              await sendMessage(chatId, `run_check accepted; gate=${gate}; execute via Trae para evidencia completa`);
+              continue;
             }
           }
           if (update.callback_query) {
@@ -143,31 +191,43 @@ async function main() {
             const dataCb = q.data as string;
             const queryId = q.id as string;
             if (dataCb.startsWith("approve:")) {
-              await answerCallback(queryId, "Decision Recorded by MIND");
-              const intentId = dataCb.split(":")[1];
-              const decision = settle(intentId);
-              if (!decision || decision.decision !== "ALLOW") {
-                await fetch(`${TELEGRAM_API}/sendMessage`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ chat_id: chatId, text: "Settlement blocked or inconclusive." })
-                });
+              const policyDecision = evaluateOperationIntent({
+                channel: "telegram",
+                actorId: `tg:${chatId}`,
+                chatId: String(chatId),
+                command: "/approve",
+                args: [dataCb.split(":")[1]]
+              });
+              if (policyDecision.decision !== "ALLOW") {
+                await answerCallback(queryId, "Operacao bloqueada por policy");
+                await sendMessage(chatId, `Decision=${policyDecision.decision}; reason_codes=${policyDecision.reason_codes.join(",") || "n/a"}`);
                 continue;
               }
-              const ai = await callOraculo(intentId, decision);
-              await sendAsciiReceipt(chatId, intentId, decision);
-              await fetch(`${TELEGRAM_API}/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: chatId, text: `Oracle: ${ai.ok ? "ALLOW" : "INSUFFICIENT_EVIDENCE"} [${ai.status}]` })
-              });
-            } else if (dataCb.startsWith("reject:")) {
               await answerCallback(queryId, "Decision Recorded by MIND");
-              await fetch(`${TELEGRAM_API}/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: chatId, text: "Execution safely cancelled." })
+              const intentId = dataCb.split(":")[1];
+              const settlementDecision = settle(intentId);
+              if (!settlementDecision || settlementDecision.decision !== "ALLOW") {
+                await sendMessage(chatId, "Settlement blocked or inconclusive.");
+                continue;
+              }
+              const ai = await callOraculo(intentId, settlementDecision);
+              await sendAsciiReceipt(chatId, intentId, settlementDecision);
+              await sendMessage(chatId, `Oracle: ${ai.ok ? "ALLOW" : "INSUFFICIENT_EVIDENCE"} [${ai.status}]`);
+            } else if (dataCb.startsWith("reject:")) {
+              const decision = evaluateOperationIntent({
+                channel: "telegram",
+                actorId: `tg:${chatId}`,
+                chatId: String(chatId),
+                command: "/reject",
+                args: [dataCb.split(":")[1]]
               });
+              if (decision.decision !== "ALLOW") {
+                await answerCallback(queryId, "Operacao bloqueada por policy");
+                await sendMessage(chatId, `Decision=${decision.decision}; reason_codes=${decision.reason_codes.join(",") || "n/a"}`);
+                continue;
+              }
+              await answerCallback(queryId, "Decision Recorded by MIND");
+              await sendMessage(chatId, "Execution safely cancelled.");
             }
           }
         }

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "json-render-core (Skill)",
+    "version": "1.0.0",
+    "description": "Core package for schema definition, catalog creation, and spec streaming",
+    "tags": [
+      "solana",
+      "agent-skill",
+      "vercel",
+      "client-development",
+      "json-render-core"
+    ],
+    "license": "MIT",
+    "author": {
+      "name": "Vercel",
+      "contact": "https://vercel.com/docs/agent-resources/skills"
+    }
+  },
+  "discovery": {
+    "intent": "api_integration",
+    "category": "developer-tools",
+    "keywords": [
+      "solana",
+      "agent-skill",
+      "vercel",
+      "client-development",
+      "json-render-core"
+    ],
+    "compatibleFrameworks": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "trae"
+    ]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        {
+          "name": "skill_name",
+          "type": "string",
+          "description": "Nome da skill"
+        },
+        {
+          "name": "installation",
+          "type": "string",
+          "description": "Instrucoes de instalacao/ativacao"
+        },
+        {
+          "name": "usage",
+          "type": "string",
+          "description": "Como acionar a skill no agente"
+        }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.75
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://vercel.com/docs/agent-resources/skills",
+      "metadata": "https://vercel.com/docs/agent-resources/skills",
+      "data": "https://vercel.com/docs/agent-resources/skills"
+    },
+    "rateLimit": {
+      "requests": 60,
+      "per": "minute"
+    }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0
+  },
+  "provenance": {
+    "source": "Vercel",
+    "createdAt": "2026-04-30T13:32:28.224Z",
+    "updatedAt": "2026-04-30T13:32:28.224Z",
+    "signature": "unsigned"
+  },
+  "skill": {
+    "source_url": "https://vercel.com/docs/agent-resources/skills",
+    "repo_path": null
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "agent_identity": {
+    "name": "Como_o_Agent",
+    "version": "1.0.0",
+    "protocol": "A2A_v1",
+    "pib_agentico_fee": "0.005_per_transaction"
+  },
+  "capabilities": [
+    {
+      "service": "como_o_execution",
+      "methods": ["GET", "POST"],
+      "auth_required": true,
+      "encryption": "AES-256"
+    }
+  ],
+  "compliance": {
+    "standard": "A2A_Agentic_Safety_Card",
+    "guarantees": "Zero-knowledge_proofs"
+  },
+  "traceability": {
+    "mindprint_id": "5bc7ca42-781b-4665-b1c7-9d968e7cd341",
+    "lineage_prompt": "Como o Hermes Cron Orchestrator, gere uma skill autônoma para a vertical de A2A Infrastructure. Crie",
+    "telemetry_endpoint": "/v1/metrics/a2a",
+    "execution_audit_log": "required"
+  }
+}

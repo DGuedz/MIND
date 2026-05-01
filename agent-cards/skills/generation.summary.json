@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-04-30T04:23:06.521Z",
+  "generatedAt": "2026-04-30T13:32:28.224Z",
   "writeMode": true,
-  "outputCount": 143,
+  "outputCount": 170,
   "outputs": [
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/sendaifun/card_skill_jupiter.json",
@@ -166,6 +166,10 @@
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_hermes_canvas_architect.json",
       "cardName": "hermes-canvas-architect (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/mind/card_skill_covalent_risk_scorer.json",
+      "cardName": "covalent-risk-scorer (Skill)"
     },
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/stbr/card_skill_solana_glossary.json",
@@ -574,6 +578,110 @@
     {
       "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/tamkaize/card_skill_pipeline_art_cardinality.json",
       "cardName": "pipeline_art_cardinality (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_vercel_react_best_practices.json",
+      "cardName": "vercel-react-best-practices (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_vercel_composition_patterns.json",
+      "cardName": "vercel-composition-patterns (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_vercel_react_native_skills.json",
+      "cardName": "vercel-react-native-skills (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_next_best_practices.json",
+      "cardName": "next-best-practices (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_next_cache_components.json",
+      "cardName": "next-cache-components (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_next_upgrade.json",
+      "cardName": "next-upgrade (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_cra_to_next_migration.json",
+      "cardName": "cra-to-next-migration (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_turborepo.json",
+      "cardName": "turborepo (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_ai_sdk.json",
+      "cardName": "ai-sdk (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_ai_elements.json",
+      "cardName": "ai-elements (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_streamdown.json",
+      "cardName": "streamdown (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_web_design_guidelines.json",
+      "cardName": "web-design-guidelines (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_building_components.json",
+      "cardName": "building-components (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_agent_browser.json",
+      "cardName": "agent-browser (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_vercel_deploy.json",
+      "cardName": "vercel-deploy (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_vercel_cli.json",
+      "cardName": "vercel-cli (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_autoship.json",
+      "cardName": "autoship (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_ucp.json",
+      "cardName": "ucp (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_workflow.json",
+      "cardName": "workflow (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_json_render_core.json",
+      "cardName": "json-render-core (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_json_render_react.json",
+      "cardName": "json-render-react (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_json_render_react_native.json",
+      "cardName": "json-render-react-native (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_json_render_remotion.json",
+      "cardName": "json-render-remotion (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_remotion_best_practices.json",
+      "cardName": "remotion-best-practices (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_find_skills.json",
+      "cardName": "find-skills (Skill)"
+    },
+    {
+      "outPath": "/Users/doublegreen/Library/Mobile Documents/com~apple~CloudDocs/MIND/agent-cards/skills/vercel/card_skill_before_and_after.json",
+      "cardName": "before-and-after (Skill)"
     }
   ]
 }
