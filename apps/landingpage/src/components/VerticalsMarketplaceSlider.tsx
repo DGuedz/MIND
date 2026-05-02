@@ -280,6 +280,7 @@ export function VerticalsMarketplaceSlider({
                     className="bg-gradient-to-r from-zinc-100 to-zinc-300 text-black hover:from-white hover:to-zinc-200 text-[7px] md:text-[8px] font-mono uppercase tracking-[0.3em] px-4 py-2.5 rounded-full transition-all w-full sm:w-auto shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] font-bold"
                     onClick={async () => {
                       if (active.card.id === "sybil" || active.card.id === "jit" || active.card.id === "echo" || active.card.id === "intent") {
+                        // Roteamento temporário para o Gateway x402 de teste (simulando a compra)
                         window.location.href = `/gateway?intentId=purchase_card_${active.card.id}&amountLamports=10000000&recipient=FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah`;
                       } else {
                         onExploreRegistry();
@@ -291,7 +292,11 @@ export function VerticalsMarketplaceSlider({
                   <button
                     type="button"
                     className="text-[7px] md:text-[8px] font-mono uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-all px-4 py-2.5 border border-white/20 hover:border-white/40 hover:bg-white/[0.05] rounded-full w-full sm:w-auto text-center shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-                    onClick={onExploreRegistry}
+                    onClick={() => {
+                      // O Botão "View on Registry" agora abre o checkout de publicação
+                      // para simular a criação/validação do Agent Card via x402
+                      window.location.href = '/agent-checkout';
+                    }}
                   >
                     View on Registry
                   </button>

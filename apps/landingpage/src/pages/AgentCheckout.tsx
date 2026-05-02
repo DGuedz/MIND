@@ -151,143 +151,146 @@ export function AgentCheckoutPage() {
       <section className="container mx-auto px-6">
         <div className="mb-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <div className="mb-5 inline-flex border border-white/15 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.28em] text-zinc-500">
-              Agent Checkout
+            <div className="mb-5 inline-flex border border-[#14F195]/20 bg-[#14F195]/5 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.28em] text-[#14F195] shadow-[0_0_15px_rgba(20,241,149,0.1)]">
+              Agent Checkout Simulation
             </div>
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl">
-              Publish. Price. Deliver after proof.
+            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl font-mono uppercase">
+              Publish. Price. <span className="text-zinc-500 italic">Deliver.</span>
             </h1>
           </div>
-          <div className="border border-white/10 bg-white/[0.02] p-5 font-mono text-xs text-zinc-400">
-            <div className="mb-2 text-zinc-200">status: {status}</div>
+          <div className="metallic-brushed-solana border border-white/10 p-5 font-mono text-xs text-zinc-400 rounded-xl shadow-lg">
+            <div className="mb-2 text-[#14F195] flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-[#14F195] rounded-full animate-pulse shadow-[0_0_8px_#14F195]"></span>
+              status: {status}
+            </div>
             <div>production settlement: INSUFFICIENT_EVIDENCE</div>
             <div>local proof mode: dev-simulated</div>
           </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="space-y-4 border border-white/10 bg-black p-5">
-            <label className="block text-xs font-mono uppercase tracking-[0.24em] text-zinc-500">
+          <div className="space-y-4 border border-white/10 bg-[#020202]/80 backdrop-blur-md p-6 rounded-2xl shadow-inner">
+            <label className="block text-[10px] font-mono uppercase tracking-[0.24em] text-zinc-500 font-bold">
               Title
               <input
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
-                className="mt-2 w-full border border-white/10 bg-white/[0.03] px-3 py-3 text-sm normal-case tracking-normal text-white outline-none focus:border-white/30"
+                className="mt-2 w-full border border-white/10 bg-black/50 px-4 py-3 text-sm normal-case tracking-normal text-white outline-none focus:border-[#14F195]/50 focus:ring-1 focus:ring-[#14F195]/20 transition-all rounded-lg"
               />
             </label>
 
-            <label className="block text-xs font-mono uppercase tracking-[0.24em] text-zinc-500">
+            <label className="block text-[10px] font-mono uppercase tracking-[0.24em] text-zinc-500 font-bold">
               Description
               <input
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
-                className="mt-2 w-full border border-white/10 bg-white/[0.03] px-3 py-3 text-sm normal-case tracking-normal text-white outline-none focus:border-white/30"
+                className="mt-2 w-full border border-white/10 bg-black/50 px-4 py-3 text-sm normal-case tracking-normal text-white outline-none focus:border-[#14F195]/50 focus:ring-1 focus:ring-[#14F195]/20 transition-all rounded-lg"
               />
             </label>
 
             <div className="grid gap-4 sm:grid-cols-[0.35fr_0.65fr]">
-              <label className="block text-xs font-mono uppercase tracking-[0.24em] text-zinc-500">
+              <label className="block text-[10px] font-mono uppercase tracking-[0.24em] text-zinc-500 font-bold">
                 Price USD
                 <input
                   value={price}
                   onChange={(event) => setPrice(event.target.value)}
-                  className="mt-2 w-full border border-white/10 bg-white/[0.03] px-3 py-3 text-sm normal-case tracking-normal text-white outline-none focus:border-white/30"
+                  className="mt-2 w-full border border-white/10 bg-black/50 px-4 py-3 text-sm normal-case tracking-normal text-white outline-none focus:border-[#14F195]/50 focus:ring-1 focus:ring-[#14F195]/20 transition-all rounded-lg font-mono text-[#14F195]"
                 />
               </label>
 
-              <label className="block text-xs font-mono uppercase tracking-[0.24em] text-zinc-500">
+              <label className="block text-[10px] font-mono uppercase tracking-[0.24em] text-zinc-500 font-bold">
                 Recipient
                 <input
                   value={walletAddress}
                   onChange={(event) => setWalletAddress(event.target.value)}
-                  className="mt-2 w-full border border-white/10 bg-white/[0.03] px-3 py-3 text-sm normal-case tracking-normal text-white outline-none focus:border-white/30"
+                  className="mt-2 w-full border border-white/10 bg-black/50 px-4 py-3 text-sm normal-case tracking-normal text-zinc-400 outline-none focus:border-[#14F195]/50 focus:ring-1 focus:ring-[#14F195]/20 transition-all rounded-lg font-mono text-[10px]"
                 />
               </label>
             </div>
 
-            <label className="block text-xs font-mono uppercase tracking-[0.24em] text-zinc-500">
-              Content
+            <label className="block text-[10px] font-mono uppercase tracking-[0.24em] text-zinc-500 font-bold">
+              Content (SKILL.md)
               <textarea
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
                 rows={9}
-                className="mt-2 w-full resize-none border border-white/10 bg-white/[0.03] px-3 py-3 font-mono text-sm normal-case tracking-normal text-zinc-200 outline-none focus:border-white/30"
+                className="mt-2 w-full resize-none border border-white/10 bg-black/50 px-4 py-4 font-mono text-[11px] normal-case tracking-normal text-zinc-300 outline-none focus:border-[#14F195]/50 focus:ring-1 focus:ring-[#14F195]/20 transition-all rounded-lg"
               />
             </label>
 
-            <Button onClick={publishArtifact} className="h-11 w-full rounded-none">
+            <Button onClick={publishArtifact} className="h-12 w-full rounded-lg bg-[#14F195]/10 text-[#14F195] hover:bg-[#14F195]/20 border border-[#14F195]/30 shadow-[0_0_15px_rgba(20,241,149,0.15)] font-mono uppercase tracking-widest text-[10px] font-bold transition-all">
               <Upload className="mr-2 h-4 w-4" />
               Publish local artifact
             </Button>
           </div>
 
           <div className="space-y-4">
-            <div className="border border-white/10 bg-white/[0.02] p-5">
+            <div className="metallic-brushed-solana border border-white/10 p-6 rounded-2xl shadow-lg">
               <div className="mb-4 flex items-center justify-between gap-3">
-                <div className="font-mono text-xs uppercase tracking-[0.24em] text-zinc-500">Artifact</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-500 font-bold">Artifact</div>
                 {artifact ? (
-                  <button onClick={copyAgentPrompt} className="inline-flex items-center gap-2 text-xs text-zinc-300 hover:text-white">
-                    <Clipboard className="h-4 w-4" />
-                    Copy agent prompt
+                  <button onClick={copyAgentPrompt} className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-mono text-zinc-400 hover:text-[#14F195] transition-colors">
+                    <Clipboard className="h-3 w-3" />
+                    Copy prompt
                   </button>
                 ) : null}
               </div>
 
               {artifact ? (
-                <div className="space-y-3 font-mono text-xs text-zinc-400">
-                  <div className="text-base font-sans text-white">{artifact.title}</div>
-                  <div>slug: {artifact.slug}</div>
-                  <div>price: ${Number(artifact.price).toFixed(2)} USDC</div>
-                  <div>checksum: {shortHash(artifact.checksum)}</div>
-                  <div>recipient: {shortHash(artifact.wallet_address)}</div>
+                <div className="space-y-3 font-mono text-[11px] text-zinc-400">
+                  <div className="text-lg font-bold text-white tracking-tight">{artifact.title}</div>
+                  <div className="flex justify-between border-b border-white/5 pb-2"><span>slug</span> <span className="text-zinc-300">{artifact.slug}</span></div>
+                  <div className="flex justify-between border-b border-white/5 pb-2"><span>price</span> <span className="text-[#14F195]">${Number(artifact.price).toFixed(2)} USDC</span></div>
+                  <div className="flex justify-between border-b border-white/5 pb-2"><span>checksum</span> <span className="text-zinc-500">{shortHash(artifact.checksum)}</span></div>
+                  <div className="flex justify-between"><span>recipient</span> <span className="text-zinc-500">{shortHash(artifact.wallet_address)}</span></div>
                 </div>
               ) : (
-                <div className="text-sm text-zinc-500">No artifact published in this browser session.</div>
+                <div className="text-xs text-zinc-600 font-mono italic">No artifact published in this browser session.</div>
               )}
             </div>
 
             {endpoints ? (
-              <div className="border border-white/10 bg-black p-5 font-mono text-xs text-zinc-400">
-                <div className="mb-3 uppercase tracking-[0.24em] text-zinc-500">Endpoints</div>
-                <div>GET {endpoints.metadata}</div>
-                <div>GET {endpoints.price}</div>
-                <div>GET {endpoints.content}</div>
+              <div className="border border-[#9945FF]/20 bg-[#9945FF]/5 p-5 font-mono text-[10px] text-[#9945FF]/70 rounded-xl">
+                <div className="mb-3 uppercase tracking-[0.24em] text-[#9945FF] font-bold">A2A Endpoints</div>
+                <div className="hover:text-[#9945FF] transition-colors cursor-crosshair">GET {endpoints.metadata}</div>
+                <div className="hover:text-[#9945FF] transition-colors cursor-crosshair">GET {endpoints.price}</div>
+                <div className="hover:text-[#9945FF] transition-colors cursor-crosshair">GET {endpoints.content}</div>
               </div>
             ) : null}
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <Button onClick={probeLockedContent} disabled={!artifact} variant="outline" className="h-11 rounded-none">
-                <LockKeyhole className="mr-2 h-4 w-4" />
+              <Button onClick={probeLockedContent} disabled={!artifact} variant="outline" className="h-12 rounded-lg border-white/20 bg-transparent hover:bg-white/5 font-mono uppercase tracking-widest text-[9px] text-zinc-300">
+                <LockKeyhole className="mr-2 h-4 w-4 text-zinc-500" />
                 Probe content
               </Button>
-              <Button onClick={unlockWithDevProof} disabled={!artifact} variant="secondary" className="h-11 rounded-none">
+              <Button onClick={unlockWithDevProof} disabled={!artifact} className="h-12 rounded-lg bg-white/10 hover:bg-white/20 text-white font-mono uppercase tracking-widest text-[9px]">
                 <UnlockKeyhole className="mr-2 h-4 w-4" />
                 Dev unlock
               </Button>
             </div>
 
             {pricePayload ? (
-              <pre className="max-h-40 overflow-auto border border-white/10 bg-black p-4 text-xs text-zinc-300">{pricePayload}</pre>
+              <pre className="max-h-40 overflow-auto border border-white/10 bg-[#020202] p-4 text-[10px] text-zinc-400 rounded-xl shadow-inner">{pricePayload}</pre>
             ) : null}
 
             {challenge ? (
-              <pre className="max-h-64 overflow-auto border border-amber-400/30 bg-amber-400/[0.04] p-4 text-xs text-amber-100">
+              <pre className="max-h-64 overflow-auto border border-amber-500/30 bg-amber-500/10 p-4 text-[10px] text-amber-200 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.1)]">
                 {JSON.stringify(challenge, null, 2)}
               </pre>
             ) : null}
 
             {unlockedContent ? (
-              <div className="border border-emerald-400/30 bg-emerald-400/[0.04] p-5">
-                <div className="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.24em] text-emerald-200">
+              <div className="border border-[#14F195]/30 bg-[#14F195]/10 p-5 rounded-xl shadow-[0_0_15px_rgba(20,241,149,0.1)]">
+                <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-[#14F195] font-bold">
                   <ReceiptText className="h-4 w-4" />
                   Delivered content
                 </div>
-                <pre className="whitespace-pre-wrap text-sm text-zinc-100">{unlockedContent}</pre>
+                <pre className="whitespace-pre-wrap text-[11px] text-zinc-200 font-mono bg-black/50 p-4 rounded-lg">{unlockedContent}</pre>
               </div>
             ) : null}
 
             {error ? (
-              <div className="border border-red-400/30 bg-red-400/[0.04] p-4 text-sm text-red-100">{error}</div>
+              <div className="border border-red-500/30 bg-red-500/10 p-4 text-xs font-mono text-red-400 rounded-xl">{error}</div>
             ) : null}
           </div>
         </div>

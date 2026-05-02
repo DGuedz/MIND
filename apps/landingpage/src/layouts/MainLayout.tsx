@@ -189,6 +189,71 @@ export function MainLayout({ children, heroCopyOpacity, heroCopyVisibility }: Ma
       <main className="flex-1">
         {children || <Outlet />}
       </main>
+
+      <footer className="relative mt-auto overflow-hidden border-t border-zinc-300/15 bg-[#070708] py-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-200/50 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(ellipse_at_top,rgba(212,212,216,0.12),transparent_65%)]" />
+
+        <div className="container relative mx-auto px-6">
+          <div className="mb-14 grid grid-cols-1 gap-10 md:grid-cols-4 md:gap-8">
+            <div className="col-span-1">
+              <div className="mb-6 inline-flex rounded-xl border border-zinc-300/10 bg-gradient-to-b from-zinc-800/70 to-zinc-950/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_24px_80px_rgba(0,0,0,0.35)]">
+                <Logo />
+              </div>
+              <p className="max-w-xs text-sm leading-relaxed text-zinc-500">
+                Private agent checkout, priced Agent Cards, and verifiable execution rails for the agent economy.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="mb-6 bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-600 bg-clip-text text-sm font-medium uppercase tracking-[0.24em] text-transparent">
+                Ecosystem
+              </h4>
+              <ul className="space-y-4 text-sm text-zinc-400">
+                <li><a href="https://mcp.solana.com/" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-zinc-100">Solana Developer MCP</a></li>
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/.agents/skills/solana-defi-ecosystem-intel/SKILL.md" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-zinc-100">DeFi Ecosystem Intel</a></li>
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/.agents/skills/colosseum-copilot/SKILL.md" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-zinc-100">Colosseum Copilot</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-6 bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-600 bg-clip-text text-sm font-medium uppercase tracking-[0.24em] text-transparent">
+                Governance
+              </h4>
+              <ul className="space-y-4 text-sm text-zinc-400">
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/governance/spec_runtime/skills_map.md" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-zinc-100">Skills Map</a></li>
+                <li><a href="https://github.com/DGuedz/MIND/blob/main/governance/spec_runtime/README.md" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-zinc-100">Spec Runtime</a></li>
+                <li><a href="/contribute" className="transition-colors hover:text-zinc-100">Agentic Builder Access</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-6 bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-600 bg-clip-text text-sm font-medium uppercase tracking-[0.24em] text-transparent">
+                Community
+              </h4>
+              <ul className="space-y-4 text-sm text-zinc-400">
+                <li><a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-zinc-100">GitHub Repository</a></li>
+                <li><a href="https://twitter.com/mind_protocol" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-zinc-100">X (Twitter)</a></li>
+                <li><a href="/links" className="transition-colors hover:text-zinc-100">Useful Links</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-start justify-between gap-4 border-t border-zinc-300/10 pt-8 md:flex-row md:items-center">
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-600">
+              © 2026 MIND Protocol. All rights reserved.
+            </span>
+            <a
+              href="https://arena.colosseum.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gradient-to-r from-zinc-600 via-zinc-300 to-zinc-600 bg-clip-text text-[10px] font-mono uppercase tracking-[0.3em] text-transparent transition-opacity hover:opacity-80"
+            >
+              Built for Colosseum Frontier
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
