@@ -1,0 +1,40 @@
+{
+  "agent_identity": {
+    "name": "publish_new_marketplace_agent_Agent",
+    "version": "1.0.0",
+    "protocol": "A2A_v1",
+    "pib_agentico_fee": "0.005_per_transaction"
+  },
+  "capabilities": [
+    {
+      "service": "publish_new_marketplace_preflight",
+      "methods": ["GET", "POST"],
+      "auth_required": true,
+      "encryption": "AES-256"
+    },
+    {
+      "service": "x402_dual_buyer_handoff",
+      "methods": ["GET", "POST"],
+      "auth_required": true,
+      "encryption": "AES-256"
+    }
+  ],
+  "compliance": {
+    "standard": "A2A_Agentic_Safety_Card",
+    "guarantees": "Zero-knowledge_proofs"
+  },
+  "operating_policy": {
+    "external_publication": "human_approval_required",
+    "external_purchase": "human_approval_required",
+    "external_sale": "human_approval_required",
+    "secret_scan_required": true,
+    "untrusted_input_default": true,
+    "price_required": true,
+    "evidence_required": ["asset_path", "checksum", "price_usd", "source_url", "approval_record"]
+  },
+  "source_context": {
+    "reference_url": "https://publish.new/",
+    "observed_flow": ["upload_file", "set_price_usd", "share_link", "human_cash_or_agent_x402_payment"],
+    "verification_status": "user_provided_page_text_not_live_verified"
+  }
+}

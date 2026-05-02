@@ -1,0 +1,39 @@
+{
+  "draft_type": "publish_new_listing_preflight",
+  "source_asset": {
+    "path": "agent-engine/agent-cards/hermes-cron-orchestrator.json",
+    "sha256": "e28ea9f3a1c3130a7961e7717ae47efa62ce48704b74717e77031552032bc756",
+    "secret_scan": {
+      "status": "passed_basic_pattern_scan",
+      "scope": "single_file_regex_scan"
+    }
+  },
+  "listing": {
+    "title": "Hermes Cron Orchestrator Agent Card",
+    "summary": "A MIND Agent Card for scheduled automations, unattended execution, daily reporting, and nightly audits with x402 pricing metadata.",
+    "source_url": "https://publish.new/",
+    "buyer_mode": "dual_human_cash_or_agent_x402",
+    "listing_price_usd": null,
+    "suggested_price_usd": 1.0,
+    "price_status": "NEEDS_HUMAN_APPROVAL"
+  },
+  "operational_decision": {
+    "decision": "NEEDS_HUMAN_APPROVAL",
+    "reason_codes": ["RC_HIGH_RISK_NO_APPROVAL"],
+    "confidence": 0.72,
+    "assumptions": [
+      "The user-provided publish.new page text describes the target marketplace flow.",
+      "The referenced local Agent Card is the intended asset for publication."
+    ],
+    "required_followups": [
+      "Confirm final listing price in USD.",
+      "Approve or reject external publication on publish.new.",
+      "Provide any required account or wallet action directly in the browser if publication is approved."
+    ],
+    "evidence": [
+      "agent-engine/agent-cards/hermes-cron-orchestrator.json exists",
+      "sha256:e28ea9f3a1c3130a7961e7717ae47efa62ce48704b74717e77031552032bc756",
+      "basic secret scan returned no matches"
+    ]
+  }
+}

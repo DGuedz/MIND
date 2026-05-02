@@ -10,6 +10,7 @@ import { CloakGatewayPage } from "./pages/CloakGateway";
 import { PitchdeckPage } from "./pages/Pitchdeck";
 import { TheGaragePage } from "./pages/TheGarage";
 import { ContributePage } from "./pages/Contribute";
+import { AgentCheckoutPage } from "./pages/AgentCheckout";
 import { TooltipProvider } from "./components/ui/tooltip";
 // Dialog components are now in DialogComponents.tsx
 
@@ -37,6 +38,7 @@ function App() {
             <Route path="gateway" element={<CloakGatewayPage />} />
             <Route path="pitchdeck" element={<PitchdeckPage />} />
             <Route path="contribute" element={<ContributePage />} />
+            <Route path="agent-checkout" element={<AgentCheckoutPage />} />
             <Route path="the-garage" element={<TheGaragePage />} />
             <Route path="builders" element={<Navigate to="/contribute" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -35,9 +35,9 @@
       }
     },
     {
-      "id": "chitu",
+      "id": "jit-router",
       "kind": "skill",
-      "name": "chitu",
+      "name": "JIT_ROUTER",
       "description": "Sistema de captura de Alpha on-chain na Solana para comunidades e equipes de pesquisa (3º Colocado no Solana Online Hackathon). O agente monitora os movimentos do smart money e notifica sobre oportunidades de trade em tempo real.",
       "source": "mind",
       "providerType": "internal",
@@ -50,7 +50,7 @@
         "agent-skill",
         "mind",
         "data-analytics",
-        "chitu"
+        "jit-router"
       ],
       "badges": [],
       "pricing": {
@@ -85,9 +85,9 @@
       }
     },
     {
-      "id": "covalent_risk_scorer",
+      "id": "intent-gate",
       "kind": "skill",
-      "name": "covalent-risk-scorer",
+      "name": "INTENT_GATE",
       "description": "Consome a Covalent GoldRush API para Risk Scoring on-chain em tempo real antes de aprovar intents x402 ou swaps DeFi.",
       "source": "mind",
       "providerType": "internal",
@@ -100,7 +100,7 @@
         "agent-skill",
         "mind",
         "security",
-        "covalent-risk-scorer"
+        "intent-gate"
       ],
       "badges": [],
       "pricing": {
@@ -586,9 +586,9 @@
       }
     },
     {
-      "id": "solana_defi_ecosystem_intel",
+      "id": "echo-indexer",
       "kind": "skill",
-      "name": "solana-defi-ecosystem-intel",
+      "name": "ECHO_INDEXER",
       "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
       "source": "mind",
       "providerType": "internal",
@@ -601,7 +601,7 @@
         "agent-skill",
         "mind",
         "ecosystem-intelligence",
-        "solana-defi-ecosystem-intel"
+        "echo-indexer"
       ],
       "badges": [],
       "pricing": {
@@ -1758,9 +1758,9 @@
       }
     },
     {
-      "id": "clint",
+      "id": "sybil-node",
       "kind": "skill",
-      "name": "clint",
+      "name": "SYBIL_NODE",
       "description": "CLINT — CNB Link Intelligence. DePIN proof verifier for the CNB Mobile network on Solana. Ingests on-chain Memo transactions and Anchor PDA data to compute a Node Health Index (NHI, 0–100) with Sybil-risk classification. Trust primitive for A2A DePIN transactions in the attention economy.",
       "source": "stbr",
       "providerType": "external",

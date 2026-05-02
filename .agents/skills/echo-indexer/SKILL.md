@@ -1,5 +1,5 @@
 ---
-name: solana-defi-ecosystem-intel
+name: echo-indexer
 description: Collects and structures public Solana DeFi ecosystem signals (blogs, docs, changelogs, X, institutional posts) using Firecrawl. Use when user asks to "track ecosystem updates", "build market signals feed", or "monitor protocol announcements". Never label these as verified onchain metrics.
 version: 1.0.0
 license: Proprietary

@@ -299,6 +299,8 @@ function CardDataArt({ id, isHovered }: { id: string, isHovered: boolean }) {
   );
 }
 
+void CardDataArt;
+
 function CatalogCard({
   item,
   isSelected,
@@ -359,14 +361,11 @@ function CatalogCard({
   const [settlementStatus, setSettlementStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [settlementStep, setSettlementStep] = useState<string>('');
   const [txHash, setTxHash] = useState<string | null>(null);
-  const [isMockSettlement, setIsMockSettlement] = useState(false);
 
   const handleExecuteX402 = async () => {
     if (settlementStatus === 'processing') return;
 
     setSettlementStatus('processing');
-    setIsMockSettlement(false);
-    let mockSettlement = false;
 
     if (requiresCommunityVoucher && voucherStatus !== "valid") {
       setVoucherStatus("invalid");
@@ -376,57 +375,60 @@ function CatalogCard({
     }
 
     if (isFree) {
-      setSettlementStep(voucherStatus === "valid" ? 'Applying builder voucher...' : 'Validating free access...');
-      await new Promise(resolve => setTimeout(resolve, 800));
-      setSettlementStep(voucherStatus === "valid" ? 'Requesting community subsidy receipt...' : 'Generating repo flow...');
+      setSettlementStep(voucherStatus === "valid" ? "Requesting community subsidy receipt..." : "Requesting free access receipt...");
+      setTxHash(null);
 
-      let subsidyReceipt = voucherStatus === "valid" && builderRegistration
-        ? `voucher_${builderRegistration.referralCode}_${builderRegistration.githubHandle}_${item.id.substring(0, 8)}`
-        : `mindprint_free_${item.id.substring(0, 8)}`;
-
-      if (voucherStatus === "valid") {
-        try {
-          const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
-          const res = await fetch(`${gatewayBaseUrl}/v1/payment/x402`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              amount: item.pricing?.originalPrice ?? item.pricing?.price ?? 0,
-              currency: item.pricing?.currency || "USDC",
-              recipient: "DGuedzXbK8fN8eRqyTqzTXZyX4wY4rU2B1mD4W8L7jH",
-              chain: "solana",
-              metadata: {
-                intentId: `community_claim_${item.id}`,
-                memo: "MIND_COMMUNITY_TRACTION_SUBSIDY",
-                voucherCode: voucherCode || builderRegistration?.referralCode || initialVoucherCode,
-                builderHandle: builderRegistration?.githubHandle,
-                marketplaceItemId: item.id,
-                pricingModel: item.pricing?.model,
-                phase: "the_garage_community"
-              }
-            })
-          });
-          if (!res.ok) throw new Error("community subsidy receipt failed");
-          const data = await res.json();
-          subsidyReceipt = data.paymentId || data.reference || subsidyReceipt;
-          setIsMockSettlement(false);
-        } catch {
-          setIsMockSettlement(true);
-          subsidyReceipt = `local_community_subsidy_${item.id.substring(0, 8)}_${Date.now()}`;
-        }
-      }
-
-      setSettlementStep(voucherStatus === "valid" ? 'Community access granted.' : 'Access granted.');
-      setTxHash(subsidyReceipt);
-      if (voucherStatus === "valid" && builderRegistration) {
-        saveVoucherClaim({
-          registration: builderRegistration,
-          voucherCode: voucherCode || builderRegistration.referralCode,
-          marketplaceItemId: item.id,
-          claimReason: `Sponsored claim for ${item.name}`
+      try {
+        const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+        const res = await fetch(`${gatewayBaseUrl}/v1/payment/x402`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: item.pricing?.originalPrice ?? item.pricing?.price ?? 0,
+            currency: item.pricing?.currency || "USDC",
+            recipient: "DGuedzXbK8fN8eRqyTqzTXZyX4wY4rU2B1mD4W8L7jH",
+            chain: "solana",
+            metadata: {
+              intentId: voucherStatus === "valid" ? `community_claim_${item.id}` : `free_claim_${item.id}`,
+              memo: voucherStatus === "valid" ? "MIND_COMMUNITY_TRACTION_SUBSIDY" : "MIND_FREE_ACCESS_CLAIM",
+              voucherCode: voucherCode || builderRegistration?.referralCode || initialVoucherCode,
+              builderHandle: builderRegistration?.githubHandle,
+              marketplaceItemId: item.id,
+              pricingModel: item.pricing?.model,
+              phase: "the_garage_community"
+            }
+          })
         });
+
+        if (!res.ok) {
+          throw new Error("BACKEND_SETTLEMENT_UNAVAILABLE");
+        }
+
+        const data = await res.json();
+        const backendReceipt = data.paymentId || data.reference || data.transactionHash;
+        if (!backendReceipt) {
+          throw new Error("BACKEND_RECEIPT_MISSING");
+        }
+
+        setSettlementStep(voucherStatus === "valid" ? "Community access granted." : "Free access granted.");
+        setTxHash(backendReceipt);
+
+        if (voucherStatus === "valid" && builderRegistration) {
+          saveVoucherClaim({
+            registration: builderRegistration,
+            voucherCode: voucherCode || builderRegistration.referralCode,
+            marketplaceItemId: item.id,
+            claimReason: `Sponsored claim for ${item.name}`
+          });
+        }
+
+        setSettlementStatus('success');
+      } catch {
+        setSettlementStatus('error');
+        setSettlementStep('Backend did not return settlement receipt. Local receipt generation is disabled.');
+        setTxHash(null);
       }
-      setSettlementStatus('success');
+
       return;
     }
 
@@ -437,67 +439,52 @@ function CatalogCard({
     
     try {
       // Integração com o API Gateway (x402 Atomic Settlement)
-      let receiptData;
-      try {
-        const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
-        const res = await fetch(`${gatewayBaseUrl}/v1/payment/x402`, {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            amount: item.pricing.price || 0.005,
-            currency: item.pricing.currency || "USDC",
-            recipient: "DGuedzXbK8fN8eRqyTqzTXZyX4wY4rU2B1mD4W8L7jH", // Protocol Treasury
-            chain: "solana",
-            metadata: {
-              intentId: `purchase_card_${item.id}`,
-              memo: "MIND_x402_PAYMENT"
-            }
-          })
-        });
+      const gatewayBaseUrl = (import.meta.env.VITE_API_GATEWAY_URL || "http://127.0.0.1:3000").trim().replace(/\/$/, "");
+      const res = await fetch(`${gatewayBaseUrl}/v1/payment/x402`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          amount: item.pricing.price || 0.005,
+          currency: item.pricing.currency || "USDC",
+          recipient: "DGuedzXbK8fN8eRqyTqzTXZyX4wY4rU2B1mD4W8L7jH", // Protocol Treasury
+          chain: "solana",
+          metadata: {
+            intentId: `purchase_card_${item.id}`,
+            memo: "MIND_x402_PAYMENT"
+          }
+        })
+      });
 
-        if (!res.ok) {
-          throw new Error("API Gateway unreachable");
-        }
-        
-        receiptData = await res.json();
-      } catch (e) {
-        mockSettlement = true;
-        setIsMockSettlement(true);
-        
-        await new Promise(resolve => setTimeout(resolve, 800));
-        setSettlementStep('Awaiting KMS Signature...');
-        
-        await new Promise(resolve => setTimeout(resolve, 800));
-        setSettlementStep('Executing x402 via Darkpool UTXO...');
-        
-        await new Promise(resolve => setTimeout(resolve, 800));
-        setSettlementStep('Minting Mindprint Proof (High Privacy)...');
-        
-        await new Promise(resolve => setTimeout(resolve, 600));
-
-        receiptData = {
-          paymentId: "sig_" + Math.random().toString(36).substring(2, 15) + "x402"
-        };
+      if (!res.ok) {
+        throw new Error("BACKEND_SETTLEMENT_UNAVAILABLE");
       }
-      
-      setTxHash(receiptData.paymentId || receiptData.transactionHash || "sig_confirmed");
-      setSettlementStep(mockSettlement ? 'Demo Receipt Generated (Offline)' : 'Atomic Settlement Complete');
+
+      const receiptData = await res.json();
+      const backendReceipt = receiptData.paymentId || receiptData.reference || receiptData.transactionHash;
+
+      if (!backendReceipt) {
+        throw new Error("BACKEND_RECEIPT_MISSING");
+      }
+
+      setTxHash(backendReceipt);
+      setSettlementStep('Atomic Settlement Complete');
       setSettlementStatus('success');
-    } catch (err) {
+    } catch {
       setSettlementStatus('error');
-      setSettlementStep('Settlement Failed');
+      setSettlementStep('Backend did not return settlement receipt. Local receipt generation is disabled.');
+      setTxHash(null);
     }
   };
 
   // Mapeamento de categorias para estilos de metal escovado
-  const getMetallicClassForCategory = (category: string) => {
+  const getMetallicClassForCategory = () => {
     // Agora todos os cards do Marketplace utilizam o gradiente oficial da Solana
     return 'metallic-brushed-solana';
   };
 
-  const metallicClass = getMetallicClassForCategory(item.category);
+  const metallicClass = getMetallicClassForCategory();
 
   return (
     <div 
@@ -835,7 +822,7 @@ function CatalogCard({
                 </div>
                 {txHash && (
                   <div className="text-[9px] font-mono text-zinc-500 break-all bg-black/50 p-3 rounded mt-2 space-y-2">
-                    <div>{isMockSettlement ? "Local receipt:" : (isFree ? "Subsidy receipt:" : "Proof:")} {txHash}</div>
+                    <div>{isFree ? "Subsidy receipt:" : "Proof:"} {txHash}</div>
                     {isFree && settlementStatus === 'success' && (
                       <div className="border-t border-white/10 pt-2 mt-2">
                         <div className="text-emerald-400 mb-2">Access granted by sponsored flow. Repo command:</div>

@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { ConnectAgentModal } from "../components/ConnectAgentModal";
 import { Badge } from "../components/ui/badge";
 import { motion, useMotionValue, useTransform, MotionValue, AnimatePresence, useInView, useScroll, useMotionValueEvent } from "framer-motion";
-import { ArrowDown } from "lucide-react";
-import { Zap, ShieldCheck } from "lucide-react";
+import { ArrowDown, Zap, ShieldCheck, Database, Search } from "lucide-react";
 import { VerticalsMarketplaceSlider } from "../components/VerticalsMarketplaceSlider";
 import { MainLayout } from "../layouts/MainLayout";
 
@@ -66,262 +65,548 @@ function SolanaMetallicText({ children, className, progress }: { children: React
 // Neural Message Bridge: Terminal interativo para envio de mensagens assinadas
 
 
-// Dexter Data Agent: The Grid of Truth (Animated SVG)
-function DexterCardSVG({ isHovered }: { isHovered: boolean }) {
-  const [pulse, setPulse] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPulse(p => (p + 1) % 100);
-    }, 100);
-    return () => clearInterval(interval);
+// Echo Indexer Agent: The Tactical Solana Radar (Animated SVG)
+function IndexerRadarCardSVG({ isHovered }: { isHovered: boolean }) {
+  // Generate deterministic points for radar targets
+  const targets = useMemo(() => {
+    const pts = [];
+    for (let i = 0; i < 18; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 20 + Math.random() * 140; // 20 to 160 (inside 180)
+      pts.push({
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+        color: Math.random() > 0.3 ? "#10B981" : "#9945FF", // Solana colors
+        size: 1.5 + Math.random() * 2,
+        delay: Math.random() * 3
+      });
+    }
+    return pts;
+  }, []);
+
+  // Pre-calculate radial lines and degree labels for the tactical grid
+  const radials = useMemo(() => {
+    const lines = [];
+    for (let i = 0; i < 360; i += 15) {
+      const rad = (i * Math.PI) / 180;
+      lines.push({
+        deg: i,
+        x1: Math.cos(rad) * 20,
+        y1: Math.sin(rad) * 20,
+        x2: Math.cos(rad) * 180,
+        y2: Math.sin(rad) * 180,
+        tx: Math.cos(rad) * 195,
+        ty: Math.sin(rad) * 195,
+        isMajor: i % 30 === 0
+      });
+    }
+    return lines;
   }, []);
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-transparent mix-blend-screen">
       <defs>
-        <radialGradient id="dexterGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.15 }} />
-          <stop offset="100%" style={{ stopColor: "#050505", stopOpacity: 0 }} />
-        </radialGradient>
-      </defs>
-      <rect width="500" height="500" fill="url(#dexterGrad)" />
-      
-      {/* Neural Data Grid */}
-      <g opacity={isHovered ? 0.9 : 0.4} transform="translate(0, -50)">
-        {Array.from({ length: 15 }).map((_, i) => 
-          Array.from({ length: 20 }).map((_, j) => {
-            const x = 40 + i * 30;
-            const y = 40 + j * 30;
-            const seed = (i * 20 + j + pulse) % 100;
-            const isActive = seed > 92;
-            const opacity = isActive ? 0.8 : 0.05;
-            const r = isActive ? 1.5 : 0.5;
-            
-            return (
-              <g key={`${i}-${j}`}>
-                <motion.circle 
-                  cx={x} cy={y} r={r} 
-                  fill="#ffffff" 
-                  animate={{ opacity: isHovered ? opacity * 1.5 : opacity }}
-                  transition={{ duration: 0.5 }}
-                />
-                {isActive && isHovered && (
-                  <motion.line 
-                    x1={x} y1={y} x2={x + 30} y2={y + 30} 
-                    stroke="#ffffff" strokeWidth="0.2" 
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                  />
-                )}
-              </g>
-            );
-          })
-        )}
-      </g>
-      
-      {/* Data Intelligence Elements */}
-      {isHovered && (
-        <g className="font-mono text-[8px]" fill="#ffffff" opacity="0.4">
-          <text x="50" y="50">RAW_FEED: CONNECTED</text>
-          <text x="50" y="70">SENTIMENT: 0.82</text>
-          <text x="50" y="90">VOL_24H: 1.2M SOL</text>
-          <motion.path 
-            d="M 400,50 L 450,50 L 450,100" 
-            fill="none" stroke="#ffffff" strokeWidth="0.5" 
-          />
-        </g>
-      )}
-
-      {/* Scanning Line (Loop) */}
-      <motion.rect 
-        width="500" height="1" 
-        fill="#ffffff" 
-        opacity="0.2"
-        animate={{ y: [0, 500] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-      />
-
-      <text x="50" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">DEXTER // DATA_GRID</text>
-    </svg>
-  );
-}
-
-// Volan Yield Agent: The High Voltage Network (Animated SVG)
-function VolanCardSVG({ isHovered }: { isHovered: boolean }) {
-  return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
-      <defs>
-        <radialGradient id="volanGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
-          <stop offset="100%" stopColor="#050505" stopOpacity="0" />
-        </radialGradient>
-        <filter id="electricGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="2" result="blur" />
+        <linearGradient id="sweepGrad" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#10B981" stopOpacity="0.5" />
+          <stop offset="60%" stopColor="#10B981" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#10B981" stopOpacity="0" />
+        </linearGradient>
+        <filter id="radarGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
       </defs>
-      
-      <rect width="500" height="500" fill="url(#volanGrad)" />
 
-      {/* Central Power Core */}
+      {/* Center Group */}
       <g transform="translate(250, 250)">
-        <motion.circle 
-          r="15" fill="#ffffff" opacity={isHovered ? 0.9 : 0.3}
-          animate={{ scale: isHovered ? [1, 1.2, 0.9, 1.3, 1] : 1 }}
-          transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-          filter="url(#electricGlow)"
-        />
-        <motion.circle 
-          r="30" fill="none" stroke="#ffffff" strokeWidth="1" strokeDasharray="4 12"
-          opacity={isHovered ? 0.5 : 0.1}
-          animate={{ rotate: 360, scale: isHovered ? [1, 1.5, 1] : 1 }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        />
+        
+        {/* Tactical Grid: Concentric Rings */}
+        {[20, 40, 60, 80, 100, 120, 140, 160, 180].map((r) => (
+          <circle
+            key={`ring-${r}`}
+            r={r}
+            fill="none"
+            stroke="#10B981"
+            strokeWidth={r === 180 ? 1 : 0.3}
+            opacity={isHovered ? (r === 180 ? 0.6 : 0.3) : 0.1}
+          />
+        ))}
 
-        {/* High Voltage Arcs (Electricity) */}
-        {Array.from({ length: 6 }).map((_, i) => {
-          const angle = (i * 60) * (Math.PI / 180);
-          
-          // Generate a jagged electric path
-          const generateArc = () => {
-            let path = `M 0 0`;
-            let currentX = 0;
-            let currentY = 0;
-            const segments = 5;
-            const length = 150 + Math.random() * 100; // random length for arc
-            
-            for (let j = 1; j <= segments; j++) {
-              const segmentLength = length / segments;
-              const jitterX = (Math.random() - 0.5) * 40;
-              const jitterY = (Math.random() - 0.5) * 40;
-              
-              currentX += Math.cos(angle) * segmentLength + jitterX;
-              currentY += Math.sin(angle) * segmentLength + jitterY;
-              
-              path += ` L ${currentX} ${currentY}`;
-            }
-            return path;
-          };
+        {/* Tactical Grid: Radial Lines & Labels */}
+        <g opacity={isHovered ? 0.5 : 0.1}>
+          {radials.map((r, i) => (
+            <g key={`radial-${i}`}>
+              <line x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} stroke="#10B981" strokeWidth={r.isMajor ? 0.5 : 0.2} />
+              {r.isMajor && isHovered && (
+                <text x={r.tx} y={r.ty} fill="#10B981" fontSize="6" fontFamily="monospace" textAnchor="middle" dominantBaseline="middle" opacity="0.8">
+                  {r.deg}°
+                </text>
+              )}
+            </g>
+          ))}
+        </g>
 
-          return (
-            <motion.path
-              key={`arc-${i}`}
-              d={generateArc()}
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth={isHovered ? 1.5 : 0.5}
-              filter={isHovered ? "url(#electricGlow)" : "none"}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ 
-                pathLength: isHovered ? [0, 1, 0] : 0,
-                opacity: isHovered ? [0, 1, 0] : 0.1,
-                d: isHovered ? [generateArc(), generateArc()] : generateArc() // Jitter the path itself
-              }}
-              transition={{ 
-                duration: 0.15 + Math.random() * 0.2, 
-                repeat: Infinity, 
-                repeatType: "mirror",
-                delay: Math.random() * 2 
-              }}
+        {/* Radar Scan Sweep (Conic Gradient) */}
+        {isHovered && (
+          <motion.g
+            animate={{ rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            style={{ transformOrigin: "0px 0px" }}
+          >
+            {/* 
+              Using a massive circle with a conic-like dasharray trick 
+              or a solid wedge with a radial sweep. 
+              Since SVG 1.1 doesn't have conic-gradient natively, we use a 90-deg pie slice. 
+            */}
+            <path 
+              d="M 0 0 L 0 -180 A 180 180 0 0 1 180 0 Z" 
+              fill="url(#sweepGrad)" 
             />
-          );
-        })}
-
-        {/* Static Background Circuit Lines */}
-        {Array.from({ length: 8 }).map((_, i) => {
-          const angle = (i * 45 + 22.5) * (Math.PI / 180);
-          const x2 = Math.cos(angle) * 300;
-          const y2 = Math.sin(angle) * 300;
-          return (
-            <motion.line
-              key={`circuit-${i}`}
-              x1="0" y1="0" x2={x2} y2={y2}
-              stroke="#ffffff" strokeWidth="0.5" strokeDasharray="10 20"
-              opacity="0.1"
-              animate={{ strokeDashoffset: isHovered ? [0, -30] : 0 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            {/* The sweeping arm (the laser line itself) */}
+            <line 
+              x1="0" y1="0" x2="180" y2="0" 
+              stroke="#10B981" 
+              strokeWidth="2.5" 
+              opacity="0.9" 
+              filter="url(#radarGlow)" 
             />
-          );
-        })}
+          </motion.g>
+        )}
+
+        {/* Targets / Nodes */}
+        {targets.map((t: {x: number, y: number, color: string, size: number, delay: number}, i: number) => (
+          <g key={`target-${i}`} transform={`translate(${t.x}, ${t.y})`}>
+            <motion.circle
+              r={t.size}
+              fill={isHovered ? t.color : "#ffffff"}
+              opacity={isHovered ? 0.9 : 0.2}
+              filter={isHovered ? "url(#radarGlow)" : "none"}
+              animate={isHovered ? { scale: [1, 2, 1], opacity: [0.3, 1, 0.3] } : {}}
+              transition={{ duration: 1.5, repeat: Infinity, delay: t.delay }}
+            />
+            {/* Ping rings */}
+            {isHovered && i % 3 === 0 && (
+              <motion.circle
+                r={t.size * 3}
+                fill="none"
+                stroke={t.color}
+                strokeWidth="0.5"
+                initial={{ scale: 0, opacity: 1 }}
+                animate={{ scale: 4, opacity: 0 }}
+                transition={{ duration: 2, repeat: Infinity, delay: t.delay }}
+              />
+            )}
+            {/* Hex Data Tags */}
+            {isHovered && i % 4 === 0 && (
+              <motion.g 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: t.delay + 0.5 }}
+              >
+                <text x="5" y="-3" className="font-mono" fontSize="5" fill={t.color} opacity="0.9">
+                  {t.color === "#10B981" ? "NODE" : "SYNC"}
+                </text>
+                <line x1="0" y1="0" x2="4" y2="-4" stroke={t.color} strokeWidth="0.5" opacity="0.6" />
+              </motion.g>
+            )}
+          </g>
+        ))}
       </g>
 
-      {/* Energy Metrics */}
+      {/* HUD Info */}
       {isHovered && (
         <motion.g 
           className="font-mono text-[10px]" 
           fill="#ffffff" 
           opacity="0.8"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.8, y: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 0.8, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <g transform="translate(320, 40)">
-            <rect width="12" height="12" rx="2" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.5" />
-            <path d="M 3,6 L 6,9 L 9,3" fill="none" stroke="#ffffff" strokeWidth="1" />
-            <text x="20" y="10">APY: +14.2%</text>
-          </g>
-          
-          <g transform="translate(320, 60)">
-            <rect width="12" height="12" rx="2" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.5" />
-            <path d="M 6,3 L 6,9 M 4,4 L 8,4 M 4,8 L 8,8" fill="none" stroke="#ffffff" strokeWidth="1" />
-            <text x="20" y="10">TVL: $42.5M</text>
-          </g>
-
-          <g transform="translate(320, 80)">
-            <rect width="12" height="12" rx="2" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.5" />
-            <path d="M 4,6 L 8,6 M 6,4 L 8,6 L 6,8" fill="none" stroke="#ffffff" strokeWidth="1" />
-            <text x="20" y="10">STRAT: KAMINO_JIT</text>
-          </g>
+          <text x="40" y="60">INDEX_RADAR: <tspan fill="#10B981">ACTIVE</tspan></text>
+          <text x="40" y="80">NETWORK: SOLANA_MAINNET</text>
+          <text x="40" y="100">NODES_FOUND: 1,204</text>
+          <text x="40" y="120">SYNC_RATE: 42ms</text>
         </motion.g>
       )}
 
-      <text x="50" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">VOLAN // YIELD_STACK</text>
+      <text x="40" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">ECHO // TACTICAL_RADAR</text>
+    </svg>
+  );
+}
+
+// Sybil Security Agent: The Electric Node (Animated SVG)
+function SybilNodeCardSVG({ isHovered }: { isHovered: boolean }) {
+  // Generate lightning rays
+  const rays = useMemo(() => {
+    const r = [];
+    for (let i = 0; i < 6; i++) {
+      const angle = (i * 60) * (Math.PI / 180);
+      const points = [];
+      let cx = 0, cy = 0;
+      points.push(`${cx},${cy}`);
+      for (let step = 1; step <= 5; step++) {
+        const radius = step * 40;
+        const jitterAngle = angle + (Math.random() - 0.5) * 0.5;
+        cx = Math.cos(jitterAngle) * radius;
+        cy = Math.sin(jitterAngle) * radius;
+        points.push(`${cx},${cy}`);
+      }
+      r.push({ id: i, points: points.join(" "), delay: Math.random() });
+    }
+    return r;
+  }, []);
+
+  return (
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-transparent mix-blend-screen">
+      <defs>
+        <radialGradient id="sybilGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#050505" stopOpacity="0" />
+        </radialGradient>
+        <filter id="electricGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <rect width="500" height="500" fill="url(#sybilGrad)" />
+
+      {/* Grid lines */}
+      <g opacity={isHovered ? 0.2 : 0.05}>
+        <line x1="250" y1="0" x2="250" y2="500" stroke="#ffffff" strokeWidth="0.5" strokeDasharray="4 8" />
+        <line x1="0" y1="250" x2="500" y2="250" stroke="#ffffff" strokeWidth="0.5" strokeDasharray="4 8" />
+      </g>
+
+      <g transform="translate(250, 250)">
+        {/* Core Node */}
+        <motion.circle 
+          r="15" 
+          fill="#ffffff" 
+          opacity="0.3" 
+          filter="url(#electricGlow)"
+          animate={{ scale: isHovered ? [1, 1.2, 1] : 1 }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        />
+        
+        {/* Rotating Outer Rings */}
+        <motion.circle 
+          r="30" fill="none" stroke="#ffffff" strokeWidth="1" strokeDasharray="4 12" opacity="0.1"
+          animate={{ rotate: 360, scale: isHovered ? 1.2 : 1 }}
+          transition={{ rotate: { duration: 20, repeat: Infinity, ease: "linear" }, scale: { duration: 0.5 } }}
+        />
+        <motion.circle 
+          r="50" fill="none" stroke="#ffffff" strokeWidth="0.5" strokeDasharray="2 6" opacity="0.1"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        />
+
+        {/* Electric Rays */}
+        {rays.map((ray) => (
+          <motion.polyline
+            key={`ray-${ray.id}`}
+            points={ray.points}
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="1"
+            filter={isHovered ? "url(#electricGlow)" : "none"}
+            opacity={isHovered ? 0.6 : 0.1}
+            initial={{ pathLength: 0 }}
+            animate={isHovered ? { pathLength: [0, 1, 0], opacity: [0.1, 0.8, 0.1] } : { pathLength: 1 }}
+            transition={{ duration: 1.5 + Math.random(), repeat: Infinity, delay: ray.delay }}
+          />
+        ))}
+
+        {/* Connection Nodes */}
+        {isHovered && rays.map((ray) => {
+          const pts = ray.points.split(" ");
+          const lastPt = pts[pts.length - 1].split(",");
+          const lx = parseFloat(lastPt[0]);
+          const ly = parseFloat(lastPt[1]);
+          return (
+            <motion.g key={`node-${ray.id}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: ray.delay + 0.5 }}>
+              <circle cx={lx} cy={ly} r="3" fill="#10B981" filter="url(#electricGlow)" />
+              <circle cx={lx} cy={ly} r="8" fill="none" stroke="#10B981" strokeWidth="0.5" />
+              <text x={lx + 10} y={ly + 3} className="font-mono text-[6px]" fill="#10B981" opacity="0.8">VERIFIED</text>
+            </motion.g>
+          );
+        })}
+      </g>
+
+      {/* HUD Info */}
+      {isHovered && (
+        <motion.g 
+          className="font-mono text-[10px]" 
+          fill="#ffffff" 
+          opacity="0.8"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 0.8, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <text x="40" y="60">SYBIL_CHECK: <tspan fill="#10B981">PASSED</tspan></text>
+          <text x="40" y="80">PROOF_OF_HUMAN: VALID</text>
+          <text x="40" y="100">LIVENESS_SCORE: 0.98</text>
+          <text x="40" y="120">NODE_HEALTH: OPTIMAL</text>
+        </motion.g>
+      )}
+
+      <text x="40" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">SYBIL // SEC_NODE</text>
+    </svg>
+  );
+}
+
+// JIT Router Yield Agent: The Smart Money Graph (Animated SVG)
+function JitRouterCardSVG({ isHovered }: { isHovered: boolean }) {
+  // Generate deterministic points for the graph
+  const points = useMemo(() => {
+    const pts = [];
+    let currentY = 320; // Start lower down (visually)
+    for (let i = 0; i < 20; i++) {
+      pts.push({ x: 50 + i * 21, y: currentY });
+      
+      const progress = i / 19;
+      
+      // Consolidation in the first half, breakout in the second half
+      const trendBias = progress < 0.5 ? 0.45 : 0.7; // >0.5 means Y decreases (goes up visually)
+      
+      currentY += (Math.random() - trendBias) * 35;
+      
+      // Force a hard "moon" spike at the end of the chart
+      if (i >= 15) {
+        currentY -= 15 + Math.random() * 20;
+      }
+
+      // Clamp to viewBox bounds roughly
+      currentY = Math.max(90, Math.min(380, currentY));
+    }
+    return pts;
+  }, []);
+
+  const pathD = points.map((p: {x: number, y: number}, i: number) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(" ");
+  const areaD = `${pathD} L ${points[points.length - 1].x} 400 L ${points[0].x} 400 Z`;
+
+  return (
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-transparent mix-blend-screen">
+      <defs>
+        <linearGradient id="jitGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#050505" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#10B981" stopOpacity={isHovered ? 0.4 : 0.1} />
+          <stop offset="100%" stopColor="#10B981" stopOpacity="0" />
+        </linearGradient>
+        <filter id="chartGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <rect width="500" height="500" fill="url(#jitGrad)" />
+
+      {/* Grid Lines */}
+      <g opacity={isHovered ? 0.3 : 0.1}>
+        {Array.from({ length: 10 }).map((_, i) => (
+          <line key={`h-${i}`} x1="50" y1={100 + i * 30} x2="450" y2={100 + i * 30} stroke="#ffffff" strokeWidth="0.5" strokeDasharray="2 4" />
+        ))}
+        {Array.from({ length: 10 }).map((_, i) => (
+          <line key={`v-${i}`} x1={50 + i * 40} y1="100" x2={50 + i * 40} y2="370" stroke="#ffffff" strokeWidth="0.5" strokeDasharray="2 4" />
+        ))}
+      </g>
+
+      {/* Chart Area */}
+      <motion.path
+        d={areaD}
+        fill="url(#chartAreaGrad)"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      />
+
+      {/* Chart Line */}
+      <motion.path
+        d={pathD}
+        fill="none"
+        stroke={isHovered ? "#10B981" : "#ffffff"}
+        strokeWidth={isHovered ? 2 : 1}
+        filter={isHovered ? "url(#chartGlow)" : "none"}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 2, ease: "easeInOut" }}
+      />
+
+      {/* Data Points (Smart Money Nodes) */}
+      {points.map((p: {x: number, y: number}, i: number) => {
+        // Highlight specific "trade" nodes
+        const isTradeNode = i % 4 === 0 && i !== 0;
+        return (
+          <g key={`point-${i}`}>
+            <motion.circle
+              cx={p.x} cy={p.y} r={isTradeNode && isHovered ? 4 : 2}
+              fill={isHovered ? "#10B981" : "#ffffff"}
+              opacity={isTradeNode ? 1 : 0.5}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: i * 0.1, type: "spring" }}
+            />
+            {isTradeNode && isHovered && (
+              <motion.circle
+                cx={p.x} cy={p.y} r={12}
+                fill="none" stroke="#10B981" strokeWidth="0.5"
+                initial={{ scale: 0, opacity: 1 }}
+                animate={{ scale: 2, opacity: 0 }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            )}
+            {/* Intel Tags */}
+            {isTradeNode && isHovered && (
+              <motion.g 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 + 0.5 }}
+                className="font-mono text-[6px] md:text-[8px]" fill="#ffffff"
+              >
+                <text x={p.x - 10} y={p.y - 25}>TVL_SPIKE</text>
+                <text x={p.x - 10} y={p.y - 15} fill="#a1a1aa">CONF: 0.92</text>
+                <line x1={p.x} y1={p.y - 10} x2={p.x} y2={p.y - 2} stroke="#ffffff" strokeWidth="0.5" opacity="0.5" />
+              </motion.g>
+            )}
+          </g>
+        );
+      })}
+
+      {/* Terminal HUD */}
+      {isHovered && (
+        <motion.g 
+          className="font-mono text-[10px]" 
+          fill="#ffffff" 
+          opacity="0.8"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 0.8, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <text x="40" y="60">SIGNAL_FEED: <tspan fill="#10B981">LIVE</tspan></text>
+          <text x="40" y="80">JUPITER_VOLUME: $1.2B</text>
+          <text x="40" y="100">KAMINO_YIELD: 14.2%</text>
+          <text x="40" y="120">SMART_MONEY_FLOW: INFLOW</text>
+        </motion.g>
+      )}
+
+      <text x="40" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">JIT // SMART_MONEY_GRAPH</text>
     </svg>
   );
 }
 
 // Krios Risk Agent: The Intent Firewall (Animated SVG)
 function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
+  // Generate lock mechanisms for the vault
+  const locks = useMemo(() => {
+    const l = [];
+    for (let i = 0; i < 3; i++) {
+      l.push({
+        radius: 60 + i * 40,
+        dash: i % 2 === 0 ? "8 16" : "30 10",
+        speed: 10 + i * 5,
+        dir: i % 2 === 0 ? 1 : -1
+      });
+    }
+    return l;
+  }, []);
+
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-transparent mix-blend-screen">
       <defs>
         <linearGradient id="kriosGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.08" />
           <stop offset="50%" stopColor="#ffffff" stopOpacity="0.15" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05" />
         </linearGradient>
+        <linearGradient id="kriosHexGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#10B981" />
+          <stop offset="50%" stopColor="#6366F1" />
+          <stop offset="100%" stopColor="#10B981" />
+        </linearGradient>
+        <filter id="vaultGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+        </pattern>
       </defs>
+      
       <rect width="500" height="500" fill="url(#kriosGrad)" />
+      <rect width="500" height="500" fill="url(#gridPattern)" />
 
-      {/* Vertical Firewall Pillars */}
-      <g opacity={isHovered ? 0.8 : 0.3}>
-        {Array.from({ length: 14 }).map((_, i) => {
-          const x = 40 + i * 32.3;
-          const isGated = i % 3 === 0;
+      {/* Security Perimeter Lasers */}
+      <g opacity={isHovered ? 0.4 : 0.1}>
+        <motion.line x1="0" y1="250" x2="500" y2="250" stroke="#10B981" strokeWidth="1" strokeDasharray="4 8"
+          animate={{ strokeDashoffset: isHovered ? [-20, 0] : 0 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.line x1="250" y1="0" x2="250" y2="500" stroke="#10B981" strokeWidth="1" strokeDasharray="4 8"
+          animate={{ strokeDashoffset: isHovered ? [-20, 0] : 0 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        />
+      </g>
+
+      {/* Central Vault Mechanism */}
+      <g transform="translate(250, 250)">
+        
+        {/* Policy Hexagon Core */}
+        <motion.polygon
+          points="0,-40 34.6,-20 34.6,20 0,40 -34.6,20 -34.6,-20"
+          fill="none"
+          stroke="url(#kriosHexGrad)"
+          strokeWidth="3"
+          filter={isHovered ? "url(#vaultGlow)" : "none"}
+          animate={{ rotate: isHovered ? 90 : 0, scale: isHovered ? [1, 1.1, 1] : 1 }}
+          transition={{ rotate: { duration: 1 }, scale: { duration: 2, repeat: Infinity } }}
+        />
+        <motion.circle cx="0" cy="0" r="10" fill={isHovered ? "#10B981" : "#ffffff"} opacity={isHovered ? 1 : 0.3} />
+
+        {/* Rotating Lock Rings */}
+        {locks.map((lock, i) => (
+          <motion.circle
+            key={`lock-${i}`}
+            cx="0" cy="0"
+            r={lock.radius}
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth={i === 1 && isHovered ? 2 : 0.5}
+            strokeDasharray={lock.dash}
+            opacity={isHovered ? 0.6 - i * 0.1 : 0.15}
+            animate={{ rotate: 360 * lock.dir }}
+            transition={{ duration: lock.speed, repeat: Infinity, ease: "linear" }}
+          />
+        ))}
+
+        {/* Access Gates (Data entry points) */}
+        {Array.from({ length: 4 }).map((_, i) => {
+          const angle = (i * 90 + 45) * (Math.PI / 180);
+          const x1 = Math.cos(angle) * 40;
+          const y1 = Math.sin(angle) * 40;
+          const x2 = Math.cos(angle) * 160;
+          const y2 = Math.sin(angle) * 160;
           return (
-            <g key={`pillar-${i}`}>
-              <line x1={x} y1="0" x2={x} y2="500" stroke="#ffffff" strokeWidth="0.5" opacity="0.15" />
-              {/* Data stream going down */}
-              <motion.line
-                x1={x} y1="0" x2={x} y2="150"
-                stroke="#ffffff" strokeWidth={isGated ? 1.5 : 0.5}
-                opacity={isHovered ? 0.6 : 0.2}
-                animate={{ y1: [-150, 500], y2: [0, 650] }}
-                transition={{ duration: 3 + (i % 4), repeat: Infinity, ease: "linear", delay: i * 0.15 }}
-              />
-              {/* Intersecting Policy Gate */}
-              {isHovered && isGated && (
-                <motion.rect
-                  x={x - 12} y={250 + (i % 2 === 0 ? 50 : -50)} width="24" height="2"
-                  fill="#ffffff"
-                  initial={{ opacity: 0, scaleX: 0 }}
-                  animate={{ opacity: [0, 1, 0], scaleX: [0, 1, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+            <g key={`gate-${i}`}>
+              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ffffff" strokeWidth="0.5" opacity="0.2" />
+              {isHovered && (
+                <motion.circle
+                  cx={x2} cy={y2} r="4" fill="#10B981" filter="url(#vaultGlow)"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
                 />
               )}
             </g>
@@ -329,41 +614,25 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
         })}
       </g>
 
-      {/* Central Hexagon Shield Core */}
-      <g transform="translate(250, 250)">
-        {Array.from({ length: 5 }).map((_, i) => {
-          const size = 50 + i * 35;
-          return (
-            <motion.polygon
-              key={`hex-${i}`}
-              points={`0,-${size} ${size*0.866},-${size*0.5} ${size*0.866},${size*0.5} 0,${size} -${size*0.866},${size*0.5} -${size*0.866},-${size*0.5}`}
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth={i === 0 ? 1.5 : 0.5}
-              strokeDasharray={i % 2 !== 0 ? "4 8" : "none"}
-              opacity={isHovered ? 0.7 - i * 0.1 : 0.15}
-              animate={{ 
-                rotate: i % 2 === 0 ? 360 : -360,
-                scale: isHovered ? [1, 1.05, 1] : 1
-              }}
-              transition={{ 
-                rotate: { duration: 40 + i * 10, repeat: Infinity, ease: "linear" },
-                scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-              }}
-            />
-          );
-        })}
-        {/* Core Locking Mechanism */}
-        <motion.circle cx="0" cy="0" r="12" fill="#ffffff" opacity={isHovered ? 0.9 : 0.2} 
-          animate={{ scale: isHovered ? [1, 1.3, 1] : 1 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        />
-        {isHovered && (
-          <motion.circle cx="0" cy="0" r="12" fill="none" stroke="#ffffff" strokeWidth="0.5"
-            animate={{ scale: [1, 3.5], opacity: [0.8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+      {/* Security Threat Blocks */}
+      <g opacity={isHovered ? 0.8 : 0.2}>
+        {Array.from({ length: 8 }).map((_, i) => (
+          <motion.rect
+            key={`block-${i}`}
+            x={20 + (i % 2) * 420}
+            y={80 + (i * 40) % 300}
+            width="20" height="10"
+            fill="none"
+            stroke={i % 3 === 0 && isHovered ? "#ef4444" : "#ffffff"} // Red for blocked threats
+            strokeWidth="1"
+            initial={{ opacity: 0.2 }}
+            animate={{ 
+              opacity: isHovered ? (i % 3 === 0 ? [0.2, 0.8, 0.2] : 0.4) : 0.2,
+              x: isHovered && i % 3 === 0 ? [0, (i % 2 === 0 ? 10 : -10), 0] : 0 // Bounce effect for blocked
+            }}
+            transition={{ duration: 0.5, repeat: Infinity, repeatDelay: Math.random() * 2 }}
           />
-        )}
+        ))}
       </g>
 
       {/* Metrics */}
@@ -376,14 +645,14 @@ function KriosCardSVG({ isHovered }: { isHovered: boolean }) {
           animate={{ opacity: 0.8, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <text x="40" y="60">STATUS: PROTECTED</text>
-          <text x="40" y="80">THREAT_LEVEL: LOW</text>
-          <text x="40" y="100">GATE: POLICY_ENFORCED</text>
-          <text x="40" y="120">LATENCY: 95ms</text>
+          <text x="40" y="60">POLICY_ENGINE: <tspan fill="#10B981">ENFORCED</tspan></text>
+          <text x="40" y="80">TX_BLOCKED: <tspan fill="#ef4444">12</tspan> (SYBIL)</text>
+          <text x="40" y="100">ZERO_KNOWLEDGE: VERIFIED</text>
+          <text x="40" y="120">INTENT_GATE: SECURE</text>
         </motion.g>
       )}
 
-      <text x="40" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">KRIOS // RISK_FIREWALL</text>
+      <text x="40" y="460" fontFamily="monospace" fontSize="12" fill="#a1a1aa" letterSpacing="4" opacity="0.6">INTENT // RISK_FIREWALL</text>
     </svg>
   );
 }
@@ -400,34 +669,34 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
   }, []);
 
   const steps = [
-    { x: 108, y: 156, label: "INTENT", info: "SIGNED_REQUEST", detail: "0.50 SOL // x402", value: "01" },
-    { x: 235, y: 256, label: "VALIDATE", info: "MINDPRINT_OK", detail: "POLICY_LIMIT: PASS", value: "02" },
-    { x: 326, y: 360, label: "EXECUTE", info: "ATOMIC_SPLIT", detail: "92 / 8 ROUTED", value: "03" },
-    { x: 390, y: 460, label: "MINT", info: "PROOF_RECEIPT", detail: "cNFT_ANCHOR", value: "04" }
+    { x: 108, y: 156, label: "INTENT", info: "X402_PAYLOAD", detail: "0.05 USDC", value: "01" },
+    { x: 235, y: 256, label: "VALIDATE", info: "KMS_SIGNATURE", detail: "ZERO_TRUST: PASS", value: "02" },
+    { x: 326, y: 360, label: "SETTLE", info: "ATOMIC_ROUTER", detail: "92/8 SPLIT", value: "03" },
+    { x: 390, y: 460, label: "MINT", info: "SKILL.MD/.JSON", detail: "VERIFIED_ASSET", value: "04" }
   ];
 
   const flowPath = "M 108 156 C 190 144 238 184 235 256 C 232 300 304 300 326 360 C 350 410 380 400 390 460";
   const flowDuration = 9.6;
   const nodeKeyPoints = "0;0.369;0.704;1;1";
   const onchainSignals = [
-    { x: 78, y: 104, label: "SLOT", value: "+128" },
-    { x: 344, y: 178, label: "CU", value: "4.1K" },
-    { x: 84, y: 400, label: "FEE", value: "5K_LAMPORTS" },
-    { x: 328, y: 480, label: "SIG", value: "5tWq..9pZm" },
+    { x: 78, y: 104, label: "REQ", value: "A2A_CALL" },
+    { x: 344, y: 178, label: "FEE", value: "0.05_USDC" },
+    { x: 84, y: 400, label: "SPLIT", value: "INSTANT" },
+    { x: 328, y: 480, label: "OUT", value: "JSON/MD" },
   ];
 
   return (
-    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-[#050505]">
+    <svg width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className="bg-transparent mix-blend-screen">
       <defs>
         <radialGradient id="mindFlowAura" cx="50%" cy="46%" r="58%">
-          <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 0.14 }} />
-          <stop offset="42%" style={{ stopColor: "#737373", stopOpacity: 0.05 }} />
-          <stop offset="100%" style={{ stopColor: "#050505", stopOpacity: 0 }} />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.14" />
+          <stop offset="42%" stopColor="#737373" stopOpacity="0.05" />
+          <stop offset="100%" stopColor="#050505" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="mindFlowStroke" x1="70" y1="120" x2="420" y2="480" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
           <stop offset="48%" stopColor="#ffffff" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
         </linearGradient>
         <linearGradient id="mindFlowPlate" x1="90" y1="90" x2="410" y2="480" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.07" />
@@ -446,7 +715,6 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
         </filter>
       </defs>
 
-      <rect width="500" height="500" fill="#050505" />
       <rect width="500" height="500" fill="url(#mindFlowAura)" />
 
       <g opacity="0.08">
@@ -547,7 +815,7 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
             className="font-mono"
             initial={false}
             animate={{
-              opacity: isHovered ? 0.78 : 0.26,
+              opacity: isHovered ? 1 : 0.35,
               x: isHovered ? 0 : (i % 2 === 0 ? -4 : 4),
               y: isHovered ? 0 : 3,
             }}
@@ -559,13 +827,13 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
               x2={signal.x + (i % 2 === 0 ? 42 : -42)}
               y2={signal.y + 6}
               stroke="#ffffff"
-              strokeWidth="0.35"
-              opacity="0.35"
+              strokeWidth="1"
+              opacity="0.8"
             />
-            <text x={signal.x} y={signal.y} fontSize="7" fill="#737373" letterSpacing="2">
+            <text x={signal.x} y={signal.y} fontSize="8" fill="#a1a1aa" letterSpacing="2" fontWeight="600">
               {signal.label}
             </text>
-            <text x={signal.x} y={signal.y + 18} fontSize="8" fill="#d4d4d8" letterSpacing="1.4">
+            <text x={signal.x} y={signal.y + 18} fontSize="9" fill="#ffffff" letterSpacing="1.4" fontWeight="700">
               {signal.value}
             </text>
           </motion.g>
@@ -622,18 +890,18 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
                     initial={{ opacity: 0, x: isRightSide ? -10 : 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: isRightSide ? 10 : -10 }}
-                    className="font-mono"
+                    className="font-mono drop-shadow-md"
                   >
-                    <text x={textX} y={node.y - 18} fontSize="8" fill="#737373" letterSpacing="3" textAnchor={textAnchor}>
-                      {node.value}
+                    <text x={textX} y={node.y - 18} fontSize="9" fill="#a1a1aa" letterSpacing="3" textAnchor={textAnchor} fontWeight="600">
+                      0{i + 1}
                     </text>
-                    <text x={textX} y={node.y - 4} fontSize="10" fill="#ffffff" fontWeight="700" opacity="0.92" textAnchor={textAnchor}>
+                    <text x={textX} y={node.y - 4} fontSize="12" fill="#ffffff" fontWeight="800" textAnchor={textAnchor}>
                       {node.label}
                     </text>
-                    <text x={textX} y={node.y + 12} fontSize="7" fill="#a1a1aa" opacity="0.7" textAnchor={textAnchor}>
+                    <text x={textX} y={node.y + 12} fontSize="8" fill="#d4d4d8" textAnchor={textAnchor}>
                       {node.info}
                     </text>
-                    <text x={textX} y={node.y + 25} fontSize="6" fill="#525252" opacity="0.7" textAnchor={textAnchor}>
+                    <text x={textX} y={node.y + 25} fontSize="7" fill="#a1a1aa" textAnchor={textAnchor}>
                       {node.detail}
                     </text>
                   </motion.g>
@@ -668,9 +936,9 @@ function CheckoutFlowSVG({ isHovered }: { isHovered: boolean }) {
         </g>
       </g>
 
-      <g className="font-mono" opacity="0.7">
-        <text x="52" y="460" fontSize="9" fill="#a1a1aa" letterSpacing="4">MIND_DATA_ART // ATOMIC_FLOW</text>
-        <text x="52" y="480" fontSize="7" fill="#525252" letterSpacing="3">POLICY_SIGNALS_RENDERED_AS_SETTLEMENT_GEOMETRY</text>
+      <g className="font-mono drop-shadow-md" opacity="0.9">
+        <text x="52" y="460" fontSize="10" fill="#ffffff" letterSpacing="4" fontWeight="600">MIND_DATA_ART // ATOMIC_FLOW</text>
+        <text x="52" y="480" fontSize="8" fill="#a1a1aa" letterSpacing="3">POLICY_SIGNALS_RENDERED_AS_SETTLEMENT_GEOMETRY</text>
       </g>
     </svg>
   );
@@ -688,32 +956,31 @@ function SVGGridPreview() {
   };
 
   const handleMouseLeave = () => {
-    setMousePos({ x: 300, y: 150 });
+    setMousePos({ x: 250, y: 300 });
   };
 
   return (
     <div className="relative group" style={{ perspective: "1000px" }}>
       <div 
-        className="metallic-brushed-solana metallic-shine rounded-3xl p-8 aspect-video relative cursor-crosshair transition-all duration-500 group-hover:scale-[1.02]"
+        className="metallic-brushed-solana metallic-shine rounded-[3rem] p-0 min-h-[500px] md:min-h-[600px] w-full relative cursor-crosshair transition-all duration-500 group-hover:scale-[1.02] flex flex-col justify-between overflow-hidden"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ 
           transformStyle: 'preserve-3d',
-          transform: `rotateX(${(mousePos.y - 150) * -0.05}deg) rotateY(${(mousePos.x - 300) * 0.05}deg)`
+          transform: `rotateX(${(mousePos.y - 300) * -0.02}deg) rotateY(${(mousePos.x - 250) * 0.02}deg)`
         }}
       >
-        {/* Borda 3D que salta no hover */}
         <div 
-          className="absolute inset-0 rounded-3xl border border-white/20 pointer-events-none transition-transform duration-500 ease-out"
+          className="absolute inset-0 rounded-[3rem] border border-white/20 pointer-events-none transition-transform duration-500 ease-out z-20"
           style={{ transform: "translateZ(0px)" }}
         />
         <div 
-          className="absolute inset-0 rounded-3xl border border-white/10 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[15px]"
-          style={{ transform: "translateZ(15px)" }}
+          className="absolute inset-0 rounded-[3rem] border border-white/10 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[20px] z-20"
+          style={{ transform: "translateZ(20px)" }}
         />
         <div 
-          className="absolute inset-0 rounded-3xl border border-white/20 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[30px]"
-          style={{ transform: "translateZ(30px)", boxShadow: "0 0 20px rgba(255,255,255,0.05)" }}
+          className="absolute inset-0 rounded-[3rem] border border-white/20 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[40px] z-20"
+          style={{ transform: "translateZ(40px)", boxShadow: "0 0 30px rgba(255,255,255,0.08)" }}
         />
         
         {/* Camada de Fundo (Clipped) */}
@@ -722,157 +989,183 @@ function SVGGridPreview() {
           <div 
             className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-700 mix-blend-overlay z-0" 
             style={{
-              background: `radial-gradient(circle 300px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.15), transparent)`
+              background: `radial-gradient(circle 400px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.1), transparent)`
             }}
           />
 
-          {/* Generative Neural Grid Background */}
+          {/* Intelligence Discovery Graph */}
           <div className="absolute inset-0 opacity-50 pointer-events-none transition-all duration-700 group-hover:opacity-80">
-            <svg width="100%" height="100%" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <svg width="100%" height="100%" viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <radialGradient id="glowHome" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                <radialGradient id="glowIntelligence" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#14F195" stopOpacity="0.15" />
+                  <stop offset="50%" stopColor="#9945FF" stopOpacity="0.05" />
+                  <stop offset="100%" stopColor="#020202" stopOpacity="0" />
                 </radialGradient>
-                <linearGradient id="fadeGrid" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
-                  <stop offset="20%" stopColor="#ffffff" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                <linearGradient id="beamGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#14F195" stopOpacity="0" />
+                  <stop offset="50%" stopColor="#14F195" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#14F195" stopOpacity="0" />
                 </linearGradient>
-                <mask id="gridMask">
-                  <rect width="600" height="300" fill="url(#fadeGrid)" />
-                </mask>
               </defs>
 
-              {/* Dynamic Flash based on mouse */}
+              {/* Core Neural Glow based on mouse */}
               <circle 
-                cx={mousePos.x * 1.5} 
-                cy={mousePos.y * 1.5} 
-                r="250" 
-                fill="url(#glowHome)" 
-                className="transition-all duration-200 ease-out"
+                cx={mousePos.x} 
+                cy={mousePos.y} 
+                r="350" 
+                fill="url(#glowIntelligence)" 
+                className="transition-all duration-300 ease-out"
               />
 
-              <g mask="url(#gridMask)">
-                {/* Deep Perspective Matrix */}
-                <motion.g
-                  animate={{ scale: [1, 1.05, 1], y: [0, 5, 0] }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ transformOrigin: "300px 150px" }}
-                >
-                  {/* Vanishing Lines */}
-                  {Array.from({ length: 40 }).map((_, i) => {
-                    const x = i * 15;
-                    const distFromCenter = x - 300;
-                    return (
-                      <line 
-                        key={`v-${i}`}
-                        x1={300 + distFromCenter * 0.1} y1="0" 
-                        x2={300 + distFromCenter * 2.5} y2="300" 
-                        stroke="#ffffff" strokeWidth="0.5" opacity="0.15"
+              {/* Orbital Rings representing Discovery Search Space */}
+              <g style={{ transformOrigin: "250px 300px" }}>
+                <motion.circle cx="250" cy="300" r="150" fill="none" stroke="#ffffff" strokeWidth="0.5" strokeDasharray="4 8" opacity="0.2"
+                  animate={{ rotate: 360 }} transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.circle cx="250" cy="300" r="220" fill="none" stroke="#ffffff" strokeWidth="0.5" strokeDasharray="2 12" opacity="0.1"
+                  animate={{ rotate: -360 }} transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+                />
+              </g>
+
+              {/* Connecting Nodes (A2A Network) - Redesigned with Atomic Settlement Esthetics */}
+              <g>
+                {Array.from({ length: 8 }).map((_, i) => {
+                  const angle = (i * 45) * (Math.PI / 180);
+                  const radius = 120 + (i % 2) * 80;
+                  const cx = 250 + Math.cos(angle) * radius;
+                  const cy = 300 + Math.sin(angle) * radius;
+                  
+                  // Target for connection (forming a complex geometric network)
+                  const targetAngle = ((i + 3) * 45) * (Math.PI / 180);
+                  const targetRadius = 120 + ((i + 3) % 2) * 80;
+                  const tx = 250 + Math.cos(targetAngle) * targetRadius;
+                  const ty = 300 + Math.sin(targetAngle) * targetRadius;
+
+                  return (
+                    <g key={`intel-node-${i}`}>
+                      {/* Atomic Connection Line (Dashed, High Tech) */}
+                      <motion.line
+                        x1={cx} y1={cy} x2={tx} y2={ty}
+                        stroke="#14F195" strokeWidth="1" strokeDasharray="4 4" opacity="0.6"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: [0, 1, 0], opacity: [0, 0.6, 0] }}
+                        transition={{ duration: 4 + (i % 2), repeat: Infinity, ease: "linear", delay: i * 0.2 }}
                       />
-                    );
-                  })}
-                  {/* Depth Lines */}
-                  {Array.from({ length: 20 }).map((_, i) => {
-                    const progress = i / 20;
-                    const y = Math.pow(progress, 2) * 300;
-                    return (
-                      <line 
-                        key={`h-${i}`}
-                        x1="0" y1={y} x2="600" y2={y} 
-                        stroke="#ffffff" strokeWidth="0.5" opacity={0.1 + progress * 0.3}
+                      
+                      {/* Hexagonal Node Base */}
+                      <polygon 
+                        points={`${cx},${cy-6} ${cx+5.2},${cy-3} ${cx+5.2},${cy+3} ${cx},${cy+6} ${cx-5.2},${cy+3} ${cx-5.2},${cy-3}`}
+                        fill="#020202" stroke="#ffffff" strokeWidth="0.5" opacity="0.8"
                       />
-                    );
-                  })}
-                </motion.g>
+                      
+                      {/* Inner Atomic Core */}
+                      <circle cx={cx} cy={cy} r="2" fill="#14F195" />
+                      
+                      {/* Rotating Targeting Reticle around Node */}
+                      <motion.g style={{ transformOrigin: `${cx}px ${cy}px` }} animate={{ rotate: 360 }} transition={{ duration: 3 + i, repeat: Infinity, ease: "linear" }}>
+                        <path d={`M ${cx-8} ${cy-8} L ${cx-5} ${cy-8} M ${cx-8} ${cy-8} L ${cx-8} ${cy-5}`} stroke="#9945FF" strokeWidth="1" fill="none" opacity="0.8" />
+                        <path d={`M ${cx+8} ${cy+8} L ${cx+5} ${cy+8} M ${cx+8} ${cy+8} L ${cx+8} ${cy+5}`} stroke="#9945FF" strokeWidth="1" fill="none" opacity="0.8" />
+                      </motion.g>
 
-                {/* Smooth Neural Paths */}
-                <g>
-                  {Array.from({ length: 15 }).map((_, i) => {
-                    const startX = 50 + (i * 47) % 500;
-                    const startY = 20 + (i * 31) % 260;
-                    const endX = 100 + (i * 83) % 400;
-                    const endY = 250 - (i * 19) % 150;
-                    
-                    const cp1X = startX + (i % 2 === 0 ? 50 : -50);
-                    const cp1Y = startY + 100;
-                    const cp2X = endX + (i % 2 === 0 ? -50 : 50);
-                    const cp2Y = endY - 100;
+                      {/* Data Payload Packet (Moving along the line) */}
+                      <motion.circle
+                        cx={cx} cy={cy} r="1.5" fill="#ffffff"
+                        animate={{
+                          cx: [cx, tx],
+                          cy: [cy, ty],
+                          opacity: [0, 1, 0]
+                        }}
+                        transition={{ duration: 2 + (i % 2), repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+                        style={{ filter: "drop-shadow(0 0 4px #ffffff)" }}
+                      />
 
-                    const d = `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
-                    const duration = 3 + (i % 5);
-                    const delay = i * 0.2;
+                      {/* Technical Label */}
+                      <text x={cx + 12} y={cy + 3} fontSize="6" fill="#a1a1aa" fontFamily="monospace" letterSpacing="1">
+                        TX_{i.toString().padStart(2, '0')}
+                      </text>
+                      <text x={cx + 12} y={cy + 10} fontSize="5" fill="#14F195" fontFamily="monospace" opacity="0.7">
+                        SETTLED
+                      </text>
+                    </g>
+                  );
+                })}
+              </g>
 
-                    return (
-                      <g key={`path-${i}`}>
-                        <path d={d} fill="none" stroke="#ffffff" strokeWidth="0.3" opacity="0.15" />
-                        <motion.path
-                          d={d}
-                          fill="none"
-                          stroke="#ffffff"
-                          strokeWidth="1.2"
-                          strokeDasharray="10 300"
-                          initial={{ strokeDashoffset: 300 }}
-                          animate={{ strokeDashoffset: -300 }}
-                          transition={{ duration, repeat: Infinity, ease: "linear", delay }}
-                          opacity="0.9"
-                        />
-                        <circle cx={endX} cy={endY} r="2" fill="#ffffff" opacity="0.2" />
-                        <motion.circle
-                          cx={endX} cy={endY} r="4" fill="#ffffff"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: [0, 0.8, 0], scale: [0.5, 1.5, 0.5] }}
-                          transition={{ duration, repeat: Infinity, ease: "easeInOut", delay: delay + (duration * 0.8) }}
-                        />
-                      </g>
-                    );
-                  })}
-                </g>
+              {/* Grid overlay for tactical feel */}
+              <g opacity="0.05">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <line key={`v-${i}`} x1={i * 50} y1="0" x2={i * 50} y2="600" stroke="#ffffff" strokeWidth="1" />
+                ))}
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <line key={`h-${i}`} x1="0" y1={i * 50} x2="500" y2={i * 50} stroke="#ffffff" strokeWidth="1" />
+                ))}
               </g>
             </svg>
           </div>
         </div>
 
-        <div 
-          className="relative z-10 h-full flex flex-col justify-between transition-transform duration-200"
-          style={{ transform: `translateZ(40px)` }}
-        >
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-zinc-500 rounded-full animate-pulse"></span>
-              A2A Flow Discovery
+        {/* Foreground Content - Pops out in 3D */}
+          <div 
+            className="relative z-10 h-full flex flex-col justify-between transition-transform duration-200 drop-shadow-md p-6"
+            style={{ transform: `translateZ(40px)` }}
+          >
+            {/* Top Bar */}
+            <div className="flex justify-between items-start">
+              <div className="space-y-1">
+                <div className="text-[10px] font-mono text-[#14F195] uppercase tracking-[0.3em] flex items-center gap-2 font-bold drop-shadow-md">
+                  <span className="w-1.5 h-1.5 bg-[#14F195] rounded-full animate-pulse shadow-[0_0_8px_#14F195]"></span>
+                  A2A Intelligence Discovery
+                </div>
+                <div className="text-xl font-bold text-white tracking-tight font-mono">MIND_CORE Network.</div>
+              </div>
+              <Badge variant="outline" className="border-[#9945FF]/40 bg-[#9945FF]/10 text-[#9945FF] font-mono text-[8px] uppercase tracking-widest px-3 backdrop-blur-md">
+                Live Map
+              </Badge>
             </div>
-            <div className="text-xl font-bold text-white tracking-tight font-mono">Neural Grid.</div>
+
+            <div className="flex-1" />
+
+            {/* Bottom Bar: 4 Metrics Distributed */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pointer-events-none items-end">
+              <div className="space-y-1">
+                <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-500 font-bold">Indexed Skills</div>
+                <div className="flex items-baseline gap-2">
+                  <div className="text-2xl font-mono tracking-tight text-white font-bold drop-shadow-md">8,402</div>
+                  <div className="text-[10px] font-mono text-[#14F195] font-bold drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]">Live</div>
+                </div>
+              </div>
+              
+              <div className="space-y-1">
+                <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-500 font-bold">Semantic Match</div>
+                <div className="flex items-baseline gap-2">
+                  <div className="text-2xl font-mono tracking-tight text-white font-bold drop-shadow-md">99.8%</div>
+                  <div className="text-[10px] font-mono text-[#14F195] font-bold drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]">Optimal</div>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-500 font-bold">Schema Status</div>
+                <div className="flex items-baseline gap-2">
+                  <div className="text-2xl font-mono tracking-tight text-white font-bold drop-shadow-md">JSON-LD</div>
+                  <div className="text-[10px] font-mono text-[#14F195] font-bold drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]">Verified</div>
+                </div>
+              </div>
+
+              <div className="space-y-1 md:text-right">
+                <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-500 font-bold">Discovery Ping</div>
+                <div className="flex items-baseline md:justify-end gap-2">
+                  <div className="text-2xl font-mono tracking-tight text-white font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">&lt; 45ms</div>
+                  <div className="text-[10px] font-mono text-[#14F195] font-bold drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]">Global</div>
+                </div>
+              </div>
+            </div>
+            
           </div>
-          <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono text-[8px] uppercase tracking-widest px-3">
-            Preview Mode
-          </Badge>
-        </div>
-
-        <div className="grid grid-cols-3 gap-8">
-          <HeatmapMetric label="Active Nodes" value="1,204" change="Live" />
-          <HeatmapMetric label="Intent Density" value="0.92" change="Optimal" />
-          <HeatmapMetric label="P2P Routing" value="Secured" change="Cloak ZK" />
         </div>
       </div>
-      </div>
-    </div>
-  );
-}
-
-function HeatmapMetric({ label, value, change }: { label: string; value: string; change: string }) {
-  return (
-    <div className="space-y-1">
-      <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-600">{label}</div>
-      <div className="flex items-baseline gap-2">
-        <div className="text-2xl font-mono tracking-tight text-zinc-200">{value}</div>
-        <div className="text-[10px] font-mono text-zinc-500">{change}</div>
-      </div>
-    </div>
-  );
-}
+    );
+  }
 
 // Builders Matrix Visual: The Product-Led Design (Animated SVG)
 function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
@@ -922,9 +1215,9 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
       </g>
 
       {/* Title Section within SVG */}
-      <g transform="translate(40, 60)">
-        <text fontSize="8" fill="#525252" fontFamily="monospace" letterSpacing="3">CONTRACTUAL LOGIC</text>
-        <text y="20" fontSize="18" fill="#ffffff" fontWeight="bold">Execution Constraints.</text>
+      <g transform="translate(40, 60)" className="drop-shadow-md">
+        <text fontSize="10" fill="#a1a1aa" fontFamily="monospace" letterSpacing="3" fontWeight="600">CONTRACTUAL LOGIC</text>
+        <text y="24" fontSize="24" fill="#ffffff" fontWeight="800">Execution Constraints.</text>
       </g>
 
       <g transform="translate(40, 140) scale(0.95)">
@@ -941,16 +1234,16 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
               <rect width="350" height="1" fill="#1a1a1a" />
               <motion.rect 
                 width={activeStep === 0 ? 320 : 320} 
-                height="1" fill="#ffffff" 
+                height="1" fill="#10B981" 
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: activeStep === 0 ? 1 : 1 }}
                 style={{ originX: 0 }}
                 transition={{ duration: 1.5, ease: "circOut" }}
               />
-              <circle cx="0" cy="0.5" r="1.5" fill="#ffffff" />
-              <circle cx="320" cy="0.5" r="1.5" fill="#ffffff" />
-              <text y="15" fontSize="8" fill="#ffffff" fontFamily="monospace">92% PROVIDER</text>
-              <text x="350" y="15" fontSize="8" fill="#a1a1aa" fontFamily="monospace" textAnchor="end">8% MIND</text>
+              <circle cx="0" cy="0.5" r="2.5" fill="#10B981" />
+              <circle cx="320" cy="0.5" r="2.5" fill="#10B981" />
+              <text y="15" fontSize="10" fill="#ffffff" fontFamily="monospace" fontWeight="bold">92% PROVIDER</text>
+              <text x="350" y="15" fontSize="10" fill="#a1a1aa" fontFamily="monospace" textAnchor="end" fontWeight="bold">8% MIND</text>
             </g>
           </g>
         </motion.g>
@@ -982,14 +1275,14 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
               ))}
               <motion.path
                 d="M 110,35 L 118,43 L 135,25"
-                fill="none" stroke="#ffffff" strokeWidth="1"
+                fill="none" stroke="#10B981" strokeWidth="2"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: activeStep === 1 ? 1 : 0 }}
                 transition={{ duration: 0.5, delay: 1 }}
               />
               <g transform="translate(110, 60)">
-                <text fontSize="8" fill="#ffffff" fontFamily="monospace">PROOF: ATTACHED</text>
-                <text y="12" fontSize="6" fill="#a1a1aa" fontFamily="monospace">METAPLEX_CORE_ID</text>
+                <text fontSize="10" fill="#ffffff" fontFamily="monospace" fontWeight="bold">PROOF: ATTACHED</text>
+                <text y="12" fontSize="8" fill="#10B981" fontFamily="monospace" fontWeight="bold">METAPLEX_CORE_ID</text>
               </g>
             </g>
           </g>
@@ -1008,20 +1301,20 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
             <g transform="translate(0, 40)">
               <motion.circle 
                 cx="40" cy="40" r="35" 
-                fill="none" stroke="#ffffff" strokeWidth="0.5"
+                fill="none" stroke="#10B981" strokeWidth="1"
                 animate={{ 
                   r: activeStep === 2 ? [35, 38, 35] : 35,
-                  opacity: activeStep === 2 ? [0.1, 0.6, 0.1] : 0.1
+                  opacity: activeStep === 2 ? [0.2, 1, 0.2] : 0.1
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
               <motion.path 
                 d="M 85,40 L 220,40" 
-                stroke="#ffffff" strokeWidth="0.5" strokeDasharray="3"
+                stroke="#10B981" strokeWidth="1" strokeDasharray="3"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ 
                   pathLength: activeStep === 2 ? 1 : 0,
-                  opacity: activeStep === 2 ? 0.8 : 0
+                  opacity: activeStep === 2 ? 1 : 0
                 }}
                 transition={{ duration: 1, delay: 0.5 }}
               />
@@ -1034,15 +1327,15 @@ function BuildersMatrixSVG({ isVisible }: { isVisible?: boolean }) {
                 }}
                 transition={{ duration: 0.5, delay: 1.2 }}
               >
-                <text fontSize="8" fill="#ffffff" fontFamily="monospace">RELEASED</text>
-                <text y="12" fontSize="6" fill="#a1a1aa" fontFamily="monospace">TX: 5tWq...9pZm</text>
+                <text fontSize="10" fill="#ffffff" fontFamily="monospace" fontWeight="bold">RELEASED</text>
+                <text y="12" fontSize="8" fill="#10B981" fontFamily="monospace" fontWeight="bold">TX: 5tWq...9pZm</text>
               </motion.g>
             </g>
           </g>
         </motion.g>
       </g>
 
-      <text x="50" y="640" fontFamily="monospace" fontSize="8" fill="#a1a1aa" letterSpacing="4" opacity="0.4">MIND // BUILDER_MATRIX_v1.0</text>
+      <text x="50" y="640" fontFamily="monospace" fontSize="10" fill="#a1a1aa" letterSpacing="4" opacity="0.6" fontWeight="600">MIND // BUILDER_MATRIX_v1.0</text>
     </svg>
   );
 }
@@ -1261,10 +1554,27 @@ export function HomePage() {
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const buildersRef = useRef<HTMLDivElement>(null);
+  const [videoSrc, setVideoSrc] = useState<string>("/sanduiche_rev_mind_solana_core.mp4");
 
-  // Removido o pré-fetch com Blob. Deixando o navegador gerenciar o cache nativamente
-  // Isso previne que navegações rápidas entre páginas cancelem o download e disparem
-  // net::ERR_ABORTED no console do Chromium.
+  // Fetch the video once and cache it in memory to prevent net::ERR_ABORTED during scrub
+  useEffect(() => {
+    // @ts-ignore - store on window to prevent strict mode double-fetch or unmount issues
+    if (window.__cachedVideoBlobUrl) {
+      // @ts-ignore
+      setVideoSrc(window.__cachedVideoBlobUrl);
+      return;
+    }
+
+    fetch("/sanduiche_rev_mind_solana_core.mp4")
+      .then(res => res.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        // @ts-ignore
+        window.__cachedVideoBlobUrl = url;
+        setVideoSrc(url);
+      })
+      .catch(console.error);
+  }, []);
 
   // Builders Scroll Activation
   const isBuildersInView = useInView(buildersRef, { amount: 0.4 });
@@ -1356,7 +1666,7 @@ export function HomePage() {
           {/* Scroll-Scrubbed Video */}
           <video
             ref={videoRef}
-            src="/sanduiche_rev_mind_solana_core.mp4"
+            src={videoSrc}
             muted
             playsInline
             preload="auto"
@@ -1429,28 +1739,48 @@ export function HomePage() {
           className="space-y-10 order-2 lg:order-1"
         >
           <Badge variant="outline" className="border-zinc-800 text-zinc-500 font-mono uppercase text-[10px] tracking-[0.3em] px-4 py-1.5 bg-black/50 backdrop-blur-sm">
-            Discovery & Execution
+            MIND Agent Economy
           </Badge>
 
           <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1] font-mono uppercase">
-            A2A Settlement <br />
-            <span className="italic font-light opacity-60 text-zinc-400">Rails.</span>
+            A2A SEO & <br />
+            <span className="italic font-light opacity-60 text-zinc-400">Discovery.</span>
           </h2>
 
           <p className="text-zinc-500 leading-relaxed font-light text-lg">
-            Economic infrastructure that decides, executes, and proves for A2A flows. Protect capital with policy gates, route execution under constraints, and produce auditable proof bundles.
+            O SEO para Bots (A2A SEO) não foca em palavras-chave para humanos, mas em legibilidade de máquina e prova de autoridade. Em um mundo onde o Agente A pergunta ao Agente B se ele é confiável, o ranking é decidido pela precisão dos metadados e contratos atômicos on-chain.
           </p>
 
           <div className="space-y-6 pt-4">
+            {/* Pillar 1: Agent-Discovery e ai-txt */}
             <div className="flex gap-6 items-start">
               <div className="w-10 h-10 rounded-full bg-white/5 border border-white/30 flex items-center justify-center shrink-0">
-                <Zap className="w-4 h-4 text-white" />
+                <Search className="w-4 h-4 text-white" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">Autonomous Discovery</h4>
-                <p className="text-zinc-500 text-sm font-light">Agents broadcast intents across neural rails to find liquidity and data.</p>
+                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">Agent-Discovery & ai-txt</h4>
+                <p className="text-zinc-500 text-sm font-light">Arquivos de configuração (A2A Protocol) onde o agente declara capacidades, endpoints e termos. Legibilidade instantânea para máquinas.</p>
               </div>
             </div>
+
+            {/* Pillar 2: Structured Data */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="flex gap-6 items-start group"
+            >
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/30 flex items-center justify-center shrink-0 group-hover:border-white/20 transition-colors duration-500">
+                <Database className="w-4 h-4 text-white" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">Structured Data (JSON-LD)</h4>
+                <p className="text-zinc-500 text-sm font-light">Para um bot, texto bonito é ruído. Atributos técnicos e metadados estruturados permitem mapeamento milissegundo de serviços e comparativos.</p>
+              </div>
+            </motion.div>
+
+            {/* Pillar 3: Agent Cards */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -1462,8 +1792,25 @@ export function HomePage() {
                 <ShieldCheck className="w-4 h-4 text-white" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">Credential Gating</h4>
-                <p className="text-zinc-500 text-sm font-light">On-chain Metaplex credentials authorize high-value execution without human clicks.</p>
+                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">Agent Cards (Capability)</h4>
+                <p className="text-zinc-500 text-sm font-light">A confiança exige verificabilidade. Exposição de chaves públicas, histórico de sucesso e reputação via transações atômicas on-chain.</p>
+              </div>
+            </motion.div>
+
+            {/* Pillar 4: API-First Indexing */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="flex gap-6 items-start group"
+            >
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/30 flex items-center justify-center shrink-0 group-hover:border-white/20 transition-colors duration-500">
+                <Zap className="w-4 h-4 text-white" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-white font-medium font-mono uppercase text-sm tracking-widest">API-First Indexing</h4>
+                <p className="text-zinc-500 text-sm font-light">Documentação técnica impecável para LLMs. Se o modelo não sabe como chamar sua função via OpenAPI, você é invisível para a rede.</p>
               </div>
             </motion.div>
           </div>
@@ -1494,7 +1841,7 @@ export function HomePage() {
             {
               id: "data",
               indexLabel: "01",
-              title: "Dexter",
+              title: "ECHO_INDEXER",
               subtitle: "Data Vertical",
               description: "Indexing-grade intelligence. Queryable truth with explicit cost and verifiable delivery.",
               stats: [
@@ -1503,12 +1850,12 @@ export function HomePage() {
                 { label: "Compute Units", value: "8.2k", hint: "sim depth" },
                 { label: "Settlement", value: "Darkpool UTXO", hint: "x402 cloak" }
               ],
-              card: { id: "dexter", name: "Dexter", type: "Data Agent", price: "$0.05 / req", Art: DexterCardSVG }
+              card: { id: "echo", name: "ECHO_INDEXER", type: "Data Agent", price: "$0.05 / req", Art: IndexerRadarCardSVG }
             },
             {
               id: "security",
               indexLabel: "02",
-              title: "CLINT",
+              title: "SYBIL_NODE",
               subtitle: "Security Vertical",
               description: "CNB Link Intelligence. Sybil risk classification and Node Health Index scoring for DePINs.",
               stats: [
@@ -1517,12 +1864,12 @@ export function HomePage() {
                 { label: "Network", value: "Solana", hint: "Mainnet" },
                 { label: "VSC", value: "Compliant", hint: "Read-only" }
               ],
-              card: { id: "clint", name: "CLINT", type: "Security Agent", price: "$0.01 / scan", Art: VolanCardSVG }
+              card: { id: "sybil", name: "SYBIL_NODE", type: "Security Agent", price: "$0.01 / scan", Art: SybilNodeCardSVG }
             },
             {
               id: "yield",
               indexLabel: "03",
-              title: "Volan",
+              title: "JIT_ROUTER",
               subtitle: "Yield Vertical",
               description: "Composable yield execution. Explicit rails, predictable settlement, opt-in strategies.",
               stats: [
@@ -1531,12 +1878,12 @@ export function HomePage() {
                 { label: "Compute Units", value: "12.6k", hint: "route sim" },
                 { label: "Settlement", value: "Atomic", hint: "opt-in" }
               ],
-              card: { id: "volan", name: "Volan", type: "Yield Agent", price: "$0.005 / exec", Art: VolanCardSVG }
+              card: { id: "jit", name: "JIT_ROUTER", type: "Yield Agent", price: "$0.005 / exec", Art: JitRouterCardSVG }
             },
             {
               id: "risk",
               indexLabel: "04",
-              title: "Krios",
+              title: "INTENT_GATE",
               subtitle: "Risk Vertical",
               description: "Pre-trade and runtime policy checks. Deterministic gating before any capital moves.",
               stats: [
@@ -1545,7 +1892,7 @@ export function HomePage() {
                 { label: "Compute Units", value: "4.1k", hint: "rules" },
                 { label: "Settlement", value: "Gated", hint: "policy" }
               ],
-              card: { id: "krios", name: "Krios", type: "Risk Agent", price: "$0.02 / scan", Art: KriosCardSVG }
+              card: { id: "intent", name: "INTENT_GATE", type: "Risk Agent", price: "$0.02 / scan", Art: KriosCardSVG }
             }
           ]}
         />
@@ -1562,7 +1909,7 @@ export function HomePage() {
           className="relative" style={{ perspective: "1200px" }}
         >
           <motion.div
-            className="aspect-[4/5] rounded-[3rem] bg-[#050505] border border-white/20 overflow-hidden relative cursor-crosshair"
+            className="metallic-brushed-solana aspect-[4/5] rounded-[3rem] bg-[#020202] border border-white/20 overflow-hidden relative cursor-crosshair shadow-[0_0_30px_rgba(0,0,0,0.5)]"
             onMouseEnter={() => setIsProcessCardHovered(true)}
             onMouseMove={handleProcessCardMove}
             onMouseLeave={handleProcessCardLeave}
@@ -1611,20 +1958,20 @@ export function HomePage() {
         >
           <div className="space-y-6">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
-              Intent. Validate. <br />
-              <span className="italic font-light opacity-60">Execute. Mint.</span>
+              Money as a message. <br />
+              <span className="italic font-light opacity-60">Liquid skills.</span>
             </h2>
             <p className="text-zinc-500 leading-relaxed font-light text-lg">
-              A2A commerce needs atomic rails, not promises. Policies define limits, credentials prove truth, and atomic transactions define settlement.
+              Value flows atomically, transforming an intent into a verifiable execution. Money travels as a payload, unlocking intelligence and settling in milliseconds to deliver standard <code className="text-zinc-400 font-mono bg-white/5 px-1 py-0.5 rounded">.md</code> and <code className="text-zinc-400 font-mono bg-white/5 px-1 py-0.5 rounded">.json</code> agent skills.
             </p>
           </div>
 
           <div className="space-y-10">
             {[
-              { id: "01", title: "Intent", desc: "An agent requests a service under an explicit policy and micro-price." },
-              { id: "02", title: "Validate Credential", desc: "The API Gateway validates the caller's Metaplex Mindprint credential instantly." },
-              { id: "03", title: "Execute & Split", desc: "Service executes and payment is routed atomically (92% Provider / 8% Protocol)." },
-              { id: "04", title: "Mint Proof", desc: "A cNFT receipt is minted as an immutable cryptographic proof of execution." }
+              { id: "01", title: "Intent Payload (x402)", desc: "An agent requests a skill execution attaching a micro-payment as a message payload." },
+              { id: "02", title: "KMS Validation", desc: "The API Gateway applies Zero-Trust verification of the payload and wallet signature." },
+              { id: "03", title: "Atomic Settlement", desc: "Funds are routed (92% Creator / 8% Protocol) at the exact millisecond of execution." },
+              { id: "04", title: "Manifest Generation", desc: "The final intelligence is minted as verifiable .md (logic) and .json (schema) artifacts." }
             ].map((item, i) => (
               <div key={i} className="flex gap-8 group">
                 <span className="text-[10px] font-mono text-zinc-700 group-hover:text-white transition-colors duration-500 pt-1.5">{item.id}</span>

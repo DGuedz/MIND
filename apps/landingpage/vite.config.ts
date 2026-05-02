@@ -16,6 +16,7 @@ function copyPublicAllowlist() {
     'logo_hero.svg',
     'mind_fingerprint_head.svg',
     'mind_logo.png',
+    'mind_logo_profile.png',
     'sanduiche_rev_mind_solana_core.mp4',
     'catalog/skills.json',
     'catalog/products.json'
@@ -242,9 +243,216 @@ enforcement: "strict"`;
   };
 }
 
+type LocalArtifact = {
+  id: string
+  slug: string
+  title: string
+  description: string
+  content: string
+  content_type: "markdown"
+  price: string
+  wallet_address: string
+  created_at: string
+  updated_at: string
+  published_at: string
+  checksum: string
+}
+
+function readRequestBody(req: any): Promise<string> {
+  return new Promise((resolve, reject) => {
+    let body = ''
+    req.on('data', (chunk: any) => {
+      body += chunk.toString()
+    })
+    req.on('end', () => resolve(body))
+    req.on('error', reject)
+  })
+}
+
+function sendJson(res: any, statusCode: number, payload: unknown) {
+  res.statusCode = statusCode
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify(payload, null, 2))
+}
+
+function normalizePrice(value: unknown): string | null {
+  const n = typeof value === 'number' ? value : Number(String(value ?? '').trim())
+  if (!Number.isFinite(n) || n <= 0) return null
+  return n.toFixed(6)
+}
+
+function normalizeWallet(value: unknown): string | null {
+  const wallet = String(value ?? '').trim()
+  if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) return null
+  return wallet
+}
+
+function slugify(title: string, checksum: string): string {
+  const base = title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 72) || 'mind-artifact'
+  return `${base}-${checksum.slice(0, 8)}`
+}
+
+function serializeArtifact(artifact: LocalArtifact) {
+  return {
+    id: artifact.id,
+    slug: artifact.slug,
+    title: artifact.title,
+    description: artifact.description,
+    content_type: artifact.content_type,
+    price: artifact.price,
+    wallet_address: artifact.wallet_address,
+    created_at: artifact.created_at,
+    updated_at: artifact.updated_at,
+    published_at: artifact.published_at,
+    checksum: artifact.checksum,
+    attachment_id: null,
+    preview_image_attachment_id: null,
+    settlement: {
+      protocol: "x402",
+      mode: "dev_challenge",
+      production_status: "INSUFFICIENT_EVIDENCE"
+    }
+  }
+}
+
+function localPaywalledArtifactGateway() {
+  const artifacts = new Map<string, LocalArtifact>()
+
+  return {
+    name: 'local-paywalled-artifact-gateway',
+    configureServer(server: any) {
+      server.middlewares.use('/api/mind-artifact', async (req: any, res: any) => {
+        try {
+          const url = new URL(req.url || '/', 'http://localhost')
+          const parts = url.pathname.split('/').filter(Boolean)
+
+          if (req.method === 'POST' && parts[0] === 'upload') {
+            const rawBody = await readRequestBody(req)
+            const body = JSON.parse(rawBody || '{}')
+            const title = String(body.title ?? '').trim()
+            const description = String(body.description ?? '').trim()
+            const content = String(body.content ?? '').trim()
+            const price = normalizePrice(body.price)
+            const walletAddress = normalizeWallet(body.walletAddress)
+
+            if (!title || !content || !price || !walletAddress) {
+              sendJson(res, 400, {
+                error: "title, content, positive price, and 0x walletAddress are required"
+              })
+              return
+            }
+
+            const checksum = crypto
+              .createHash('sha256')
+              .update(JSON.stringify({ title, description, content, price, walletAddress }))
+              .digest('hex')
+            const slug = slugify(title, checksum)
+            const now = new Date().toISOString()
+            const artifact: LocalArtifact = {
+              id: crypto.randomUUID(),
+              slug,
+              title,
+              description,
+              content,
+              content_type: "markdown",
+              price,
+              wallet_address: walletAddress,
+              created_at: now,
+              updated_at: now,
+              published_at: now,
+              checksum
+            }
+
+            artifacts.set(slug, artifact)
+            sendJson(res, 201, serializeArtifact(artifact))
+            return
+          }
+
+          if (req.method === 'GET' && parts.length === 0) {
+            const search = (url.searchParams.get('search') || '').toLowerCase()
+            const limit = Math.min(Number(url.searchParams.get('limit') || 20), 100)
+            const list = Array.from(artifacts.values())
+              .filter((artifact) => {
+                if (!search) return true
+                return `${artifact.title} ${artifact.description}`.toLowerCase().includes(search)
+              })
+              .slice(0, limit)
+              .map(serializeArtifact)
+            sendJson(res, 200, { artifacts: list, page: 1, limit })
+            return
+          }
+
+          const slug = parts[0]
+          const artifact = slug ? artifacts.get(slug) : undefined
+          if (!slug || !artifact) {
+            sendJson(res, 404, { error: "artifact not found" })
+            return
+          }
+
+          if (req.method === 'GET' && parts.length === 1) {
+            sendJson(res, 200, serializeArtifact(artifact))
+            return
+          }
+
+          if (req.method === 'GET' && parts[1] === 'price') {
+            sendJson(res, 200, {
+              price: Number(artifact.price),
+              currency: "USDC",
+              protocol: "x402"
+            })
+            return
+          }
+
+          if (req.method === 'GET' && parts[1] === 'content') {
+            const proof = req.headers['x-mind-payment-proof'] || url.searchParams.get('proof')
+            if (proof !== 'dev-paid') {
+              sendJson(res, 402, {
+                error: "Payment required",
+                protocol: "x402",
+                status: "PAYMENT_REQUIRED",
+                production_status: "INSUFFICIENT_EVIDENCE",
+                challenge: {
+                  amount: artifact.price,
+                  currency: "USDC",
+                  recipient: artifact.wallet_address,
+                  chain: url.searchParams.get('chain') || "solana-devnet",
+                  artifact: artifact.slug,
+                  checksum: artifact.checksum
+                },
+                dev_unlock: {
+                  header: "x-mind-payment-proof: dev-paid",
+                  warning: "local development only; not an on-chain settlement proof"
+                }
+              })
+              return
+            }
+
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
+            res.setHeader('X-MIND-Artifact-Slug', artifact.slug)
+            res.setHeader('X-MIND-Artifact-Checksum', artifact.checksum)
+            res.setHeader('X-MIND-Settlement-Mode', 'dev-simulated')
+            res.end(artifact.content)
+            return
+          }
+
+          sendJson(res, 405, { error: "method not allowed" })
+        } catch (err) {
+          console.error('[Local Artifact Gateway] Error:', err)
+          sendJson(res, 500, { error: "local artifact gateway failed" })
+        }
+      })
+    }
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), copyPublicAllowlist(), localSkillGenerator()],
+  plugins: [react(), copyPublicAllowlist(), localSkillGenerator(), localPaywalledArtifactGateway()],
   build: {
     copyPublicDir: false,
   },

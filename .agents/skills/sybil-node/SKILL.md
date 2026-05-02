@@ -1,5 +1,5 @@
 ---
-name: clint
+name: sybil-node
 version: 1.0.0
 description: |
   DePIN proof verifier for the CNB Mobile network on Solana.
@@ -183,7 +183,7 @@ function calcNHI(sessions: SessionProof[], pda: UserAccount): number {
 **Request:**
 ```json
 {
-  "agent": "clint",
+  "agent": "sybil-node",
   "version": "1.0.0",
   "input": {
     "wallet": "PENDING_REAL_WALLET_FROM_MARIANO",

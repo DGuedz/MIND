@@ -45,35 +45,23 @@ export function BuilderTrackOverview({ registration }: { registration: BuilderRe
     : buildSkillScaffoldCommand();
 
   return (
-    <div className="space-y-10">
-      <div className="space-y-6">
-        <div className="inline-flex border border-white/10 px-4 py-1 text-[10px] font-mono uppercase tracking-[0.32em] text-zinc-500">
-          Builder Track • Initial Traction
-        </div>
-        <h1 className="max-w-4xl text-5xl md:text-7xl font-bold tracking-tight leading-[0.95] text-white">
-          Contribute to MIND.
-        </h1>
-        <p className="max-w-3xl text-lg md:text-xl text-zinc-500 leading-relaxed font-light">
-          MIND does not ask builders to ship another closed bot. Builders contribute reusable skills as Agent Cards: priced, traceable, policy-aware assets that other agents can discover and pay for.
-        </p>
-      </div>
-
+    <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {BUILDER_TRACK_STEPS.map((step) => (
-          <div key={step.id} className="border border-white/10 bg-white/[0.025] p-6 rounded-xl">
-            <div className="text-[10px] font-mono text-zinc-600 tracking-[0.28em] mb-5">{step.id}</div>
-            <h2 className="text-xl font-semibold text-white mb-3">{step.title}</h2>
-            <p className="text-sm text-zinc-500 leading-relaxed">{step.body}</p>
+          <div key={step.id} className="border border-white/10 bg-[#020202]/80 backdrop-blur-md p-6 rounded-xl shadow-inner">
+            <div className="text-[10px] font-mono text-zinc-500 tracking-[0.28em] mb-5">{step.id}</div>
+            <h2 className="text-xl font-bold text-white tracking-tight mb-3">{step.title}</h2>
+            <p className="text-sm text-zinc-400 leading-relaxed font-light">{step.body}</p>
           </div>
         ))}
       </div>
 
-      <div className="border border-emerald-500/20 bg-emerald-500/[0.03] rounded-2xl p-6 md:p-8">
-        <h2 className="text-2xl font-semibold text-white mb-4">The command that starts the track</h2>
-        <code className="block rounded-xl border border-white/10 bg-black/70 p-4 text-xs md:text-sm font-mono text-emerald-300 leading-relaxed break-all">
+      <div className="border border-white/20 bg-white/[0.02] rounded-2xl p-6 md:p-8 metallic-brushed-solana">
+        <h2 className="text-2xl font-bold text-white tracking-tight mb-4">The command that starts the track</h2>
+        <code className="block rounded-xl border border-white/10 bg-black/80 p-4 text-xs md:text-sm font-mono text-zinc-300 leading-relaxed break-all shadow-inner">
           {scaffoldCommand}
         </code>
-        <p className="mt-4 text-sm text-zinc-500 leading-relaxed">
+        <p className="mt-4 text-sm text-zinc-500 leading-relaxed font-light">
           The scaffold writes the origin and payout fields into both templates so reviewers can verify The Garage provenance and builder receiving data before a skill is accepted.
         </p>
       </div>
@@ -148,34 +136,34 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
   };
 
   return (
-    <form onSubmit={handleRegister} className="border border-emerald-500/20 rounded-2xl bg-emerald-500/[0.035] p-6 space-y-5">
+    <form onSubmit={handleRegister} className="border border-white/20 rounded-[2rem] bg-white/[0.02] p-6 space-y-6 metallic-brushed-solana">
       {!account ? (
         <div>
-          <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-emerald-400 mb-3">
+          <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-zinc-500 mb-3">
             Builder Account • Initial Traction
           </div>
-          <h2 className="text-white text-lg font-semibold">Connect GitHub first</h2>
-          <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
+          <h2 className="text-white text-xl font-bold tracking-tight">Connect GitHub first</h2>
+          <p className="mt-2 text-sm text-zinc-400 leading-relaxed font-light">
             Connect your GitHub to unlock real builder access during MIND's initial traction period. This establishes your verified identity to create and commercialize Agent Cards.
           </p>
         </div>
       ) : (
         <div>
-          <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-emerald-400 mb-3">
+          <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-zinc-400 mb-3">
             Access Unlocked
           </div>
-          <h2 className="text-white text-lg font-semibold">Builder Identity Verified</h2>
-          <p className="mt-2 text-sm text-emerald-400/80 leading-relaxed">
+          <h2 className="text-white text-xl font-bold tracking-tight">Builder Identity Verified</h2>
+          <p className="mt-2 text-sm text-zinc-400 leading-relaxed font-light">
             Your GitHub connection is established and verified. You are now authorized to participate in the MIND ecosystem.
           </p>
         </div>
       )}
 
       {!account ? (
-        <div className="space-y-3">
-          <div className="rounded-2xl border border-white/10 bg-black/30 p-4 space-y-3">
+        <div className="space-y-4">
+          <div className="rounded-xl border border-white/10 bg-[#020202]/80 backdrop-blur-md p-4 space-y-3 shadow-inner">
             {githubConnected ? (
-              <div className="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3">
+              <div className="flex items-center gap-3 rounded-xl border border-white/20 bg-white/[0.02] p-3">
                 {githubAvatarUrl ? (
                   <img src={githubAvatarUrl} alt="" className="h-10 w-10 rounded-full border border-white/10" />
                 ) : (
@@ -184,8 +172,8 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
                   </div>
                 )}
                 <div className="min-w-0">
-                  <div className="truncate text-sm font-semibold text-white">@{normalizedGithubHandle}</div>
-                  <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-emerald-400">GitHub verified</div>
+                  <div className="truncate text-sm font-bold text-white tracking-tight">@{normalizedGithubHandle}</div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">GitHub verified</div>
                 </div>
               </div>
             ) : null}
@@ -193,17 +181,17 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
             <button
               type="button"
               onClick={handleConnectGithub}
-              className={`inline-flex w-full items-center justify-center gap-3 rounded-xl border px-4 py-3 text-[11px] font-bold font-mono uppercase tracking-[0.22em] transition-colors ${
+              className={`inline-flex w-full items-center justify-center gap-3 rounded-full border px-4 py-3 text-[10px] font-bold font-mono uppercase tracking-[0.22em] transition-colors shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] ${
                 githubConnected
-                  ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300"
-                  : "border-transparent bg-zinc-300 text-black hover:bg-zinc-400"
+                  ? "border-white/20 bg-white/[0.05] text-white hover:bg-white/[0.08]"
+                  : "border-transparent bg-white text-black hover:bg-zinc-200"
               }`}
             >
               <GithubMark className="h-4 w-4" />
               {githubConnected ? "Reconnect GitHub" : "Connect GitHub"}
             </button>
             {githubAuth.error ? (
-              <div className="rounded-xl border border-zinc-500/30 bg-zinc-400/10 px-4 py-3 text-xs leading-relaxed text-zinc-300">
+              <div className="rounded-xl border border-zinc-500/30 bg-zinc-400/10 px-4 py-3 text-xs leading-relaxed text-zinc-300 font-light">
                 GitHub OAuth is not available yet. Configure `GITHUB_OAUTH_CLIENT_ID` and `GITHUB_OAUTH_CLIENT_SECRET` in Vercel to unlock real builder connection.
               </div>
             ) : null}
@@ -217,9 +205,9 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
                   value={solanaReceiveWallet}
                   onChange={(event) => setSolanaReceiveWallet(event.target.value)}
                   placeholder="Optional before payout/x402"
-                  className="w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500/40"
+                  className="w-full rounded-xl border border-white/10 bg-black/80 px-4 py-3 text-sm text-white outline-none focus:border-white/40 shadow-inner font-mono"
                 />
-                <span className="mt-2 block text-[10px] text-zinc-600 leading-relaxed">
+                <span className="mt-2 block text-[10px] text-zinc-600 leading-relaxed font-light">
                   GitHub unlocks the builder track now. Wallet or delegated KMS is required before payout, testnet settlement or x402 execution.
                 </span>
               </label>
@@ -228,21 +216,21 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
                 <select
                   value={referralCode}
                   onChange={(event) => setReferralCode(event.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500/40"
+                  className="w-full rounded-xl border border-white/10 bg-black/80 px-4 py-3 text-sm text-white outline-none focus:border-white/40 shadow-inner font-mono"
                 >
                   <option value="THEGARAGE">THEGARAGE</option>
                   <option value="SUPERTEAMBR">SUPERTEAMBR</option>
                   <option value="COLOSSEUM">COLOSSEUM</option>
                 </select>
               </label>
-              <label className="flex items-start gap-3 rounded-xl border border-white/10 bg-black/30 p-3">
+              <label className="flex items-start gap-3 rounded-xl border border-white/10 bg-[#020202]/80 p-4 shadow-inner">
                 <input
                   type="checkbox"
                   checked={consentMarketplaceAttribution}
                   onChange={(event) => setConsentMarketplaceAttribution(event.target.checked)}
                   className="mt-1"
                 />
-                <span className="text-xs text-zinc-500 leading-relaxed">
+                <span className="text-xs text-zinc-400 leading-relaxed font-light">
                   Allow MIND to show builder attribution, campaign origin and payout metadata during review and marketplace listing.
                 </span>
               </label>
@@ -252,13 +240,13 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
           <button
             type="submit"
             disabled={!githubConnected || !canRegister}
-            className="w-full rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-3 text-[11px] font-mono uppercase tracking-[0.24em] text-emerald-300 transition-colors hover:bg-emerald-500/25 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-full rounded-full border border-white/20 bg-white/[0.02] px-4 py-3 text-[10px] font-bold font-mono uppercase tracking-[0.24em] text-white transition-all hover:bg-white/[0.05] disabled:cursor-not-allowed disabled:opacity-40 shadow-[0_0_15px_rgba(255,255,255,0.02)] hover:shadow-[0_0_25px_rgba(255,255,255,0.05)]"
           >
             Save Registration
           </button>
 
           {formMessage ? (
-            <div className={`rounded-xl border px-4 py-3 text-xs leading-relaxed ${registration ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300" : "border-white/10 bg-black/30 text-zinc-400"}`}>
+            <div className={`rounded-xl border px-4 py-3 text-xs leading-relaxed font-light ${registration ? "border-white/20 bg-white/10 text-white" : "border-white/10 bg-[#020202]/80 text-zinc-400"}`}>
               {formMessage}
             </div>
           ) : null}
@@ -267,27 +255,27 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
 
       {account ? (
         <div className="space-y-4">
-          <div className="rounded-xl border border-white/10 bg-black/40 p-4 font-mono text-[10px] text-zinc-500 space-y-2">
-            <div className="text-emerald-400 uppercase tracking-[0.2em]">Account Registered</div>
+          <div className="rounded-xl border border-white/10 bg-[#020202]/80 backdrop-blur-md p-4 font-mono text-[10px] text-zinc-500 space-y-2 shadow-inner">
+            <div className="text-zinc-300 uppercase tracking-[0.2em] font-bold">Account Registered</div>
             <div>@{account.githubHandle}</div>
             <div>{account.referralCode}</div>
             <div>{account.registrationStatus}</div>
             <div className="break-all">{account.solanaReceiveWallet || "wallet_pending_before_settlement"}</div>
           </div>
           
-          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.02] p-5 space-y-3">
-            <div className="inline-block px-2 py-1 bg-emerald-500/10 text-emerald-400 font-mono text-[9px] uppercase tracking-[0.2em] border border-emerald-500/20 rounded">
+          <div className="rounded-xl border border-white/20 bg-white/[0.02] p-5 space-y-3">
+            <div className="inline-block px-2 py-1 bg-white/10 text-white font-mono text-[9px] uppercase tracking-[0.2em] border border-white/20 rounded">
               Traction Phase Active
             </div>
-            <h3 className="text-sm font-semibold text-white">Create & Commercialize</h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              As a GitHub-verified builder from <strong>{account.referralCode}</strong>, your account is upgraded to <span className="text-white font-medium">100% Free Mode</span>. You can claim sponsored access now. Wallet or KMS is required before payout, testnet settlement or x402 execution.
+            <h3 className="text-sm font-bold text-white tracking-tight">Create & Commercialize</h3>
+            <p className="text-xs text-zinc-400 leading-relaxed font-light">
+              As a GitHub-verified builder from <strong className="text-white font-medium">{account.referralCode}</strong>, your account is upgraded to <span className="text-white font-medium">100% Free Mode</span>. You can claim sponsored access now. Wallet or KMS is required before payout, testnet settlement or x402 execution.
             </p>
           </div>
 
           <Link
             to={account.marketplaceClaimPath}
-            className="block rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-3 text-center text-[11px] font-mono uppercase tracking-[0.24em] text-emerald-300 transition-colors hover:bg-emerald-500/25"
+            className="block rounded-full border border-white/20 bg-white/[0.02] px-4 py-3 text-center text-[10px] font-bold font-mono uppercase tracking-[0.24em] text-white transition-all hover:bg-white/[0.05] shadow-[0_0_15px_rgba(255,255,255,0.02)] hover:shadow-[0_0_25px_rgba(255,255,255,0.05)]"
           >
             Enter Marketplace
           </Link>
@@ -299,13 +287,13 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
 
 export function TraceFieldsCard() {
   return (
-    <div className="border border-white/10 rounded-2xl bg-black/40 p-6">
-      <h2 className="text-white text-lg font-semibold mb-4">Required Trace Fields</h2>
+    <div className="border border-white/20 rounded-[2rem] bg-[#020202]/80 backdrop-blur-md p-6 metallic-brushed-solana shadow-inner">
+      <h2 className="text-white text-xl font-bold tracking-tight mb-4">Required Trace Fields</h2>
       <div className="space-y-2">
         {REQUIRED_TRACE_FIELDS.map((field) => (
-          <div key={field} className="flex items-center justify-between gap-4 border-b border-white/5 py-2">
-            <span className="font-mono text-[11px] text-zinc-400">{field}</span>
-            <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-emerald-400">required</span>
+          <div key={field} className="flex items-center justify-between gap-4 border-b border-white/5 py-3">
+            <span className="font-mono text-[10px] text-zinc-400">{field}</span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white bg-white/10 px-2 py-1 rounded">required</span>
           </div>
         ))}
       </div>
@@ -315,19 +303,19 @@ export function TraceFieldsCard() {
 
 export function PublicBuilderFlowCard() {
   return (
-    <div className="border border-white/10 rounded-2xl bg-white/[0.025] p-6 space-y-4">
-      <h2 className="text-white text-lg font-semibold">Public Builder Flow</h2>
-      <p className="text-sm text-zinc-500 leading-relaxed">
+    <div className="border border-white/20 rounded-[2rem] bg-white/[0.02] p-6 space-y-5 metallic-brushed-solana">
+      <h2 className="text-white text-xl font-bold tracking-tight">Public Builder Flow</h2>
+      <p className="text-sm text-zinc-400 leading-relaxed font-light">
         Community members validate MIND by claiming a sponsored skill, creating their own skill, and submitting a PR that can be audited back to The Garage.
       </p>
       <div className="grid grid-cols-1 gap-3 pt-2">
-        <Link to="/the-garage" className="block rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-center text-[11px] font-mono uppercase tracking-[0.24em] text-emerald-300 hover:bg-emerald-500/20 transition-colors">
+        <Link to="/the-garage" className="block rounded-full border border-white/20 bg-white/[0.05] px-4 py-3 text-center text-[10px] font-bold font-mono uppercase tracking-[0.24em] text-white hover:bg-white/[0.08] transition-all shadow-[0_0_15px_rgba(255,255,255,0.02)]">
           The Garage
         </Link>
-        <Link to="/marketplace" className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-[11px] font-mono uppercase tracking-[0.24em] text-zinc-300 hover:bg-white/10 transition-colors">
+        <Link to="/marketplace" className="block rounded-full border border-white/10 bg-transparent px-4 py-3 text-center text-[10px] font-bold font-mono uppercase tracking-[0.24em] text-zinc-400 hover:text-white hover:border-white/30 transition-all">
           Marketplace
         </Link>
-        <a href="https://github.com/DGuedz/MIND/blob/main/CONTRIBUTING.md" target="_blank" rel="noreferrer" className="block rounded-xl border border-white/10 bg-black/50 px-4 py-3 text-center text-[11px] font-mono uppercase tracking-[0.24em] text-zinc-400 hover:text-white hover:bg-white/5 transition-colors">
+        <a href="https://github.com/DGuedz/MIND/blob/main/CONTRIBUTING.md" target="_blank" rel="noreferrer" className="block rounded-full border border-white/10 bg-black/50 px-4 py-3 text-center text-[10px] font-bold font-mono uppercase tracking-[0.24em] text-zinc-500 hover:text-white hover:bg-black/80 transition-all">
           Contributing.md
         </a>
       </div>

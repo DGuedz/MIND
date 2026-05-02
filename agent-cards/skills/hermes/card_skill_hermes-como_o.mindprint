@@ -1,13 +1,13 @@
 {
-  "asset_id": "metaplex_core_sim_5bc7ca42",
+  "asset_id": "metaplex_core_sim_9b84e16f",
   "checksums": {
-    "manifest_json": "1e835b8ac2b23d6198cffa59da447a090832cec548b25549480d8b69b2a3f5d4",
-    "spins_md": "a52be44d88565dbd8143b10e78c0e0dfab5d3ad05831e479ca46d3e157613243"
+    "manifest_json": "b13567c514f60950ba59d650e267c0831b49c4b9b651e7ec8645157bfd26a7f9",
+    "spins_md": "ea7c4f40c377a7268b4416951b4b6c845695e9fbc6e90e5586a53935745e842b"
   },
   "lineage": {
     "parent_hash": "genesis",
-    "prompt_vector": "86eee82ca95e8e26dd89a3cd22e2c74b2f6b35395c3b85ed93cdcc9a81a1a128"
+    "prompt_vector": "742029bb1fd34c2772eb21109b84d3cdedc1ff34b1e5850935be148135289b19"
   },
   "zk_proof_ready": true,
-  "timestamp": "2026-05-01T16:11:37.100Z"
+  "timestamp": "2026-05-01T23:35:45.304Z"
 }

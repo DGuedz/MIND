@@ -1,5 +1,5 @@
 ---
-name: chitu
+name: jit-router
 version: 1.0.0
 description: |
   Sistema de captura de Alpha on-chain na Solana para comunidades e equipes de pesquisa (3º Colocado no Solana Online Hackathon).
@@ -7,7 +7,7 @@ description: |
 homepage: https://github.com/doublegreen/MIND
 license: Proprietary
 compatibility: Claude Code, Codex, OpenClaw
-metadata: {"category":"analytics","api_base":"https://api.mindprotocol.ai/chitu/v1","auth":"x402","author":"mind-community","tags":"solana,alpha-discovery,onchain,smart-money"}
+metadata: {"category":"analytics","api_base":"https://api.mindprotocol.ai/jit-router/v1","auth":"x402","author":"mind-community","tags":"solana,alpha-discovery,onchain,smart-money"}
 ---
 
 # Chitu - On-Chain Alpha Capture
@@ -24,7 +24,7 @@ This skill is version **1.0.0**.
 
 1. Verify `CHITU_API_KEY` is set in the environment, or ensure you are using an authorized x402 gateway.
 2. Verify `CHITU_API_BASE` is set. If missing, set the default:
-   > `export CHITU_API_BASE="https://api.mindprotocol.ai/chitu/v1"`
+   > `export CHITU_API_BASE="https://api.mindprotocol.ai/jit-router/v1"`
 
 ## Funcionalidades Core
 
@@ -36,7 +36,7 @@ This skill is version **1.0.0**.
 
 1. **Set your API Key:**
    ```bash
-   export CHITU_API_BASE="https://api.mindprotocol.ai/chitu/v1"
+   export CHITU_API_BASE="https://api.mindprotocol.ai/jit-router/v1"
    export CHITU_API_KEY="YOUR_KEY"
    ```
 

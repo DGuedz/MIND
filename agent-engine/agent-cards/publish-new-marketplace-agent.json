@@ -1,0 +1,57 @@
+{
+  "agent_identity": {
+    "name": "publish_new_marketplace_agent_Agent",
+    "version": "1.0.0",
+    "protocol": "A2A_v1",
+    "pib_agentico_fee": "0.005_per_transaction"
+  },
+  "name": "Publish New Marketplace Agent",
+  "version": "1.0",
+  "description": "Skill for preparing publish.new style listings, validating file safety, setting USD price metadata, and handing off dual human or x402 payment flows. External publish, buy, and sell actions require human approval.",
+  "capabilities": [
+    "asset listing preflight",
+    "file upload readiness",
+    "USD price validation",
+    "x402 buyer handoff",
+    "secret leak blocking",
+    "human approval gating"
+  ],
+  "skills": [
+    "publish-new-marketplace-agent",
+    "a2a-orchestrator",
+    "x402-monetization"
+  ],
+  "pricing": {
+    "model": "pay-per-use",
+    "protocol": "x402",
+    "base_fee_usd": 0.005,
+    "human_payment_supported": true,
+    "agent_payment_supported": true
+  },
+  "compliance": {
+    "standard": "A2A_Agentic_Safety_Card",
+    "guarantees": "Zero-knowledge_proofs"
+  },
+  "proof": {
+    "type": "append-only + checksum evidence",
+    "required_evidence": [
+      "asset_path",
+      "asset_checksum",
+      "price_usd",
+      "approval_record",
+      "published_url"
+    ]
+  },
+  "policies": [
+    "zero emojis",
+    "evidence required",
+    "secret scan required",
+    "external publication gated",
+    "external purchase gated",
+    "external sale gated"
+  ],
+  "source_context": {
+    "reference_url": "https://publish.new/",
+    "verification_status": "user_provided_page_text_not_live_verified"
+  }
+}

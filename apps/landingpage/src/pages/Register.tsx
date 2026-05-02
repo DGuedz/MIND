@@ -236,7 +236,7 @@ export function RegisterPage() {
                     <Terminal className="w-3.5 h-3.5" /> GitHub Builder Identity
                   </label>
                   {githubConnected ? (
-                    <div className="w-full bg-emerald-500/5 border border-emerald-500/20 rounded-2xl px-6 py-5 text-emerald-400 font-mono text-xs tracking-widest uppercase flex items-center gap-3 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                    <div className="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white font-mono text-xs tracking-widest uppercase flex items-center gap-3 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
                       <CheckCircle2 className="w-4 h-4" /> Connected as @{githubHandle}
                     </div>
                   ) : (
@@ -335,7 +335,7 @@ export function RegisterPage() {
                   </p>
                   <p className="flex justify-between border-b border-white/20 pb-3">
                     <span className="text-zinc-800 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">BUILDER ANCHOR</span> 
-                    <span className="text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] font-bold">@{githubHandle || "UNKNOWN"}</span>
+                    <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] font-bold">@{githubHandle || "UNKNOWN"}</span>
                   </p>
                   <p className="flex justify-between border-b border-white/20 pb-3">
                     <span className="text-zinc-800 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">RAILS</span> 

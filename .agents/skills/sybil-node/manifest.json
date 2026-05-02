@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
 
-  "id": "clint",
+  "id": "sybil-node",
   "name": "CLINT — CNB Link Intelligence",
   "version": "1.0.0",
   "description": "DePIN proof verifier for the CNB Mobile network on Solana. Computes a Node Health Index (0–100) and Sybil-risk classification from on-chain Memo transactions and Anchor PDA data. Trust primitive for A2A DePIN transactions in the attention economy.",
@@ -128,7 +128,7 @@
   },
 
   "links": {
-    "skill_doc":        "./.agents/skills/clint/SKILL.md",
+    "skill_doc":        "./.agents/skills/sybil-node/SKILL.md",
     "protocol_repo":    "https://github.com/CriptonoBolso/CNBMobile",
     "program_explorer": "https://explorer.solana.com/address/BoVj5VrUx4zzE9JWFrneGWyePNt4DYGP2AHb9ZUxXZmo?cluster=devnet"
   }

@@ -18,8 +18,8 @@
     "guarantees": "Zero-knowledge_proofs"
   },
   "traceability": {
-    "mindprint_id": "5bc7ca42-781b-4665-b1c7-9d968e7cd341",
-    "lineage_prompt": "Como o Hermes Cron Orchestrator, gere uma skill autônoma para a vertical de A2A Infrastructure. Crie",
+    "mindprint_id": "9b84e16f-f9d3-4182-ac05-20c441e5eb91",
+    "lineage_prompt": "Como o Hermes Cron Orchestrator, gere uma skill autônoma para a vertical de Ecosystem Intel. Crie o ",
     "telemetry_endpoint": "/v1/metrics/a2a",
     "execution_audit_log": "required"
   }

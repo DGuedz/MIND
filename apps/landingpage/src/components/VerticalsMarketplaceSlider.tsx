@@ -1,5 +1,5 @@
 import { type ComponentType, useState, useMemo, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 
 type VerticalStat = {
   label: string;
@@ -47,7 +47,20 @@ export function VerticalsMarketplaceSlider({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 250, y: 300 });
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos({ x: 250, y: 300 });
+    setHoveredCardId(null);
+  };
   
   // Keep track of the latest index for the wheel event handler without re-binding
   const currentIndexRef = useRef(activeIndex);
@@ -112,28 +125,28 @@ export function VerticalsMarketplaceSlider({
 
   return (
     <div className="relative h-[400vh]" ref={containerRef}>
-      <div className="sticky top-20 md:top-24 flex flex-col gap-4 md:gap-8 pb-4 md:pb-8 pt-8 md:pt-0 max-h-[calc(100vh-6rem)] h-screen overflow-hidden">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-8 border-b border-white/20 pb-6 md:pb-8 shrink-0">
-          <div className="space-y-2 md:space-y-3 max-w-2xl">
-            <div className="text-[10px] font-mono uppercase tracking-[0.35em] text-zinc-600">
+      <div className="sticky top-20 md:top-24 flex flex-col gap-3 md:gap-4 pb-4 md:pb-8 pt-8 md:pt-0 max-h-[calc(100vh-4rem)] h-screen overflow-hidden">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 md:gap-4 border-b border-white/20 pb-4 md:pb-5 shrink-0">
+          <div className="space-y-1.5 md:space-y-2 max-w-2xl">
+            <div className="text-[9px] font-mono uppercase tracking-[0.35em] text-zinc-600">
               Agent Cards Marketplace
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-bold text-white tracking-tight">
               Verticals <span className="italic font-light opacity-60">Slider.</span>
             </h2>
-            <p className="text-zinc-500 leading-relaxed font-light text-sm md:text-base">
+            <p className="text-zinc-500 leading-relaxed font-light text-xs md:text-sm">
               Cada vertical é um deck de execução. Compare capacidades operacionais como se fossem atributos de um Cypher Car.
             </p>
           </div>
 
-          <div className="flex flex-col items-start md:items-end gap-4">
-            <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-600">
+          <div className="flex flex-col items-start md:items-end gap-3">
+            <div className="text-[9px] font-mono uppercase tracking-[0.3em] text-zinc-600">
               Vertical {headerMeta.vertical}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="px-4 py-2 rounded-full text-[9px] font-mono uppercase tracking-[0.25em] border border-white/20 bg-white/[0.02] text-zinc-500 hover:text-white hover:border-white/30 transition-colors"
+                className="px-3 py-1.5 rounded-full text-[8px] font-mono uppercase tracking-[0.25em] border border-white/20 bg-white/[0.02] text-zinc-500 hover:text-white hover:border-white/30 transition-colors"
                 onClick={() => scrollToIndex(Math.max(0, safeIndex - 1))}
                 aria-label="Vertical anterior"
               >
@@ -141,7 +154,7 @@ export function VerticalsMarketplaceSlider({
               </button>
               <button
                 type="button"
-                className="px-4 py-2 rounded-full text-[9px] font-mono uppercase tracking-[0.25em] border border-white/20 bg-white/[0.02] text-zinc-500 hover:text-white hover:border-white/30 transition-colors"
+                className="px-3 py-1.5 rounded-full text-[8px] font-mono uppercase tracking-[0.25em] border border-white/20 bg-white/[0.02] text-zinc-500 hover:text-white hover:border-white/30 transition-colors"
                 onClick={() => scrollToIndex(Math.min(verticals.length - 1, safeIndex + 1))}
                 aria-label="Próxima vertical"
               >
@@ -149,7 +162,7 @@ export function VerticalsMarketplaceSlider({
               </button>
               <button
                 type="button"
-                className="px-4 py-2 rounded-full text-[9px] font-mono uppercase tracking-[0.25em] border border-white/20 bg-white/[0.02] text-zinc-400 hover:text-white hover:border-white/30 transition-colors"
+                className="px-3 py-1.5 rounded-full text-[8px] font-mono uppercase tracking-[0.25em] border border-white/20 bg-white/[0.02] text-zinc-400 hover:text-white hover:border-white/30 transition-colors"
                 onClick={onExploreRegistry}
               >
                 Explore Registry
@@ -166,7 +179,7 @@ export function VerticalsMarketplaceSlider({
                 key={v.id}
                 type="button"
                 onClick={() => scrollToIndex(idx)}
-                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[8px] md:text-[9px] font-mono uppercase tracking-[0.25em] border transition-colors ${
+                className={`px-3 py-1.5 md:px-4 md:py-2 rounded-full text-[8px] font-mono uppercase tracking-[0.25em] border transition-colors ${
                   selected
                     ? "bg-white text-black border-white"
                     : "bg-white/[0.02] text-zinc-500 border-white/20 hover:border-white/30 hover:text-white"
@@ -188,43 +201,46 @@ export function VerticalsMarketplaceSlider({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="p-4 sm:p-6 md:p-8 lg:p-6 xl:p-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-6 xl:gap-8 h-full overflow-y-auto overflow-x-hidden custom-scrollbar"
+                className="p-3 sm:p-5 md:p-6 lg:p-5 xl:p-6 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-4 xl:gap-6 h-full overflow-y-auto overflow-x-hidden custom-scrollbar items-stretch"
               >
                 <motion.div 
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-                  className="lg:col-span-5 space-y-3 sm:space-y-4 lg:space-y-5 flex flex-col justify-center py-3 lg:py-0"
+                  className="lg:col-span-4 space-y-3 flex flex-col justify-center py-2 lg:py-0 w-full"
                 >
-                <div className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/[0.03] px-4 py-1.5 text-[8px] md:text-[9px] font-mono uppercase tracking-[0.35em] text-zinc-400 shadow-inner">
+                <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-gradient-to-r from-white/5 to-[#14F195]/5 px-4 py-1.5 text-[8px] md:text-[9px] font-mono uppercase tracking-[0.35em] text-zinc-300 shadow-[0_0_15px_rgba(20,241,149,0.02)] backdrop-blur-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#10B981] to-[#6366F1] shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                   Vertical {active.indexLabel} · Discovery
                 </div>
 
-                <div className="space-y-1 md:space-y-2 pt-2">
-                  <div className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-white tracking-tighter font-mono uppercase leading-[0.9]">
-                    {active.title}
+                <div className="space-y-1 pt-1">
+                  <div className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold tracking-tighter font-mono uppercase leading-[0.9]">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-300 via-zinc-500 to-[#10B981]">
+                      {active.title}
+                    </span>
                   </div>
-                  <div className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-zinc-600 tracking-tighter font-mono uppercase italic leading-[0.9]">
+                  <div className="text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold text-zinc-600 tracking-tighter font-mono uppercase italic leading-[0.9]">
                     {active.subtitle}.
                   </div>
-                  <p className="text-zinc-400 leading-relaxed font-light text-sm md:text-base max-w-md pt-3">
+                  <p className="text-zinc-400 leading-relaxed font-light text-[10px] md:text-[11px] max-w-sm pt-1">
                     {active.description}
                   </p>
                 </div>
 
-                <div className="rounded-xl border border-white/10 bg-[#020202]/80 backdrop-blur-md p-4 space-y-3 shadow-inner">
+                <div className="metallic-brushed-solana rounded-xl border border-white/20 bg-[#020202]/80 backdrop-blur-md p-4 space-y-2 shadow-inner">
                   <div className="flex items-center justify-between gap-3 border-b border-white/5 pb-2">
-                    <div className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.3em] text-zinc-500">
+                    <div className="text-[8px] font-mono uppercase tracking-[0.3em] text-zinc-500">
                       Market Signals
                     </div>
-                    <div className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-400">
+                    <div className="text-[8px] font-mono uppercase tracking-[0.2em] text-zinc-400">
                       {active.signal?.classification_layer ?? "public_ecosystem_signal"}
                     </div>
                   </div>
-                  <div className="text-xs md:text-sm text-zinc-300 font-mono font-light leading-relaxed">
+                  <div className="text-xs text-zinc-300 font-mono font-light leading-relaxed">
                     {active.signal?.headline ?? "Feed indisponível. Exibindo último snapshot válido."}
                   </div>
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.25em] text-zinc-500 pt-1">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[8px] md:text-[9px] font-mono uppercase tracking-[0.25em] text-zinc-500 pt-1">
                     <span className="text-zinc-400">As Of {active.signal?.published_at ?? "N/A"}</span>
                     <span>Conf {active.signal ? active.signal.confidence_score.toFixed(2) : "0.00"}</span>
                     <span>{active.signal?.claim_type ?? "company_claim"}</span>
@@ -235,22 +251,22 @@ export function VerticalsMarketplaceSlider({
                       href={active.signal.source_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex text-[9px] md:text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-500 hover:text-white transition-colors"
+                      className="inline-flex text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-500 hover:text-[#10B981] transition-colors"
                     >
                       Source URL
                     </a>
                   ) : null}
                 </div>
 
-                <div className="space-y-3 sm:space-y-4">
+                <div className="space-y-2 sm:space-y-3">
                   {active.stats.slice(0, 2).map((s) => (
-                    <div key={s.label} className="flex items-start gap-4 rounded-xl border border-white/5 bg-[#050505]/50 px-4 py-3">
-                      <div className="mt-0.5 h-6 w-6 rounded-full border border-white/20 bg-white/[0.02] flex items-center justify-center text-[10px] font-mono text-zinc-300">
+                    <div key={s.label} className="metallic-brushed-solana flex items-start gap-3 rounded-xl border border-white/20 bg-[#050505]/80 backdrop-blur-md px-4 py-2.5 shadow-[0_0_15px_rgba(255,255,255,0.02)]">
+                      <div className="mt-1 h-3 w-3 rounded-full border border-white/20 bg-gradient-to-r from-white/5 to-[#10B981]/10 flex items-center justify-center text-[7px] font-mono text-[#10B981] shadow-[0_0_8px_rgba(16,185,129,0.2)]">
                         +
                       </div>
-                      <div className="space-y-1">
-                        <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">{s.label}</div>
-                        <div className="text-xs md:text-sm text-zinc-300 font-mono">
+                      <div className="space-y-0.5">
+                        <div className="text-[7px] md:text-[8px] font-mono uppercase tracking-[0.3em] text-zinc-500">{s.label}</div>
+                        <div className="text-[10px] md:text-xs text-zinc-300 font-mono">
                           {s.value} <span className="text-zinc-600">· {s.hint}</span>
                         </div>
                       </div>
@@ -258,12 +274,12 @@ export function VerticalsMarketplaceSlider({
                   ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 pt-4 md:pt-2">
+                <div className="flex flex-col sm:flex-row gap-2 pt-2 md:pt-1">
                   <button
                     type="button"
-                    className="bg-white text-black hover:bg-zinc-200 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] px-6 py-3 rounded-full transition-all w-full sm:w-auto shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] font-bold"
+                    className="bg-gradient-to-r from-zinc-100 to-zinc-300 text-black hover:from-white hover:to-zinc-200 text-[7px] md:text-[8px] font-mono uppercase tracking-[0.3em] px-4 py-2.5 rounded-full transition-all w-full sm:w-auto shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] font-bold"
                     onClick={async () => {
-                      if (active.card.id === "clint" || active.card.id === "volan" || active.card.id === "dexter" || active.card.id === "krios") {
+                      if (active.card.id === "sybil" || active.card.id === "jit" || active.card.id === "echo" || active.card.id === "intent") {
                         window.location.href = `/gateway?intentId=purchase_card_${active.card.id}&amountLamports=10000000&recipient=FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah`;
                       } else {
                         onExploreRegistry();
@@ -274,7 +290,7 @@ export function VerticalsMarketplaceSlider({
                   </button>
                   <button
                     type="button"
-                    className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-all px-6 py-3 border border-white/20 hover:border-white/40 hover:bg-white/[0.02] rounded-full w-full sm:w-auto text-center"
+                    className="text-[7px] md:text-[8px] font-mono uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-all px-4 py-2.5 border border-white/20 hover:border-white/40 hover:bg-white/[0.05] rounded-full w-full sm:w-auto text-center shadow-[0_0_15px_rgba(255,255,255,0.02)]"
                     onClick={onExploreRegistry}
                   >
                     View on Registry
@@ -286,29 +302,73 @@ export function VerticalsMarketplaceSlider({
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-                  className="lg:col-span-7 flex flex-col justify-center w-full py-4 lg:py-0 min-h-[300px] h-full"
+                  className="lg:col-span-8 flex flex-col justify-center w-full py-4 lg:py-0 min-h-[300px] h-full"
                 >
                 <div
-                  className="group cursor-pointer w-full flex-1 flex flex-col min-h-[250px] lg:min-h-0"
-                  onClick={onExploreRegistry}
+                  className="group cursor-pointer w-full flex-1 flex flex-col min-h-[300px] lg:min-h-0 relative h-full"
+                  style={{ perspective: "1000px" }}
+                  onClick={async () => {
+                    if (active.card.id === "sybil" || active.card.id === "jit" || active.card.id === "echo" || active.card.id === "intent") {
+                      window.location.href = `/gateway?intentId=purchase_card_${active.card.id}&amountLamports=10000000&recipient=FHk1jqFwoVBudRSaNB9N4kKewyaS5k8hqc2ctm8Q1zah`;
+                    } else {
+                      onExploreRegistry();
+                    }
+                  }}
                   onMouseEnter={() => setHoveredCardId(active.card.id)}
-                  onMouseLeave={() => setHoveredCardId((cur) => (cur === active.card.id ? null : cur))}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseMove={handleMouseMove}
                 >
-                  <div className="relative rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/20 bg-[#050505] flex-1 flex flex-col h-full min-h-[250px] lg:min-h-0">
-                    <div className="flex-1 relative w-full h-full flex items-center justify-center p-0 min-h-[250px] lg:min-h-0">
+                  <div 
+                    className="metallic-brushed-solana relative rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/20 bg-[#020202] flex-1 flex flex-col h-full min-h-[300px] lg:min-h-0 transition-transform duration-500 ease-out shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+                    style={{ 
+                      transformStyle: 'preserve-3d',
+                      transform: `rotateX(${(mousePos.y - 300) * -0.015}deg) rotateY(${(mousePos.x - 250) * 0.015}deg)`
+                    }}
+                  >
+                    {/* Borda 3D no Hover */}
+                    <div 
+                      className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border border-white/20 pointer-events-none transition-transform duration-500 ease-out z-10"
+                      style={{ transform: "translateZ(0px)" }}
+                    />
+                    <div 
+                      className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border border-white/10 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[15px] z-10"
+                      style={{ transform: "translateZ(15px)" }}
+                    />
+                    <div 
+                      className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border border-white/20 pointer-events-none transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:translate-z-[30px] z-10"
+                      style={{ transform: "translateZ(30px)", boxShadow: "0 0 30px rgba(255,255,255,0.05)" }}
+                    />
+
+                    {/* Reflexo Dinâmico (Glow) */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10 rounded-[1.5rem] md:rounded-[2.5rem]">
+                      <div 
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-700 mix-blend-overlay" 
+                        style={{
+                          background: `radial-gradient(circle 400px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.15), transparent)`
+                        }}
+                      />
+                    </div>
+
+                    {/* Fundo do SVG */}
+                    <div className="flex-1 relative w-full h-full flex items-center justify-center p-0 min-h-[300px] lg:min-h-0 z-0 bg-transparent mix-blend-screen scale-[0.91] transform-origin-center">
                       <active.card.Art isHovered={hoveredCardId === active.card.id} />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/25 pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
-                      <div className="flex items-end justify-between gap-4 md:gap-6 border-t border-white/10 pt-4 bg-gradient-to-t from-black/80 to-transparent">
+
+                    {/* Footer / Informações em 3D */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#020202]/95 via-[#020202]/40 to-transparent pointer-events-none z-10" />
+                    <div 
+                      className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 z-20 transition-transform duration-500 ease-out"
+                      style={{ transform: `translateZ(40px)` }}
+                    >
+                      <div className="flex items-end justify-between gap-4 md:gap-6 border-t border-white/10 pt-4">
                         <div className="space-y-1 md:space-y-2">
-                          <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">Featured Card</div>
-                          <div className="text-2xl md:text-3xl font-mono uppercase text-white tracking-tight">{active.card.name}</div>
+                          <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">A2A Capability Card</div>
+                          <div className="text-2xl md:text-3xl font-mono uppercase text-white tracking-tight drop-shadow-md">{active.card.name}</div>
                           <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">{active.card.type}</div>
                         </div>
                         <div className="text-right space-y-1 md:space-y-2">
-                          <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">Price</div>
-                          <div className="text-[10px] md:text-[12px] font-mono text-zinc-300 tracking-wider">{active.card.price}</div>
+                          <div className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">Atomic Settlement</div>
+                          <div className="text-[10px] md:text-[12px] font-mono text-zinc-300 tracking-wider bg-white/[0.05] border border-white/10 px-3 py-1 rounded-full">{active.card.price}</div>
                         </div>
                       </div>
                     </div>

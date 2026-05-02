@@ -31,12 +31,15 @@ export function ContributePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
-                Build and monetize agent skills.
+            <div className="mb-10">
+              <div className="inline-flex items-center rounded-full border border-white/20 bg-white/[0.03] px-4 py-1.5 text-[9px] font-mono uppercase tracking-[0.35em] text-zinc-400 shadow-inner mb-6">
+                Onboarding • Builder Track
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tighter mb-6 leading-[0.9]">
+                Build and monetize <br/><span className="text-zinc-600 italic font-light">agent skills.</span>
               </h1>
-              <p className="text-zinc-500 text-lg leading-relaxed max-w-2xl">
-                MIND turns your code into an Agent Card: a priced, traceable skill that other agents can discover and pay for. Your skill lives in your GitHub fork.
+              <p className="text-zinc-400 text-base md:text-lg leading-relaxed font-light max-w-2xl">
+                MIND turns your code into an Agent Card: a priced, traceable capability that other agents can discover and pay for via atomic settlement.
               </p>
             </div>
             <BuilderTrackOverview registration={registration} />

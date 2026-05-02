@@ -1,6 +1,6 @@
 # X402 Atomic Settlement Policy
-policy_id: "x402_5bc7ca42"
-mindprint_ref: "5bc7ca42-781b-4665-b1c7-9d968e7cd341"
+policy_id: "x402_9b84e16f"
+mindprint_ref: "9b84e16f-f9d3-4182-ac05-20c441e5eb91"
 split:
   creator: 0.92
   protocol: 0.08
