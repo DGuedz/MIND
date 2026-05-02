@@ -1595,20 +1595,42 @@ export function HomePage() {
   const overlayOpacity = useTransform(scrollYProgress, [0.25, 0.50], [1, 0], { clamp: true });
   const overlayVisibility = useTransform(overlayOpacity, (val) => val === 0 ? "hidden" : "visible");
 
+  const targetTime = useRef<number | null>(null);
+
   useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
-    if (videoRef.current && videoRef.current.duration) {
+    if (videoRef.current && videoRef.current.duration && !Number.isNaN(videoRef.current.duration)) {
+      const time = latest * videoRef.current.duration;
       requestAnimationFrame(() => {
         if (videoRef.current) {
-          videoRef.current.currentTime = latest * videoRef.current.duration;
+          if (!videoRef.current.seeking) {
+            videoRef.current.currentTime = time;
+          } else {
+            targetTime.current = time;
+          }
         }
       });
     }
   });
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const onSeeked = () => {
+      if (targetTime.current !== null && video) {
+        video.currentTime = targetTime.current;
+        targetTime.current = null;
+      }
+    };
+
+    video.addEventListener("seeked", onSeeked);
+    return () => video.removeEventListener("seeked", onSeeked);
+  }, []);
+
+  useEffect(() => {
     if (!videoRef.current) return;
     const handleLoadedMetadata = () => {
-      if (videoRef.current) {
+      if (videoRef.current && !Number.isNaN(videoRef.current.duration)) {
         videoRef.current.currentTime = scrollYProgress.get() * videoRef.current.duration;
       }
     };
