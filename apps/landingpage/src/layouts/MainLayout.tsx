@@ -189,64 +189,6 @@ export function MainLayout({ children, heroCopyOpacity, heroCopyVisibility }: Ma
       <main className="flex-1">
         {children || <Outlet />}
       </main>
-
-      {/* Footer - Solana Foundation Inspired */}
-      <footer className="border-t border-white/20 py-16 mt-auto bg-black">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
-            
-            {/* Col 1: Logo */}
-            <div className="col-span-1 flex justify-start">
-              <Logo />
-            </div>
-
-            {/* Col 2: Ecosystem Intel */}
-            <div>
-              <h4 className="text-zinc-400 text-lg mb-6">Ecosystem</h4>
-              <ul className="space-y-4 text-zinc-300 text-sm">
-                <li><a href="https://mcp.solana.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Solana Developer MCP</a></li>
-                <li><a href="https://github.com/DGuedz/MIND/blob/main/.agents/skills/solana-defi-ecosystem-intel/SKILL.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">DeFi Ecosystem Intel</a></li>
-                <li><a href="https://github.com/DGuedz/MIND/blob/main/.agents/skills/colosseum-copilot/SKILL.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Colosseum Copilot</a></li>
-              </ul>
-            </div>
-
-            {/* Col 3: Governance */}
-            <div>
-              <h4 className="text-zinc-400 text-lg mb-6">Governance</h4>
-              <ul className="space-y-4 text-zinc-300 text-sm">
-                <li><a href="https://github.com/DGuedz/MIND/blob/main/governance/spec_runtime/skills_map.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Skills Map</a></li>
-                <li><a href="https://github.com/DGuedz/MIND/blob/main/governance/spec_runtime/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Spec Runtime</a></li>
-                <li><a href="/contribute" className="hover:text-white transition-colors">Agentic Builder Access</a></li>
-              </ul>
-            </div>
-
-            {/* Col 4: Community */}
-            <div>
-              <h4 className="text-zinc-400 text-lg mb-6">Community</h4>
-              <ul className="space-y-4 text-zinc-300 text-sm">
-                <li><a href="https://github.com/DGuedz/MIND" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub Repository</a></li>
-                <li><a href="https://twitter.com/mind_protocol" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">X (Twitter)</a></li>
-                <li><a href="/links" className="hover:text-white transition-colors">Useful Links</a></li>
-              </ul>
-            </div>
-
-          </div>
-
-          <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/20 gap-4">
-            <span className="text-zinc-600 text-[10px] font-mono tracking-[0.3em] uppercase">
-              © 2026 MIND Protocol. All rights reserved.
-            </span>
-            <a 
-              href="https://arena.colosseum.org/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-zinc-600 hover:text-white text-[10px] font-mono uppercase tracking-[0.3em] transition-colors"
-            >
-              Built for Colosseum Frontier
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

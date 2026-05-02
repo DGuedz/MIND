@@ -1,0 +1,95 @@
+{
+  "card_id": "vercel_sandbox_gateway_001",
+  "name": "Vercel Secure Compute & AI Gateway",
+  "version": "1.0.0",
+  "network": "solana-mainnet",
+  "endpoint": "https://api.mindprotocol.io/v1/skills/vercel-sandbox",
+  "runtime_status": "draft_pending_runtime_integration",
+  "readiness": {
+    "implemented": false,
+    "tested": false,
+    "public": false,
+    "reason_codes": [
+      "RC_MISSING_EVIDENCE"
+    ],
+    "blocked_until": [
+      "Backend endpoint is implemented and deployed",
+      "Vercel Sandbox execution is verified with runtime logs",
+      "Vercel AI Gateway routing is verified with response metadata",
+      "x402 settlement is verified with transaction evidence",
+      "Turnkey KMS attestation is verified"
+    ]
+  },
+  "execution_modes": [
+    "sandbox_eval",
+    "ai_gateway_route"
+  ],
+  "target_sla": {
+    "max_latency_ms": 400,
+    "availability_percent": 99.99,
+    "status": "target_unverified"
+  },
+  "financial_policy": {
+    "protocol": "x402",
+    "currency": "USDC",
+    "cost_per_execution": 0.05,
+    "settlement": "atomic",
+    "payment_flow": "darkpool_utxo_cloak",
+    "privacy_level": "high",
+    "policy_status": "needs_human_approval_before_production",
+    "split_distribution": {
+      "developer_wallet": "DGuedz...SolanaAddress",
+      "developer_percentage": 90.0,
+      "protocol_treasury": "MIND...TreasuryAddress",
+      "protocol_percentage": 10.0
+    }
+  },
+  "security": {
+    "credential_gating": true,
+    "required_attestation": "turnkey_kms",
+    "waf_protection": "vercel_platform_firewall",
+    "proof_generation": "metaplex_mindprint_cnft",
+    "untrusted_input_policy": "deny_host_execution",
+    "sandbox_network_policy": "deny_all_by_default"
+  },
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "execution_type",
+      "payload"
+    ],
+    "properties": {
+      "execution_type": {
+        "type": "string",
+        "enum": [
+          "sandbox_eval",
+          "ai_gateway_route"
+        ]
+      },
+      "payload": {
+        "type": "string"
+      },
+      "language": {
+        "type": "string",
+        "enum": [
+          "javascript",
+          "typescript",
+          "python",
+          "shell"
+        ]
+      },
+      "target_model": {
+        "type": "string",
+        "description": "Provider/model id selected from current Vercel AI Gateway model list"
+      },
+      "network_policy": {
+        "type": "string",
+        "enum": [
+          "deny_all",
+          "gateway_only",
+          "allowlist"
+        ]
+      }
+    }
+  }
+}
