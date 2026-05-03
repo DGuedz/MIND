@@ -28,6 +28,16 @@ services:
       - traefik.http.middlewares.hermes-jwt.forwardauth.address=http://hermes-auth:9000/verify
       - traefik.http.middlewares.hermes-jwt.forwardauth.trustForwardHeader=false
       - traefik.http.middlewares.hermes-jwt.forwardauth.authResponseHeaders=X-Auth-Subject,X-Auth-Issuer,X-Auth-Audience
+      - traefik.http.middlewares.api-compress.compress=true
+      - traefik.http.middlewares.api-sec.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.api-sec.headers.frameDeny=true
+      - traefik.http.middlewares.api-sec.headers.referrerPolicy=no-referrer
+      - traefik.http.middlewares.api-sec.headers.permissionsPolicy=geolocation=(),camera=(),microphone=()
+      - traefik.http.middlewares.api-cors.headers.accessControlAllowOriginList=https://mindprotocol.xyz,https://mind.vercel.app,http://localhost:5173
+      - traefik.http.middlewares.api-cors.headers.accessControlAllowMethods=GET,POST,OPTIONS
+      - traefik.http.middlewares.api-cors.headers.accessControlAllowHeaders=Authorization,Content-Type
+      - traefik.http.middlewares.api-cors.headers.accessControlMaxAge=86400
+      - traefik.http.middlewares.api-cors.headers.addVaryHeader=true
 
   hermes-auth:
     container_name: mind-hermes-auth
@@ -72,15 +82,22 @@ services:
       - traefik.enable=true
       - traefik.http.routers.hermes-health.entrypoints=websecure
       - traefik.http.routers.hermes-health.rule=Host(`${PUBLIC_API_HOST:-api.mindprotocol.xyz}`) && Path(`/hermes/health`) && Method(`GET`)
+      - traefik.http.routers.hermes-health.middlewares=api-cors,api-sec,api-compress
       - traefik.http.routers.hermes-health.tls=true
       - traefik.http.routers.hermes-health.tls.certresolver=letsencrypt
       - traefik.http.routers.hermes-health.service=hermes-svc
       - traefik.http.routers.hermes-events.entrypoints=websecure
       - traefik.http.routers.hermes-events.rule=Host(`${PUBLIC_API_HOST:-api.mindprotocol.xyz}`) && Path(`/hermes/events`) && Method(`POST`)
-      - traefik.http.routers.hermes-events.middlewares=hermes-jwt
+      - traefik.http.routers.hermes-events.middlewares=hermes-jwt,api-cors,api-sec,api-compress
       - traefik.http.routers.hermes-events.tls=true
       - traefik.http.routers.hermes-events.tls.certresolver=letsencrypt
       - traefik.http.routers.hermes-events.service=hermes-svc
+      - traefik.http.routers.hermes-options.entrypoints=websecure
+      - traefik.http.routers.hermes-options.rule=Host(`${PUBLIC_API_HOST:-api.mindprotocol.xyz}`) && PathPrefix(`/hermes/`) && Method(`OPTIONS`)
+      - traefik.http.routers.hermes-options.middlewares=api-cors,api-sec
+      - traefik.http.routers.hermes-options.tls=true
+      - traefik.http.routers.hermes-options.tls.certresolver=letsencrypt
+      - traefik.http.routers.hermes-options.service=hermes-svc
       - traefik.http.services.hermes-svc.loadbalancer.server.port=8001
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8001/hermes/health"]
