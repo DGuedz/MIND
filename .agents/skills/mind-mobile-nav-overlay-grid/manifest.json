@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-mobile-nav-overlay-grid",
+  "name": "MIND Mobile Nav Overlay Grid",
+  "version": "1.0.0",
+  "description": "Produces a mobile navigation overlay layout that never breaks: grid-based, truncation-safe, and visually consistent with premium dark metallic style.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Mobile", "Navigation", "Layout"],
+  "category": ["design", "navigation", "responsive"],
+  "tags": ["mobile", "nav", "overlay", "grid", "tailwind", "truncate"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["no_overflow_mobile", "hit_targets_ok", "no_text_wrap_breakage"],
+  "activation_prompt": "Redesign mobile menu overlay for MIND: grid-based items, minimal typography, truncation-safe, premium dark metallic."
+}

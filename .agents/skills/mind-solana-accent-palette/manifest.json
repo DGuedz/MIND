@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-solana-accent-palette",
+  "name": "MIND Solana Accent Palette",
+  "version": "1.0.0",
+  "description": "Defines restrained Solana accent usage (green/purple) over MIND gray base: gradients, borders, and hover shine without heavy glow.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Branding", "Palette", "Solana"],
+  "category": ["design", "branding", "colors"],
+  "tags": ["solana", "green", "purple", "accents", "borders", "gradients"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["gray_base_preserved", "no_neon_overuse", "accessibility_contrast_ok"],
+  "activation_prompt": "Provide Solana accent palette rules for MIND: gray base + subtle green/purple accents with accessibility constraints."
+}

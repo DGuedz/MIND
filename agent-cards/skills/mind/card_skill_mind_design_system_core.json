@@ -1,0 +1,57 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "MIND Design System Core (Skill)",
+    "version": "1.0.0",
+    "description": "Exporta o design system premium dark metallic do MIND como tokens, utilitários Tailwind/CSS e receitas de componentes. Base cinza, acentos Solana contidos.",
+    "tags": ["mind", "agent-skill", "design", "design-system", "tokens", "tailwind", "solana"],
+    "license": "Proprietary",
+    "author": {
+      "name": "MIND",
+      "contact": "https://github.com/DGuedz/MIND"
+    }
+  },
+  "discovery": {
+    "intent": "ui_design",
+    "category": "design",
+    "keywords": ["mind", "design-system", "premium-dark", "tokens", "tailwind", "solana"],
+    "compatibleFrameworks": ["claude-code", "cursor", "codex", "trae"]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": {
+      "fields": [
+        { "name": "request", "type": "string", "description": "Pedido de tokens/receitas de design" }
+      ]
+    },
+    "samples": [],
+    "qualityScore": 0.8
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": { "requests": 60, "per": "minute" }
+  },
+  "pricing": {
+    "model": "free",
+    "currency": "USDC",
+    "price": 0,
+    "payment_flow": "darkpool_utxo_cloak",
+    "privacy_level": "high"
+  },
+  "provenance": {
+    "source": "MIND/.agents/skills",
+    "createdAt": "2026-05-03T00:00:00.000Z",
+    "updatedAt": "2026-05-03T00:00:00.000Z",
+    "signature": "unsigned"
+  },
+  "skill": {
+    "source_url": "https://github.com/DGuedz/MIND",
+    "repo_path": ".agents/skills/mind-design-system-core/SKILL.md"
+  }
+}

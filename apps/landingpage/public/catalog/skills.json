@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-01T16:25:25.134Z",
+  "as_of": "2026-05-03T04:28:35.981Z",
   "items": [
     {
       "id": "solana-intel-oracle",
@@ -35,9 +35,9 @@
       }
     },
     {
-      "id": "jit-router",
+      "id": "chitu",
       "kind": "skill",
-      "name": "JIT_ROUTER",
+      "name": "chitu",
       "description": "Sistema de captura de Alpha on-chain na Solana para comunidades e equipes de pesquisa (3º Colocado no Solana Online Hackathon). O agente monitora os movimentos do smart money e notifica sobre oportunidades de trade em tempo real.",
       "source": "mind",
       "providerType": "internal",
@@ -50,13 +50,15 @@
         "agent-skill",
         "mind",
         "data-analytics",
-        "jit-router"
+        "chitu"
       ],
       "badges": [],
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3
+        "price": 3,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -81,13 +83,107 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
-      "id": "intent-gate",
+      "id": "context_budget_compressor",
       "kind": "skill",
-      "name": "INTENT_GATE",
+      "name": "context-budget-compressor",
+      "description": "Monta contexto minimo, allowlist de arquivos e ledger de evidencias para reduzir leitura e tokens sem perder prova.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "context-economy",
+        "context-budget-compressor"
+      ],
+      "badges": [
+        "CORE",
+        "TRACEABLE",
+        "REPRICE-GATED"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      },
+      "traction": {
+        "objective": "core_productivity_validation",
+        "metricStatus": "pending_first_feedback_snapshot",
+        "successMetrics": [
+          "git_commits",
+          "pull_requests",
+          "marketplace_feedback_events",
+          "onchain_receipts"
+        ]
+      },
+      "lifecycle": {
+        "currentPhase": "black_mindz_labs_core",
+        "nextPhase": "marketplace_feedback_validation",
+        "runtimeStatus": "draft_pending_runtime_integration",
+        "upgradeCadence": "evidence_gated_pr"
+      },
+      "validation": {
+        "requiredChecks": [
+          "skill_md_hash",
+          "manifest_json_hash",
+          "agent_card_hash",
+          "catalog_entry",
+          "git_commit",
+          "pull_request_or_local_diff"
+        ],
+        "evidenceSources": [
+          "git",
+          "pull_request",
+          "marketplace_feedback",
+          "onchain_receipt"
+        ],
+        "decisionGate": ".agents/skills/mind-agent-card-publisher-gate/SKILL.md"
+      },
+      "performance": {
+        "successRate": 0,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      },
+      "repricing": {
+        "status": "insufficient_evidence_until_metrics_exist",
+        "basePriceUSDC": 0.005,
+        "inputs": [
+          "verified_execution_count",
+          "success_rate",
+          "feedback_score",
+          "git_commit_count",
+          "pull_request_count",
+          "onchain_receipt_count"
+        ],
+        "guardrails": [
+          "no_reprice_without_evidence",
+          "human_approval_before_external_listing",
+          "runtime_claims_require_endpoint_proof"
+        ]
+      },
+      "upgradePolicy": {
+        "sourceOfTruth": "git_history_and_agent_card_manifest",
+        "upgradeTrigger": "validated_feedback_or_policy_change",
+        "approvalRequired": true
+      }
+    },
+    {
+      "id": "covalent_risk_scorer",
+      "kind": "skill",
+      "name": "covalent-risk-scorer",
       "description": "Consome a Covalent GoldRush API para Risk Scoring on-chain em tempo real antes de aprovar intents x402 ou swaps DeFi.",
       "source": "mind",
       "providerType": "internal",
@@ -100,13 +196,15 @@
         "agent-skill",
         "mind",
         "security",
-        "intent-gate"
+        "covalent-risk-scorer"
       ],
       "badges": [],
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.02
+        "price": 0.02,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -225,7 +323,101 @@
       "pricing": {
         "model": "dynamic_impact_curve",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "hermes_economy_pack",
+      "kind": "skill",
+      "name": "hermes-economy-pack",
+      "description": "Orquestra ledger de uso, gate de orcamento, PRD/spec, compressao de contexto e gate de publicacao Agent Card.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "hermes-orchestration",
+        "hermes-economy-pack"
+      ],
+      "badges": [
+        "CORE",
+        "TRACEABLE",
+        "REPRICE-GATED"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      },
+      "traction": {
+        "objective": "core_productivity_validation",
+        "metricStatus": "pending_first_feedback_snapshot",
+        "successMetrics": [
+          "git_commits",
+          "pull_requests",
+          "marketplace_feedback_events",
+          "onchain_receipts"
+        ]
+      },
+      "lifecycle": {
+        "currentPhase": "black_mindz_labs_core",
+        "nextPhase": "marketplace_feedback_validation",
+        "runtimeStatus": "draft_pending_runtime_integration",
+        "upgradeCadence": "evidence_gated_pr"
+      },
+      "validation": {
+        "requiredChecks": [
+          "skill_md_hash",
+          "manifest_json_hash",
+          "agent_card_hash",
+          "catalog_entry",
+          "git_commit",
+          "pull_request_or_local_diff"
+        ],
+        "evidenceSources": [
+          "git",
+          "pull_request",
+          "marketplace_feedback",
+          "onchain_receipt"
+        ],
+        "decisionGate": ".agents/skills/mind-agent-card-publisher-gate/SKILL.md"
+      },
+      "performance": {
+        "successRate": 0,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      },
+      "repricing": {
+        "status": "insufficient_evidence_until_metrics_exist",
+        "basePriceUSDC": 0.005,
+        "inputs": [
+          "verified_execution_count",
+          "success_rate",
+          "feedback_score",
+          "git_commit_count",
+          "pull_request_count",
+          "onchain_receipt_count"
+        ],
+        "guardrails": [
+          "no_reprice_without_evidence",
+          "human_approval_before_external_listing",
+          "runtime_claims_require_endpoint_proof"
+        ]
+      },
+      "upgradePolicy": {
+        "sourceOfTruth": "git_history_and_agent_card_manifest",
+        "upgradeTrigger": "validated_feedback_or_policy_change",
+        "approvalRequired": true
       }
     },
     {
@@ -284,7 +476,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -353,6 +547,489 @@
         "successRate": 98.4,
         "totalExecutions": 3282,
         "totalVolumeUSDC": 957.8
+      }
+    },
+    {
+      "id": "mind_3d_card_interaction_kit",
+      "kind": "skill",
+      "name": "MIND 3D Card Interaction Kit",
+      "description": "Receitas de interação 3D (tilt/hover) para cards no estilo MIND, com limites e proteção para mobile (sem jitter e sem quebrar layout).",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "3d",
+        "motion",
+        "cards",
+        "framer-motion",
+        "mobile-safe"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_agent_card_publisher_gate",
+      "kind": "skill",
+      "name": "mind-agent-card-publisher-gate",
+      "description": "Valida SPINS, manifesto A2A, pricing x402 e exposicao segura no catalogo antes de publicar Agent Cards.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "agent-card-governance",
+        "mind-agent-card-publisher-gate"
+      ],
+      "badges": [
+        "CORE",
+        "TRACEABLE",
+        "REPRICE-GATED"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      },
+      "traction": {
+        "objective": "core_productivity_validation",
+        "metricStatus": "pending_first_feedback_snapshot",
+        "successMetrics": [
+          "git_commits",
+          "pull_requests",
+          "marketplace_feedback_events",
+          "onchain_receipts"
+        ]
+      },
+      "lifecycle": {
+        "currentPhase": "black_mindz_labs_core",
+        "nextPhase": "marketplace_feedback_validation",
+        "runtimeStatus": "draft_pending_runtime_integration",
+        "upgradeCadence": "evidence_gated_pr"
+      },
+      "validation": {
+        "requiredChecks": [
+          "skill_md_hash",
+          "manifest_json_hash",
+          "agent_card_hash",
+          "catalog_entry",
+          "git_commit",
+          "pull_request_or_local_diff"
+        ],
+        "evidenceSources": [
+          "git",
+          "pull_request",
+          "marketplace_feedback",
+          "onchain_receipt"
+        ],
+        "decisionGate": ".agents/skills/mind-agent-card-publisher-gate/SKILL.md"
+      },
+      "performance": {
+        "successRate": 0,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      },
+      "repricing": {
+        "status": "insufficient_evidence_until_metrics_exist",
+        "basePriceUSDC": 0.005,
+        "inputs": [
+          "verified_execution_count",
+          "success_rate",
+          "feedback_score",
+          "git_commit_count",
+          "pull_request_count",
+          "onchain_receipt_count"
+        ],
+        "guardrails": [
+          "no_reprice_without_evidence",
+          "human_approval_before_external_listing",
+          "runtime_claims_require_endpoint_proof"
+        ]
+      },
+      "upgradePolicy": {
+        "sourceOfTruth": "git_history_and_agent_card_manifest",
+        "upgradeTrigger": "validated_feedback_or_policy_change",
+        "approvalRequired": true
+      }
+    },
+    {
+      "id": "mind_card_metrics_strip",
+      "kind": "skill",
+      "name": "MIND Card Metrics Strip",
+      "description": "Cria um strip de métricas estilo onchain para cards, minimalista e seguro para mobile/desktop, sem sobreposição.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "metrics",
+        "cards",
+        "grid",
+        "mobile-safe",
+        "ui"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_chat_ui_copy_layout",
+      "kind": "skill",
+      "name": "MIND Chat UI Copy & Layout",
+      "description": "Ajusta copy e tipografia do Chat UI no estilo MIND (premium dark, base cinza, acentos Solana leves) mantendo cards intactos e layout mobile-safe.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "chat",
+        "copy",
+        "layout",
+        "typography",
+        "mobile"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_component_recipes_pack",
+      "kind": "skill",
+      "name": "MIND Component Recipes Pack",
+      "description": "Entrega receitas TSX/Tailwind de componentes no estilo MIND (header, badge, card, tabelas, métricas) com consistência e sem dependências novas.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "components",
+        "tsx",
+        "tailwind",
+        "cards",
+        "recipes"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_design_system_core",
+      "kind": "skill",
+      "name": "MIND Design System Core",
+      "description": "Exporta o design system premium dark metallic do MIND como tokens, utilitários Tailwind/CSS e receitas de componentes. Base cinza, acentos Solana contidos.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "design",
+        "design-system",
+        "tokens",
+        "tailwind",
+        "solana"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_hero_typography_builder",
+      "kind": "skill",
+      "name": "MIND Hero Typography Builder",
+      "description": "Gera tipografia de hero no estilo MIND (mono, uppercase, tracking controlado) com base cinza e acentos Solana leves, sem quebrar em mobile.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "typography",
+        "hero",
+        "tailwind",
+        "mono",
+        "responsive"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_mobile_nav_overlay_grid",
+      "kind": "skill",
+      "name": "MIND Mobile Nav Overlay Grid",
+      "description": "Gera um menu mobile overlay em grade (grid) no estilo MIND, com truncation-safe e sem quebra de layout em telas pequenas.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "mobile",
+        "nav",
+        "overlay",
+        "grid",
+        "responsive"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_productivity_report_listener",
+      "kind": "product",
+      "name": "mind-productivity-report-listener",
+      "description": "Escuta sinais de produtividade, gera report rastreavel e alimenta o publisher gate para upgrade e repricing de Agent Cards.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".json",
+      "docKind": "manifest-json",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "productivity-observability",
+        "mind-productivity-report-listener"
+      ],
+      "badges": [
+        "CORE",
+        "TRACEABLE",
+        "REPORT-GATED",
+        "REPRICE-GATED"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      },
+      "traction": {
+        "objective": "productivity_evidence_collection",
+        "metricStatus": "pending_first_feedback_snapshot",
+        "successMetrics": [
+          "git_commits",
+          "pull_requests",
+          "release_successes",
+          "route_checks",
+          "marketplace_feedback_events",
+          "onchain_receipts"
+        ]
+      },
+      "lifecycle": {
+        "currentPhase": "black_mindz_labs_core",
+        "nextPhase": "hostinger_vps_listener_validation",
+        "runtimeStatus": "draft_pending_runtime_integration",
+        "upgradeCadence": "evidence_gated_report"
+      },
+      "validation": {
+        "requiredChecks": [
+          "skill_md_hash",
+          "manifest_json_hash",
+          "report_json_schema",
+          "agent_card_hash",
+          "catalog_entry",
+          "orchestrator_route",
+          "git_commit",
+          "pull_request_or_local_diff"
+        ],
+        "evidenceSources": [
+          "git",
+          "hostinger_vercel_release_ops",
+          "hostinger_vps_manager",
+          "marketplace_feedback",
+          "onchain_receipt"
+        ],
+        "decisionGate": ".agents/skills/mind-agent-card-publisher-gate/SKILL.md"
+      },
+      "performance": {
+        "successRate": 0,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      },
+      "repricing": {
+        "status": "insufficient_evidence_until_metrics_exist",
+        "basePriceUSDC": 0.005,
+        "inputs": [
+          "verified_execution_count",
+          "success_rate",
+          "feedback_score",
+          "git_commit_count",
+          "pull_request_count",
+          "release_success_count",
+          "route_check_success_count",
+          "onchain_receipt_count"
+        ],
+        "guardrails": [
+          "no_reprice_without_evidence",
+          "human_approval_before_price_change",
+          "human_approval_before_external_listing",
+          "runtime_claims_require_endpoint_proof"
+        ]
+      },
+      "upgradePolicy": {
+        "sourceOfTruth": "productivity_report_and_agent_card_manifest",
+        "upgradeTrigger": "validated_productivity_report_or_policy_change",
+        "approvalRequired": true
+      }
+    },
+    {
+      "id": "mind_scroll_choreography_blueprint",
+      "kind": "skill",
+      "name": "MIND Scroll Choreography Blueprint",
+      "description": "Blueprint da coreografia de scroll do MIND: ordem de seções, pacing, transições, spacing premium e motion seguro para mobile.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "scroll",
+        "ux",
+        "motion",
+        "framer-motion",
+        "mobile-safe"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_solana_accent_palette",
+      "kind": "skill",
+      "name": "MIND Solana Accent Palette",
+      "description": "Define como aplicar acentos Solana (verde/roxo) sobre a base cinza do MIND com glow contido, contraste seguro e regras de uso.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "design",
+        "colors",
+        "palette",
+        "solana",
+        "accessibility"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "mind_video_scrub_hero",
+      "kind": "skill",
+      "name": "MIND Video Scrub Hero",
+      "description": "Padrão de vídeo hero com scrubbing por scroll no estilo MIND: estável, com poster fallback e sem loops de fetch/abort.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "design",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "mind",
+        "agent-skill",
+        "video",
+        "scroll",
+        "scrub",
+        "performance",
+        "mobile-safe"
+      ],
+      "badges": [],
+      "pricing": {
+        "model": "free",
+        "currency": "USDC",
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -428,7 +1105,101 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "prd_spec_devops_compiler",
+      "kind": "skill",
+      "name": "prd-spec-devops-compiler",
+      "description": "Transforma pedidos grandes em PRD, spec tecnica, plano de rollout e criterios de aceite antes da implementacao.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "spec-driven-devops",
+        "prd-spec-devops-compiler"
+      ],
+      "badges": [
+        "CORE",
+        "TRACEABLE",
+        "REPRICE-GATED"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      },
+      "traction": {
+        "objective": "core_productivity_validation",
+        "metricStatus": "pending_first_feedback_snapshot",
+        "successMetrics": [
+          "git_commits",
+          "pull_requests",
+          "marketplace_feedback_events",
+          "onchain_receipts"
+        ]
+      },
+      "lifecycle": {
+        "currentPhase": "black_mindz_labs_core",
+        "nextPhase": "marketplace_feedback_validation",
+        "runtimeStatus": "draft_pending_runtime_integration",
+        "upgradeCadence": "evidence_gated_pr"
+      },
+      "validation": {
+        "requiredChecks": [
+          "skill_md_hash",
+          "manifest_json_hash",
+          "agent_card_hash",
+          "catalog_entry",
+          "git_commit",
+          "pull_request_or_local_diff"
+        ],
+        "evidenceSources": [
+          "git",
+          "pull_request",
+          "marketplace_feedback",
+          "onchain_receipt"
+        ],
+        "decisionGate": ".agents/skills/mind-agent-card-publisher-gate/SKILL.md"
+      },
+      "performance": {
+        "successRate": 0,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      },
+      "repricing": {
+        "status": "insufficient_evidence_until_metrics_exist",
+        "basePriceUSDC": 0.005,
+        "inputs": [
+          "verified_execution_count",
+          "success_rate",
+          "feedback_score",
+          "git_commit_count",
+          "pull_request_count",
+          "onchain_receipt_count"
+        ],
+        "guardrails": [
+          "no_reprice_without_evidence",
+          "human_approval_before_external_listing",
+          "runtime_claims_require_endpoint_proof"
+        ]
+      },
+      "upgradePolicy": {
+        "sourceOfTruth": "git_history_and_agent_card_manifest",
+        "upgradeTrigger": "validated_feedback_or_policy_change",
+        "approvalRequired": true
       }
     },
     {
@@ -522,7 +1293,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -586,9 +1359,9 @@
       }
     },
     {
-      "id": "echo-indexer",
+      "id": "solana_defi_ecosystem_intel",
       "kind": "skill",
-      "name": "ECHO_INDEXER",
+      "name": "solana-defi-ecosystem-intel",
       "description": "Coleta e estrutura sinais publicos do ecossistema Solana DeFi usando Firecrawl, com taxonomias e regras anti-alucinacao.",
       "source": "mind",
       "providerType": "internal",
@@ -601,13 +1374,107 @@
         "agent-skill",
         "mind",
         "ecosystem-intelligence",
-        "echo-indexer"
+        "solana-defi-ecosystem-intel"
       ],
       "badges": [],
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      }
+    },
+    {
+      "id": "solo_web_token_governor",
+      "kind": "skill",
+      "name": "solo-web-token-governor",
+      "description": "Decide modelo, limite de contexto, bloqueio por gasto e modo de execucao para SOLO in Web, Trae e agentes MIND.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "token-economy",
+        "solo-web-token-governor"
+      ],
+      "badges": [
+        "CORE",
+        "TRACEABLE",
+        "REPRICE-GATED"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      },
+      "traction": {
+        "objective": "core_productivity_validation",
+        "metricStatus": "pending_first_feedback_snapshot",
+        "successMetrics": [
+          "git_commits",
+          "pull_requests",
+          "marketplace_feedback_events",
+          "onchain_receipts"
+        ]
+      },
+      "lifecycle": {
+        "currentPhase": "black_mindz_labs_core",
+        "nextPhase": "marketplace_feedback_validation",
+        "runtimeStatus": "draft_pending_runtime_integration",
+        "upgradeCadence": "evidence_gated_pr"
+      },
+      "validation": {
+        "requiredChecks": [
+          "skill_md_hash",
+          "manifest_json_hash",
+          "agent_card_hash",
+          "catalog_entry",
+          "git_commit",
+          "pull_request_or_local_diff"
+        ],
+        "evidenceSources": [
+          "git",
+          "pull_request",
+          "marketplace_feedback",
+          "onchain_receipt"
+        ],
+        "decisionGate": ".agents/skills/mind-agent-card-publisher-gate/SKILL.md"
+      },
+      "performance": {
+        "successRate": 0,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      },
+      "repricing": {
+        "status": "insufficient_evidence_until_metrics_exist",
+        "basePriceUSDC": 0.005,
+        "inputs": [
+          "verified_execution_count",
+          "success_rate",
+          "feedback_score",
+          "git_commit_count",
+          "pull_request_count",
+          "onchain_receipt_count"
+        ],
+        "guardrails": [
+          "no_reprice_without_evidence",
+          "human_approval_before_external_listing",
+          "runtime_claims_require_endpoint_proof"
+        ]
+      },
+      "upgradePolicy": {
+        "sourceOfTruth": "git_history_and_agent_card_manifest",
+        "upgradeTrigger": "validated_feedback_or_policy_change",
+        "approvalRequired": true
       }
     },
     {
@@ -676,6 +1543,98 @@
         "successRate": 99.8,
         "totalExecutions": 44004,
         "totalVolumeUSDC": 641.6
+      }
+    },
+    {
+      "id": "trae_usage_ledger",
+      "kind": "skill",
+      "name": "trae-usage-ledger",
+      "description": "Normaliza snapshots de uso Trae e SOLO in Web e calcula gasto por dia, sessao, modelo e plano.",
+      "source": "mind",
+      "providerType": "internal",
+      "category": "general",
+      "docExt": ".md",
+      "docKind": "skill-md",
+      "license": "Proprietary",
+      "tags": [
+        "solana",
+        "agent-skill",
+        "mind",
+        "usage-ledger",
+        "trae-usage-ledger"
+      ],
+      "badges": [
+        "CORE",
+        "TRACEABLE",
+        "REPRICE-GATED"
+      ],
+      "pricing": {
+        "model": "pay-per-use",
+        "protocol": "x402",
+        "currency": "USDC",
+        "price": 0.005,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
+      },
+      "traction": {
+        "objective": "core_productivity_validation",
+        "metricStatus": "pending_first_feedback_snapshot",
+        "successMetrics": [
+          "git_commits",
+          "pull_requests",
+          "marketplace_feedback_events",
+          "onchain_receipts"
+        ]
+      },
+      "lifecycle": {
+        "currentPhase": "black_mindz_labs_core",
+        "nextPhase": "marketplace_feedback_validation",
+        "runtimeStatus": "draft_pending_runtime_integration",
+        "upgradeCadence": "evidence_gated_pr"
+      },
+      "validation": {
+        "requiredChecks": [
+          "skill_md_hash",
+          "manifest_json_hash",
+          "agent_card_hash",
+          "catalog_entry",
+          "git_commit",
+          "pull_request_or_local_diff"
+        ],
+        "evidenceSources": [
+          "git",
+          "pull_request",
+          "marketplace_feedback",
+          "onchain_receipt"
+        ],
+        "decisionGate": ".agents/skills/mind-agent-card-publisher-gate/SKILL.md"
+      },
+      "performance": {
+        "successRate": 0,
+        "totalExecutions": 0,
+        "totalVolumeUSDC": 0
+      },
+      "repricing": {
+        "status": "insufficient_evidence_until_metrics_exist",
+        "basePriceUSDC": 0.005,
+        "inputs": [
+          "verified_execution_count",
+          "success_rate",
+          "feedback_score",
+          "git_commit_count",
+          "pull_request_count",
+          "onchain_receipt_count"
+        ],
+        "guardrails": [
+          "no_reprice_without_evidence",
+          "human_approval_before_external_listing",
+          "runtime_claims_require_endpoint_proof"
+        ]
+      },
+      "upgradePolicy": {
+        "sourceOfTruth": "git_history_and_agent_card_manifest",
+        "upgradeTrigger": "validated_feedback_or_policy_change",
+        "approvalRequired": true
       }
     },
     {
@@ -791,7 +1750,7 @@
       "id": "vercel_sandbox_gateway",
       "kind": "skill",
       "name": "vercel-sandbox-gateway",
-      "description": "Routes untrusted code execution to Vercel Sandbox and model prompts to Vercel AI Gateway behind a MIND x402 policy gate.",
+      "description": "Roteia execucao de codigo nao confiavel para Vercel Sandbox e prompts para Vercel AI Gateway atras de uma policy gate x402 do MIND.",
       "source": "mind",
       "providerType": "internal",
       "category": "infrastructure",
@@ -803,16 +1762,15 @@
         "agent-skill",
         "mind",
         "infrastructure",
-        "vercel-sandbox-gateway",
-        "x402",
-        "zero-trust"
+        "vercel-sandbox-gateway"
       ],
       "badges": [],
       "pricing": {
         "model": "pay-per-use",
-        "protocol": "x402",
         "currency": "USDC",
-        "price": 0.05
+        "price": 0.05,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -837,7 +1795,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1758,9 +2718,9 @@
       }
     },
     {
-      "id": "sybil-node",
+      "id": "clint",
       "kind": "skill",
-      "name": "SYBIL_NODE",
+      "name": "clint",
       "description": "CLINT — CNB Link Intelligence. DePIN proof verifier for the CNB Mobile network on Solana. Ingests on-chain Memo transactions and Anchor PDA data to compute a Node Health Index (NHI, 0–100) with Sybil-risk classification. Trust primitive for A2A DePIN transactions in the attention economy.",
       "source": "stbr",
       "providerType": "external",
@@ -1893,7 +2853,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1918,7 +2880,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -1948,6 +2912,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -1977,6 +2946,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2006,6 +2980,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2035,6 +3014,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2064,6 +3048,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2093,6 +3082,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2122,6 +3116,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2151,6 +3150,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2180,6 +3184,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2209,6 +3218,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2238,6 +3252,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2267,6 +3286,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2296,6 +3320,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2325,6 +3354,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2354,6 +3388,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2383,6 +3422,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2412,6 +3456,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2441,6 +3490,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2470,6 +3524,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2499,6 +3558,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2528,6 +3592,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2557,6 +3626,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2586,6 +3660,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2615,6 +3694,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2644,6 +3728,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2673,6 +3762,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2702,6 +3796,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2731,6 +3830,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2760,6 +3864,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2789,6 +3898,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2818,6 +3932,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2847,6 +3966,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2876,6 +4000,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2905,6 +4034,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2934,6 +4068,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2963,6 +4102,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -2992,6 +4136,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3021,6 +4170,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3050,6 +4204,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3079,6 +4238,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3108,6 +4272,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3137,6 +4306,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3166,6 +4340,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3195,6 +4374,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3224,6 +4408,11 @@
         "currency": "USDC",
         "base_price": 0.01,
         "multiplier_index": 1
+      },
+      "performance": {
+        "success_rate": 0.99,
+        "avg_roi_multiplier": 1,
+        "reorder_rate": 0
       }
     },
     {
@@ -3248,7 +4437,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.75
+        "price": 1.75,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3273,7 +4464,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 8
+        "price": 8,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3298,7 +4491,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.5
+        "price": 1.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3323,7 +4518,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.5
+        "price": 1.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3348,7 +4545,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.5
+        "price": 1.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3373,7 +4572,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.5
+        "price": 1.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3398,7 +4599,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.5
+        "price": 1.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3423,7 +4626,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.5
+        "price": 1.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3448,7 +4653,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 1.5
+        "price": 1.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3473,7 +4680,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2.25
+        "price": 2.25,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3498,7 +4707,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3
+        "price": 3,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3523,7 +4734,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3
+        "price": 3,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3548,7 +4761,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3
+        "price": 3,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3573,7 +4788,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3
+        "price": 3,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3598,7 +4815,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3
+        "price": 3,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3623,7 +4842,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3
+        "price": 3,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3648,7 +4869,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2
+        "price": 2,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3673,7 +4896,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2
+        "price": 2,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3698,7 +4923,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2
+        "price": 2,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3723,7 +4950,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2
+        "price": 2,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3748,7 +4977,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2
+        "price": 2,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3773,7 +5004,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2
+        "price": 2,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3798,7 +5031,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2
+        "price": 2,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3823,7 +5058,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3848,7 +5085,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3873,7 +5112,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3898,7 +5139,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3923,7 +5166,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3948,7 +5193,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3973,7 +5220,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -3998,7 +5247,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 5
+        "price": 5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4023,7 +5274,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4048,7 +5301,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4073,7 +5328,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4098,7 +5355,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4123,7 +5382,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4148,7 +5409,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4173,7 +5436,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4198,7 +5463,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4223,7 +5490,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4248,7 +5517,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4273,7 +5544,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4298,7 +5571,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4323,7 +5598,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4348,7 +5625,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4373,7 +5652,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4398,7 +5679,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4423,7 +5706,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4448,7 +5733,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4473,7 +5760,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4498,7 +5787,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4523,7 +5814,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4548,7 +5841,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4573,7 +5868,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4598,7 +5895,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4623,7 +5922,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4648,7 +5949,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4673,7 +5976,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4698,7 +6003,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4723,7 +6030,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4748,7 +6057,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4773,7 +6084,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4798,7 +6111,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4823,7 +6138,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4848,7 +6165,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4873,7 +6192,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4898,7 +6219,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4923,7 +6246,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4948,7 +6273,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4973,7 +6300,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -4998,7 +6327,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5023,7 +6354,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5048,7 +6381,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5073,7 +6408,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5098,7 +6435,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5123,7 +6462,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5148,7 +6489,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5173,7 +6516,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5198,7 +6543,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5223,7 +6570,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5248,7 +6597,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5273,7 +6624,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5298,7 +6651,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5323,7 +6678,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5348,7 +6705,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5373,7 +6732,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5398,7 +6759,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5423,7 +6786,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 10
+        "price": 10,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5448,7 +6813,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 2.5
+        "price": 2.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5473,7 +6840,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5498,7 +6867,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5523,7 +6894,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5548,7 +6921,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5573,7 +6948,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5598,7 +6975,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5623,7 +7002,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5648,7 +7029,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.5
+        "price": 0.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5673,7 +7056,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 0.75
+        "price": 0.75,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5698,7 +7083,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 4.5
+        "price": 4.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5723,7 +7110,9 @@
       "pricing": {
         "model": "pay-per-use",
         "currency": "USDC",
-        "price": 3.5
+        "price": 3.5,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5748,7 +7137,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5773,7 +7164,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5798,7 +7191,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5823,7 +7218,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5848,7 +7245,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5873,7 +7272,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5898,7 +7299,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5923,7 +7326,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5948,7 +7353,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5973,7 +7380,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -5998,7 +7407,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6023,7 +7434,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6048,7 +7461,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6073,7 +7488,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6098,7 +7515,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6123,7 +7542,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6148,7 +7569,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6173,7 +7596,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6198,7 +7623,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6223,7 +7650,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6248,7 +7677,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6273,7 +7704,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6298,7 +7731,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6323,7 +7758,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6348,7 +7785,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     },
     {
@@ -6373,7 +7812,9 @@
       "pricing": {
         "model": "free",
         "currency": "USDC",
-        "price": 0
+        "price": 0,
+        "payment_flow": "darkpool_utxo_cloak",
+        "privacy_level": "high"
       }
     }
   ]

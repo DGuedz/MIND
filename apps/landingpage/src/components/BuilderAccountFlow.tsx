@@ -121,6 +121,10 @@ export function BuilderRegistrationCard({ initialCode, nextRoute, githubAuth, on
       setFormMessage("Builder registration saved. Voucher claim is now eligible in the Marketplace.");
       if (nextRoute === "marketplace") {
         navigate(buildMarketplaceClaimPath(nextRegistration.referralCode));
+      } else if (nextRoute === "start") {
+        navigate("/start");
+      } else if (nextRoute === "dashboard") {
+        navigate("/dashboard");
       }
     } catch (error) {
       const code = error instanceof Error ? error.message : "REGISTRATION_FAILED";

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "MIND Chat UI Copy & Layout (Skill)",
+    "version": "1.0.0",
+    "description": "Ajusta copy e tipografia do Chat UI no estilo MIND (premium dark, base cinza, acentos Solana leves) mantendo cards intactos e layout mobile-safe.",
+    "tags": ["mind", "agent-skill", "chat", "copy", "layout", "typography", "mobile"],
+    "license": "Proprietary",
+    "author": { "name": "MIND", "contact": "https://github.com/DGuedz/MIND" }
+  },
+  "discovery": {
+    "intent": "ui_design",
+    "category": "design",
+    "keywords": ["chat-ui", "copy", "typography", "spacing", "mobile-safe", "no-overlap"],
+    "compatibleFrameworks": ["claude-code", "cursor", "codex", "trae"]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": { "fields": [{ "name": "context", "type": "string", "description": "Contexto do header e restrições" }] },
+    "samples": [],
+    "qualityScore": 0.8
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": { "requests": 60, "per": "minute" }
+  },
+  "pricing": { "model": "free", "currency": "USDC", "price": 0, "payment_flow": "darkpool_utxo_cloak", "privacy_level": "high" },
+  "provenance": {
+    "source": "MIND/.agents/skills",
+    "createdAt": "2026-05-03T00:00:00.000Z",
+    "updatedAt": "2026-05-03T00:00:00.000Z",
+    "signature": "unsigned"
+  },
+  "skill": { "source_url": "https://github.com/DGuedz/MIND", "repo_path": ".agents/skills/mind-chat-ui-copy-layout/SKILL.md" }
+}

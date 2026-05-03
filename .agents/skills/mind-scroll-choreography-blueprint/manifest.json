@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-scroll-choreography-blueprint",
+  "name": "MIND Scroll Choreography Blueprint",
+  "version": "1.0.0",
+  "description": "Defines the MIND landing scroll choreography: section pacing, spacing, transitions, and safe motion rules for mobile-first premium experience.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Scroll", "Choreography", "UX"],
+  "category": ["design", "ux", "motion"],
+  "tags": ["scroll", "sections", "timing", "mobile", "framer-motion"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["no_scroll_jank", "reduced_motion_supported", "no_layout_shift"],
+  "activation_prompt": "Provide a section-by-section scroll choreography plan for a MIND-style landing page with mobile-first constraints."
+}

@@ -103,6 +103,20 @@ export function getInitialVoucherCode(code: string | null | undefined): VoucherC
   return isValidVoucherCode(normalized) ? normalized : DEFAULT_VOUCHER_CODE;
 }
 
+export function parseVoucherCodeInput(raw: string) {
+  const trimmed = (raw ?? "").trim();
+  if (!trimmed) return { normalized: "", picked: "", isValid: false };
+
+  const tokens = trimmed
+    .split(/[\s,/|]+/g)
+    .map((token) => normalizeVoucherCode(token))
+    .filter(Boolean);
+
+  const picked = tokens.find((token) => isValidVoucherCode(token)) || "";
+  const normalized = picked || normalizeVoucherCode(trimmed);
+  return { normalized, picked, isValid: Boolean(picked) };
+}
+
 export function normalizeGithubHandle(handle: string) {
   return handle.trim().replace(/^@+/, "");
 }
@@ -120,16 +134,46 @@ export function buildContributionPath(code: string = DEFAULT_VOUCHER_CODE) {
   return `/contribute?code=${getInitialVoucherCode(code)}&next=marketplace`;
 }
 
+function getGithubOAuthBase() {
+  const preferPortal = String((import.meta as any)?.env?.VITE_GITHUB_OAUTH_PREFER_PORTAL ?? "true").toLowerCase() !== "false";
+  if (preferPortal) return null;
+  const gateway = (import.meta as any)?.env?.VITE_API_GATEWAY_URL;
+  if (typeof gateway === "string" && gateway.trim()) {
+    return gateway.trim().replace(/\/$/, "");
+  }
+  return null;
+}
+
+function getGithubOAuthReturnBase() {
+  if (typeof window === "undefined") return null;
+  if (!window.location?.origin) return null;
+  return window.location.origin;
+}
+
 export function buildGithubOAuthStartPath(code: string, next: string | null | undefined = "marketplace") {
-  return `/api/github/oauth/start?code=${getInitialVoucherCode(code)}&next=${encodeURIComponent(next || "marketplace")}`;
+  const base = getGithubOAuthBase();
+  const params = `code=${getInitialVoucherCode(code)}&next=${encodeURIComponent(next || "marketplace")}`;
+  if (base) {
+    const returnBase = getGithubOAuthReturnBase();
+    const withReturn = returnBase ? `${params}&return_base=${encodeURIComponent(returnBase)}` : params;
+    return `${base}/v1/auth/github/start?${withReturn}`;
+  }
+  return `/api/github/oauth/start?${params}`;
 }
 
 export function buildGithubOAuthStartPathForSurface(
   code: string,
   next: string | null | undefined = "marketplace",
-  returnTo: "contribute" | "register" = "contribute"
+  returnTo: "contribute" | "register" | "start" | "dashboard" = "contribute"
 ) {
-  return `/api/github/oauth/start?code=${getInitialVoucherCode(code)}&next=${encodeURIComponent(next || "marketplace")}&return_to=${returnTo}`;
+  const base = getGithubOAuthBase();
+  const params = `code=${getInitialVoucherCode(code)}&next=${encodeURIComponent(next || "marketplace")}&return_to=${returnTo}`;
+  if (base) {
+    const returnBase = getGithubOAuthReturnBase();
+    const withReturn = returnBase ? `${params}&return_base=${encodeURIComponent(returnBase)}` : params;
+    return `${base}/v1/auth/github/start?${withReturn}`;
+  }
+  return `/api/github/oauth/start?${params}`;
 }
 
 export function buildSkillScaffoldCommand(params?: {
@@ -222,6 +266,37 @@ export function saveBuilderRegistration(draft: BuilderRegistrationDraft): Builde
   window.dispatchEvent(new CustomEvent("mind:builder-registration", { detail: registration }));
 
   return registration;
+}
+
+export function hydrateBuilderRegistrationFromGithubOAuth(params: {
+  campaignCode: string | null | undefined;
+  connected: boolean;
+  login: string | null | undefined;
+  id: string | null | undefined;
+  avatarUrl: string | null | undefined;
+}) {
+  if (!params.connected) return null;
+  const login = normalizeGithubHandle(params.login ?? "");
+  if (!login) return null;
+
+  const existing = getBuilderRegistration();
+  if (existing && existing.githubHandle.toLowerCase() === login.toLowerCase()) {
+    return existing;
+  }
+
+  try {
+    return saveBuilderRegistration({
+      githubHandle: login,
+      githubUserId: params.id ?? "",
+      githubAvatarUrl: params.avatarUrl ?? "",
+      githubConnectedAt: new Date().toISOString(),
+      solanaReceiveWallet: "",
+      referralCode: getInitialVoucherCode(params.campaignCode),
+      consentMarketplaceAttribution: true
+    });
+  } catch {
+    return null;
+  }
 }
 
 export function getVoucherEligibility(registration: BuilderRegistration | null, voucherCode: string) {

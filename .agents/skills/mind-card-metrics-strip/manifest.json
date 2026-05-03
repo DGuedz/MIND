@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-card-metrics-strip",
+  "name": "MIND Card Metrics Strip",
+  "version": "1.0.0",
+  "description": "Creates minimal onchain-style metric strips for cards without overlap on mobile/desktop. Emphasis: readability, small type, stable grid.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Metrics", "Minimal", "Responsive"],
+  "category": ["design", "cards", "metrics"],
+  "tags": ["grid", "typography", "metrics", "mobile-safe", "tailwind"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["no_overlap", "no_overflow", "stable_height"],
+  "activation_prompt": "Generate a minimal metrics strip for a card: 2-4 metrics, labels and values, responsive grid, no glows."
+}
