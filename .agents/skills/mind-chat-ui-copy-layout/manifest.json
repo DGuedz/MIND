@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-chat-ui-copy-layout",
+  "name": "MIND Chat UI Copy & Layout",
+  "version": "1.0.0",
+  "description": "Refactors chat UI headers and system copy to match MIND brand hierarchy while keeping cards intact below. Outputs minimal, readable, mobile-safe layouts.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Chat-UI", "Copy", "Layout"],
+  "category": ["design", "ux", "copy"],
+  "tags": ["chat", "header", "typography", "spacing", "pt-br", "mobile"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["no_layout_shift", "no_overlap", "cards_unchanged"],
+  "activation_prompt": "Align chat UI header copy to MIND design line: premium dark, gray base, Solana accents minimal. Keep existing cards below unchanged."
+}

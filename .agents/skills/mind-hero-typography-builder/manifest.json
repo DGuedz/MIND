@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-hero-typography-builder",
+  "name": "MIND Hero Typography Builder",
+  "version": "1.0.0",
+  "description": "Generates MIND-style hero typography blocks (mono, uppercase, controlled tracking) with subtle Solana accents and strict mobile safety.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Typography", "Hero", "Mobile-Safe"],
+  "category": ["design", "typography", "landing"],
+  "tags": ["hero", "copy", "tailwind", "mono", "uppercase", "tracking", "solana"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["no_overflow_mobile", "no_text_overlap", "no_excess_tracking"],
+  "activation_prompt": "Generate hero headline + subheadline typography for MIND style: premium dark, mono uppercase, restrained Solana accents, responsive spacing."
+}

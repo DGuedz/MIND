@@ -1,0 +1,41 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "MIND Component Recipes Pack (Skill)",
+    "version": "1.0.0",
+    "description": "Entrega receitas TSX/Tailwind de componentes no estilo MIND (header, badge, card, tabelas, métricas) com consistência e sem dependências novas.",
+    "tags": ["mind", "agent-skill", "components", "tsx", "tailwind", "cards", "recipes"],
+    "license": "Proprietary",
+    "author": { "name": "MIND", "contact": "https://github.com/DGuedz/MIND" }
+  },
+  "discovery": {
+    "intent": "ui_design",
+    "category": "design",
+    "keywords": ["components", "recipes", "tsx", "tailwind", "premium-dark", "mobile-safe"],
+    "compatibleFrameworks": ["claude-code", "cursor", "codex", "trae"]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": { "fields": [{ "name": "component", "type": "string", "description": "Componente alvo (card, header, etc.)" }] },
+    "samples": [],
+    "qualityScore": 0.8
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": { "requests": 60, "per": "minute" }
+  },
+  "pricing": { "model": "free", "currency": "USDC", "price": 0, "payment_flow": "darkpool_utxo_cloak", "privacy_level": "high" },
+  "provenance": {
+    "source": "MIND/.agents/skills",
+    "createdAt": "2026-05-03T00:00:00.000Z",
+    "updatedAt": "2026-05-03T00:00:00.000Z",
+    "signature": "unsigned"
+  },
+  "skill": { "source_url": "https://github.com/DGuedz/MIND", "repo_path": ".agents/skills/mind-component-recipes-pack/SKILL.md" }
+}

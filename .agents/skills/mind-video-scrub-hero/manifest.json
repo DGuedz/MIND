@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-video-scrub-hero",
+  "name": "MIND Video Scrub Hero",
+  "version": "1.0.0",
+  "description": "Implements a scroll-driven hero video scrub pattern that is stable and mobile-safe (no aborted fetch loops, poster fallback, minimal CPU).",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Video", "Scroll-Scrub", "Mobile-Safe"],
+  "category": ["frontend", "motion", "video"],
+  "tags": ["video", "scroll", "scrub", "performance", "mobile"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["no_console_errors", "poster_fallback", "mobile_performance_ok"],
+  "activation_prompt": "Generate a scroll-scrub hero video implementation for MIND with stable loading, poster fallback, and minimal runtime overhead."
+}

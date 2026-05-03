@@ -1,0 +1,41 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "MIND Card Metrics Strip (Skill)",
+    "version": "1.0.0",
+    "description": "Cria um strip de métricas estilo onchain para cards, minimalista e seguro para mobile/desktop, sem sobreposição.",
+    "tags": ["mind", "agent-skill", "metrics", "cards", "grid", "mobile-safe", "ui"],
+    "license": "Proprietary",
+    "author": { "name": "MIND", "contact": "https://github.com/DGuedz/MIND" }
+  },
+  "discovery": {
+    "intent": "ui_design",
+    "category": "design",
+    "keywords": ["metrics", "strip", "grid", "truncate", "no-overlap", "responsive"],
+    "compatibleFrameworks": ["claude-code", "cursor", "codex", "trae"]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": { "fields": [{ "name": "metrics", "type": "string", "description": "Lista de métricas (label/value)" }] },
+    "samples": [],
+    "qualityScore": 0.8
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": { "requests": 60, "per": "minute" }
+  },
+  "pricing": { "model": "free", "currency": "USDC", "price": 0, "payment_flow": "darkpool_utxo_cloak", "privacy_level": "high" },
+  "provenance": {
+    "source": "MIND/.agents/skills",
+    "createdAt": "2026-05-03T00:00:00.000Z",
+    "updatedAt": "2026-05-03T00:00:00.000Z",
+    "signature": "unsigned"
+  },
+  "skill": { "source_url": "https://github.com/DGuedz/MIND", "repo_path": ".agents/skills/mind-card-metrics-strip/SKILL.md" }
+}

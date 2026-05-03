@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-3d-card-interaction-kit",
+  "name": "MIND 3D Card Interaction Kit",
+  "version": "1.0.0",
+  "description": "Provides safe 3D/tilt interaction recipes for cards (bounded rotation, no mobile jitter) aligned with MIND premium dark style.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["3D", "Cards", "Safe-Motion"],
+  "category": ["design", "motion", "cards"],
+  "tags": ["framer-motion", "tilt", "transform", "bounded", "mobile-safe"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": ["max_rotation_enforced", "no_layout_transform", "touch_safe"],
+  "activation_prompt": "Generate a 3D card hover/tilt interaction for MIND: bounded rotation, smooth, mobile disabled or reduced, no layout jitter."
+}

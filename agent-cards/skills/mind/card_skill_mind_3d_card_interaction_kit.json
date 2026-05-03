@@ -1,0 +1,41 @@
+{
+  "$schema": "https://mindprotocol.ai/schemas/agent-card/v1.json",
+  "metadata": {
+    "name": "MIND 3D Card Interaction Kit (Skill)",
+    "version": "1.0.0",
+    "description": "Receitas de interação 3D (tilt/hover) para cards no estilo MIND, com limites e proteção para mobile (sem jitter e sem quebrar layout).",
+    "tags": ["mind", "agent-skill", "3d", "motion", "cards", "framer-motion", "mobile-safe"],
+    "license": "Proprietary",
+    "author": { "name": "MIND", "contact": "https://github.com/DGuedz/MIND" }
+  },
+  "discovery": {
+    "intent": "ui_design",
+    "category": "design",
+    "keywords": ["tilt", "hover", "3d", "bounds", "reduced-motion", "framer-motion"],
+    "compatibleFrameworks": ["claude-code", "cursor", "codex", "trae"]
+  },
+  "data": {
+    "type": "service",
+    "format": "agent-skill",
+    "schema": { "fields": [{ "name": "context", "type": "string", "description": "Contexto do card e limites de interação" }] },
+    "samples": [],
+    "qualityScore": 0.8
+  },
+  "access": {
+    "authentication": "none",
+    "endpoints": {
+      "discovery": "https://github.com/DGuedz/MIND",
+      "metadata": "https://github.com/DGuedz/MIND",
+      "data": "https://github.com/DGuedz/MIND"
+    },
+    "rateLimit": { "requests": 60, "per": "minute" }
+  },
+  "pricing": { "model": "free", "currency": "USDC", "price": 0, "payment_flow": "darkpool_utxo_cloak", "privacy_level": "high" },
+  "provenance": {
+    "source": "MIND/.agents/skills",
+    "createdAt": "2026-05-03T00:00:00.000Z",
+    "updatedAt": "2026-05-03T00:00:00.000Z",
+    "signature": "unsigned"
+  },
+  "skill": { "source_url": "https://github.com/DGuedz/MIND", "repo_path": ".agents/skills/mind-3d-card-interaction-kit/SKILL.md" }
+}

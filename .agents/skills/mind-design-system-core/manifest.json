@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "id": "mind-design-system-core",
+  "name": "MIND Design System Core",
+  "version": "1.0.0",
+  "description": "Exports the MIND premium dark metallic design system as reusable tokens, Tailwind utilities, and component recipes. Focus: consistency, minimal glow, Solana green/purple accents.",
+  "author": {
+    "handle": "MIND-Engineering",
+    "wallet": "PENDING_MIND_DAO_WALLET"
+  },
+  "origin": "MIND Protocol",
+  "badges": ["Design-System", "Premium-Dark", "Solana-Accents"],
+  "category": ["design", "ui", "tokens"],
+  "tags": ["tailwind", "css", "tokens", "metallic", "brushed", "solana", "dark-premium"],
+  "pricing": {
+    "execution_fee": 0,
+    "currency": "USDC",
+    "fee_unit": "per_request",
+    "free_tier": "unlimited"
+  },
+  "compatibility": {
+    "claude": ">= 3.5",
+    "mind_protocol": ">= 1.0.0"
+  },
+  "quality_gates": [
+    "no_secrets",
+    "no_heavy_glows",
+    "mobile_safe_layout",
+    "token_efficient_output"
+  ],
+  "activation_prompt": "Provide MIND design tokens and component recipes using premium dark metallic style with restrained Solana accents."
+}
